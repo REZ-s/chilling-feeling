@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <envs>
+      <env name="MAIN_RESOURCE_PATH" value="$PROJECT_DIR$/src/main/resources" />
+    </envs>
+    <module name="core.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.joolove.core.CoreApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
