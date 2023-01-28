@@ -1,9 +1,43 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "923239916479-qbapjsigagu5mbvu7guqqs3643nso5db.apps.googleusercontent.com"
+            client-secret: "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"
+            scope:
+              - profile
+              - email
+
+#          kakao:
+#            client-id: # 발급 받은 client-id #
+#            client-secret: # 발급 받은 client-secret #
+#            scope: # 필요한 권한 #
+#            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+#            authorization-grant-type: authorization_code
+#            client-name: kakao
+#            client-authentication-method: POST
+#
+#        provider:
+#          kakao:
+#            authorization-uri: https://kauth.kakao.com/oauth/authorize
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-name-attribute: id
+
   datasource:
-    url: jdbc:h2:tcp://localhost/~/core;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    hikari:
+      #jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql'\;runscript from '${MAIN_RESOURCE_PATH}/h2/sample_data.sql';
+      jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql';
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-ui
 
   jpa:
     hibernate:
@@ -11,15 +45,37 @@ spring:
 
     properties:
       hibernate:
-        # show_sql: true
+        #show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.H2Dialect
+
+    database: h2
+    show-sql: true
+    generate_ddl: true
 
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
 
+  sql.init.mode: always
+
 logging:
   level:
     org.hibernate.SQL: debug
-    # org.hibernate.type: trace
+    #org.hibernate.type: trace
+
+
+
+# app properties
+joolove:
+  app:
+    jwtCookieName: jooloveJwt
+    jwtRefreshCookieName: jooloveJwtRefresh
+    jwtSecret: jooloveSecretKeyForMyApplication
+    jwtExpirationMs: 3600000  # 1 hour
+    jwtRefreshExpirationMs: 1209600000 # 14 days
+
+# for test
+#    jwtExpirationMs: 100000
+#    jwtRefreshExpirationMs: 600000

@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:test;NON_KEYWORDS=USER;INIT=runscript from '${TEST_RESOURCE_PATH}/h2/schema.sql';
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+  #sql.init.mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+    generate_ddl: true
+
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    #org.hibernate.type: trace

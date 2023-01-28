@@ -93,12 +93,48 @@
 @ManyToMany 를 풀어서 작성해야할듯
 
 
-<가상 예상 트래픽>
+< DB 스키마 및 테이블 설계 > 
+회원 스키마를 만들고, 그 안에 회원 관련 테이블을 생성하자. (일종의 패키지화 / 규모가 아직 작으므로 DataSource 분리는 안함)
+(DB마다 스키마나 카탈로그중 그룹화하는게 다르므로 둘 중 하나 사용)
+예) CoreDB 의 Member Schema 의 User Table
+     코드상으로 @Table(schema = "member", name = "user") 
+
+회원(Member) - 회원가입 및 로그인과 관련된 스키마
+    사용자 (user) - user_id : UUID, user_name, account_type
+    프로필 (profile) - profile_id, user_id, nickname, image_url, introduction, join_date, update_date
+    인증 (authentication) - authentication_id, user_id, gather_agree, phone_number, email, birthday, sex, nation, auth_date
+    구독 (subscription) - subscription_id, user_id, subscription_plan, purchase_date, expriation_date
+    장치 (device) - device_id, user_id, in_use, register_no, uuid, model, os_type, os_version
+    
+인증(Auth) - 인증용 스키마
+    소셜로그인 (social_login) - social_login_id, user_id, social_code, external_id, access_token, update_date
+    패스워드 (password) - password_id, user_id, salt, password, update_date
+    cidi (cidi) - cidi_id, user_id, ci, di
+   
+로그(Log) - 로깅용 스키마
+    사용자 활동 로그 (user_activity_log) - user_activity_log_id, user_id, table_name, row_id, activity_code, as_is, to_be, modifier, log_time
+    로그인 로그 (user_login_log) - user_login_log_id, user_id, status_code, device_id, ip, fail_count, fail_reason, login_date
+    휴면 로그 (user_dormant_log) - user_dormant_log_id, user_id, status_code, dormant_date
+    탈퇴 로그 (user_withdrawal_log) - user_withdrawal_log_id, user_id, status_code, ci, reason_code, reason_text, withdrawal_date
+
+휴면(Dormant) - 휴면 계정용 스키마
+
+탈퇴(Withdrawal) - 탈퇴 계정용 스키마
+
+
+< 테이블 정의서 설명 > 
+user_id : '00000000-0000-0000-0000-000000000000' 형태의 임의 난수
+user_name : 실제 로그인할 때 사용하는 id 문자열 
+account_type : 99 (관리자 계정) / 1 (일반 사용자 계정) / 2 (내부 테스트용 계정) / 3 (임시 계정)
+gather_agree : 개인 정보 수집 동의 여부 (0 : 동의하지 않음 / 1 : 동의)
+subscription_plan : 구독 결제한 개월 수 (최소 단위 1달)
+
+
+
+<가상 트래픽 설정>
 평균 초당 10000번의 메인화면 홈페이지 로딩
 평균 초당 1000번의 검색
 평균 초당 10번의 추천
-
-
 
 < 개발 순서 >
 노트북과 PC에서 소스코드를 개발해서 로컬환경에서 테스트
