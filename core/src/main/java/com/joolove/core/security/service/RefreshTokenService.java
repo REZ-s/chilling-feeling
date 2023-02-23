@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.joolove.core.domain.auth.RefreshToken;
+import com.joolove.core.domain.member.User;
 import com.joolove.core.security.jwt.exception.TokenRefreshException;
 import com.joolove.core.security.jwt.repository.RefreshTokenRepository;
 import com.joolove.core.repository.UserRepository;
@@ -26,6 +27,10 @@ public class RefreshTokenService {
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
+    }
+
+    public Optional<RefreshToken> findByUser(User user) {
+        return refreshTokenRepository.findByUser(user);
     }
 
     public RefreshToken createRefreshToken(UUID userId) {

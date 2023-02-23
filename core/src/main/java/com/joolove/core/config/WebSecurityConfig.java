@@ -44,14 +44,12 @@ public class WebSecurityConfig {
 
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
-    private final OAuth2FailureHandler oAuth2FailureHandler;
+    //private final OAuth2FailureHandler oAuth2FailureHandler;
 
 
     @Bean
     public OAuth2UserServiceImpl oAuth2UserService() {
-        return new OAuth2UserServiceImpl(userRepository,
-                passwordEncoder(),
-                roleRepository);
+        return new OAuth2UserServiceImpl(userRepository, passwordEncoder(), roleRepository);
     }
 
     @Bean
@@ -72,6 +70,11 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public OAuth2FailureHandler oAuth2FailureHandler() {
+        return new OAuth2FailureHandler();
     }
 
     /**
@@ -107,7 +110,7 @@ public class WebSecurityConfig {
                 .userInfoEndpoint().userService(oAuth2UserService())
                 .and()
                 .successHandler(oAuth2SuccessHandler)
-                .failureHandler(oAuth2FailureHandler);
+                .failureHandler(oAuth2FailureHandler());
 
         http.authenticationProvider(authenticationProvider());  // Form login
 

@@ -6,8 +6,11 @@ import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.repository.RoleRepository;
+import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -28,7 +31,17 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
     private final RoleRepository roleRepository;
 
-
+//    private final SocialLoginRepository socialLoginRepository;
+//
+//    public OAuth2User loadUserByUsername(String username) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+//
+//        socialLoginRepository.getReferenceById();
+//
+//        return UserPrincipal.buildOAuth2User(user, );
+//    }
+//
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(request);
