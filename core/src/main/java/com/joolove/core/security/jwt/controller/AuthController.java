@@ -59,6 +59,13 @@ public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
 
+
+    @PostMapping("/oauth2/signin")
+    public ResponseEntity<?> loginUserByOAuth2(@Valid @RequestBody User.SigninRequest request) {
+        //for test
+        return ResponseEntity.ok().body(request);
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@Valid @RequestBody User.SigninRequest request) {
 
@@ -202,5 +209,7 @@ public class AuthController {
         return ResponseEntity.badRequest()
                 .body("Refresh Token is empty!");
     }
+
+
 
 }
