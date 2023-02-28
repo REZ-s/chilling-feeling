@@ -1,10 +1,7 @@
 package com.joolove.core.security.service;
 
 import java.io.Serial;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.joolove.core.domain.member.User;
@@ -76,6 +73,15 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     public Map<String, Object> getAttributes() {
         return attributes;
     }
+
+/*    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = user.getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
+                .collect(Collectors.toList());
+        return authorities;
+    }*/
 
     @Override
     public String getName() {

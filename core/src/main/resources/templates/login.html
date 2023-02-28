@@ -30,8 +30,8 @@
 
 <br><br>
 <a href="/user">유저</a><br>
-<a href="/manager" sec:authorize="hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">매니저</a><br>
-<a href="/admin" sec:authorize="hasRole('ROLE_ADMIN')">어드민</a><br>
+<a href="/manager" sec:authorize="hasRole('MANAGER') or hasRole('ADMIN')">매니저</a><br>
+<a href="/admin" sec:authorize="hasRole('ADMIN')">어드민</a><br>
 
 <br><br>
 <a href="/form/loginInfo">Form 로그인 정보</a>

@@ -10,10 +10,14 @@ import com.joolove.core.security.service.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -34,19 +38,43 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
 
+    RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
+        HttpStatus targetStatus = HttpStatus.TEMPORARY_REDIRECT;
+        String targetUrl = request.getRequestURI();
+        System.out.println(targetUrl);
+        String queryString = Optional.ofNullable(request.getQueryString()).orElseGet(String::new);
+
+        if (response.isCommitted()) {
+            super.logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+        } else {
+            response.setStatus(targetStatus.value());
+            response.setHeader("Location", targetUrl + "?" + queryString);
+        }
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        super.onAuthenticationSuccess(request, response, authentication);   // clear temporary session & redirect
+        // (1) 302 default redirect GET Method
+        //super.onAuthenticationSuccess(request, response, authentication);   // clear temporary session & redirect
+
+        // (2) 302 -> 307 re-define redirect (others Method)
+        //this.handle(request, response, authentication);
+        //super.clearAuthenticationAttributes(request);
+
+        //위의 주석은 redirect 시 response 를 입맛대로 보낼 수 있을지에 대한 흔적
+
+        // setting redirect address
+        getRedirectStrategy().sendRedirect(request, response, "/loginForm");
 
         // create & setting jwt
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         // access token
-        String accessToken1 = jwtUtils.generateTokenFromUsername(userPrincipal.getUser().getUsername());
         String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
-        System.out.println(accessToken1);   // 딱 토큰만 반환
-        System.out.println(accessToken);   // 토큰 전체 정보를 반환
 
         // refresh token
         String refreshToken = "";
@@ -60,15 +88,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken()).toString();
         }
 
-        System.out.println(refreshToken);  // 토큰 전체 정보를 반환
-
-        response.addHeader("Authorization", accessToken);
-        response.addHeader("Refresh", refreshToken);
+        response.setHeader(HttpHeaders.SET_COOKIE, accessToken);
+        response.setHeader(HttpHeaders.SET_COOKIE, refreshToken);
         response.setContentType("text/html;charset=UTF-8");
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println(accessToken + refreshToken);
         response.getWriter().flush();
-        //getRedirectStrategy().sendRedirect(request, response, "/auth/success");
     }
 
 }

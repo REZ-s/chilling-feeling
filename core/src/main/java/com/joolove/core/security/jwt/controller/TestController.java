@@ -68,7 +68,9 @@ public class TestController {
     @ResponseBody
     public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> attributes = oAuth2User.getAttributes();
+        Map<String, Object> attributes = oAuth2UserPrincipal.getAttributes();
+        //Map<String, Object> attributes2 = oAuth2User.getAttributes();
+        // 출력결과 : attr == attr2
         return attributes.toString();
     }
 
@@ -91,24 +93,25 @@ public class TestController {
 
     // Access auth test
     @GetMapping("/all")
+    @ResponseBody
     public String allAccess() {
         return "Public Content.";
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
+    @ResponseBody
     public String userAccess() {
         return "User Content.";
     }
 
     @GetMapping("/manager")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+    @ResponseBody
     public String managerAccess() {
         return "Manager Board.";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @ResponseBody
     public String adminAccess() {
         return "Admin Board.";
     }
