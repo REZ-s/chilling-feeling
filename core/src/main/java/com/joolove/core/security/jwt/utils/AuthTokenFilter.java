@@ -40,14 +40,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = jwtUtils.getJwtFromCookies(request);
-            String oauth2AccessToken = request.getHeader("Authorization");
 
-            //OAuth2 Login
-            if (oauth2AccessToken != null && jwtUtils.validateJwtToken(oauth2AccessToken)) {
-
-            }
-
-            //Form Login
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 buildAuthenticationUserDetails(request, userDetailsService.loadUserByUsername(username));
@@ -68,18 +61,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                         userDetails.getAuthorities());
 
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    private void buildAuthenticationOAuth2User(HttpServletRequest request, OAuth2User oAuth2User) {
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(
-                        oAuth2User,
-                        null,
-                        List.of(new SimpleGrantedAuthority("ROLE_USER")));
-
-        //authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

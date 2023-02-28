@@ -91,7 +91,9 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable()  // don't need for using rest api
                 .httpBasic().disable()  // don't need for using jwt
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using rest api & jwt
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER) // don't need for using rest api & jwt
+                //STATELESS (X) because it's not working google oauth2 login info
+                //NEVER (O) using temporary session for bring login info
                 .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(unauthorizedHandler)  // 401 Unauthorized
@@ -99,18 +101,20 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/api/v1/auth/**").permitAll()
-                    .antMatchers("/api/v1/test/**").permitAll()
-                    .antMatchers(h2ConsolePath + "/**").permitAll()
+                    .antMatchers("/user/**").authenticated()
+                    .antMatchers("/manager/**").access("hasRole('MANAGER') or hasRole('ADMIN')")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().permitAll();
                 //.anyRequest().authenticated().and()
 
         http.oauth2Login()
                 .loginPage("/loginForm")
+                .defaultSuccessUrl("/")
                 .failureUrl("/loginForm")
-                .userInfoEndpoint().userService(oAuth2UserService())
-                .and()
-                .successHandler(oAuth2SuccessHandler)
-                .failureHandler(oAuth2FailureHandler());
+                .userInfoEndpoint().userService(oAuth2UserService());
+                //.and()
+                //.successHandler(oAuth2SuccessHandler)
+                //.failureHandler(oAuth2FailureHandler());
 
         http.authenticationProvider(authenticationProvider());  // Form login
 

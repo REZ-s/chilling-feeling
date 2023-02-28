@@ -31,17 +31,6 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
     private final RoleRepository roleRepository;
 
-//    private final SocialLoginRepository socialLoginRepository;
-//
-//    public OAuth2User loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//
-//        socialLoginRepository.getReferenceById();
-//
-//        return UserPrincipal.buildOAuth2User(user, );
-//    }
-//
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(request);
@@ -67,9 +56,13 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
                     .build();
             user.setAuthentication(authentication);
 
+            //여기서 있는 이 비밀번호를 출력해서 내가 직접 로그인 해볼까?
+            String pw = UUID.randomUUID().toString();
+            System.out.println("asdsad : " + pw);
+
             Password password = Password.builder()
                     .user(user)
-                    .pw(passwordEncoder.encode(UUID.randomUUID().toString()))
+                    .pw(passwordEncoder.encode(pw))
                     .build();
             user.setPassword(password);
 

@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.joolove.core.domain.ERole;
@@ -28,13 +29,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -59,11 +58,32 @@ public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
 
-
     @PostMapping("/oauth2/signin")
-    public ResponseEntity<?> loginUserByOAuth2(@Valid @RequestBody User.SigninRequest request) {
-        //for test
-        return ResponseEntity.ok().body(request);
+    public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody User.SigninRequest request) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
+        String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
+
+        String refreshToken = "";
+        Optional<RefreshToken> token = refreshTokenService.findByUser(userPrincipal.getUser());
+        if (token.isEmpty()) {
+            RefreshToken newToken = refreshTokenService.createRefreshToken(userPrincipal.getUser().getId());
+            refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken()).toString();
+        }
+        else {
+            RefreshToken originToken = token.get();
+            refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken()).toString();
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, accessToken)
+                .header(HttpHeaders.SET_COOKIE, refreshToken)
+                .body(Collections.emptyList());
     }
 
     @PostMapping("/signin")

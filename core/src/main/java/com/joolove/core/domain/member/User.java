@@ -170,11 +170,11 @@ public class User extends BaseTimeStamp {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SigninRequest {
         @NotBlank
-        @Size(min = 4, max = 20)
+        @Size(min = 4, max = 100)
         private String username;
 
         @NotBlank
-        @Size(min = 6, max = 40)
+        @Size(min = 6, max = 100)
         private String password;
 
         @Builder
@@ -206,7 +206,7 @@ public class User extends BaseTimeStamp {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SignupRequest {
         @NotBlank
-        @Size(min = 4, max = 20)
+        @Size(min = 4, max = 40)
         private String username;
 
         @NotBlank

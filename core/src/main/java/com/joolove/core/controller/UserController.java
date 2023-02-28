@@ -18,13 +18,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-//
-//    @GetMapping("/")
-//    public String getMainPage(Model model) {
-//        model.addAttribute("allUserList", userService.findAll());
-//        //ResponseEntity.status(HttpStatus.OK).header().body(userService.findAll());
-//        return "test_main";
-//    }
+
 
     @GetMapping("/join_new_user")
     public String createUser(Model model) {
