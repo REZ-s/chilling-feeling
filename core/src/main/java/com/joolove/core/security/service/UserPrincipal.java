@@ -75,7 +75,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (authorities.isEmpty()) {
+        if (authorities == null || authorities.isEmpty()) {
             authorities = user.getRoles()
                     .stream()
                     .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
