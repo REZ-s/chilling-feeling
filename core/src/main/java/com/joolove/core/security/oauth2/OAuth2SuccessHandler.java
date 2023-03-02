@@ -38,6 +38,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
 
+    private final ObjectMapper objectMapper;
+
+/*
     RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -54,6 +57,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.setHeader("Location", targetUrl + "?" + queryString);
         }
     }
+    */
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -88,12 +92,20 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken()).toString();
         }
 
-        response.setHeader(HttpHeaders.SET_COOKIE, accessToken);
-        response.setHeader(HttpHeaders.SET_COOKIE, refreshToken);
         response.setContentType("text/html;charset=UTF-8");
+        response.addHeader("Auth", accessToken);
+        response.addHeader("Refresh", refreshToken);
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().println(accessToken + refreshToken);
-        response.getWriter().flush();
+        var writer = response.getWriter();
+        writer.println(objectMapper.writeValueAsString(token));
+        writer.flush();
+
+        //response.setHeader(HttpHeaders.SET_COOKIE, accessToken);
+        //response.setHeader(HttpHeaders.SET_COOKIE, refreshToken);
+        //response.setContentType("text/html;charset=UTF-8");
+        //response.setContentType("application/json;charset=UTF-8");
+        //response.getWriter().println(accessToken + refreshToken);
+        //response.getWriter().flush();
     }
 
 }
