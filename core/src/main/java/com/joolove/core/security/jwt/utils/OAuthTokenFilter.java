@@ -43,7 +43,6 @@ public class OAuthTokenFilter extends GenericFilterBean {
 
             if (token != null && jwtUtils.validateJwtToken(token)) {
                 String username = jwtUtils.getUserNameFromJwtToken(token);
-                //UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 OAuth2User oAuth2User = oAuth2UserService.loadUser((OAuth2UserRequest) request);
 
                 UsernamePasswordAuthenticationToken authentication =

@@ -9,6 +9,7 @@ import com.joolove.core.domain.member.User;
 import com.joolove.core.security.jwt.exception.TokenRefreshException;
 import com.joolove.core.security.jwt.repository.RefreshTokenRepository;
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.security.jwt.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,8 @@ public class RefreshTokenService {
     @Value("${joolove.app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
 
+    private final JwtUtils jwtUtils;
+
     private final RefreshTokenRepository refreshTokenRepository;
 
     private final UserRepository userRepository;
@@ -31,6 +34,21 @@ public class RefreshTokenService {
 
     public Optional<RefreshToken> findByUser(User user) {
         return refreshTokenRepository.findByUser(user);
+    }
+
+    public String getRefreshToken(UserPrincipal userPrincipal) {
+        String refreshToken = "";
+        Optional<RefreshToken> token = findByUser(userPrincipal.getUser());
+        if (token.isEmpty()) {
+            RefreshToken newToken = createRefreshToken(userPrincipal.getUser().getId());
+            refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken()).toString();
+        }
+        else {
+            RefreshToken originToken = verifyExpiration(token.get());
+            refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken()).toString();
+        }
+
+        return refreshToken;
     }
 
     public RefreshToken createRefreshToken(UUID userId) {

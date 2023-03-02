@@ -6,6 +6,7 @@ spring:
           google:
             client-id: "923239916479-qbapjsigagu5mbvu7guqqs3643nso5db.apps.googleusercontent.com"
             client-secret: "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"
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - profile
               - email
@@ -68,6 +69,22 @@ logging:
 
 
 # app properties
+app:
+  auth:
+    tokenSecret: jooloveSecretKeyForMyApplication
+    tokenExpirationMsec: 864000000
+  cors:
+    allowedOrigins: http://localhost:3000 # Comma separated list of allowed origins
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:8080/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+
 joolove:
   app:
     jwtCookieName: jooloveJwt
