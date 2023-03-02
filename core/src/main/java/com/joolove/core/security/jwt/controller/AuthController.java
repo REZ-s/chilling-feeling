@@ -15,6 +15,7 @@ import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.domain.auth.Password;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.*;
+import com.joolove.core.security.jwt.exception.ResourceNotFoundException;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.jwt.exception.TokenRefreshException;
 import com.joolove.core.security.jwt.repository.AuthenticationRepository;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -58,6 +60,13 @@ public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
 
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public User getCurrentUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return userRepository.findById(userPrincipal.getUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUser().getId()));
+    }
+
     @PostMapping("/oauth2/signin")
     public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody User.SigninRequest request) {
         Authentication authentication = authenticationManager
@@ -69,16 +78,7 @@ public class AuthController {
 
         String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
 
-        String refreshToken = "";
-        Optional<RefreshToken> token = refreshTokenService.findByUser(userPrincipal.getUser());
-        if (token.isEmpty()) {
-            RefreshToken newToken = refreshTokenService.createRefreshToken(userPrincipal.getUser().getId());
-            refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken()).toString();
-        }
-        else {
-            RefreshToken originToken = token.get();
-            refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken()).toString();
-        }
+        String refreshToken = refreshTokenService.getRefreshToken(userPrincipal);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessToken)
@@ -88,7 +88,6 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@Valid @RequestBody User.SigninRequest request) {
-
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -96,15 +95,9 @@ public class AuthController {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userPrincipal);
-
         List<String> roles = userPrincipal.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userPrincipal.getUser().getId());
-
-        ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken());
 
         User.SigninResponse response = User.SigninResponse.builder()
                 .id(userPrincipal.getUser().getId())
@@ -113,9 +106,12 @@ public class AuthController {
                 .roles(roles)
                 .build();
 
+        String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
+        String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal);
+
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, jwtCookie)
+                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie)
                 .body(response);
     }
 

@@ -117,8 +117,8 @@ public class WebSecurityConfig {
         http.headers().frameOptions().sameOrigin();
 
         // before filter
-        // http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new OAuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterBefore(new OAuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // after filter
 

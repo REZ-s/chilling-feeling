@@ -63,7 +63,6 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         return user.getPassword().getPw();
     }
 
-
     @Override
     public String getUsername() {
         return user.getUsername();
@@ -76,10 +75,13 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = user.getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
-                .collect(Collectors.toList());
+        if (authorities.isEmpty()) {
+            authorities = user.getRoles()
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
+                    .collect(Collectors.toList());
+        }
+
         return authorities;
     }
 
