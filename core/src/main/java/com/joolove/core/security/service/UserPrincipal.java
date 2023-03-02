@@ -74,14 +74,14 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         return attributes;
     }
 
-/*    @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
                 .collect(Collectors.toList());
         return authorities;
-    }*/
+    }
 
     @Override
     public String getName() {

@@ -5,6 +5,7 @@ import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
 import com.joolove.core.security.jwt.utils.AuthTokenFilter;
+import com.joolove.core.security.jwt.utils.OAuthTokenFilter;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
@@ -29,9 +30,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    @Value("${spring.h2.console.path}")
-    private String h2ConsolePath;
-
     private final UserDetailsServiceImpl userDetailsService;
 
     private final UserRepository userRepository;
@@ -43,9 +41,6 @@ public class WebSecurityConfig {
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
 
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-
-    //private final OAuth2FailureHandler oAuth2FailureHandler;
-
 
     @Bean
     public OAuth2UserServiceImpl oAuth2UserService() {
@@ -91,7 +86,7 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable()  // don't need for using rest api
                 .httpBasic().disable()  // don't need for using jwt
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER) // don't need for using rest api & jwt
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using rest api & jwt
                 //STATELESS (X) because it's not working google oauth2 login info
                 //NEVER (O) using temporary session for bring login info
                 .and()
@@ -111,18 +106,19 @@ public class WebSecurityConfig {
                 .loginPage("/loginForm")
                 .defaultSuccessUrl("/")
                 .failureUrl("/loginForm")
+                .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
-                //.and()
-                //.successHandler(oAuth2SuccessHandler)
-                //.failureHandler(oAuth2FailureHandler());
 
+        //얘 빼볼까?
         http.authenticationProvider(authenticationProvider());  // Form login
 
         // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
         http.headers().frameOptions().sameOrigin();
 
         // before filter
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        // http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new OAuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // after filter
 
