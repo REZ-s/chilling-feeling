@@ -13,6 +13,7 @@ import com.joolove.core.security.jwt.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,16 +37,16 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByUser(user);
     }
 
-    public String getRefreshToken(UserPrincipal userPrincipal) {
-        String refreshToken = "";
+    public ResponseCookie getRefreshToken(UserPrincipal userPrincipal) {
+        ResponseCookie refreshToken = null;
         Optional<RefreshToken> token = findByUser(userPrincipal.getUser());
         if (token.isEmpty()) {
             RefreshToken newToken = createRefreshToken(userPrincipal.getUser().getId());
-            refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken()).toString();
+            refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken());
         }
         else {
             RefreshToken originToken = verifyExpiration(token.get());
-            refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken()).toString();
+            refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken());
         }
 
         return refreshToken;

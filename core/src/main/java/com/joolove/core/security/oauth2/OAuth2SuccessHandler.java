@@ -7,6 +7,7 @@ import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpHeaders;
 
 import static com.joolove.core.security.jwt.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
@@ -54,13 +56,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
-        // 리프레시 토큰은 잠시 두자.
-        String refreshToken = refreshTokenService.getRefreshToken(userPrincipal);
+        ResponseCookie accessToken = jwtUtils.generateJwtCookie(userPrincipal);
+        ResponseCookie refreshToken = refreshTokenService.getRefreshToken(userPrincipal);
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.addHeader("Set-Cookie", accessToken.toString());
+        response.addHeader("Set-Cookie", refreshToken.toString());
 
         return UriComponentsBuilder
                 .fromUriString(targetUrl)
-                .queryParam("token", accessToken)
+                .queryParam("token", accessToken.getValue())
                 .build()
                 .toUriString();
     }

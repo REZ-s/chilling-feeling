@@ -38,7 +38,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -78,7 +78,7 @@ public class AuthController {
 
         String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
 
-        String refreshToken = refreshTokenService.getRefreshToken(userPrincipal);
+        String refreshToken = refreshTokenService.getRefreshToken(userPrincipal).toString();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessToken)
@@ -107,7 +107,7 @@ public class AuthController {
                 .build();
 
         String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
-        String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal);
+        String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal).toString();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie)
