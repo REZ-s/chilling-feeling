@@ -40,9 +40,29 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
         String username = provider + "_" + providerId;
         String email = oAuth2User.getAttribute("email");
 
+        User user = createUserByOAuth2(username, email, provider, providerId);
+
+        return UserPrincipal.buildOAuth2User(user, oAuth2User.getAttributes());
+
+/*      String userNameAttributeName = request.getClientRegistration()
+                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+
+        OAuth2Attribute oAuth2Attribute =
+                OAuth2Attribute.of(provider, userNameAttributeName, oAuth2User.getAttributes());
+
+        var memberAttribute = oAuth2Attribute.convertToMap();
+
+        // OAuth2User 를 구현한 OAuth2UserImpl 같은 클래스를 따로 작성하진 않았다. 이미 제공하는 DefaultOAuth2User 로 충분하기 때문이다.
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+                memberAttribute,
+                "email");   // email 이 공통으로 사용되며, id를 식별할 수 있는 수단이므로 key 로 사용
+*/
+    }
+
+    public User createUserByOAuth2(String username, String email, String providerId, String provider) {
         User user = userRepository.findByUsername(username).orElse(null);
 
-        //회원가입 로직을 완성하면 userService 로 옮기자
         if (user == null) {
             user = User.builder()
                     .username(username)
@@ -85,22 +105,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
             userRepository.save(user);
         }
 
-        return UserPrincipal.buildOAuth2User(user, oAuth2User.getAttributes());
-
-/*      String userNameAttributeName = request.getClientRegistration()
-                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-
-        OAuth2Attribute oAuth2Attribute =
-                OAuth2Attribute.of(provider, userNameAttributeName, oAuth2User.getAttributes());
-
-        var memberAttribute = oAuth2Attribute.convertToMap();
-
-        // OAuth2User 를 구현한 OAuth2UserImpl 같은 클래스를 따로 작성하진 않았다. 이미 제공하는 DefaultOAuth2User 로 충분하기 때문이다.
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-                memberAttribute,
-                "email");   // email 이 공통으로 사용되며, id를 식별할 수 있는 수단이므로 key 로 사용
-*/
+        return user;
     }
 }
 

@@ -40,6 +40,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
 
         clearAuthenticationAttributes(request, response);
+        //여기에 Header Set cookie? 그럼 addCookie랑 addHeader랑 setHeader랑 차이를 알아야한다..
+
+
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
