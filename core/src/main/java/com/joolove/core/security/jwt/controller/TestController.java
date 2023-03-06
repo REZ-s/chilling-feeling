@@ -3,6 +3,7 @@ package com.joolove.core.security.jwt.controller;
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.security.service.AuthService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class TestController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserService userService;
+    private final AuthService authService;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -57,27 +59,35 @@ public class TestController {
         return "redirect:/loginForm";
     }
 
+    @GetMapping("/logout")
+    public String logout(Authentication authentication) {
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        authService.logout(principal);
+        authentication.setAuthenticated(false);
+
+        //로그아웃시 처리하려면? 음... logout 필터 쓰면 될 것 같은데? 찾아보자
+
+        return "test_main";
+    }
+
     @GetMapping("/form/loginInfo")
     @ResponseBody
-    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public String formLoginInfo(Authentication authentication) {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         return principal.getUser().toString();
     }
 
     @GetMapping("/oauth/loginInfo")
     @ResponseBody
-    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
+    public String oauthLoginInfo(Authentication authentication) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> attributes = oAuth2UserPrincipal.getAttributes();
-        //Map<String, Object> attributes2 = oAuth2User.getAttributes();
-        // 출력결과 : attr == attr2
-        return attributes.toString();
+        return oAuth2User.toString();
     }
 
 
     @GetMapping("/loginInfo")
     @ResponseBody
-    public String loginInfo(Authentication authentication, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public String loginInfo(Authentication authentication) {
         String result = "";
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 

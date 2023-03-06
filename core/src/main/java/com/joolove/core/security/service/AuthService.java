@@ -31,4 +31,9 @@ public class AuthService {
                 .header(HttpHeaders.SET_COOKIE, jwtUtils.getCleanJwtRefreshCookie().toString())
                 .body("You've been signed out! " + (isCorrectPath ? "(correct path)" : "(access token does not matched)"));
     }
+
+    public void logout(UserPrincipal userPrincipal) {
+        UUID userId = userPrincipal.getUser().getId();
+        refreshTokenService.deleteByUserId(userId);
+    }
 }
