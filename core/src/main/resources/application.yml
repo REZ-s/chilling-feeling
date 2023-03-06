@@ -6,9 +6,8 @@ spring:
           google:
             client-id: "923239916479-qbapjsigagu5mbvu7guqqs3643nso5db.apps.googleusercontent.com"
             client-secret: "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"
-            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
-            #"{baseUrl}/oauth2/callback/{registrationId}"
-            
+            redirectUri: "http://localhost:8080/login/oauth2/code/google"
+                        #"{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - profile
               - email

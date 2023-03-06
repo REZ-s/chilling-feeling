@@ -5,13 +5,11 @@ import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
 import com.joolove.core.security.jwt.utils.AuthTokenFilter;
-import com.joolove.core.security.jwt.utils.OAuthTokenFilter;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
 import com.joolove.core.security.service.OAuth2UserServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -85,14 +83,13 @@ public class WebSecurityConfig {
         http.cors()
                 .and()
                 .csrf().disable()  // don't need for using rest api
+                .formLogin().disable() // don't need for using jwt
                 .httpBasic().disable()  // don't need for using jwt
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using rest api & jwt
-                //STATELESS (X) because it's not working google oauth2 login info
-                //NEVER (O) using temporary session for bring login info
                 .and()
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)  // 401 Unauthorized
-                    .accessDeniedHandler(accessDeniedHandlerJwt)    // 403 Forbidden
+                    .authenticationEntryPoint(unauthorizedHandler)  // 401 Unauthorized 인증이 안된 경우
+                    .accessDeniedHandler(accessDeniedHandlerJwt)    // 403 Forbidden 접근권한이 없는 경우
                 .and()
                 .authorizeRequests()
                     .antMatchers("/api/v1/auth/**").permitAll()
@@ -110,15 +107,13 @@ public class WebSecurityConfig {
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
 
-        //얘 빼볼까?
-        http.authenticationProvider(authenticationProvider());  // Form login
+        http.authenticationProvider(authenticationProvider());
 
         // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
         http.headers().frameOptions().sameOrigin();
 
         // before filter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        //http.addFilterBefore(new OAuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // after filter
 

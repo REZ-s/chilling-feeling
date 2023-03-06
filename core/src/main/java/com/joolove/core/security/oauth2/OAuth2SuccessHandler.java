@@ -1,5 +1,6 @@
 package com.joolove.core.security.oauth2;
 
+import org.springframework.http.HttpHeaders;
 import com.joolove.core.config.AppProperties;
 import com.joolove.core.security.jwt.exception.BadRequestException;
 import com.joolove.core.security.jwt.repository.HttpCookieOAuth2AuthorizationRequestRepository;
@@ -18,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpHeaders;
 
 import static com.joolove.core.security.jwt.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
@@ -59,13 +59,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         ResponseCookie accessToken = jwtUtils.generateJwtCookie(userPrincipal);
         ResponseCookie refreshToken = refreshTokenService.getRefreshToken(userPrincipal);
 
-        response.setContentType("application/json;charset=UTF-8");
-        response.addHeader("Set-Cookie", accessToken.toString());
-        response.addHeader("Set-Cookie", refreshToken.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, accessToken.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());
 
         return UriComponentsBuilder
                 .fromUriString(targetUrl)
-                .queryParam("token", accessToken.getValue())
                 .build()
                 .toUriString();
     }

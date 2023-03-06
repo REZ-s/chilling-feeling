@@ -62,9 +62,25 @@ public class AuthController {
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
-    public User getCurrentUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return userRepository.findById(userPrincipal.getUser().getId())
+    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        System.out.println(userPrincipal.toString());
+
+        User user = userRepository.findById(userPrincipal.getUser().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUser().getId()));
+
+        List<String> roles = userPrincipal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        User.SigninResponse response = User.SigninResponse.builder()
+                .id(userPrincipal.getUser().getId())
+                .username(userPrincipal.getUsername())
+                .email(userPrincipal.getUser().getAuthentication().getEmail())
+                .roles(roles)
+                .build();
+
+        return ResponseEntity.ok()
+                .body(response);
     }
 
     @PostMapping("/oauth2/signin")
@@ -225,7 +241,5 @@ public class AuthController {
         return ResponseEntity.badRequest()
                 .body("Refresh Token is empty!");
     }
-
-
 
 }
