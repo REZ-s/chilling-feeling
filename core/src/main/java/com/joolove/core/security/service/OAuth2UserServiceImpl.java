@@ -60,7 +60,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 */
     }
 
-    public User createUserByOAuth2(String username, String email, String providerId, String provider) {
+    public User createUserByOAuth2(String username, String email, String provider, String providerId) {
         User user = userRepository.findByUsername(username).orElse(null);
 
         if (user == null) {

@@ -3,7 +3,9 @@ package com.joolove.core.security.jwt.controller;
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.AuthService;
+import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +20,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
 public class TestController {
 
-    private final UserRepository userRepository;
-
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final UserService userService;
-    private final AuthService authService;
+
+    private final RefreshTokenService refreshTokenService;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -59,15 +59,11 @@ public class TestController {
         return "redirect:/loginForm";
     }
 
-    @GetMapping("/logout")
-    public String logout(Authentication authentication) {
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-        authService.logout(principal);
-        authentication.setAuthenticated(false);
-
-        //로그아웃시 처리하려면? 음... logout 필터 쓰면 될 것 같은데? 찾아보자
-
-        return "test_main";
+    @GetMapping("/oauth2/logout")
+    public String logoutOAuth2(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        refreshTokenService.deleteByUser(userPrincipal.getUser());
+        return "redirect:/loginForm";
     }
 
     @GetMapping("/form/loginInfo")

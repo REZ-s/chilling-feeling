@@ -1,5 +1,6 @@
 package com.joolove.core.security.service;
 
+import com.joolove.core.domain.member.User;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +23,8 @@ public class AuthService {
         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!Objects.equals(principle.toString(), "anonymousUser")) {
-            UUID userId = ((UserPrincipal) principle).getUser().getId();
-            refreshTokenService.deleteByUserId(userId);
+            User user = ((UserPrincipal) principle).getUser();
+            refreshTokenService.deleteByUser(user);
         }
 
         return ResponseEntity.ok()
@@ -33,7 +34,6 @@ public class AuthService {
     }
 
     public void logout(UserPrincipal userPrincipal) {
-        UUID userId = userPrincipal.getUser().getId();
-        refreshTokenService.deleteByUserId(userId);
+        refreshTokenService.deleteByUser(userPrincipal.getUser());
     }
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.joolove.core.security.service.OAuth2UserServiceImpl;
+import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -35,6 +36,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -43,8 +47,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = jwtUtils.getJwtFromCookies(request);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                buildAuthenticationUserDetails(request, userDetailsService.loadUserByUsername(username));
+                String jwtRefresh = jwtUtils.getJwtRefreshFromCookies(request);
+
+                if (jwtRefresh != null && refreshTokenService.findByToken(jwtRefresh).isPresent()) {
+                    String username = jwtUtils.getUserNameFromJwtToken(jwt);
+                    buildAuthenticationUserDetails(request, userDetailsService.loadUserByUsername(username));
+                }
             }
 
         } catch (Exception e) {
