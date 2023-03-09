@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.joolove.core.domain.member.User;
+import com.joolove.core.security.oauth2.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,9 +24,9 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     private User user;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private OAuth2UserInfo oAuth2UserInfo;  // oAuth2UserInfo.getAttributes();
 
-    private Map<String, Object> attributes;
+    private Collection<? extends GrantedAuthority> authorities;
 
     @Builder(builderClassName = "UserDetailsBuilder", builderMethodName = "userDetailsBuilder")
     public UserPrincipal(User user, Collection<? extends GrantedAuthority> authorities) {
@@ -34,9 +35,9 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     }
 
     @Builder(builderClassName = "OAuth2UserBuilder", builderMethodName = "oAuth2UserBuilder")
-    public UserPrincipal(User user, Map<String, Object> attributes) {
+    public UserPrincipal(User user, OAuth2UserInfo oAuth2UserInfo) {
         this.user = user;
-        this.attributes = attributes;
+        this.oAuth2UserInfo = oAuth2UserInfo;
     }
 
     public static UserPrincipal buildUserDetails(User user) {
@@ -51,11 +52,44 @@ public class UserPrincipal implements UserDetails, OAuth2User {
                 .build();
     }
 
-    public static UserPrincipal buildOAuth2User(User user, Map<String, Object> attribute) {
+    public static UserPrincipal buildOAuth2User(User user, OAuth2UserInfo oAuth2UserInfo) {
         return UserPrincipal.oAuth2UserBuilder()
                 .user(user)
-                .attributes(attribute)
+                .oAuth2UserInfo(oAuth2UserInfo)
                 .build();
+    }
+
+    public static OAuth2UserInfo buildOAuth2UserInfo(String provider, Map<String, Object> attributes) {
+        return switch (provider) {
+            case "google" -> new GoogleUserInfo(attributes);
+            case "naver" -> new NaverUserInfo(attributes);
+            //case "kakao" -> new KakaoUserInfo(attributes);
+            default -> throw new RuntimeException();
+        };
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (authorities == null || authorities.isEmpty()) {
+            authorities = user.getRoles()
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
+                    .collect(Collectors.toList());
+        }
+
+        return authorities;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return oAuth2UserInfo.getAttributes();
+    }
+
+
+    @Override
+    public String getName() {
+        return oAuth2UserInfo.getProviderId();
     }
 
     @Override
@@ -66,29 +100,6 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     @Override
     public String getUsername() {
         return user.getUsername();
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-/*
-        if (authorities == null || authorities.isEmpty()) {
-            authorities = user.getRoles()
-                    .stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getRole().getName().name()))
-                    .collect(Collectors.toList());
-        }
-*/
-        return authorities;
-    }
-
-    @Override
-    public String getName() {
-        return attributes.get("sub").toString();
     }
 
     // 계정 만료 여부 (true : 만료되지 않음)

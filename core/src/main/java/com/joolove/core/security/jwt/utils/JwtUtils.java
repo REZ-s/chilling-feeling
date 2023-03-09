@@ -28,7 +28,10 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${joolove.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private long jwtExpirationMs;
+
+    @Value("${joolove.app.jwtRefreshExpirationMs}")
+    private long jwtRefreshExpirationMs;
 
     @Value("${joolove.app.jwtCookieName}")
     private String jwtCookie;
@@ -68,27 +71,40 @@ public class JwtUtils {
         }
     }
 
-    private ResponseCookie generateCookie(String name, String value, String path) {
-        return ResponseCookie
-                .from(name, value)
+    public ResponseCookie getCleanJwtCookie() {
+        return ResponseCookie.from(jwtCookie, "")
+                .path("/")
+                .build();
+    }
+
+    public ResponseCookie getCleanJwtRefreshCookie() {
+        return ResponseCookie.from(jwtRefreshCookie, "")
+                .path("/")
+                .build();
+    }
+
+    private ResponseCookie generateCookie(String name, String value, String path, long millisecond) {
+        return ResponseCookie.from(name, value)
                 .path(path)
-                .maxAge(24 * 60 * 60)
+                .maxAge(millisecond / 1000)
                 .httpOnly(true)
+                .secure(true)
+                .sameSite("Lax")
                 .build();
     }
 
     public ResponseCookie generateJwtCookie(UserPrincipal userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUser().getUsername());
-        return generateCookie(jwtCookie, jwt, "/");
+        return generateCookie(jwtCookie, jwt, "/", jwtExpirationMs);
     }
 
     public ResponseCookie generateJwtCookie(User user) {
         String jwt = generateTokenFromUsername(user.getUsername());
-        return generateCookie(jwtCookie, jwt, "/");
+        return generateCookie(jwtCookie, jwt, "/", jwtExpirationMs);
     }
 
     public ResponseCookie generateRefreshJwtCookie(String refreshToken) {
-        return generateCookie(jwtRefreshCookie, refreshToken, "/");
+        return generateCookie(jwtRefreshCookie, refreshToken, "/", jwtRefreshExpirationMs);
     }
 
     public Optional<Cookie> getCookieByName(HttpServletRequest request, String name) {
@@ -115,23 +131,8 @@ public class JwtUtils {
         return getCookieValueByName(request, jwtRefreshCookie);
     }
 
-    public ResponseCookie getCleanJwtCookie() {
-        return ResponseCookie
-                .from(jwtCookie, "")
-                .path("/")
-                .build();
-    }
-
-    public ResponseCookie getCleanJwtRefreshCookie() {
-        return ResponseCookie
-                .from(jwtRefreshCookie, "")
-                .path("/")
-                .build();
-    }
-
     public String getUserNameFromJwtToken(String token) {
-        return Jwts
-                .parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(jwtSecret.getBytes())
                 .build()
                 .parseClaimsJws(token)
