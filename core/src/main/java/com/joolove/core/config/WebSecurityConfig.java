@@ -85,11 +85,11 @@ public class WebSecurityConfig {
                 .csrf().disable()  // don't need for using rest api
                 .formLogin().disable() // don't need for using jwt
                 .httpBasic().disable()  // don't need for using jwt
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using rest api & jwt
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using jwt
                 .and()
-                .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)  // 401 Unauthorized 인증이 안된 경우
-                    .accessDeniedHandler(accessDeniedHandlerJwt)    // 403 Forbidden 접근권한이 없는 경우
+                .exceptionHandling()    // 아래 번호 순서대로 필터링
+                    .authenticationEntryPoint(unauthorizedHandler)  // (1) 401 Unauthorized 인증이 안된 경우
+                    .accessDeniedHandler(accessDeniedHandlerJwt)    // (2) 403 Forbidden 접근권한이 없는 경우
                 .and()
                 .authorizeRequests()
                     .antMatchers("/api/v1/auth/**").permitAll()
