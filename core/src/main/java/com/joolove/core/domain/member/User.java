@@ -33,7 +33,7 @@ public class User extends BaseTimeStamp {
     private UUID id;
 
     @NotBlank
-    @Column(unique = true, length = 30)
+    @Column(unique = true, length = 64)
     private String username;
 
     @NotNull

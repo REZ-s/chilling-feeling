@@ -24,7 +24,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     private User user;
 
-    private OAuth2UserInfo oAuth2UserInfo;  // oAuth2UserInfo.getAttributes();
+    private OAuth2UserInfo oAuth2UserInfo;  // attributes == oAuth2UserInfo.getAttributes();
 
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -63,7 +63,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         return switch (provider) {
             case "google" -> new GoogleUserInfo(attributes);
             case "naver" -> new NaverUserInfo(attributes);
-            //case "kakao" -> new KakaoUserInfo(attributes);
+            case "kakao" -> new KakaoUserInfo(attributes);
             default -> throw new RuntimeException();
         };
     }

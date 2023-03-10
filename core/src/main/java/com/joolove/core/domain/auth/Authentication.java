@@ -37,7 +37,7 @@ public class Authentication extends BaseTimeStamp {
 
     @NotBlank
     @Email
-    private String email;
+    private String email;   // not unique column because it can have form login account and social login accounts
 
     private String sex;
 

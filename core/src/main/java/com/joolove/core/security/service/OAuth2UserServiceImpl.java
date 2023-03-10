@@ -6,12 +6,9 @@ import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.repository.RoleRepository;
-import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.oauth2.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -20,9 +17,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
-import static com.joolove.core.security.service.UserPrincipal.buildOAuth2UserInfo;
-
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +34,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
         String provider = request.getClientRegistration().getRegistrationId();
 
-        OAuth2UserInfo oAuth2UserInfo = buildOAuth2UserInfo(provider, oAuth2User.getAttributes());
+        OAuth2UserInfo oAuth2UserInfo = UserPrincipal.buildOAuth2UserInfo(provider, oAuth2User.getAttributes());
 
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
