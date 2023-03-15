@@ -1,6 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <option name="ACTIVE_PROFILES" />
     <envs>
+      <env name="server.port" value="8080" />
       <env name="MAIN_RESOURCE_PATH" value="$PROJECT_DIR$/src/main/resources" />
     </envs>
     <module name="core.main" />
