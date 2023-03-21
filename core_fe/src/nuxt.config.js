@@ -16,7 +16,7 @@ module.exports = {
       target: 'http://localhost:8080/',
       changeOrigin: true  // cross origin 
     }
-  }
+  },
 };
 
 export default {
