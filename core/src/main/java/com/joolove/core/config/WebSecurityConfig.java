@@ -92,6 +92,7 @@ public class WebSecurityConfig {
                     .accessDeniedHandler(accessDeniedHandlerJwt)    // (2) 403 Forbidden 접근권한이 없는 경우
                 .and()
                 .authorizeRequests()
+                    .antMatchers( "/css/**", "/images/**", "/favicon.ico").permitAll()
                     .antMatchers("/api/v1/auth/**").permitAll()
                     .antMatchers("/user/**").authenticated()
                     .antMatchers("/manager/**").access("hasRole('MANAGER') or hasRole('ADMIN')")
@@ -107,10 +108,16 @@ public class WebSecurityConfig {
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
 
+        http.logout()
+                .logoutUrl("/logout")
+                .permitAll();
+
         http.authenticationProvider(authenticationProvider());
 
         // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-        http.headers().frameOptions().sameOrigin();
+        http.headers()
+                .frameOptions()
+                .sameOrigin();
 
         // before filter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

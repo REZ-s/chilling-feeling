@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>로그인 페이지</title>
@@ -30,7 +31,7 @@
 </div>
 
 <div sec:authorize="isAuthenticated()" style="background-color:pink; padding:1em;">
-  <a href="/oauth2/logout">로그아웃</a>
+    <a th:href="@{/logout}" th:method="post">로그아웃</a>
 </div>
 
 <br><br>
