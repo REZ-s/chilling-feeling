@@ -1,17 +1,59 @@
 <!DOCTYPE html>
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>회원가입 페이지</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<title> Responsive Login and Signup Form </title>-->
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/join_form.css">
+
+  <!-- Boxicons CSS -->
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 <body>
-<h1>회원가입 페이지</h1>
-<hr/>
-<form action="/join" method="post">
-    <input type="text" name="username" placeholder="Username"/> <br/>
-    <input type="password" name="password" placeholder="Password"/> <br/>
-    <input type="email" name="email" placeholder="Email"/> <br/>
-    <button>회원가입</button>
-</form>
+  <div class="form signup">
+    <div class="form-content">
+
+      <header>Sign Up</header>
+      <form th:action="@{/join/create}" th:object="${request}" method="post" >
+
+        <div class="field input-field">
+          <input type="text" placeholder="Id" class="input" th:field="${request.username}">
+        </div>
+
+        <div class="field input-field">
+          <input type="email" placeholder="Email" class="input" th:field="${request.email}">
+        </div>
+
+        <div class="field input-field">
+          <input type="password" placeholder="Create password" class="password" th:field="${request.password}">
+        </div>
+
+        <div class="field input-field">
+          <input type="password" placeholder="Confirm password" class="password">
+          <i class='bx bx-hide eye-icon'></i>
+        </div>
+
+        <div class="field button-field">
+          <button>Sign Up</button>
+        </div>
+      </form>
+
+      <form th:action="@{/login}" method="post" >
+      <div class="form-link">
+        Already have an account? <a class="link login-link">Login</a>
+      </div>
+      </form>
+    </div>
+
+  </div>
+
+<!-- JavaScript -->
+<script src="js/script.js"></script>
 </body>
 </html>

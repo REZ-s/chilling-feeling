@@ -1,34 +1,41 @@
 package com.joolove.core.security.jwt.controller;
 
+import com.joolove.core.domain.ERole;
+import com.joolove.core.domain.auth.Password;
+import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
+import com.joolove.core.domain.member.UserRole;
+import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
-import com.joolove.core.security.jwt.utils.JwtUtils;
-import com.joolove.core.security.service.AuthService;
+import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.UUID;
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class TestController {
 
     private final UserService userService;
-
     private final RefreshTokenService refreshTokenService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final AuthenticationRepository authenticationRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -36,27 +43,60 @@ public class TestController {
         return "test_main";
     }
 
-    @GetMapping("/loginForm")
-    public String loginForm() {
-        return "login";
-    }
-
-    @GetMapping("/joinForm")
-    public String joinForm() {
+    @PostMapping("/join")
+    public String joinForm(Model model) {
+        model.addAttribute("request", User.SignupRequest.buildEmpty());
         return "join";
     }
 
-    @PostMapping("/join")
-    public String join(@ModelAttribute User user) {
-//        user.setRole(Role.ROLE_USER);
-//
-//        String encodePwd = bCryptPasswordEncoder.encode(user.getPassword());
-//        user.setPassword(encodePwd);
-//
-//        userRepository.save(user);  //반드시 패스워드 암호화해야함
+    @PostMapping("/join/create")
+    public String joinByForm(Model model, @Valid @ModelAttribute User.SignupRequest request) {
+        List<Role> roles = new ArrayList<>();
+        Role role = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
 
-        //userService 에서 join 메소드를 작성하자
-        return "redirect:/loginForm";
+        //Create new user's account
+        User user = User.builder()
+                .username(request.getUsername())
+                .accountType((short)1)
+                .build();
+
+        com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
+                .user(user)
+                .email(request.getEmail())
+                .sex("남자")
+                .phoneNumber("010-7369-6639")
+                .birthday(LocalDate.of(1992, 12, 10))
+                .country("Korea")
+                .gatherAgree(true)
+                .build();
+        user.setAuthentication(authentication);
+
+        Password password = Password.builder()
+                .user(user)
+                .pw(passwordEncoder.encode(request.getPassword()))
+                .build();
+        user.setPassword(password);
+
+        List<UserRole> userRoles = new ArrayList<>();
+        for (Role r : roles) {
+            UserRole userRole = UserRole.builder()
+                    .user(user)
+                    .role(r)
+                    .build();
+            userRoles.add(userRole);
+        }
+        user.setRoles(userRoles);
+
+        userRepository.save(user);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String loginByForm() {
+        return "login";
     }
 
     @GetMapping("/oauth2/logout")

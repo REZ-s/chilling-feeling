@@ -1,47 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
-  <title>로그인 페이지</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<title> Responsive Login and Signup Form </title>-->
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/join_form.css">
+
+  <!-- Boxicons CSS -->
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 <body>
-<h1>로그인 페이지</h1>
-<hr/>
+  <div class="form login">
+    <div class="form-content">
 
-<h2>로그인 유저 : </h2>
-<p sec:authentication="principal"></p>
+      <header>Login</header>
+      <form th:action="@{/login}" method="post" >
+        <div class="field input-field">
+          <input type="text" placeholder="Id" class="input" >
+        </div>
+        <div class="field input-field">
+          <input type="password" placeholder="Password" class="password" >
+          <i class='bx bx-hide eye-icon'></i>
+        </div>
 
-<div sec:authorize="isAnonymous()" style="background-color:pink; padding:1em;">
-  <form action="/login" method="post" >
-    <input type="text" name="username" />
-    <input type="password" name="password" />
-    <button>로그인</button>
-  </form>
+        <div class="form-link">
+          <a href="#" class="forgot-pass">Forgot password?</a>
+        </div>
 
-  <a href="/oauth2/authorization/google">구글 로그인</a>
-  <a href="/oauth2/authorization/naver">네이버 로그인</a>
-  <a href="/oauth2/authorization/kakao">카카오 로그인</a>
-  <!-- /oauth2/authorization/{registrationId} 에 요청이 들어오면,
-      Spring Security 가 provider 의 authorization-uri 로 요청을 전달한다.
-  -->
-  <br><br>
+        <div class="field button-field">
+          <button>Login</button>
+        </div>
+      </form>
 
-  <a href="/joinForm">회원가입하기</a><br>
-</div>
+      <div class="form-link" >
+        <form method="post">
+          <span>Don't have an account? <a href="/join" class="link signup-link">Sign Up</a></span>
+        </form>
+      </div>
+    </div>
 
-<div sec:authorize="isAuthenticated()" style="background-color:pink; padding:1em;">
-  <a href="/oauth2/logout">로그아웃</a>
-</div>
+    <div class="line"></div>
 
-<br><br>
-<a href="/user">유저</a><br>
-<a href="/manager" sec:authorize="hasRole('MANAGER') or hasRole('ADMIN')">매니저</a><br>
-<a href="/admin" sec:authorize="hasRole('ADMIN')">어드민</a><br>
+    <div class="media-options">
+      <a href="/oauth2/authorization/google" class="field google">
+        <img src="#" alt="" class="google-img">
+        <span>Login with Google</span>
+      </a>
+    </div>
 
-<br><br>
-<a href="/form/loginInfo">Form 로그인 정보</a>
-<a href="/oauth/loginInfo">OAuth2 로그인 정보</a>
-<a href="/loginInfo">로그인 정보</a>
-
+  </div>
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
 </body>
 </html>

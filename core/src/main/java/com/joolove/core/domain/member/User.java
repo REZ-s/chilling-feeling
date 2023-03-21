@@ -227,6 +227,14 @@ public class User extends BaseTimeStamp {
             this.roles = roles;
             this.password = password;
         }
+
+        public static SignupRequest buildEmpty() {
+            return SignupRequest.builder()
+                    .username("")
+                    .password("")
+                    .email("")
+                    .build();
+        }
     }
 
     @Data
