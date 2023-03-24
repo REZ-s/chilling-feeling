@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -97,6 +98,11 @@ public class TestController {
     @GetMapping("/login")
     public String loginByForm() {
         return "login";
+    }
+
+    @GetMapping("/temp")
+    public String temp(Model model) {
+        return "/temp";
     }
 
     @GetMapping("/oauth2/logout")
