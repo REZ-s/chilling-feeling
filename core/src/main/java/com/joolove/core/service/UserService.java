@@ -20,13 +20,13 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    //회원 가입
+/*    //회원 가입
     @Transactional
     public UUID join(User user) {
         //validateDuplicateUser(user);
         userRepository.save(user);
         return user.getId();
-    }
+    }*/
 
     //회원 탈퇴
     @Transactional

@@ -83,8 +83,8 @@ public class WebSecurityConfig {
         http.cors()
                 .and()
                 .csrf().disable()  // don't need for using rest api
-                .formLogin().disable() // don't need for using jwt
                 .httpBasic().disable()  // don't need for using jwt
+                //.formLogin().disable() // don't need for using jwt
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using jwt
                 .and()
                 .exceptionHandling()    // 아래 번호 순서대로 필터링됨
@@ -94,6 +94,8 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                     .antMatchers( "/css/**", "/images/**", "/favicon.ico").permitAll()
                     .antMatchers("/api/v1/auth/**").permitAll()
+                    .antMatchers("/sign_in/**").permitAll()
+                    .antMatchers("/sign_up/**").permitAll()
                     .antMatchers("/user/**").authenticated()
                     .antMatchers("/manager/**").access("hasRole('MANAGER') or hasRole('ADMIN')")
                     .antMatchers("/admin/**").hasRole("ADMIN")

@@ -182,6 +182,13 @@ public class User extends BaseTimeStamp {
             this.username = username;
             this.password = password;
         }
+
+        public static SigninRequest buildEmpty() {
+            return SigninRequest.builder()
+                    .username("")
+                    .password("")
+                    .build();
+        }
     }
 
     @Data
