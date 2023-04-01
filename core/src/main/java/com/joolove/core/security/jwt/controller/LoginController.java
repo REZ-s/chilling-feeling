@@ -8,15 +8,18 @@ import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
-import com.joolove.core.security.jwt.repository.AuthenticationRepository;
+import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,32 +28,34 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @Controller
 @RequiredArgsConstructor
-public class TestController {
+public class LoginController {
 
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final AuthenticationRepository authenticationRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
         model.addAttribute("allUserList", userService.findAll());
-        return "test_main";
+        return "all_user_list";
     }
 
-    @PostMapping("/join")
+    @GetMapping("/sign_up")
     public String joinForm(Model model) {
         model.addAttribute("request", User.SignupRequest.buildEmpty());
-        return "join";
+        return "sign_up";
     }
 
-    @PostMapping("/join/create")
+    @PostMapping("/sign_up/create")
     public String joinByForm(Model model, @Valid @ModelAttribute User.SignupRequest request) {
         List<Role> roles = new ArrayList<>();
         Role role = roleRepository.findByName(ERole.ROLE_USER)
@@ -92,12 +97,39 @@ public class TestController {
 
         userRepository.save(user);
 
-        return "redirect:/login";
+        return "redirect:/sign_in";
     }
 
-    @GetMapping("/login")
-    public String loginByForm() {
-        return "login";
+    @GetMapping("/sign_in")
+    public String loginForm(Model model) {
+        model.addAttribute("request", User.SigninRequest.buildEmpty());
+        return "sign_in";
+    }
+
+    @PostMapping("/sign_in/access")
+    public String loginByForm(Model model, @Valid @ModelAttribute User.SigninRequest request) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
+        List<String> roles = userPrincipal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        User.SigninResponse response = User.SigninResponse.builder()
+                .id(userPrincipal.getUser().getId())
+                .username(userPrincipal.getUsername())
+                .email(userPrincipal.getUser().getAuthentication().getEmail())
+                .roles(roles)
+                .build();
+
+        String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
+        String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal).toString();
+
+        return "redirect:/sign_in";
     }
 
     @GetMapping("/temp")
@@ -125,7 +157,6 @@ public class TestController {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         return oAuth2User.toString();
     }
-
 
     @GetMapping("/loginInfo")
     @ResponseBody

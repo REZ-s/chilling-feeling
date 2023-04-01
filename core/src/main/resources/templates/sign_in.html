@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Sign In Form </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <!-- Boxicons CSS -->
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+  <div class="form login">
+    <div class="form-content">
+
+      <header>Login</header>
+
+      <form sec:authorize="isAnonymous()" th:action="@{/sign_in/access}" th:object="${request}" method="post" >
+
+        <div class="field">
+          <input type="text" placeholder="Id" class="input" th:field="${request.username}" >
+        </div>
+
+        <div class="field">
+          <input type="password" placeholder="Password" class="password" th:field="${request.password}">
+          <i class='bx bx-hide eye-icon'></i>
+        </div>
+
+        <div class="form-link">
+          <a href="#" class="forgot-pass">Forgot password?</a>
+        </div>
+
+        <div class="field button-field">
+          <button>Login</button>
+        </div>
+
+      </form>
+
+      <div class="form-link" >
+          <span>Don't have an account? <a href="/sign_up" class="link signup-link">Sign Up</a></span>
+      </div>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="media-options">
+      <a href="/oauth2/authorization/google" class="field google">
+        <img src="/images/google_logo.png" alt="google" class="naver-img">
+        <span>Login with Google</span>
+      </a>
+    </div>
+
+    <div class="media-options">
+      <a href="/oauth2/authorization/naver" class="field google">
+        <img src="/images/btnG_icon_square.png" alt="naver" class="naver-img">
+        <span>Login with Naver</span>
+      </a>
+    </div>
+
+    <div class="media-options">
+      <a href="/oauth2/authorization/kakao" class="field google">
+        <img src="/images/kakaotalk_sharing_btn_small.png" alt="kakao" class="naver-img">
+        <span>Login with Kakao</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+</html>
