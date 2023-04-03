@@ -5,6 +5,7 @@ import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
 import com.joolove.core.security.jwt.utils.AuthTokenFilter;
+import com.joolove.core.security.oauth2.FormLoginSuccessHandler;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
@@ -34,11 +35,13 @@ public class WebSecurityConfig {
 
     private final RoleRepository roleRepository;
 
-    private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPointJwt authEntryPointJwt;
 
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
 
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
+    private final FormLoginSuccessHandler formLoginSuccessHandler;
 
     @Bean
     public OAuth2UserServiceImpl oAuth2UserService() {
@@ -83,36 +86,32 @@ public class WebSecurityConfig {
         http.cors()
                 .and()
                 .csrf().disable()  // don't need for using rest api
-                .httpBasic().disable()  // don't need for using jwt
-                //.formLogin().disable() // don't need for using jwt
+                //.httpBasic().disable()  // don't need for using jwt
+                .authorizeRequests().anyRequest().permitAll()   // all access about using jwt
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using jwt
                 .and()
                 .exceptionHandling()    // 아래 번호 순서대로 필터링됨
-                    .authenticationEntryPoint(unauthorizedHandler)  // (1) 401 Unauthorized 인증이 안된 경우
-                    .accessDeniedHandler(accessDeniedHandlerJwt)    // (2) 403 Forbidden 접근권한이 없는 경우
-                .and()
-                .authorizeRequests()
-                    .antMatchers( "/css/**", "/images/**", "/favicon.ico").permitAll()
-                    .antMatchers("/api/v1/auth/**").permitAll()
-                    .antMatchers("/sign_in/**").permitAll()
-                    .antMatchers("/sign_up/**").permitAll()
-                    .antMatchers("/user/**").authenticated()
-                    .antMatchers("/manager/**").access("hasRole('MANAGER') or hasRole('ADMIN')")
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .anyRequest().permitAll();
-                //.anyRequest().authenticated().and()
+                    .authenticationEntryPoint(authEntryPointJwt)  // (1) 401 Unauthorized 인증이 안된 경우
+                    .accessDeniedHandler(accessDeniedHandlerJwt);   // (2) 403 Forbidden 접근권한이 없는 경우
+
+        http.formLogin()
+                .loginPage("/sign_in")
+                .successForwardUrl("/")
+                .failureForwardUrl("/")
+                .permitAll()
+                .successHandler(oAuth2SuccessHandler);
 
         http.oauth2Login()
-                .loginPage("/loginForm")
+                .loginPage("/sign_in")
                 .defaultSuccessUrl("/")
-                .failureUrl("/loginForm")
+                .failureUrl("/")
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
 
         http.logout()
-                .logoutUrl("/logout")
-                .permitAll();
+                .logoutUrl("/logout").permitAll();
 
         http.authenticationProvider(authenticationProvider());
 
@@ -121,10 +120,10 @@ public class WebSecurityConfig {
                 .frameOptions()
                 .sameOrigin();
 
-        // before filter
+        // common before filter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // after filter
+        // common after filter
 
         return http.build();
     }

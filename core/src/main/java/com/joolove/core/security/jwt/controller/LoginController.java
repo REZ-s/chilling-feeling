@@ -13,6 +13,8 @@ import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +110,7 @@ public class LoginController {
     }
 
     @PostMapping("/sign_in/access")
-    public String loginByForm(Model model, @Valid @ModelAttribute User.SigninRequest request) {
+    public String loginByForm(@Valid @ModelAttribute User.SigninRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -129,19 +132,20 @@ public class LoginController {
         String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
         String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal).toString();
 
+        // sum(a+b)
+
+
+        /* return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie)
+                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie)
+                .body(response);*/
+
         return "redirect:/sign_in";
     }
 
     @GetMapping("/temp")
-    public String temp(Model model) {
+    public String temp() {
         return "/temp";
-    }
-
-    @GetMapping("/oauth2/logout")
-    public String logoutOAuth2(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        refreshTokenService.deleteByUser(userPrincipal.getUser());
-        return "redirect:/loginForm";
     }
 
     @GetMapping("/form/loginInfo")
