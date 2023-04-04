@@ -58,9 +58,7 @@ public class RefreshTokenService {
                 .expiryDate(Instant.now().plusMillis(refreshTokenDurationMs))
                 .token(UUID.randomUUID().toString())
                 .build();
-        refreshToken = refreshTokenRepository.save(refreshToken);
-
-        return refreshToken;
+        return refreshTokenRepository.save(refreshToken);
     }
 
     public RefreshToken verifyExpiration(RefreshToken token) {
