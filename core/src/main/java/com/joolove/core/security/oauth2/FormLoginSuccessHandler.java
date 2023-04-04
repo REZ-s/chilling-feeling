@@ -21,7 +21,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Autowired
     private final JwtUtils jwtUtils;
+    @Autowired
     private final RefreshTokenService refreshTokenService;
 
     @Override
