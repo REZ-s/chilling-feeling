@@ -4,7 +4,8 @@ import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
-import com.joolove.core.security.jwt.utils.AuthTokenFilter;
+import com.joolove.core.security.jwt.utils.JwtAuthFilter;
+import com.joolove.core.security.oauth2.CommonLogoutSuccessHandler;
 import com.joolove.core.security.oauth2.FormLoginSuccessHandler;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
@@ -23,24 +24,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
-
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
-
     private final AuthEntryPointJwt authEntryPointJwt;
-
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
-
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-
     private final FormLoginSuccessHandler formLoginSuccessHandler;
 
     @Bean
@@ -49,28 +44,24 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    public JwtAuthFilter jwtAuthenticationFilter() {
+        return new JwtAuthFilter();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public OAuth2FailureHandler oAuth2FailureHandler() {
         return new OAuth2FailureHandler();
+    }
+
+    @Bean
+    public CommonLogoutSuccessHandler commonLogoutSuccessHandler() {
+        return new CommonLogoutSuccessHandler();
     }
 
     /**
@@ -83,10 +74,13 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
+        http.headers().frameOptions().sameOrigin();
+
         http.cors()
                 .and()
                 .csrf().disable()  // don't need for using rest api
-                //.httpBasic().disable()  // don't need for using jwt
+                .httpBasic().disable()  // don't need for using jwt
                 .authorizeRequests().anyRequest().permitAll()   // all access about using jwt
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using jwt
@@ -97,31 +91,26 @@ public class WebSecurityConfig {
 
         http.formLogin()
                 .loginPage("/sign_in")
-                .successForwardUrl("/")
-                .failureForwardUrl("/")
-                .permitAll()
-                .successHandler(oAuth2SuccessHandler);
+                .loginProcessingUrl("/sign_in/access")
+                .defaultSuccessUrl("/")
+                .successHandler(formLoginSuccessHandler);
 
         http.oauth2Login()
                 .loginPage("/sign_in")
                 .defaultSuccessUrl("/")
-                .failureUrl("/")
+                .failureUrl("/sign_in")
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
 
         http.logout()
-                .logoutUrl("/logout").permitAll();
-
-        http.authenticationProvider(authenticationProvider());
-
-        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-        http.headers()
-                .frameOptions()
-                .sameOrigin();
+                .logoutUrl("/sign_out")
+                .logoutSuccessUrl("/sign_in")
+                .deleteCookies("JSESSIONID", "Remember-Me", "jooloveJwt", "jooloveJwtRefresh")
+                .addLogoutHandler(commonLogoutSuccessHandler());
 
         // common before filter
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // common after filter
 

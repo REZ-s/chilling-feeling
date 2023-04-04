@@ -9,6 +9,7 @@ import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
+import com.joolove.core.security.service.LogoutTokenService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
@@ -39,12 +40,11 @@ import java.util.stream.Collectors;
 public class LoginController {
 
     private final UserService userService;
-    private final RefreshTokenService refreshTokenService;
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -113,34 +113,14 @@ public class LoginController {
     public String loginByForm(@Valid @ModelAttribute User.SigninRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "redirect:/";
+    }
 
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+    @PostMapping("/sign_out")
+    public String logout(@Valid @ModelAttribute Authentication authentication) {
 
-        List<String> roles = userPrincipal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        User.SigninResponse response = User.SigninResponse.builder()
-                .id(userPrincipal.getUser().getId())
-                .username(userPrincipal.getUsername())
-                .email(userPrincipal.getUser().getAuthentication().getEmail())
-                .roles(roles)
-                .build();
-
-        String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
-        String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal).toString();
-
-        // sum(a+b)
-
-
-        /* return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, jwtCookie)
-                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie)
-                .body(response);*/
-
-        return "redirect:/sign_in";
+        return "redirect:/";
     }
 
     @GetMapping("/temp")
