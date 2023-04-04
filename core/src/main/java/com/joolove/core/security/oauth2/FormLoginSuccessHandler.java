@@ -5,6 +5,7 @@ import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+    @Autowired
     private final JwtUtils jwtUtils;
+    @Autowired
     private final RefreshTokenService refreshTokenService;
 
     @Override

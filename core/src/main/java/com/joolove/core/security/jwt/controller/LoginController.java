@@ -132,8 +132,6 @@ public class LoginController {
         String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
         String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal).toString();
 
-        // sum(a+b)
-
 
         /* return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie)
@@ -141,6 +139,11 @@ public class LoginController {
                 .body(response);*/
 
         return "redirect:/sign_in";
+    }
+
+    @GetMapping("/sign_out")
+    public String logout() {
+        return "redirect:/";
     }
 
     @GetMapping("/temp")
