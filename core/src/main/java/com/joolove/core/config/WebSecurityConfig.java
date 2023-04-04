@@ -4,7 +4,8 @@ import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
-import com.joolove.core.security.jwt.utils.AuthTokenFilter;
+import com.joolove.core.security.jwt.utils.FormAuthFilter;
+import com.joolove.core.security.jwt.utils.JwtAuthFilter;
 import com.joolove.core.security.oauth2.FormLoginSuccessHandler;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
@@ -14,15 +15,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -43,14 +48,24 @@ public class WebSecurityConfig {
 
     private final FormLoginSuccessHandler formLoginSuccessHandler;
 
+
     @Bean
     public OAuth2UserServiceImpl oAuth2UserService() {
         return new OAuth2UserServiceImpl(userRepository, passwordEncoder(), roleRepository);
     }
 
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    public JwtAuthFilter jwtAuthenticationFilter() {
+        return new JwtAuthFilter();
+    }
+
+    @Bean
+    public FormAuthFilter formAuthenticationFilter() {
+        FormAuthFilter formAuthFilter = new FormAuthFilter(authenticationManager());
+        formAuthFilter.setFilterProcessesUrl("/sign_in");
+        formAuthFilter.setAuthenticationSuccessHandler(formLoginSuccessHandler);
+        formAuthFilter.afterPropertiesSet();
+        return formAuthFilter;
     }
 
     @Bean
@@ -61,11 +76,6 @@ public class WebSecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
     }
 
     @Bean
@@ -98,9 +108,7 @@ public class WebSecurityConfig {
         http.formLogin()
                 .loginPage("/sign_in")
                 .successForwardUrl("/")
-                .failureForwardUrl("/")
-                .permitAll()
-                .successHandler(oAuth2SuccessHandler);
+                .failureForwardUrl("/");
 
         http.oauth2Login()
                 .loginPage("/sign_in")
@@ -121,7 +129,8 @@ public class WebSecurityConfig {
                 .sameOrigin();
 
         // common before filter
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(formAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), OncePerRequestFilter.class);
 
         // common after filter
 
