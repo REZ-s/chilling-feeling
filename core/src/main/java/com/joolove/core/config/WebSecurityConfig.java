@@ -9,8 +9,11 @@ import com.joolove.core.security.oauth2.CommonLogoutSuccessHandler;
 import com.joolove.core.security.oauth2.FormLoginSuccessHandler;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
+import com.joolove.core.security.service.LogoutTokenService;
+import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
 import com.joolove.core.security.service.OAuth2UserServiceImpl;
+import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +40,7 @@ public class WebSecurityConfig {
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final FormLoginSuccessHandler formLoginSuccessHandler;
+    private final CommonLogoutSuccessHandler commonLogoutSuccessHandler;
 
     @Bean
     public OAuth2UserServiceImpl oAuth2UserService() {
@@ -57,11 +61,6 @@ public class WebSecurityConfig {
     @Bean
     public OAuth2FailureHandler oAuth2FailureHandler() {
         return new OAuth2FailureHandler();
-    }
-
-    @Bean
-    public CommonLogoutSuccessHandler commonLogoutSuccessHandler() {
-        return new CommonLogoutSuccessHandler();
     }
 
     /**
@@ -92,22 +91,22 @@ public class WebSecurityConfig {
         http.formLogin()
                 .loginPage("/sign_in")
                 .loginProcessingUrl("/sign_in/access")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/main")
                 .successHandler(formLoginSuccessHandler);
 
         http.oauth2Login()
                 .loginPage("/sign_in")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/main")
                 .failureUrl("/sign_in")
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
 
         http.logout()
-                .logoutUrl("/sign_out")
-                .logoutSuccessUrl("/sign_in")
-                .deleteCookies("JSESSIONID", "Remember-Me", "jooloveJwt", "jooloveJwtRefresh")
-                .addLogoutHandler(commonLogoutSuccessHandler());
+                //.logoutUrl("/sign_out")
+                .logoutSuccessUrl("/main")
+                .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
+                .deleteCookies("JSESSIONID", "Remember-Me", "jooloveJwt", "jooloveJwtRefresh");
 
         // common before filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
