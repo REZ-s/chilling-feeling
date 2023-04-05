@@ -28,7 +28,7 @@ public class LogoutToken extends BaseTimeStamp {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", unique = true)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NotBlank

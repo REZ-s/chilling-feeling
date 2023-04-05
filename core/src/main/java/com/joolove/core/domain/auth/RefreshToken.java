@@ -27,7 +27,7 @@ public class RefreshToken extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 

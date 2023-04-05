@@ -14,12 +14,14 @@ import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
@@ -40,11 +43,12 @@ import java.util.stream.Collectors;
 public class LoginController {
 
     private final UserService userService;
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
+    private final LogoutTokenService logoutTokenService;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -114,18 +118,28 @@ public class LoginController {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "redirect:/";
+        return "redirect:/main";
     }
 
     @PostMapping("/sign_out")
-    public String logout(@Valid @ModelAttribute Authentication authentication) {
+    public String logoutForm() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getPrincipal().toString();
 
-        return "redirect:/";
+        User user = userService.findByUsername(username);
+
+        logoutTokenService.createRefreshToken(user.getId());
+        refreshTokenService.deleteByUser(user);
+
+        SecurityContextHolder.getContext().setAuthentication(null);
+        SecurityContextHolder.clearContext();
+
+        return "redirect:/sign_in";
     }
 
-    @GetMapping("/temp")
-    public String temp() {
-        return "/temp";
+    @GetMapping("/main")
+    public String mainPage() {
+        return "main";
     }
 
     @GetMapping("/form/loginInfo")
