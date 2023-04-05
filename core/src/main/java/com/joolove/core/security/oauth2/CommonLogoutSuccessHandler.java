@@ -32,7 +32,6 @@ public class CommonLogoutSuccessHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        String jwt = jwtUtils.getJwtFromCookies(request);
         String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
 
         if (refreshTokenService.findByToken(refreshToken).isPresent()) {

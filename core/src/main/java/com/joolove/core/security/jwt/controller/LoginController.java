@@ -113,15 +113,15 @@ public class LoginController {
         return "sign_in";
     }
 
-    @PostMapping("/sign_in/access")
+/*    @PostMapping("/sign_in/access")
     public String loginByForm(@Valid @ModelAttribute User.SigninRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "redirect:/main";
-    }
+    }*/
 
-    @PostMapping("/sign_out")
+/*    @PostMapping("/sign_out")
     public String logoutForm() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getPrincipal().toString();
@@ -135,7 +135,7 @@ public class LoginController {
         SecurityContextHolder.clearContext();
 
         return "redirect:/sign_in";
-    }
+    }*/
 
     @GetMapping("/main")
     public String mainPage() {
