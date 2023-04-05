@@ -103,7 +103,7 @@ public class WebSecurityConfig {
                 .userInfoEndpoint().userService(oAuth2UserService());
 
         http.logout()
-                //.logoutUrl("/sign_out")
+                .logoutUrl("/sign_out")
                 .logoutSuccessUrl("/main")
                 .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
                 .deleteCookies("JSESSIONID", "Remember-Me", "jooloveJwt", "jooloveJwtRefresh");
