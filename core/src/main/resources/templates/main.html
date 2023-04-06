@@ -22,11 +22,18 @@
 
         <header>Welcome my main page</header>
 
+        <form sec:authorize="isAuthenticated()" th:action="@{/my_page}" th:method="get">
+            <div class="field button-field">
+                <button>My Page</button>
+            </div>
+        </form>
+
         <form sec:authorize="isAuthenticated()" th:action="@{/sign_out}" th:method="post" >
             <div class="field button-field">
                 <button>Logout</button>
             </div>
         </form>
+
         <form sec:authorize="isAnonymous()" th:action="@{/sign_in}" th:method="get" >
             <div class="field button-field">
                 <button>Login</button>
