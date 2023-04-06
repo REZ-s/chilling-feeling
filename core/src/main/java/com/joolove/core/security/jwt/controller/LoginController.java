@@ -113,6 +113,14 @@ public class LoginController {
         return "sign_in";
     }
 
+    @GetMapping("/my_page")
+    public String myPage(Model model, Authentication authentication) {
+        String username = authentication.getPrincipal().toString();
+        User user = userService.findByUsername(username);
+        model.addAttribute("user", user);
+        return "my_page";
+    }
+
 /*    @PostMapping("/sign_in/access")
     public String loginByForm(@Valid @ModelAttribute User.SigninRequest request) {
         Authentication authentication = authenticationManager

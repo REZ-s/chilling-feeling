@@ -35,6 +35,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 public class WebSecurityConfig {
 
     private final UserRepository userRepository;
+    private final UserDetailsServiceImpl userDetailsService;
     private final RoleRepository roleRepository;
     private final AuthEntryPointJwt authEntryPointJwt;
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
@@ -106,7 +107,14 @@ public class WebSecurityConfig {
                 .logoutUrl("/sign_out")
                 .logoutSuccessUrl("/main")
                 .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
-                .deleteCookies("JSESSIONID", "Remember-Me", "jooloveJwt", "jooloveJwtRefresh");
+                .deleteCookies("JSESSIONID", "remember-me", "jooloveJwt", "jooloveJwtRefresh");
+
+        http.rememberMe()
+                .rememberMeParameter("remember-me")
+                .rememberMeCookieName("remember-me")
+                .tokenValiditySeconds(60 * 60 * 24 * 30)  // 30 days
+                .alwaysRemember(false)
+                .userDetailsService(userDetailsService);
 
         // common before filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
