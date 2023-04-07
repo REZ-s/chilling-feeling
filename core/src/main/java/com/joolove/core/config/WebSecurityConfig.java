@@ -107,11 +107,12 @@ public class WebSecurityConfig {
                 .logoutUrl("/sign_out")
                 .logoutSuccessUrl("/main")
                 .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
-                .deleteCookies("JSESSIONID", "remember-me", "jooloveJwt", "jooloveJwtRefresh");
+                .deleteCookies("JSESSIONID", "jooloveJwt", "jooloveJwtRefresh");
 
         http.rememberMe()
-                .rememberMeParameter("remember-me")
-                .rememberMeCookieName("remember-me")
+                .key("uniqueAndSecret") // remember-me cookie key
+                .rememberMeParameter("remember-me")     // checkbox name
+                .rememberMeCookieName("remember-me")    // real cookie name
                 .tokenValiditySeconds(60 * 60 * 24 * 30)  // 30 days
                 .alwaysRemember(false)
                 .userDetailsService(userDetailsService);
