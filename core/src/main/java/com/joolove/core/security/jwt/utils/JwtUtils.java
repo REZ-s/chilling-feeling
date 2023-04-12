@@ -1,5 +1,7 @@
 package com.joolove.core.security.jwt.utils;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
@@ -141,10 +143,13 @@ public class JwtUtils {
     }
 
     public String generateTokenFromUsername(String username) {
+        long startTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
+        long endTime = startTime + jwtExpirationMs;
+
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setIssuedAt(new Date(startTime))
+                .setExpiration(new Date(endTime))
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
     }
