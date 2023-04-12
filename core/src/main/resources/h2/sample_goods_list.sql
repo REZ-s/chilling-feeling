@@ -1,0 +1,1 @@
+-- insert into product.goods (goods_id) values (RANDOM_UUID());

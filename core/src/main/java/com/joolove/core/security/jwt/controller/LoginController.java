@@ -6,9 +6,11 @@ import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
+import com.joolove.core.domain.product.Goods;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
+import com.joolove.core.security.service.GoodsService;
 import com.joolove.core.security.service.LogoutTokenService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
@@ -46,9 +48,7 @@ public class LoginController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
-    private final RefreshTokenService refreshTokenService;
-    private final LogoutTokenService logoutTokenService;
+    private final GoodsService goodsService;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -121,33 +121,23 @@ public class LoginController {
         return "my_page";
     }
 
-/*    @PostMapping("/sign_in/access")
-    public String loginByForm(@Valid @ModelAttribute User.SigninRequest request) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "redirect:/main";
-    }*/
-
-/*    @PostMapping("/sign_out")
-    public String logoutForm() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getPrincipal().toString();
-
-        User user = userService.findByUsername(username);
-
-        logoutTokenService.createRefreshToken(user.getId());
-        refreshTokenService.deleteByUser(user);
-
-        SecurityContextHolder.getContext().setAuthentication(null);
-        SecurityContextHolder.clearContext();
-
-        return "redirect:/sign_in";
-    }*/
-
     @GetMapping("/main")
     public String mainPage() {
         return "main";
+    }
+
+    @GetMapping("/search")
+    public String searchPage(Model model) {
+        model.addAttribute("goods", Goods.SearchRequest.buildEmpty());
+        return "search_main";
+    }
+
+    @GetMapping("/search/goods")
+    public String searchItemPage(Model model) {
+        Goods.SearchRequest searchedGoods = (Goods.SearchRequest) model.getAttribute("goods");
+        Goods goods = goodsService.findOneByGoodsName(searchedGoods.getName());
+        model.addAttribute("goods", goods);
+        return "search_goods_list";
     }
 
     @GetMapping("/form/loginInfo")
