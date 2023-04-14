@@ -22,7 +22,7 @@
 
     <header>Search Goods Item :) </header>
 
-    <form sec:authorize="isAnonymous()" th:action="@{/search/goods}" th:object="${goods}" th:method="get" >
+    <form sec:authorize="isAnonymous()" th:action="@{/search/goods}" th:object="${goods}" th:method="post" >
       <div class="field input">
         <input type="text" id="search" placeholder="alcohol name" th:field="${goods.name}" >
       </div>

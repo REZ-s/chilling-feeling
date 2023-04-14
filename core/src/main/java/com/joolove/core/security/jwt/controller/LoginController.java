@@ -7,6 +7,7 @@ import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.domain.product.Goods;
+import com.joolove.core.repository.GoodsRepository;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
@@ -132,11 +133,10 @@ public class LoginController {
         return "search_main";
     }
 
-    @GetMapping("/search/goods")
-    public String searchItemPage(Model model) {
-        Goods.SearchRequest searchedGoods = (Goods.SearchRequest) model.getAttribute("goods");
-        Goods goods = goodsService.findOneByGoodsName(searchedGoods.getName());
-        model.addAttribute("goods", goods);
+    @PostMapping("/search/goods")
+    public String searchItemPage(Model model, @Valid @ModelAttribute Goods.SearchRequest request) {
+        List<Goods> goodsList = goodsService.findListGoods(request.getName());
+        model.addAttribute("goodsList", goodsList);
         return "search_goods_list";
     }
 
