@@ -4,34 +4,37 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Main Page </title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
-
-  <!-- Boxicons CSS -->
-  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Main Page </title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 <div class="form">
-  <div class="form-content">
-
-    <header>Goods List</header>
-
-    <tr th:each="goods : ${goodsList}">
-      <td th:if="${not #strings.isEmpty(goods.name)}" th:text="${goods.name}"></td>
-      <td th:if="${not #strings.isEmpty(goods.price)}" th:text="${goods.price}"></td>
-      <td th:if="${not #strings.isEmpty(goods.description)}" th:text="${goods.description}"></td>
-      <br>
-    </tr>
-
-  </div>
-
+    <div class="form-content">
+        <header>Goods List</header>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="goods : ${goodsList}">
+                <td th:if="${not #strings.isEmpty(goods.name)}" th:text="${goods.name}"></td>
+                <td th:if="${not #strings.isEmpty(goods.price)}" th:text="${goods.price}"></td>
+                <td th:if="${not #strings.isEmpty(goods.description)}" th:text="${goods.description}"></td>
+                <br>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 </body>
 </html>
