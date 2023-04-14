@@ -134,6 +134,15 @@ form{
     color: #8b8b8b;
     padding: 0 15px;
 }
+.line-normal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFF;
+    color: #8b8b8b;
+    padding: 0 15px;
+}
 .media-options a{
     display: flex;
     align-items: center;

@@ -22,10 +22,12 @@
 
     <header>Goods List</header>
 
-    <!-- 이거는 리스트이므로 목록을 반환해야한다. 테이블 형태 고려 td tr -->
-    <a th:text="${goods.name}"></a>
-    <a th:text="${goods.price}"></a>
-    <a th:text="${goods.description}"></a>
+    <tr th:each="goods : ${goodsList}">
+      <td th:if="${not #strings.isEmpty(goods.name)}" th:text="${goods.name}"></td>
+      <td th:if="${not #strings.isEmpty(goods.price)}" th:text="${goods.price}"></td>
+      <td th:if="${not #strings.isEmpty(goods.description)}" th:text="${goods.description}"></td>
+      <br>
+    </tr>
 
   </div>
 
