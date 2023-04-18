@@ -25,23 +25,23 @@ public class Goods extends BaseTimeStamp {
     @Column(name = "goods_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     private Category category;
 
     @NotNull
     private String name;
 
-    @NotNull
+    //@NotNull
     private Integer price;
 
-    @NotNull
+    //@NotNull
     private Integer stock;
 
-    @NotNull
+    //@NotNull
     private String description;
 
-    @NotNull
+    //@NotNull
     private Long salesFigures;
 
     @NotNull
@@ -73,6 +73,8 @@ public class Goods extends BaseTimeStamp {
                 '}';
     }
 
+
+
     /* mappedBy */
     @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
     private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
@@ -80,10 +82,10 @@ public class Goods extends BaseTimeStamp {
     @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
     private List<GoodsSale> goodsSales = new ArrayList<>();
 
-    @OneToMany(mappedBy = "goods")
+    @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
     private List<OrdersGoods> ordersGoodsList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "goods")
+    @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
     private List<GoodsRelatedKeyword> goodsRelatedKeywords = new ArrayList<>();
 
     public void setFavoriteGoodsList(List<FavoriteGoods> favoriteGoodsList) {
@@ -100,6 +102,30 @@ public class Goods extends BaseTimeStamp {
 
     public void setGoodsRelatedKeywords(List<GoodsRelatedKeyword> goodsRelatedKeywords) {
         this.goodsRelatedKeywords = goodsRelatedKeywords;
+    }
+
+    public void changeSalesStatus(Short salesStatus) {
+        this.salesStatus = salesStatus;
+    }
+
+    public void changeSalesFigures(Long salesFigures) {
+        this.salesFigures = salesFigures;
+    }
+
+    public void increaseSalesFigures() {
+        this.salesFigures++;
+    }
+
+    public void changeStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public void increaseStock() {
+        this.stock++;
+    }
+
+    public void changePrice(Integer price) {
+        this.price = price;
     }
 
     /**
@@ -136,4 +162,5 @@ public class Goods extends BaseTimeStamp {
                     .build();
         }
     }
+
 }

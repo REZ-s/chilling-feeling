@@ -23,7 +23,7 @@ public class Category extends BaseTimeStamp {
     @Column(name = "category_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "parent_id")
     private Category parent;
 
@@ -49,7 +49,7 @@ public class Category extends BaseTimeStamp {
     /**
      * mappedBy
      */
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.PERSIST)
     private List<Category> children = new ArrayList<>();
 
     public void setChildren(List<Category> children) {
