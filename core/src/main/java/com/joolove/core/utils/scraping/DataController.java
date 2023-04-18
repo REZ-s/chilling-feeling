@@ -12,13 +12,10 @@ public class DataController {
 
     private final DataCollectService dataCollectService;
 
-/*    @GetMapping("/data_collect/alcohol")
-    public List<AlcoholDataDto> getAlcoholDataList() {
-        return dataCollectService.getAlcoholDataList();
-    }*/
-
     @GetMapping("/data_collect/alcohol")
-    public void getAlcoholDataList() {
+    public String getAlcoholDataList() {
         dataCollectService.getAlcoholDataList();
+        return "success data collecting";
     }
+
 }
