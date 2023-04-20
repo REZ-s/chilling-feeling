@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DataCollectService {
-    private final JsoupComponent jsoupComponent;
+
     private final SeleniumComponent seleniumComponent;
 
     public void getAlcoholDataList() {
