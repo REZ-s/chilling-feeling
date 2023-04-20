@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-
-@Order(101)
 @Component
 @RequiredArgsConstructor
 public class CommonLogoutSuccessHandler implements LogoutHandler {

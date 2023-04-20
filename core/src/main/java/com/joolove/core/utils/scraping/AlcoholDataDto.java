@@ -22,7 +22,7 @@ public class AlcoholDataDto {
     // 상품 특징
     private String color;   // 색상
     private List<String> aroma; // 향
-    private Palette palette;   // 맛 (바디, 타닌, 당도, 산미)
+    //private Palette palette;   // 맛 (바디, 타닌, 당도, 산미)
 
     // 상품 설명
     private String description;
