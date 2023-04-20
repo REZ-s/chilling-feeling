@@ -1,5 +1,6 @@
 package com.joolove.core.utils.scraping;
 
+import com.joolove.core.domain.base_item.BaseAlcoholImpl;
 import com.joolove.core.domain.product.Category;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.security.service.GoodsService;
@@ -12,12 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,8 +65,8 @@ public class SeleniumComponent {
             String name = element.findElement(By.className("drink-name")).getText();
             String type = element.findElement(By.className("drink-detail")).getText();
 
-            // AlcoholDataDto 생성
-            AlcoholDataDto alcoholDataDto = AlcoholDataDto.builder()
+            // BaseAlcoholDto 생성
+            BaseAlcoholImpl alcoholDataDto = BaseAlcoholImpl.builder()
                     .name(name)
                     .type(type)
                     .build();
@@ -86,7 +83,7 @@ public class SeleniumComponent {
         writeToFile(listForFile);
     }
 
-    private Goods buildGoodsByAlcoholDataDto(AlcoholDataDto dto) {
+    private Goods buildGoodsByAlcoholDataDto(BaseAlcoholImpl dto) {
         return Goods.builder()
                 .name(dto.getName())
                 .salesStatus((short)1)
