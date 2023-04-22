@@ -27,8 +27,8 @@ public class DomesticBeer extends BaseAlcoholImpl {
     private Short balance;          // 알코올과 혼합성분과의 균형. 높으면 알코올향이 쎄다. (1, 2, 3, 4, 5)
 
     @Builder
-    public DomesticBeer(String name, String type, UUID id, String aroma, Short soda, Short balance) {
-        super(name, type);
+    public DomesticBeer(String name, String engName, String type, UUID id, String aroma, Short soda, Short balance) {
+        super(name, engName, type);
         this.id = id;
         this.aroma = aroma;
         this.soda = soda;

@@ -22,8 +22,8 @@ public class Cheongju extends BaseAlcoholImpl {
     private UUID id;
 
     @Builder
-    public Cheongju(String name, String type, UUID id) {
-        super(name, type);
+    public Cheongju(String name, String engName, String type, UUID id) {
+        super(name, engName, type);
         this.id = id;
     }
 }

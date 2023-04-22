@@ -3,7 +3,6 @@ package com.joolove.core.domain.base_item;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
@@ -13,7 +12,10 @@ public class BaseAlcoholImpl implements BaseAlcohol {
     @NotBlank
     private String name;
     @NotBlank
+    private String engName;
+    @NotBlank
     private String type;
+
     protected String imageUrl;
     protected Short priceLevel;
     protected String degree;
@@ -23,10 +25,26 @@ public class BaseAlcoholImpl implements BaseAlcohol {
     protected String color;
     protected String description;
 
-    @Builder
-    public BaseAlcoholImpl(String name, String type) {
+    @Builder(builderClassName = "MinBuilder", builderMethodName = "minBuilder")
+    public BaseAlcoholImpl(String name, String engName, String type) {
         this.name = name;
+        this.engName = engName;
         this.type = type;
+    }
+
+    @Builder(builderClassName = "FullBuilder", builderMethodName = "fullBuilder")
+    public BaseAlcoholImpl(String name, String engName, String type, String imageUrl, Short priceLevel, String degree, String country, String company, String supplier, String color, String description) {
+        this.name = name;
+        this.engName = engName;
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.priceLevel = priceLevel;
+        this.degree = degree;
+        this.country = country;
+        this.company = company;
+        this.supplier = supplier;
+        this.color = color;
+        this.description = description;
     }
 
     @Override
@@ -37,6 +55,11 @@ public class BaseAlcoholImpl implements BaseAlcohol {
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getEngName() {
+        return engName;
     }
 
     @Override

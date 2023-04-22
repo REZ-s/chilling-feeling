@@ -22,8 +22,8 @@ public class Soju extends BaseAlcoholImpl {
     private UUID id;
 
     @Builder
-    public Soju(String name, String type, UUID id) {
-        super(name, type);
+    public Soju(String name, String engName, String type, UUID id) {
+        super(name, engName, type);
         this.id = id;
     }
 }

@@ -23,8 +23,8 @@ public class Brandy extends BaseAlcoholImpl {
     private String aroma;           // 향 (comma 로 연결된 문자열)
 
     @Builder
-    public Brandy(String name, String type, UUID id, String aroma) {
-        super(name, type);
+    public Brandy(String name, String engName, String type, UUID id, String aroma) {
+        super(name, engName, type);
         this.id = id;
         this.aroma = aroma;
     }

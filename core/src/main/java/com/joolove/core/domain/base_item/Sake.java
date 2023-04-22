@@ -26,8 +26,8 @@ public class Sake extends BaseAlcoholImpl {
     private Short sweetness;        // 주도. 스위트 ~ 드라이 사이 (1, 2, 3, 4, 5)
 
     @Builder
-    public Sake(String name, String type, UUID id, Short acidity, Short sweetness) {
-        super(name, type);
+    public Sake(String name, String engName, String type, UUID id, Short acidity, Short sweetness) {
+        super(name, engName, type);
         this.id = id;
         this.acidity = acidity;
         this.sweetness = sweetness;
