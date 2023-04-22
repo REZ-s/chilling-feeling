@@ -4,6 +4,7 @@ package com.joolove.core.domain.base_item;
 public interface BaseAlcohol {
     String getName();   // 술 이름
     String getType();   // 술 종류
+    String getEngName();    // 술 영문 이름
     String getImageUrl();   // 이미지 url
     Short getPriceLevel();  // 가격대
     String getDegree();     // 도수

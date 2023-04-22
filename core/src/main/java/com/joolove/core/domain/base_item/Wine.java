@@ -27,8 +27,8 @@ public class Wine extends BaseAlcoholImpl {
     private Short acidity;          // 산미 (1, 2, 3, 4, 5)
 
     @Builder
-    public Wine(String name, String type, UUID id, String aroma, Short body, Short tannin, Short sweetness, Short acidity) {
-        super(name, type);
+    public Wine(String name, String engName, String type, UUID id, String aroma, Short body, Short tannin, Short sweetness, Short acidity) {
+        super(name, engName, type);
         this.id = id;
         this.aroma = aroma;
         this.body = body;
