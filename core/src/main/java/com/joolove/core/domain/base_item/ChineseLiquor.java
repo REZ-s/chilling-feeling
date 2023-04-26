@@ -26,8 +26,8 @@ public class ChineseLiquor extends BaseAlcoholImpl {
     private Short balance;          // 알코올과 혼합성분과의 균형. 높으면 알코올향이 쎄다. (1, 2, 3, 4, 5)
 
     @Builder
-    public ChineseLiquor(String name, String type, UUID id, String aroma, Short balance) {
-        super(name, type);
+    public ChineseLiquor(String name, String engName, String type, UUID id, String aroma, Short balance) {
+        super(name, engName, type);
         this.id = id;
         this.aroma = aroma;
         this.balance = balance;
