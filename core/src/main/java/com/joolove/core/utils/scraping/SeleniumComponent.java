@@ -1,9 +1,11 @@
 package com.joolove.core.utils.scraping;
 
+import com.joolove.core.domain.base_item.BaseAlcoholFactory;
 import com.joolove.core.domain.base_item.BaseAlcoholImpl;
 import com.joolove.core.domain.product.Category;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.security.service.GoodsService;
+import io.netty.channel.socket.DuplexChannel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -165,6 +167,59 @@ public class SeleniumComponent {
 
         // DTO 생성
         // 여기에서 분류에 따라 별도로 다운캐스팅 해서 만들어야한다.
+
+        // type 을 읽고, 해당 문자열이 일치하면 만들면 되겠다.
+        List<String> types = new ArrayList<>() {{
+            add("일반 증류주");
+            add("리큐르");
+            add("위스키");
+            add("브랜디");
+            add("청주");
+            add("국산 맥주");
+            add("중국술");
+            add("사케");
+            add("와인");
+            add("과실주");
+            add("수입 맥주");
+            add("일반 소주");
+            add("탁주");
+            add("전통 소주");
+        }};
+
+        // type.contains 로 types 에 있는 문자열을 포함하는지 검사
+        for (String s: types) {
+            if (type.contains(s)) {
+                type = s;
+                // factory method pattern 으로 생성?
+
+                break;
+            }
+        }
+
+        BaseAlcoholImpl baseAlcohol = BaseAlcoholFactory.create(type);
+        baseAlcohol.setDetails(imageUrl, type, degree, country, company, supplier, description, color, aroma, soda, body, tannin, acidity, sweetness, summary);
+
+        // 지금 생각해보니까 어드민페이지에서 동적으로 어떤 한 분류를 생성하거나 수정하거나 인스턴스 개별로 생성하거나 할 때
+        // 주어진 정보들로 주류 엔티티를 생성하고 저장할 수 있도록 하는 함수가 필요하겠다.
+        // setDetails 나 updateDetails 라는 이름의 함수로 만들면 될 것 같은데
+        // 위에 있는 많은 정보들을 효과적으로 넣는 방법은 뭘까?
+        // type 별로 모두 별도로 만들어줘야할지.. 아니면 매개변수를 args... 형태로 받아서 전부 넣는 메소드를 오버라이딩할지 ? 이게 되면 좋을거같은데
+
+
+
+        // 1. type 에 해당하는 자식 객체 가져오는 방법 (클래스명으로 다운캐스팅 할 수 있나?)
+        // 1-1. 자식 객체를 원하는 값으로 세팅
+        // 2. type 을 모르고도 type 에 맞게 정확한 DTO 생성 방법
+        // 음.. 더 적합한 다른 패턴이 있는지 찾아볼까?
+        // 추상 팩토리 패턴 ??
+
+        // 내가 원하는 것
+        // type 별로 entity class 를 찾아서 builder 패턴으로 생성 후 저장하고 싶다.
+        // type 별로 entity class 를 찾는 건 쉽다.
+        // 문제는 모든 지역변수들중에서 해당 type 에 해당하는 변수들만 builder 에 넣어서 생성하고 싶다는 것이다.
+        // 그러면 어떻게 해야할까?
+        // 1. type 에 해당하는 변수들을 모두 builder 에 넣고, 나머지 변수들은 null 로 넣는다?
+
         BaseAlcoholImpl dto = BaseAlcoholImpl.fullBuilder()
                 .name(name)
                 .engName(engName)
