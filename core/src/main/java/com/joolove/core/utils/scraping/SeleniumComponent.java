@@ -254,7 +254,7 @@ public class SeleniumComponent {
 
     public String escapeSpecialCharacters(String data) {
         if (data == null) {
-            return null;
+            return "";
         }
 
         String escapedData = data.replaceAll("\\R", " ");
