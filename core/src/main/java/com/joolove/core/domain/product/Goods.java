@@ -29,6 +29,10 @@ public class Goods extends BaseTimeStamp {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "goods_details_id")
+    private GoodsDetails goodsDetails;
+
     @NotNull
     private String name;
 
@@ -48,9 +52,10 @@ public class Goods extends BaseTimeStamp {
     private Short salesStatus;
 
     @Builder
-    public Goods(UUID id, Category category, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
+    public Goods(UUID id, Category category, GoodsDetails goodsDetails, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
         this.id = id;
         this.category = category;
+        this.goodsDetails = goodsDetails;
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -64,6 +69,7 @@ public class Goods extends BaseTimeStamp {
         return "Goods{" +
                 "id=" + id +
                 ", category=" + category +
+                ", goodsDetails=" + goodsDetails +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
