@@ -5,6 +5,7 @@ import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.security.service.GoodsDetailsService;
 import com.joolove.core.security.service.GoodsService;
+import org.jsoup.internal.StringUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,7 +36,7 @@ public class SeleniumComponent {
 
     private static final String detailUrl = "https://business.veluga.kr/drink/";
 
-    private static final String pcUserName = "Jangyongmin";     // change this to your pc user name
+    private static final String pcUserName = "Althea";     // change this to your pc username
 
     private static final String chromeDriverPath = "C:\\Users\\" + pcUserName + "\\Desktop\\chromedriver.exe";
 
