@@ -84,7 +84,7 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 
   thymeleaf:
