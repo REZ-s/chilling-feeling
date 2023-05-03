@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/* 로그인1 */
+div.login1
+{
+    width: 375px;
+    height: 812px;
+    flex-grow: 0;
+    padding: 40px 0 132px;
+    background-color: #000;
+}
+
+img.top-frame {
+    width: 375px;
+    height: 44px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 65px;
+    margin: 0 0 36px;
+    padding: 0;
+    object-fit: contain;
+}
+
+img.info-text {
+    width: 179px;
+    height: 64px;
+    margin: 36px 176px 15px 20px;
+    object-fit: contain;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: -0.44px;
+    text-align: left;
+    color: #e6e6e6; !important;
+}
+
+img.info-text2 {
+    width: 141px;
+    height: 22px;
+    margin: 15px 216px 59px 18px;
+    object-fit: contain;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #fff; !important;
+}
+
+input.login1-form {
+    width: 334px;
+    height: 28px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: -0.36px;
+    text-align: left;
+    background-color: black; !important;
+    color: #4a4a4a; !important;
+    border: 0;
+}
+input.login1-form::placeholder {
+    color: #4a4a4a;
+}
+
+div.login1-form-field {
+    width: 335px;
+    height: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 59px 22px 83px 18px;
+    padding: 0;
+    border-bottom: solid 1px #4a4a4a; !important;
+}
+
+div.login1-play {
+    width: 335px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 82px 20px 20px;
+    padding: 10px;
+    object-fit: contain;
+    border-radius: 3px;
+    background-color: #4a4a4a;
+}
+
+.login1-menu {
+    width: 302px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 36px 99px 37px;
+    padding: 0;
+    object-fit: contain;
+}
+
+.login1-email-join {
+    width: 57px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+}

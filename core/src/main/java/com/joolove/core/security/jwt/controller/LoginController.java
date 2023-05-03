@@ -114,6 +114,11 @@ public class LoginController {
         return "sign_in";
     }
 
+    @GetMapping("/cf_login")
+    public String cfLogin(Model model) {
+        return "cf_login_page";
+    }
+
     @GetMapping("/my_page")
     public String myPage(Model model, Authentication authentication) {
         String username = authentication.getPrincipal().toString();
