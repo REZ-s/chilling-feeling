@@ -116,6 +116,7 @@ public class LoginController {
 
     @GetMapping("/cf_login")
     public String cfLogin(Model model) {
+        model.addAttribute("request", User.SigninRequest.buildEmpty());
         return "cf_login_page";
     }
 
