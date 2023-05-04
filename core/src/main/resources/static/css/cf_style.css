@@ -1,16 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
-/* 로그인1 */
-div.login1
-{
-    width: 375px;
-    height: 812px;
-    flex-grow: 0;
-    padding: 40px 0 132px;
-    background-color: #000;
+
+
+
+/* 기본 프레임 */
+body {
+    display: flex;
+    justify-content: center;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
-img.top-frame {
+/* 로그인1 */
+@media (min-width: 375px) {
+    .login1 {
+        width: 375px;
+        height: 812px;
+        flex-grow: 0;
+        padding: 40px 0 132px;
+        background-color: #000;
+    }
+}
+
+.top-frame {
     width: 375px;
     height: 44px;
     display: flex;
@@ -21,6 +32,31 @@ img.top-frame {
     margin: 0 0 36px;
     padding: 0;
     object-fit: contain;
+}
+
+.back-arrow {
+    width: 10px;
+    height: 18px;
+}
+
+.close-arrow {
+    /*width: 24px;*/
+    height: 24px;
+}
+
+.login1-headline-text {
+    width: 175px;
+    height: 28px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #eef1f1;
 }
 
 img.info-text {
@@ -95,28 +131,84 @@ div.login1-play {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 82px 20px 20px;
-    padding: 10px;
+    margin: 79px 20px 20px;
+    padding: 0;
     object-fit: contain;
     border-radius: 3px;
     background-color: #4a4a4a;
 }
 
 .login1-menu {
-    width: 302px;
+    width: 375px;
     height: 20px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     gap: 30px;
-    margin: 20px 36px 99px 37px;
+    margin: 30px 0px 99px 0px;
     padding: 0;
     object-fit: contain;
 }
 
-.login1-email-join {
-    width: 57px;
+.login1-email-join-text {
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 11.5px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+    white-space: nowrap;
+}
+
+.login1-pw-find-text {
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 11.5px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+    white-space: nowrap;
+}
+
+
+.login1-simple-login {
+    width: 335px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 100px 20px 20px;
+    padding: 0;
+}
+
+.login1-tiny-line {
+    width: 1px;
+    height: 10px;
+    flex-grow: 1;
+    background-color: #4a4a4a;
+}
+
+.login1-simple-login-text-line {
+    height: 1px;
+    flex-grow: 1;
+    background-color: #4a4a4a;
+}
+
+.login1-simple-login-text {
+    width: 70px;
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -127,5 +219,48 @@ div.login1-play {
     line-height: 1.67;
     letter-spacing: -0.24px;
     text-align: center;
-    color: #afafaf;
+    color: #606060;
+}
+
+.logo-btn-area {
+    width: 375px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.logo-btn-group {
+    width: 235px;
+    height: 50px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.simple-logo1 {
+    width: 50px;
+    height: 50px;
+    flex-grow: 0;
+    padding: 13px;
+}
+
+.simple-logo2 {
+    width: 50px;
+    height: 50px;
+    flex-grow: 0;
+    padding: 12px 12.5px 13px;
+}
+
+.simple-logo3 {
+    width: 50px;
+    height: 50px;
+    flex-grow: 0;
+    padding: 12px;
 }

@@ -2,43 +2,88 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
-<html lang="kr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title> Chilling Feeling - Login 1 </title>
 
     <!-- CSS -->
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="login1">
+<div class="login1" >
 
-    <img class="top-frame" src="/images/top-frame.png" >
+    <section class="top-frame">
+        <div class="back-arrow">
+            <a href="/main">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="login1-headline-text">
+            <img src="/images/login1-content.png">
+        </div>
+        <div class="close-arrow">
+        </div>
+    </section>
 
     <img class="info-text" src="/images/info-text.png">
 
     <img class="info-text2" src="/images/info-text2.png">
 
     <div class="login1-form-field">
-        <form>
-            <input class="login1-form" type="text" placeholder="이메일 주소 입력" >
+        <form sec:authorize="isAnonymous()" th:action="@{/sign_in/access}" th:object="${request}" th:method="post">
+            <input class="login1-form" type="text" placeholder="이메일 주소 입력" th:field="${request.username}" >
         </form>
     </div>
 
     <div class="login1-play">
         <img src="/images/login1-play.png"
-             srcset="/images/login1-play@2x.png, /images/login1-play@3x.png"
              alt="계속하기">
     </div>
 
     <div class="login1-menu">
-        <img src="/images/login1-menu.png"
-             srcset="/images/login1-menu@2x.png, /images/login1-menu@3x.png">
+        <div class="login1-email-join-text" style="padding-left: 20px;">
+            이메일 가입
+        </div>
+        <div class="login1-tiny-line">
+        </div>
+        <div class="login1-email-join-text">
+            이메일 찾기
+        </div>
+        <div class="login1-tiny-line">
+        </div>
+        <div class="login1-pw-find-text" style="padding-right: 20px;">
+            비밀번호 찾기
+        </div>
     </div>
 
+    <div class="login1-simple-login">
+        <div class="login1-simple-login-text-line"></div>
+        <span class="login1-simple-login-text">간편 로그인</span>
+        <div class="login1-simple-login-text-line"></div>
+    </div>
 
+    <div class="logo-btn-area">
+        <div class="logo-btn-group">
+            <div class="simple-logo1">
+                <a href="/oauth2/authorization/kakao">
+                    <img src="/images/logo-kakaotalk.png">
+                </a>
+            </div>
+            <div class="simple-logo2">
+                <a href="/oauth2/authorization/naver">
+                    <img src="/images/logo-naver.png">
+                </a>
+            </div>
+            <div class="simple-logo3">
+                <a href="/oauth2/authorization/google">
+                    <img src="/images/logo-google.png">
+                </a>
+            </div>
+        </div>
+    </div>
 
 
 </div>
