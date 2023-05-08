@@ -14,51 +14,111 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <style>
-        /* The Modal (background) */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
         .modal {
-            display: none;
-            /* Hidden by default */
             position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            padding-top: 100px;
-            /* Location of the box */
-            left: 0;   top: 0;   width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0,0,0);
-            /* Fallback color */
-            background-color: rgba(0,0,0,0.4);
-            /* Black w/ opacity */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
 
-        /* Modal Content */
+        @media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
         .modal-content {
-            background-color: #fefefe;
-            margin: auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 10px;
+            background-color: #262626;
+        }
+
+        .popup {
+            width: 335px;
+            height: 143px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+            gap: 10px;
             padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
+            border-radius: 10px;
+            background-color: #262626;
         }
 
-        /* The Close Button */
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
+        .error_message {
+            height: 65px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 5px;
+            padding: 0;
+        }
+
+        .text1 {
+            height: 32px;
+            align-self: stretch;
+            flex-grow: 0;
+            font-family: 'Noto Sans KR', serif;
+            font-size: 22px;
             font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.45;
+            letter-spacing: -0.44px;
+            text-align: left;
+            color: #fff;
         }
 
-        .close:hover, .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
+        .text2 {
+            height: 28px;
+            align-self: stretch;
+            flex-grow: 0;
+            font-family: 'Noto Sans KR', serif;
+            font-size: 16px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: left;
+            color: #fff;
+        }
+
+        .laber {
+            width: 90px;
+            height: 28px;
+            flex-grow: 0;
+            font-family: 'Noto Sans KR', serif;
+            font-size: 16px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: left;
+            color: #035064;
         }
 
     </style>
@@ -87,18 +147,29 @@
         <div class="login1-form-field">
             <input class="login1-form" type="text" placeholder="이메일 주소 입력" th:field="${email}" >
         </div>
-        <button class="login1-play" type="button" data-toggle="modal" data-target="#cf_login_error_page.html">
+        <button class="login1-play" type="button" id="myBtn">
             <img src="/images/login1-play.png"
                  alt="계속하기">
         </button>
     </form>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal.</p>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body popup" >
+                    <div class="error_message">
+                        <div class="text1">존재하지 않는 이메일 입니다.</div>
+                        <div class="text2">회원가입을 진행할까요?</div>
+                    </div>
+                    <div class="laber">
+                        <a href="/cf_join_page">회원가입 하기</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -145,26 +216,15 @@
     </div>
 
 </div>
-
 <script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    $(document).ready(function(){
+        $("#myBtn").click(function(){
+            // 이메일이 존재하지 않으면 모달창 실행하고, 존재한다면 다음 페이지로 이동
 
-    // When the user clicks the button, open the modal
-    btn.onclick = function() {   modal.style.display = "block"; }
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {   modal.style.display = "none"; }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        } }
+            $("#myModal").modal();
+        });
+    });
 </script>
 </body>
 </html>
