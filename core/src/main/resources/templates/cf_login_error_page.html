@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+    .popup {
+        width: 335px;
+        height: 143px;
+        flex-grow: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+        gap: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #262626;
+    }
+
+    .error_message {
+        height: 65px;
+        align-self: stretch;
+        flex-grow: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 5px;
+        padding: 0;
+    }
+
+    .text1 {
+        height: 32px;
+        align-self: stretch;
+        flex-grow: 0;
+        font-family: 'Noto Sans KR', serif;
+        font-size: 22px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.45;
+        letter-spacing: -0.44px;
+        text-align: left;
+        color: #fff;
+    }
+
+    .text2 {
+        height: 28px;
+        align-self: stretch;
+        flex-grow: 0;
+        font-family: 'Noto Sans KR', serif;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: -0.32px;
+        text-align: left;
+        color: #fff;
+    }
+
+    .laber {
+        width: 90px;
+        height: 28px;
+        flex-grow: 0;
+        font-family: 'Noto Sans KR', serif;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: -0.32px;
+        text-align: left;
+        color: #035064;
+    }
+
+</style>
+    <title></title>
+</head>
+
+<body>
+<div id="myModal" class="modal">
+<div class="modal-content">
+<div class="popup">
+    <div class="error_message">
+        <div class="text1">존재하지 않는 이메일 입니다.</div>
+        <div class="text2">회원가입을 진행할까요?</div>
+    </div>
+    <div class="laber">
+        <a href="/cf_join_page">회원가입 하기</a>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

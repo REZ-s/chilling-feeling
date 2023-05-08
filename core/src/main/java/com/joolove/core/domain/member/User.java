@@ -166,6 +166,8 @@ public class User extends BaseTimeStamp {
     /**
      * DTO
      */
+
+
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SigninRequest {

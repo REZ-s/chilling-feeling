@@ -124,7 +124,7 @@ div.login1-form-field {
     border-bottom: solid 1px #4a4a4a; !important;
 }
 
-div.login1-play {
+.login1-play {
     width: 335px;
     height: 50px;
     display: flex;
@@ -149,6 +149,67 @@ div.login1-play {
     margin: 30px 0px 99px 0px;
     padding: 0;
     object-fit: contain;
+}
+
+.test1 {
+    width: 375px;
+    height: 20px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 0px;
+    object-fit: contain;
+}
+
+.test2 {
+    height: 20px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.test3 {
+    height: 20px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.test4 {
+    height: 20px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.testline {
+    width: 1px;
+    height: 10px;
+    flex-grow: 0;
+    background-color: #4a4a4a;
 }
 
 .login1-email-join-text {
