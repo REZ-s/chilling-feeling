@@ -10,6 +10,7 @@ import com.joolove.core.domain.product.Goods;
 import com.joolove.core.repository.GoodsRepository;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.GoodsService;
 import com.joolove.core.security.service.LogoutTokenService;
@@ -48,6 +49,7 @@ public class LoginController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final AuthenticationRepository authenticationRepository;
     private final PasswordEncoder passwordEncoder;
     private final GoodsService goodsService;
 
@@ -116,8 +118,20 @@ public class LoginController {
 
     @GetMapping("/cf_login")
     public String cfLogin(Model model) {
-        model.addAttribute("request", User.SigninRequest.buildEmpty());
+        model.addAttribute("email", "");
         return "cf_login_page";
+    }
+
+    @PostMapping("/cf_login/check_email")
+    public String checkEmail(Model model, @Valid @ModelAttribute String email) {
+        if (authenticationRepository.existsByEmail(email)) {
+            User.SigninRequest request = User.SigninRequest.buildEmpty();
+            request.setUsername(email);
+            model.addAttribute("request", request);
+            return "cf_login_page2";
+        }
+
+        return "cf_login_error_page";
     }
 
     @GetMapping("/my_page")
