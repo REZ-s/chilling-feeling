@@ -131,7 +131,7 @@ public class LoginController {
             return "cf_login_page2";
         }
 
-        return "cf_login_error_page";
+        return "redirect:/cf_login?error";
     }
 
     @GetMapping("/my_page")
