@@ -20,6 +20,7 @@ import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -122,16 +123,14 @@ public class LoginController {
         return "cf_login_page";
     }
 
-    @PostMapping("/cf_login/check_email")
-    public String checkEmail(Model model, @Valid @ModelAttribute String email) {
+    @PostMapping("/check_email")
+    @ResponseBody
+    public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) {
         if (authenticationRepository.existsByEmail(email)) {
-            User.SigninRequest request = User.SigninRequest.buildEmpty();
-            request.setUsername(email);
-            model.addAttribute("request", request);
-            return "cf_login_page2";
+            return ResponseEntity.ok().body("valid");
         }
 
-        return "redirect:/cf_login?error";
+        return ResponseEntity.ok().body("invalid");
     }
 
     @GetMapping("/my_page")
