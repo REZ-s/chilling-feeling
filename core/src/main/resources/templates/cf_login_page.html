@@ -143,9 +143,9 @@
 
     <img class="info-text2" src="/images/info-text2.png">
 
-    <form sec:authorize="isAnonymous()" th:action="@{/cf_login/check_email}" th:object="${email}" th:method="post">
+    <form>
         <div class="login1-form-field">
-            <input class="login1-form" type="text" placeholder="이메일 주소 입력" th:field="${email}" >
+            <input class="login1-form" type="text" placeholder="이메일 주소 입력" id="myEmail">
         </div>
         <button class="login1-play" type="button" id="myBtn">
             <img src="/images/login1-play.png"
@@ -217,12 +217,54 @@
 
 </div>
 <script>
-    $(document).ready(function(){
-        $("#myBtn").click(function(){
-            // 이메일이 존재하지 않으면 모달창 실행하고, 존재한다면 다음 페이지로 이동
+    $(document).ready(function() {
+        $("#myBtn").click(function() {
+            var email = $("#myEmail").val();
+            validateAndMove(email);
 
+            function validateEmail(email) {
+                // use a regular expression to validate the email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
 
-            $("#myModal").modal();
+            async function checkEmailExists(email) {
+                try {
+                    const response = await fetch('/check_email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: email
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async function validateAndMove(email) {
+                if (!validateEmail(email)) {
+                    console.log('Invalid email format');
+                    return;
+                }
+
+                try {
+                    const data = await checkEmailExists(email);
+                    if (data === "valid") {
+                        window.location.href = '/cf_login_page2.html';
+                    } else {
+                        $("#myModal").modal();
+                    }
+                } catch (error) {
+                    console.log('Error checking email exists:', error);
+                }
+            }
+
         });
     });
 </script>

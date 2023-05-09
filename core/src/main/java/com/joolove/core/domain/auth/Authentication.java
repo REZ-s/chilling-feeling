@@ -3,6 +3,7 @@ package com.joolove.core.domain.auth;
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.member.User;
 import lombok.*;
+import org.checkerframework.common.aliasing.qual.Unique;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -36,8 +37,9 @@ public class Authentication extends BaseTimeStamp {
     private String phoneNumber;
 
     @NotBlank
+    @Column(unique = true)
     @Email
-    private String email;   // not unique column because it can have form login account and social login accounts
+    private String email;
 
     private String sex;
 
