@@ -22,7 +22,6 @@
       <header>Login</header>
 
       <form sec:authorize="isAnonymous()" th:action="@{/sign_in/access}" th:object="${request}" th:method="post" >
-
         <div class="field">
           <input type="text" placeholder="Id" class="input" th:field="${request.username}" >
         </div>
@@ -39,7 +38,6 @@
         <div class="field button-field">
           <button>Login</button>
         </div>
-
       </form>
 
       <div class="form-link">

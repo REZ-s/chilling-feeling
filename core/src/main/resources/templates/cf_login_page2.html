@@ -1,10 +1,85 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> Chilling Feeling - Login (2/2) </title>
 
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+<div class="login2">
+    <!-- Top frame -->
+    <section class="login2-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="login2-content">
+            <span class="login2-headline-text">로그인</span>
+        </div>
+        <div class="ic_close_24px">
+            <a href="/main">
+                <img src="/images/ic_close_24px.png">
+            </a>
+        </div>
+    </section>
+
+    <!-- Content Frame -->
+    <div class="login2-title-area">
+        <div class="login2-title">
+            <span>비밀번호를 입력해주세요.</span>
+        </div>
+        <div class="login2-subtitle">
+            <span>반갑습니다 고객님 :)</span>
+        </div>
+    </div>
+
+    <form sec:authorize="isAnonymous()" th:action="@{/cf_login/access}" th:object="${request}" th:method="post">
+        <div class="login1-form-field">
+            <input class="login1-form" type="password" placeholder="비밀번호 입력" id="myPassword" th:field="${request.password}">
+<!--            <i class="pw-eye1 pw-eye2" id="togglePassword"></i>-->
+        </div>
+
+        <button class="login2-btn-login" id="myBtn">
+            <span class="login2-btn-text">로그인</span>
+        </button>
+    </form>
+
+    <div class="login2-content-area">
+        <div class="login2-content-label">
+            <a href="/cf_pw_find">비밀번호를 잊으셨나요?</a>
+        </div>
+    </div>
+</div>
+<script>
+/*
+    // password eye toggle
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#myPassword');
+
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+*/
+
+
+
+</script>
 </body>
 </html>
