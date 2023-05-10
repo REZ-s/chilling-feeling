@@ -90,8 +90,8 @@ public class WebSecurityConfig {
                     .accessDeniedHandler(accessDeniedHandlerJwt);   // (2) 403 Forbidden 접근권한이 없는 경우
 
         http.formLogin()
-                .loginPage("/sign_in")
-                .loginProcessingUrl("/sign_in/access")
+                .loginPage("/cf_login")
+                .loginProcessingUrl("/cf_login/access")
                 .defaultSuccessUrl("/main")
                 .successHandler(formLoginSuccessHandler);
 

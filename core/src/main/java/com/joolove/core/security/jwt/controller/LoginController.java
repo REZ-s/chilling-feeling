@@ -133,6 +133,14 @@ public class LoginController {
         return ResponseEntity.ok().body("invalid");
     }
 
+    @PostMapping("/cf_login2")
+    public String cfLogin2(@RequestBody String email, Model model) {
+        User.SigninRequest request = User.SigninRequest.buildEmpty();
+        request.setUsername(email);
+        model.addAttribute("request", request);
+        return "cf_login_page2";
+    }
+
     @GetMapping("/my_page")
     public String myPage(Model model, Authentication authentication) {
         String username = authentication.getPrincipal().toString();
