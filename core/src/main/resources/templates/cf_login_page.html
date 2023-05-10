@@ -217,9 +217,11 @@
 
 </div>
 <script>
-    $(document).ready(function() {
-        $("#myBtn").click(function() {
-            var email = $("#myEmail").val();
+    document.addEventListener("DOMContentLoaded", function() {
+        const myBtn = document.querySelector("#myBtn");
+
+        myBtn.addEventListener("click", function() {
+            const email = document.querySelector("#myEmail").value;
             validateAndMove(email);
 
             function validateEmail(email) {
