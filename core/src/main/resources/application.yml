@@ -91,7 +91,7 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
-  sql.init.mode: always
+  #sql.init.mode: always
 
 logging:
   level:
