@@ -163,26 +163,6 @@
         </button>
     </form>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body popup" >
-                    <div class="error_message">
-                        <div class="text1">존재하지 않는 이메일 입니다.</div>
-                        <div class="text2">회원가입을 진행할까요?</div>
-                    </div>
-                    <div class="laber">
-                        <a href="/cf_join_page">회원가입 하기</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
     <div class="login1-sub-content-area">
         <div class="login1-email-join-text" >
             이메일 가입
@@ -225,6 +205,45 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="invalid" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body popup" >
+                    <div class="error_message">
+                        <div class="text1">존재하지 않는 이메일 입니다.</div>
+                        <div class="text2">회원가입을 진행할까요?</div>
+                    </div>
+                    <div class="laber">
+                        <a href="/cf_join_page">회원가입 하기</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="incorrect" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body popup" >
+                    <div class="error_message">
+                        <div class="text1">간편 로그인으로<br>가입된 이메일 입니다.</div>
+                        <br><br>
+                        <div class="text2">아래 소셜 아이콘으로 로그인해주세요.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -258,15 +277,15 @@
                 }
             }
 
-            function sendPostForm(path, param) {
-                var form = document.createElement('form');
-                form.setAttribute('method', 'post');
-                form.setAttribute('action', path);
+            function sendEmail(path, email) {
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = path;
 
-                var hiddenField = document.createElement('input');
-                hiddenField.setAttribute('type', 'hidden');
-                hiddenField.setAttribute('name', 'email');
-                hiddenField.setAttribute('value', param);
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'email';
+                hiddenField.value = encodeURIComponent(email);
                 form.appendChild(hiddenField);
 
                 document.body.appendChild(form);
@@ -281,10 +300,12 @@
 
                 try {
                     const data = await checkEmailExists(email);
-                    if (data === "valid") {
-                        sendPostForm('/cf_login2', email);
+                    if (data === "valid-correct-access") {
+                        sendEmail('/cf_login2', email);
+                    } else if (data === "valid-incorrect-access") {
+                        $("#incorrect").modal();
                     } else {
-                        $("#myModal").modal();
+                        $("#invalid").modal();
                     }
                 } catch (error) {
                     console.log('Error checking email exists:', error);

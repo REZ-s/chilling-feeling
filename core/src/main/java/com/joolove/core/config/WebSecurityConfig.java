@@ -90,15 +90,16 @@ public class WebSecurityConfig {
                     .accessDeniedHandler(accessDeniedHandlerJwt);   // (2) 403 Forbidden 접근권한이 없는 경우
 
         http.formLogin()
-                .loginPage("/cf_login")
-                .loginProcessingUrl("/cf_login/access")
+                .loginPage("/cf_login2")
+                .loginProcessingUrl("/cf_login2/access")
                 .defaultSuccessUrl("/main")
+                .failureUrl("/cf_login?error=true")
                 .successHandler(formLoginSuccessHandler);
 
         http.oauth2Login()
-                .loginPage("/sign_in")
+                .loginPage("/cf_login")
                 .defaultSuccessUrl("/main")
-                .failureUrl("/sign_in")
+                .failureUrl("/cf_login?error=true")
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());

@@ -32,11 +32,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +79,7 @@ public class LoginController {
         //Create new user's account
         User user = User.builder()
                 .username(request.getUsername())
-                .accountType((short)1)
+                .accountType((short) 1)
                 .build();
 
         com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
@@ -127,27 +130,35 @@ public class LoginController {
     @ResponseBody
     public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) {
         if (authenticationRepository.existsByEmail(email)) {
-            return ResponseEntity.ok().body("valid");
+            if (userRepository.existsByUsername(email)) {
+                return ResponseEntity.ok().body("valid-correct-access");
+            }
+
+            return ResponseEntity.ok().body("valid-incorrect-access");
         }
 
         return ResponseEntity.ok().body("invalid");
     }
 
-    @PostMapping("/cf_login2")
-    public String cfLogin2(@RequestBody String email, Model model) {
+    @PostMapping(value = "/cf_login2", consumes = "application/x-www-form-urlencoded")
+    public String cfLogin2(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
+        String encodedEmail = formData.getFirst("email");
+        // email is not null
+        String email = URLDecoder.decode(encodedEmail, StandardCharsets.UTF_8);
+
         User.SigninRequest request = User.SigninRequest.buildEmpty();
         request.setUsername(email);
         model.addAttribute("request", request);
         return "cf_login_page2";
     }
 
-    @GetMapping("/my_page")
-    public String myPage(Model model, Authentication authentication) {
-        String username = authentication.getPrincipal().toString();
-        User user = userService.findByUsername(username);
-        model.addAttribute("user", user);
-        return "my_page";
+    @GetMapping("/cf_join")
+    public String cfJoin(Model model) {
+        model.addAttribute("request", User.SignupRequest.buildEmpty());
+        return "cf_join_page";
     }
+
+
 
     @GetMapping("/main")
     public String mainPage() {
@@ -189,8 +200,7 @@ public class LoginController {
 
         if (SocialLogin.convertToProvider(principal.getUser().getSocialLogin().getProviderCode()) == null) {
             result = result + "Form 로그인 : " + principal;
-        }
-        else {
+        } else {
             result = result + "OAuth2 로그인 : " + principal;
         }
 
