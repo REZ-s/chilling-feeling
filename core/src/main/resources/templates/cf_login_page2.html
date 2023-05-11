@@ -48,10 +48,12 @@
         </div>
     </div>
 
-    <form sec:authorize="isAnonymous()" th:action="@{/cf_login/access}" th:object="${request}" th:method="post">
+    <form sec:authorize="isAnonymous()" th:action="@{/cf_login2/access}" th:method="post" th:object="${request}">
         <div class="login1-form-field">
-            <input class="login1-form" type="password" placeholder="비밀번호 입력" id="myPassword" th:field="${request.password}">
-<!--            <i class="pw-eye1 pw-eye2" id="togglePassword"></i>-->
+            <!-- username(email) for spring boot form login builder -->
+            <input type="hidden" th:field="${request.username}">
+            <input class="login1-form" id="myPassword" placeholder="비밀번호 입력" th:field="${request.password}"
+                   type="password">
         </div>
 
         <button class="login2-btn-login" id="myBtn">
@@ -77,9 +79,6 @@
         this.classList.toggle('fa-eye-slash');
     });
 */
-
-
-
 </script>
 </body>
 </html>
