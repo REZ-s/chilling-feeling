@@ -134,7 +134,7 @@ input.login1-form::placeholder {
     color: #4a4a4a;
 }
 
-div.login1-form-field {
+.login1-form-field {
     width: 335px;
     height: 38px;
     display: flex;
@@ -171,18 +171,6 @@ div.login1-form-field {
     gap: 30px;
     margin: 30px 0px 99px 0px;
     padding: 0;
-    object-fit: contain;
-}
-
-.login1-form-field {
-    width: 375px;
-    height: 20px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0 0px;
     object-fit: contain;
 }
 
@@ -524,40 +512,24 @@ div.login1-form-field {
     color: #afafaf;
 }
 
-.pw-eye1 {
-    width: 19.2px;
-    height: 13px;
-    background-color: #4a4a4a;
-}
-
-.pw-eye2 {
-    width: 14px;
-    height: 16px;
-    border: solid 1px #4a4a4a;
-}
-
 /* 회원가입1 */
 @media (min-width: 375px) {
     .join1 {
         width: 375px;
         height: 812px;
         flex-grow: 0;
-        padding: 0 0 369px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 40px;
+        padding: 40px 0 0;
         background-color: #000;
     }
 }
 
-.join1-top {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    gap: 10px;
-    padding: 40px 20px;
-}
-
 .join1-header {
-    height: 28px;
+    height: 44px;
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -565,10 +537,10 @@ div.login1-form-field {
     justify-content: flex-start;
     align-items: center;
     gap: 94px;
-    padding: 0;
+    padding: 0 20px;
 }
 
-.join1-headline-text {
+.join1-header-content-text {
     height: 28px;
     flex-grow: 1;
     font-family: 'Noto Sans KR', serif;
@@ -582,33 +554,32 @@ div.login1-form-field {
     color: #eef1f1;
 }
 
-.join1-middle {
-    width: 375px;
-    height: 329px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 80px;
-    margin: 114px 0 0;
-    padding: 0 20px;
-}
-
 .join1-container {
-    width: 335px;
     height: 329px;
+    align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 60px;
-    padding: 0;
+    padding: 0 20px;
+}
+.join1-after-container {
+    height: 455px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 60px;
+    padding: 0 20px;
 }
 
-.join1-title-area {
-    width: 335px;
+.join1-container-content {
     height: 101px;
+    align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -648,21 +619,42 @@ div.login1-form-field {
     color: #fff;
 }
 
-.join1-content-frame {
-    width: 335px;
+.join1-form-container {
     height: 168px;
+    align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 80px;
+    padding: 0;
+}
+.join1-after-form-container {
+    height: 164px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0;
+}
+.join1-after-container-low {
+    height: 294px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     gap: 80px;
     padding: 0;
 }
 
-.join1-form-field {
-    width: 335px;
+.join1-form-input-field {
     height: 38px;
+    align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -670,9 +662,21 @@ div.login1-form-field {
     align-items: stretch;
     gap: 10px;
     padding: 0;
+    border-bottom: solid 1px #f6f6f6; !important;
+}
+.join1-after-form-input-field {
+    height: 40px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0;
+    border-bottom: solid 1px #4a4a4a; !important;
 }
 
-.join1-form-input {
+.join1-input-text {
     height: 28px;
     align-self: stretch;
     flex-grow: 0;
@@ -685,17 +689,77 @@ div.login1-form-field {
     letter-spacing: -0.36px;
     text-align: left;
     color: #f6f6f6;
+    background-color: black; !important;
+    border: 0;
+}
+.join1-after-input-text {
+    width: 265px;
+    height: 38px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: -0.36px;
+    text-align: left;
+    color: #4a4a4a;
+    background-color: black; !important;
+    border: 0;
+}
+.join1-after-input-text::placeholder {
+    color: #4a4a4a;
 }
 
-.join1-form-bottom {
+.join1-after-wrapper-input-text-btn {
+    height: 48px;
     align-self: stretch;
-    flex-grow: 1;
-    background-color: #f6f6f6;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 0 0 10px;
+}
+
+.join1-form-field {
+    width: 335px;
+    height: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 59px 22px 83px 18px;
+    padding: 0;
+    border-bottom: solid 1px #4a4a4a; !important;
+}
+
+.join1-form-input {
+    width: 334px;
+    height: 28px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: -0.36px;
+    text-align: left;
+    background-color: black; !important;
+    color: #4a4a4a; !important;
+    border: 0;
+}
+.join1-form-input::placeholder {
+    color: #4a4a4a;
 }
 
 .join1-btn-code-number {
-    width: 335px;
     height: 50px;
+    align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -706,20 +770,9 @@ div.login1-form-field {
     background-color: #004051;
 }
 
-.join1-btn-content-frame {
+.join1-btn-label {
     height: 28px;
     flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-}
-
-.join1-btn-label {
-    width: 91px;
-    height: 28px;
-    flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 16px;
     font-weight: bold;
@@ -729,4 +782,143 @@ div.login1-form-field {
     letter-spacing: -0.32px;
     text-align: center;
     color: #fff;
+}
+
+.join1-after-btn-resend {
+    width: 65px;
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 16px;
+    border-radius: 20px;
+    background-color: #004051;
+}
+
+.join1-after-btn-resend-label {
+    width: 33px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #fff;
+}
+
+.join1-after-code-number-form-field {
+    height: 76px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 16px;
+    padding: 0;
+    border-bottom: solid 1px #4a4a4a; !important;
+}
+
+.join1-after-subtitle {
+    height: 22px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #fff;
+}
+
+.join1-after-wrapper-code-number {
+    height: 38px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0;
+    background-color: #000;
+}
+
+.join1-after-code-number-input-area {
+    height: 28px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 189px;
+    padding: 0;
+}
+
+.join1-after-code-number-input-text {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: -0.36px;
+    text-align: left;
+    color: #4a4a4a;
+    background-color: black; !important;
+    border: 0;
+}
+
+.join1-after-btn-next {
+    height: 50px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 3px;
+    background-color: #4a4a4a;
+}
+
+.join1-after-btn-next-label {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #fff;
+}
+
+.ic_visibility_off {
+    width: 20px;
+    height: 20px;
+    flex-grow: 0;
+    display: flex;
+    object-fit: contain;
+}
+
+.pw-eye {
+    /* for js script */
+}
+.pw-field {
+    /* for js script */
 }
