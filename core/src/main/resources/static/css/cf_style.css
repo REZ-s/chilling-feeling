@@ -512,18 +512,6 @@ input.login1-form::placeholder {
     color: #afafaf;
 }
 
-.pw-eye1 {
-    width: 19.2px;
-    height: 13px;
-    background-color: #4a4a4a;
-}
-
-.pw-eye2 {
-    width: 14px;
-    height: 16px;
-    border: solid 1px #4a4a4a;
-}
-
 /* 회원가입1 */
 @media (min-width: 375px) {
     .join1 {
@@ -648,9 +636,8 @@ input.login1-form::placeholder {
     flex-grow: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: stretch;
-    gap: 50px;
     padding: 0;
 }
 .join1-after-container-low {
@@ -678,14 +665,13 @@ input.login1-form::placeholder {
     border-bottom: solid 1px #f6f6f6; !important;
 }
 .join1-after-form-input-field {
-    height: 38px;
+    height: 40px;
     align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
-    gap: 10px;
     padding: 0;
     border-bottom: solid 1px #4a4a4a; !important;
 }
@@ -707,8 +693,9 @@ input.login1-form::placeholder {
     border: 0;
 }
 .join1-after-input-text {
-    height: 28px;
-    flex-grow: 1;
+    width: 265px;
+    height: 38px;
+    flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 18px;
     font-weight: 500;
@@ -717,21 +704,24 @@ input.login1-form::placeholder {
     line-height: 1.56;
     letter-spacing: -0.36px;
     text-align: left;
-    color: #f6f6f6;
+    color: #4a4a4a;
     background-color: black; !important;
     border: 0;
 }
+.join1-after-input-text::placeholder {
+    color: #4a4a4a;
+}
 
 .join1-after-wrapper-input-text-btn {
-    height: 30px;
+    height: 48px;
     align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    padding: 0;
+    gap: 5px;
+    padding: 0 0 10px;
 }
 
 .join1-form-field {
@@ -796,13 +786,13 @@ input.login1-form::placeholder {
 
 .join1-after-btn-resend {
     width: 65px;
-    height: 30px;
+    height: 28px;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 5px 16px;
+    padding: 4px 16px;
     border-radius: 20px;
     background-color: #004051;
 }
@@ -848,6 +838,19 @@ input.login1-form::placeholder {
     letter-spacing: -0.28px;
     text-align: left;
     color: #fff;
+}
+
+.join1-after-wrapper-code-number {
+    height: 38px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0;
+    background-color: #000;
 }
 
 .join1-after-code-number-input-area {
@@ -903,4 +906,19 @@ input.login1-form::placeholder {
     letter-spacing: -0.32px;
     text-align: center;
     color: #fff;
+}
+
+.ic_visibility_off {
+    width: 20px;
+    height: 20px;
+    flex-grow: 0;
+    display: flex;
+    object-fit: contain;
+}
+
+.pw-eye {
+    /* for js script */
+}
+.pw-field {
+    /* for js script */
 }

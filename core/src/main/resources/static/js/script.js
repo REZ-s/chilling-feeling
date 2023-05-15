@@ -1,20 +1,14 @@
-const forms = document.querySelector(".forms"),
-    pwShowHide = document.querySelectorAll(".eye-icon");
+function sendEmailByForm(path, email) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = path;
 
-pwShowHide.forEach(eyeIcon => {
-    eyeIcon.addEventListener("click", () => {
-        let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'email';
+    input.value = encodeURIComponent(email);
+    form.appendChild(input);
 
-        pwFields.forEach(password => {
-            if (password.type === "password") {
-                password.type = "text";
-                eyeIcon.classList.replace("bx-hide", "bx-show");
-                return;
-            }
-
-            password.type = "password";
-            eyeIcon.classList.replace("bx-show", "bx-hide");
-        })
-
-    })
-})
+    document.body.appendChild(form);
+    form.submit();
+}
