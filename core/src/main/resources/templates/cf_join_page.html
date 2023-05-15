@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:th="http://www.thymeleaf.org">
+>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,7 +43,7 @@
         <!-- Origin form -->
         <form class="join1-form-container" id="beforeForm">
             <div class="join1-form-input-field">
-                <input class="join1-input-text" placeholder="이메일 입력">
+                <input class="join1-input-text" id="beforeEmail" placeholder="이메일 입력">
             </div>
 
             <button class="join1-btn-code-number">
@@ -55,11 +54,11 @@
         </form>
 
         <!-- After form -->
-        <div class="join1-after-container-low" id="afterForm" >
+        <div class="join1-after-container-low" id="afterForm" style="display: none">
             <form class="join1-after-form-container">
                 <div class="join1-after-form-input-field">
                     <div class="join1-after-wrapper-input-text-btn">
-                        <input class="join1-after-input-text" placeholder="chillingfeeling@cf.com">
+                        <input class="join1-after-input-text" id="afterEmail" placeholder="cflove@chillingfeeling.com">
 
                         <button class="join1-after-btn-resend">
                             <div class="join1-after-btn-resend-label" id="resendCodeNumber">재전송
@@ -73,8 +72,15 @@
                         인증번호 6자리를 입력해주세요.
                     </div>
 
-                    <div class="join1-after-code-number-input-area">
-                        <input class="join1-after-code-number-input-text" placeholder="인증번호 입력" type="password">
+                    <div class="join1-after-wrapper-code-number">
+                        <div class="join1-after-code-number-input-area">
+                            <input class="join1-after-code-number-input-text pw-field" placeholder="인증번호 입력"
+                                   type="password">
+                        </div>
+                        <div class="ic_visibility_off">
+                            <img class="pw-eye" src="/images/ic_visibility_off.png">
+                        </div>
+
                     </div>
                 </div>
             </form>
@@ -89,40 +95,121 @@
     </section>
 
 </div>
-<script>
-    const myCodeNumber = document.querySelector('#sendCodeNumber');
-    const myContainer = document.querySelector("#myContainer");
+<script src="js/script.js">
+
+    /* Form transformation */
+    const myContainer = document.querySelector('#myContainer');
     const beforeForm = document.querySelector('#beforeForm');
     const afterForm = document.querySelector('#afterForm');
 
-    let isFormShown = false;
+    const beforeEmail = document.querySelector('#beforeEmail');
+    const afterEmail = document.querySelector('#afterEmail');
 
-    if (localStorage.getItem('isFormShown') === 'true') {
-        isFormShown = true;
+    document.querySelector('#sendCodeNumber').addEventListener('click', function (e) {
+        e.preventDefault();
+        myContainer.style.height = '455px';
         beforeForm.style.display = 'none';
         afterForm.style.display = 'flex';
-    }
-
-    function saveFormState() {
-        localStorage.setItem('isFormShown', isFormShown);
-    }
-
-    myCodeNumber.addEventListener('click', function (e) {
-        isFormShown = true;
-        beforeForm.style.display = 'none';
-        afterForm.style.display = 'flex';
-        myContainer.style.height = 'auto';
-        saveFormState();
+        afterEmail.value = beforeEmail.value;
+        createAuthenticationCode();
     });
 
-    function initializeFormState() {
-        isFormShown = false;
-        beforeForm.style.display = 'flex';
-        afterForm.style.display = 'none';
-        saveFormState();
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+    /* create auth-code */
+    function createAuthenticationCode() {
+        getAuthenticationCode(beforeEmail.value.trim());
+
+        async function getAuthenticationCode(email) {
+            await createCode(email);
+
+            async function createCode(email) {
+                try {
+                    const response = await fetch('/get_authentication_code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: email
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+        }
     }
 
-    initializeFormState();
+    /* verify auth-code for nextPage */
+    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const codeInput = document.querySelector('#pw-field');
+        const authenticationCode = codeInput.value.trim();
+
+        if (checkAuthenticationCode(authenticationCode)) {
+            const emailInput = document.querySelector('#afterEmail');
+            const afterEmail = emailInput.value.trim();
+
+            sendEmailByForm('cf_join2', afterEmail);
+
+        } else {
+            console.log('Incorrect authentication code');
+            // Display modal or show error message...
+        }
+
+        async function checkAuthenticationCode(code) {
+            const data = await checkCode(code);
+            if (data === "valid") {
+                return true;
+            }
+
+            async function checkCode(code) {
+                try {
+                    const response = await fetch('/check_authentication_code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: code
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            return false;
+        }
+
+    });
+
 
 </script>
 </body>

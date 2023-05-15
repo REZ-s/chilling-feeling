@@ -50,18 +50,18 @@ spring:
             user-name-attribute: "id"
 
 
-#  datasource:
-#    hikari:
-#      #jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql'\;runscript from '${MAIN_RESOURCE_PATH}/h2/sample_data.sql';
-#      jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql';
-#      username: sa
-#      password:
-#      driver-class-name: org.h2.Driver
-#
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2-ui
+  #  datasource:
+  #    hikari:
+  #      #jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql'\;runscript from '${MAIN_RESOURCE_PATH}/h2/sample_data.sql';
+  #      jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql';
+  #      username: sa
+  #      password:
+  #      driver-class-name: org.h2.Driver
+  #
+  #  h2:
+  #    console:
+  #      enabled: true
+  #      path: /h2-ui
 
   datasource:
     hikari:
@@ -92,6 +92,28 @@ spring:
     suffix: .html
 
   #sql.init.mode: always
+
+  mail:
+    password: ehybxmouszbvqjjp
+    username: nestler.jang@gmail.com
+    host: smtp.gmail.com
+    port: 465
+    protocol: smtp
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+          starttls.required: true
+          ssl.enable: true
+          ssl.required: true
+          ssl.trust: smtp.gmail.com
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+
 
 logging:
   level:
