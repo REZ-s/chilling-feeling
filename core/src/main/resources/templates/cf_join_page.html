@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:th="http://www.thymeleaf.org">
+>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,53 +15,202 @@
 <body>
 <div class="join1">
     <!-- Top frame -->
-    <section class="join1-top">
-        <div class="join1-header">
-            <div class="ic_back_24px">
-                <a href="/cf_login">
-                    <img src="/images/ic_back_24px.png">
-                </a>
-            </div>
-            <div class="join1-headline-text">회원가입(1/3)</div>
-            <div class="ic_close_24px">
-                <a href="/main">
-                    <img src="/images/ic_close_24px.png">
-                </a>
-            </div>
+    <section class="join1-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="join1-header-content-text">회원가입 (1/3)</div>
+        <div class="ic_close_24px">
+            <a href="/main">
+                <img src="/images/ic_close_24px.png">
+            </a>
         </div>
     </section>
 
     <!-- Content Frame -->
-    <section class="join1-middle">
-        <div class="join1-container">
+    <section class="join1-container" id="myContainer">
+        <div class="join1-container-content">
+            <div class="join1-title">
+                처음 오셨군요!<br>만나서 반가워요:)
+            </div>
+            <div class="join1-subtitle">
+                이메일 주소를 입력해주세요.
+            </div>
+        </div>
 
-            <div class="join1-title-area">
-                <div class="join1-title">
-                    처음 오셨군요!<br>만나서 반가워요:)
-                </div>
-                <div class="join1-subtitle">
-                    <span>이메일 주소를 입력해주세요.</span>
-                </div>
+        <!-- Origin form -->
+        <form class="join1-form-container" id="beforeForm">
+            <div class="join1-form-input-field">
+                <input class="join1-input-text" id="beforeEmail" placeholder="이메일 입력">
             </div>
 
-            <form class="join1-content-frame">
-                <div class="join1-form-field">
-                    <div class="join1-form-input">
-                        <input placeholder="이메일 입력">
-                    </div>
-                    <div class="join1-form-bottom">
+            <button class="join1-btn-code-number">
+                <div class="join1-btn-label" id="sendCodeNumber">
+                    인증번호 전송
+                </div>
+            </button>
+        </form>
+
+        <!-- After form -->
+        <div class="join1-after-container-low" id="afterForm" style="display: none">
+            <form class="join1-after-form-container">
+                <div class="join1-after-form-input-field">
+                    <div class="join1-after-wrapper-input-text-btn">
+                        <input class="join1-after-input-text" id="afterEmail" placeholder="cflove@chillingfeeling.com">
+
+                        <button class="join1-after-btn-resend">
+                            <div class="join1-after-btn-resend-label" id="resendCodeNumber">재전송
+                            </div>
+                        </button>
                     </div>
                 </div>
 
-                <button class="join1-btn-code-number">
-                    <div class="join1-btn-content-frame">
-                        <span class="join1-btn-label">인증번호 전송</span>
+                <div class="join1-after-code-number-form-field">
+                    <div class="join1-after-subtitle">
+                        인증번호 6자리를 입력해주세요.
                     </div>
-                </button>
+
+                    <div class="join1-after-wrapper-code-number">
+                        <div class="join1-after-code-number-input-area">
+                            <input class="join1-after-code-number-input-text pw-field" placeholder="인증번호 입력"
+                                   type="password">
+                        </div>
+                        <div class="ic_visibility_off">
+                            <img class="pw-eye" src="/images/ic_visibility_off.png">
+                        </div>
+
+                    </div>
+                </div>
             </form>
 
+            <button class="join1-after-btn-next">
+                <div class="join1-after-btn-next-label" id="nextBtn">
+                    다음
+                </div>
+            </button>
         </div>
+
     </section>
+
 </div>
+<script src="js/script.js">
+
+    /* Form transformation */
+    const myContainer = document.querySelector('#myContainer');
+    const beforeForm = document.querySelector('#beforeForm');
+    const afterForm = document.querySelector('#afterForm');
+
+    const beforeEmail = document.querySelector('#beforeEmail');
+    const afterEmail = document.querySelector('#afterEmail');
+
+    document.querySelector('#sendCodeNumber').addEventListener('click', function (e) {
+        e.preventDefault();
+        myContainer.style.height = '455px';
+        beforeForm.style.display = 'none';
+        afterForm.style.display = 'flex';
+        afterEmail.value = beforeEmail.value;
+        createAuthenticationCode();
+    });
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+    /* create auth-code */
+    function createAuthenticationCode() {
+        getAuthenticationCode(beforeEmail.value.trim());
+
+        async function getAuthenticationCode(email) {
+            await createCode(email);
+
+            async function createCode(email) {
+                try {
+                    const response = await fetch('/get_authentication_code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: email
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+        }
+    }
+
+    /* verify auth-code for nextPage */
+    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const codeInput = document.querySelector('#pw-field');
+        const authenticationCode = codeInput.value.trim();
+
+        if (checkAuthenticationCode(authenticationCode)) {
+            const emailInput = document.querySelector('#afterEmail');
+            const afterEmail = emailInput.value.trim();
+
+            sendEmailByForm('cf_join2', afterEmail);
+
+        } else {
+            console.log('Incorrect authentication code');
+            // Display modal or show error message...
+        }
+
+        async function checkAuthenticationCode(code) {
+            const data = await checkCode(code);
+            if (data === "valid") {
+                return true;
+            }
+
+            async function checkCode(code) {
+                try {
+                    const response = await fetch('/check_authentication_code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: code
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            return false;
+        }
+
+    });
+
+
+</script>
 </body>
 </html>
