@@ -16,6 +16,7 @@ import com.joolove.core.security.service.GoodsService;
 import com.joolove.core.security.service.LogoutTokenService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
+import com.joolove.core.service.EmailServiceImpl;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,17 @@ import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
@@ -56,6 +60,7 @@ public class LoginController {
     private final AuthenticationRepository authenticationRepository;
     private final PasswordEncoder passwordEncoder;
     private final GoodsService goodsService;
+    private final EmailServiceImpl emailService;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -140,6 +145,23 @@ public class LoginController {
         return ResponseEntity.ok().body("invalid");
     }
 
+    @PostMapping("/get_authentication_code")
+    @ResponseBody
+    public ResponseEntity<?> getAuthenticationCode(@Valid @RequestBody String email)
+            throws Exception {
+        String code = emailService.sendAuthCode(email);
+        return ResponseEntity.ok().body(code);
+    }
+
+    @PostMapping("/check_authentication_code")
+    @ResponseBody
+    public ResponseEntity<?> checkAuthenticationCode(@Valid @RequestBody String code) {
+        if (Objects.equals(emailService.getEPw(), code)) {
+            return ResponseEntity.ok().body("valid");
+        }
+        return ResponseEntity.ok().body("invalid");
+    }
+
     @PostMapping(value = "/cf_login2", consumes = "application/x-www-form-urlencoded")
     public String cfLogin2(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
         String encodedEmail = formData.getFirst("email");
@@ -156,6 +178,18 @@ public class LoginController {
     public String cfJoin(Model model) {
         model.addAttribute("request", User.SignupRequest.buildEmpty());
         return "cf_join_page";
+    }
+
+    @PostMapping(value = "/cf_join2", consumes = "application/x-www-form-urlencoded")
+    public String cfJoin2(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
+        String encodedEmail = formData.getFirst("email");
+        // email is not null
+        String email = URLDecoder.decode(encodedEmail, StandardCharsets.UTF_8);
+
+        User.SignupRequest request = User.SignupRequest.buildEmpty();
+        request.setEmail(email);
+        model.addAttribute("request", request);
+        return "cf_join_page2";
     }
 
 
