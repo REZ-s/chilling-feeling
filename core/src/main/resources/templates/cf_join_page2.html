@@ -14,12 +14,80 @@
 
 </head>
 <body>
-<div class="join2">
+<div class="join1">
     <!-- Top frame -->
-
-
+    <section class="join1-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="join1-header-content-text">회원가입 (2/3)</div>
+        <div class="ic_close_24px">
+            <a href="/main">
+                <img src="/images/ic_close_24px.png">
+            </a>
+        </div>
+    </section>
 
     <!-- Content Frame -->
+    <div class="join2-container">
+        <div class="join2-container-content">
+            <div class="join2-title">비밀번호를 입력해주세요.</div>
+            <div class="join2-subtitle"><br>비밀번호는 8자~20자 조합으로<br>영문, 숫자, 특수기호를 포함해 주세요.</div>
+        </div>
+
+        <div class="join2-container-actions">
+            <div class="join2-container-actions-form-field">
+                <div class="join2-form-field-password">
+                    <div class="join2-wrapper-input-icon" id="pwInputField">
+                        <input class="join2-input-text pw-field" placeholder="비밀번호 입력" type="password" id="pwInput">
+                        <div class="ic_visibility_off">
+                            <img class="pw-eye" src="/images/ic_visibility_off.png">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="join2-form-field-password" id="pwCheckField">
+                    <div class="join2-wrapper-input-icon">
+                        <input class="join2-input-text pw-field" placeholder="비밀번호 확인" type="password" id="pwCheck">
+                        <div class="ic_visibility_off">
+                            <img class="pw-eye" src="/images/ic_visibility_off.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="join2-btn-next">
+                <div class="join2-btn-next-label" id="nextBtn">다음</div>
+            </button>
+        </div>
+    </div>
+
 </div>
+<script>
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+
+</script>
 </body>
 </html>
