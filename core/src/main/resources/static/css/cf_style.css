@@ -10,6 +10,13 @@ body {
     padding-bottom: env(safe-area-inset-bottom);
 }
 
+.pw-eye {
+    /* for js script */
+}
+.pw-field {
+    /* for js script */
+}
+
 /* 로그인1 */
 @media (min-width: 375px) {
     .login1 {
@@ -916,9 +923,137 @@ input.login1-form::placeholder {
     object-fit: contain;
 }
 
-.pw-eye {
-    /* for js script */
+.join2-container {
+    height: 401px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 60px;
+    padding: 0 20px;
 }
-.pw-field {
-    /* for js script */
+
+.join2-title {
+    height: 32px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: -0.44px;
+    text-align: left;
+    color: #e6e6e6;
+}
+
+.join2-subtitle {
+    height: 44px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #fff;
+}
+
+.join2-container-actions {
+    height: 250px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 80px;
+    padding: 0;
+}
+
+.join2-container-actions-form-field {
+    height: 120px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 44px;
+    padding: 0;
+}
+
+.join2-form-field-password {
+    height: 38px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0;
+    border-bottom: solid 1px #4a4a4a;
+    background-color: #000;
+}
+
+.join2-wrapper-input-icon {
+    height: 28px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.join2-input-text {
+    width: 126px;
+    height: 28px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: -0.36px;
+    text-align: left;
+    color: #4a4a4a;
+    background-color: black;
+    border: 0;
+}
+
+.join2-btn-next {
+    height: 50px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 3px;
+    background-color: #4a4a4a;
+}
+
+.join2-btn-next-label {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #fff;
 }

@@ -74,7 +74,7 @@
 
                     <div class="join1-after-wrapper-code-number">
                         <div class="join1-after-code-number-input-area">
-                            <input class="join1-after-code-number-input-text pw-field" placeholder="인증번호 입력"
+                            <input class="join1-after-code-number-input-text pw-field" id="codeNumber" placeholder="인증번호 입력"
                                    type="password">
                         </div>
                         <div class="ic_visibility_off">
@@ -86,16 +86,14 @@
             </form>
 
             <button class="join1-after-btn-next">
-                <div class="join1-after-btn-next-label" id="nextBtn">
-                    다음
-                </div>
+                <div class="join1-after-btn-next-label" id="nextBtn">다음</div>
             </button>
         </div>
 
     </section>
 
 </div>
-<script src="js/script.js">
+<script>
 
     /* Form transformation */
     const myContainer = document.querySelector('#myContainer');
@@ -166,7 +164,7 @@
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
         e.preventDefault();
 
-        const codeInput = document.querySelector('#pw-field');
+        const codeInput = document.querySelector('#codeNumber');
         const authenticationCode = codeInput.value.trim();
 
         if (checkAuthenticationCode(authenticationCode)) {
@@ -210,6 +208,20 @@
 
     });
 
+    function sendEmailByForm(path, email) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = path;
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'email';
+        input.value = encodeURIComponent(email);
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 
 </script>
 </body>

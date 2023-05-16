@@ -55,7 +55,7 @@ public class EmailServiceImpl implements EmailService {
 
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("칠링필링 회원가입 인증 코드: ");
+        message.setSubject("칠링필링 회원가입 인증 코드 : 이메일");
 
         // 메일 내용 : 메일의 sub-type 을 html 로 지정하여 html 문법 사용
         String msg = "";
