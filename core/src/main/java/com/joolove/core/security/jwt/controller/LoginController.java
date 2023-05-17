@@ -11,6 +11,7 @@ import com.joolove.core.repository.GoodsRepository;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.repository.AuthenticationRepository;
+import com.joolove.core.security.jwt.repository.PasswordRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.GoodsService;
 import com.joolove.core.security.service.LogoutTokenService;
@@ -61,6 +62,7 @@ public class LoginController {
     private final PasswordEncoder passwordEncoder;
     private final GoodsService goodsService;
     private final EmailServiceImpl emailService;
+    private final PasswordRepository passwordRepository;
 
     @GetMapping("/")
     public String getMainPage(Model model) {
@@ -145,20 +147,47 @@ public class LoginController {
         return ResponseEntity.ok().body("invalid");
     }
 
-    @PostMapping("/get_authentication_code")
+    @PostMapping("/get_authentication_code/email")
     @ResponseBody
-    public ResponseEntity<?> getAuthenticationCode(@Valid @RequestBody String email)
+    public ResponseEntity<?> getAuthenticationCodeEmail(@Valid @RequestBody String email)
             throws Exception {
         String code = emailService.sendAuthCode(email);
         return ResponseEntity.ok().body(code);
     }
 
-    @PostMapping("/check_authentication_code")
+    @PostMapping("/get_authentication_code/phone")
     @ResponseBody
-    public ResponseEntity<?> checkAuthenticationCode(@Valid @RequestBody String code) {
+    public ResponseEntity<?> getAuthenticationCodePhone(@Valid @RequestBody String phoneNumber)
+            throws Exception {
+        String code = emailService.sendAuthCode(phoneNumber);
+        return ResponseEntity.ok().body(code);
+    }
+
+    @PostMapping("/check_authentication_code/email")
+    @ResponseBody
+    public ResponseEntity<?> checkAuthenticationCodeEmail(@Valid @RequestBody String code) {
         if (Objects.equals(emailService.getEPw(), code)) {
             return ResponseEntity.ok().body("valid");
         }
+        return ResponseEntity.ok().body("invalid");
+    }
+
+    @PostMapping("/check_authentication_code/phone")
+    @ResponseBody
+    public ResponseEntity<?> checkAuthenticationCodePhone(@Valid @RequestBody String code) {
+        if (Objects.equals(emailService.getEPw(), code)) {
+            return ResponseEntity.ok().body("valid");
+        }
+        return ResponseEntity.ok().body("invalid");
+    }
+
+    @PostMapping("/check_password")
+    @ResponseBody
+    public ResponseEntity<?> checkPassword(@Valid @RequestBody String password) {
+        if (passwordRepository.existsByPw(passwordEncoder.encode(password))) {
+            return ResponseEntity.ok().body("valid");
+        }
+
         return ResponseEntity.ok().body("invalid");
     }
 
@@ -192,7 +221,23 @@ public class LoginController {
         return "cf_join_page2";
     }
 
+    @PostMapping(value = "/cf_join3", consumes = "application/x-www-form-urlencoded")
+    public String cfJoin3(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
+        String encodedPassword = formData.getFirst("password");
+        // password is not null
+        String password = URLDecoder.decode(encodedPassword, StandardCharsets.UTF_8);
 
+        Object requestObject = model.getAttribute("request");
+        if (requestObject instanceof User.SignupRequest) {
+            User.SignupRequest request =  (User.SignupRequest) requestObject;
+            request.setPassword(password);
+            model.addAttribute("request", request);
+        } else {
+            throw new RuntimeException("request is not User.SignupRequest");
+        }
+
+        return "cf_join_page3";
+    }
 
     @GetMapping("/main")
     public String mainPage() {

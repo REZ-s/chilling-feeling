@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Join (1/3) </title>
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="join1">
+    <!-- Top frame -->
+    <section class="join1-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="join1-header-content-text">회원가입 (3/3)</div>
+        <div class="ic_close_24px">
+            <a href="/main">
+                <img src="/images/ic_close_24px.png">
+            </a>
+        </div>
+    </section>
+
+    <!-- Content Frame -->
+    <div class="join3-container">
+
+        <!-- Origin form -->
+        <div id="beforeForm">
+            <div class="join3-container-content">
+                <div class="join3-title">휴대폰번호로<br>본인인증을 해주세요.</div>
+                <div class="join3-subtitle"><br>주류상품 구매를 위해 성인인증이 필요해요!</div>
+            </div>
+            <div class="join3-container-actions">
+                <div class="join3-form-field-phone-number">
+                    <input class="join3-phone-number-input" placeholder="휴대폰 번호 입력" type="number" id="pNumber">
+                </div>
+
+                <button class="join3-btn-code-number">
+                    <div class="join3-btn-code-number-label">인증번호 전송</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- After form -->
+        <div id="afterForm">
+            <div class="join3-container-content">
+                <div class="join3-title">휴대폰번호로<br>본인인증을 해주세요.</div>
+                <div class="join3-subtitle"><br>인증번호를 전송했어요!</div>
+            </div>
+
+            <div class="join1-container-actions" style="display: none">
+                <div class="join1-wrapper-email-btn-code-number-form">
+                    <div class="join1-wrapper-email-btn_code-number">
+                        <div class="join1-form-field-email">
+                            <div class="join1-wrapper-text-check">
+                                <input class="join1-after-input-text" placeholder="01012345678" type="number" id="afterPNumber">
+
+                                <div class="ic_check_14px">
+                                    <img src="/images/ic_check_14px.png">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="join1-btn-resend">
+                            <div class="join1-btn-resend-label" id="resendCodeNumber">인증번호 재전송</div>
+                        </button>
+                    </div>
+
+                    <div class="join1-wrapper-subtext-form-field">
+                        <div class="join1-subtext">인증번호 6자리를 입력해주세요.</div>
+                        <div class="join1-form-field-code-number">
+                            <div class="join1-wrapper-input-icon">
+                                <input class="join1-default-input pw-field" placeholder="인증번호 입력" type="password"
+                                       id="codeNumber">
+
+                                <div class="ic_visibility_off">
+                                    <img class="pw-eye" src="/images/ic_visibility_off.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="join1-btn-next">
+                    <div class="join1-btn-next-label" id="nextBtn">다음</div>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    // 다음을 눌렀을 때, 최종 인증번호가 맞다면 '회원가입 완료' 버튼으로 바꾸면 된다.
+    // 이때, '회원가입 완료' 버튼을 누르면 약관에 동의하는 안내문을 모달창으로 출력 후 동의하면 회원가입이 완료된다.
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+    /* verify password for nextPage */
+    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const pwInput = document.querySelector('#pwInput').value.trim();
+        const pwCheck = document.querySelector('#pwCheck').value.trim();
+
+        if (pwInput !== pwCheck) {
+            console.log('Password does not match');
+            // Display modal or show error message...
+            return;
+        }
+
+        if (checkPassword(pwInput)) {
+            sendPasswordByForm('cf_join3', pwInput);
+        } else {
+            console.log('Incorrect authentication code');
+            // Display modal or show error message...
+        }
+
+        async function checkPassword(pw) {
+            const data = await sendPassword(pw);
+            if (data === "valid") {
+                return true;
+            }
+
+            async function sendPassword(pw) {
+                try {
+                    const response = await fetch('/check_password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: pw
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            return false;
+        }
+    });
+
+    function sendPasswordByForm(path, pw) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = path;
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'password';
+        input.value = encodeURIComponent(pw);
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</body>
+</html>

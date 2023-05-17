@@ -43,7 +43,7 @@
         <!-- Origin form -->
         <form class="join1-form-container" id="beforeForm">
             <div class="join1-form-input-field">
-                <input class="join1-input-text" id="beforeEmail" placeholder="이메일 입력">
+                <input class="join1-input-text" placeholder="이메일 입력" type="email" id="beforeEmail">
             </div>
 
             <button class="join1-btn-code-number">
@@ -53,40 +53,41 @@
             </button>
         </form>
 
-        <!-- After form -->
-        <div class="join1-after-container-low" id="afterForm" style="display: none">
-            <form class="join1-after-form-container">
-                <div class="join1-after-form-input-field">
-                    <div class="join1-after-wrapper-input-text-btn">
-                        <input class="join1-after-input-text" id="afterEmail" placeholder="cflove@chillingfeeling.com">
+        <!-- After form checked -->
+        <div class="join1-container-actions" id="afterForm" style="display: none">
+            <div class="join1-wrapper-email-btn-code-number-form">
+                <div class="join1-wrapper-email-btn_code-number">
+                    <div class="join1-form-field-email">
+                        <div class="join1-wrapper-text-check">
+                            <input class="join1-after-input-text" placeholder="cflove@chillingfeeling.com" type="email" id="afterEmail">
 
-                        <button class="join1-after-btn-resend">
-                            <div class="join1-after-btn-resend-label" id="resendCodeNumber">재전송
+                            <div class="ic_check_14px">
+                                <img src="/images/ic_check_14px.png">
                             </div>
-                        </button>
+                        </div>
                     </div>
+
+                    <button class="join1-btn-resend">
+                        <div class="join1-btn-resend-label" id="resendCodeNumber">인증번호 재전송</div>
+                    </button>
                 </div>
 
-                <div class="join1-after-code-number-form-field">
-                    <div class="join1-after-subtitle">
-                        인증번호 6자리를 입력해주세요.
-                    </div>
+                <div class="join1-wrapper-subtext-form-field">
+                    <div class="join1-subtext">인증번호 6자리를 입력해주세요.</div>
+                    <div class="join1-form-field-code-number">
+                        <div class="join1-wrapper-input-icon">
+                            <input class="join1-default-input pw-field" placeholder="인증번호 입력" type="password" id="codeNumber">
 
-                    <div class="join1-after-wrapper-code-number">
-                        <div class="join1-after-code-number-input-area">
-                            <input class="join1-after-code-number-input-text pw-field" id="codeNumber" placeholder="인증번호 입력"
-                                   type="password">
+                            <div class="ic_visibility_off">
+                                <img class="pw-eye" src="/images/ic_visibility_off.png">
+                            </div>
                         </div>
-                        <div class="ic_visibility_off">
-                            <img class="pw-eye" src="/images/ic_visibility_off.png">
-                        </div>
-
                     </div>
                 </div>
-            </form>
+            </div>
 
-            <button class="join1-after-btn-next">
-                <div class="join1-after-btn-next-label" id="nextBtn">다음</div>
+            <button class="join1-btn-next">
+                <div class="join1-btn-next-label" id="nextBtn">다음</div>
             </button>
         </div>
 
@@ -105,9 +106,15 @@
 
     document.querySelector('#sendCodeNumber').addEventListener('click', function (e) {
         e.preventDefault();
-        myContainer.style.height = '455px';
+        myContainer.style.height = '525px';
         beforeForm.style.display = 'none';
         afterForm.style.display = 'flex';
+        afterEmail.value = beforeEmail.value;
+        createAuthenticationCode();
+    });
+
+    document.querySelector('#resendCodeNumber').addEventListener('click', function (e) {
+        e.preventDefault();
         afterEmail.value = beforeEmail.value;
         createAuthenticationCode();
     });
@@ -134,14 +141,14 @@
 
     /* create auth-code */
     function createAuthenticationCode() {
-        getAuthenticationCode(beforeEmail.value.trim());
+        getAuthenticationCode(afterEmail.value.trim());
 
         async function getAuthenticationCode(email) {
             await createCode(email);
 
             async function createCode(email) {
                 try {
-                    const response = await fetch('/get_authentication_code', {
+                    const response = await fetch('/get_authentication_code_to_email', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -179,14 +186,14 @@
         }
 
         async function checkAuthenticationCode(code) {
-            const data = await checkCode(code);
+            const data = await sendAuthenticationCode(code);
             if (data === "valid") {
                 return true;
             }
 
-            async function checkCode(code) {
+            async function sendAuthenticationCode(code) {
                 try {
-                    const response = await fetch('/check_authentication_code', {
+                    const response = await fetch('/check_authentication_code/email', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
