@@ -67,26 +67,69 @@
 </div>
 <script>
 
-    /* Password eye on/off */
-    const pwShowHide = document.querySelectorAll(".pw-eye");
+    /* verify password for nextPage */
+    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+        e.preventDefault();
 
-    pwShowHide.forEach(eyeIcon => {
-        eyeIcon.addEventListener("click", () => {
-            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+        const pwInput = document.querySelector('#pwInput').value.trim();
+        const pwCheck = document.querySelector('#pwCheck').value.trim();
 
-            pwFields.forEach(password => {
-                if (password.type === "password") {
-                    password.type = "text";
-                    eyeIcon.src = "/images/ic_visibility_on.png";
-                    return;
+        if (pwInput !== pwCheck) {
+            console.log('Password does not match');
+            // Display modal or show error message...
+            return;
+        }
+
+        if (checkPassword(pwInput)) {
+            sendPasswordByForm('cf_join3', pwInput);
+        } else {
+            console.log('Incorrect authentication code');
+            // Display modal or show error message...
+        }
+
+        async function checkPassword(pw) {
+            const data = await sendPassword(pw);
+            if (data === "valid") {
+                return true;
+            }
+
+            async function sendPassword(pw) {
+                try {
+                    const response = await fetch('/check_password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: pw
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
                 }
+            }
 
-                password.type = "password";
-                eyeIcon.src = "/images/ic_visibility_off.png";
-            });
-        });
+            return false;
+        }
     });
 
+    function sendPasswordByForm(path, pw) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = path;
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'password';
+        input.value = encodeURIComponent(pw);
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 
 </script>
 </body>
