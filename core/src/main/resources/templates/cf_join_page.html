@@ -110,13 +110,12 @@
         beforeForm.style.display = 'none';
         afterForm.style.display = 'flex';
         afterEmail.value = beforeEmail.value;
-        createAuthenticationCode();
+        createAuthenticationCode(beforeEmail.value.trim());
     });
 
     document.querySelector('#resendCodeNumber').addEventListener('click', function (e) {
         e.preventDefault();
-        afterEmail.value = beforeEmail.value;
-        createAuthenticationCode();
+        createAuthenticationCode(afterEmail.value.trim());
     });
 
     /* Password eye on/off */
@@ -140,15 +139,15 @@
     });
 
     /* create auth-code */
-    function createAuthenticationCode() {
-        getAuthenticationCode(afterEmail.value.trim());
+    function createAuthenticationCode(email) {
+        getAuthenticationCode(email);
 
         async function getAuthenticationCode(email) {
             await createCode(email);
 
             async function createCode(email) {
                 try {
-                    const response = await fetch('/get_authentication_code_to_email', {
+                    const response = await fetch('/get_authentication_code/email', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

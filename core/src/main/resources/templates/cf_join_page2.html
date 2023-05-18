@@ -81,6 +81,10 @@
         }
 
         if (checkPassword(pwInput)) {
+            const myElement = document.getElementById('myElement');
+            const modelAttributeValue = myElement.getAttribute('data-model-attribute');
+            console.log(modelAttributeValue); // Output: "exampleValue"
+
             sendPasswordByForm('cf_join3', pwInput);
         } else {
             console.log('Incorrect authentication code');
@@ -116,16 +120,27 @@
         }
     });
 
-    function sendPasswordByForm(path, pw) {
+    function sendPasswordByForm(path, pw, modelAttributes) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
 
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'password';
-        input.value = encodeURIComponent(pw);
-        form.appendChild(input);
+        // Add model attributes to the form
+        for (const key in modelAttributes) {
+            if (modelAttributes.hasOwnProperty(key)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = encodeURIComponent(modelAttributes[key]);
+                form.appendChild(input);
+            }
+        }
+
+        const passwordInput = document.createElement('input');
+        passwordInput.type = 'hidden';
+        passwordInput.name = 'password';
+        passwordInput.value = encodeURIComponent(pw);
+        form.appendChild(passwordInput);
 
         document.body.appendChild(form);
         form.submit();

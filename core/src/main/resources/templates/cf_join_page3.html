@@ -7,9 +7,211 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <title> Chilling Feeling - Join (1/3) </title>
+    <title> Chilling Feeling - Join (3/3) </title>
+
     <!-- CSS -->
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        /* For modal */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 10px;
+            background-color: #262626;
+        }
+
+        .modal-agree {
+            width: 375px;
+            height: 314px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 30px;
+            padding: 15px 0;
+            background-color: #262626;
+        }
+
+        .Drag-handle-Stroke {
+            width: 48px;
+            height: 4px;
+            flex-grow: 0;
+            background-color: #616161;
+        }
+
+        .modal-agree-container {
+            align-self: stretch;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .modal-agree-container-agree-actions {
+            align-self: stretch;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 20px;
+            padding: 0;
+        }
+
+        .modal-entire-actions {
+            height: 28px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+            padding: 0;
+            border-radius: 3px;
+        }
+
+        .ic_check_24px {
+            width: 24px;
+            height: 24px;
+            flex-grow: 0;
+            object-fit: contain;
+        }
+
+        .ic_chevron_right_24px {
+            width: 24px;
+            height: 24px;
+            flex-grow: 0;
+            object-fit: contain;
+        }
+
+        .korean-B1-bold {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: left;
+            color: #fff;
+        }
+
+        .wrapper-individual-actions {
+            height: 126px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 10px;
+            padding: 0;
+        }
+
+        .individual-action {
+            height: 24px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+            padding: 0;
+        }
+
+        .wrapper-text-chevron {
+            height: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 50px;
+            padding: 0;
+        }
+
+        .korean-B4-medium {
+            height: 22px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.57;
+            letter-spacing: -0.28px;
+            text-align: left;
+            color: #afafaf;
+        }
+
+        .modal-btn-start {
+            height: 50px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 3px;
+            background-color: #004051;
+        }
+
+        .modal-btn-start-label {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: center;
+            color: #fff;
+        }
+
+    </style>
 </head>
 <body>
 <div class="join1">
@@ -29,7 +231,7 @@
     </section>
 
     <!-- Content Frame -->
-    <div class="join3-container">
+    <div class="join3-container" id="myContainer">
 
         <!-- Origin form -->
         <div id="beforeForm">
@@ -43,7 +245,7 @@
                 </div>
 
                 <button class="join3-btn-code-number">
-                    <div class="join3-btn-code-number-label">인증번호 전송</div>
+                    <div class="join3-btn-code-number-label" id="sendCodeNumberBtn">인증번호 전송</div>
                 </button>
             </div>
         </div>
@@ -69,7 +271,7 @@
                         </div>
 
                         <button class="join1-btn-resend">
-                            <div class="join1-btn-resend-label" id="resendCodeNumber">인증번호 재전송</div>
+                            <div class="join1-btn-resend-label" id="resendCodeNumberBtn">인증번호 재전송</div>
                         </button>
                     </div>
 
@@ -88,17 +290,93 @@
                     </div>
                 </div>
 
-                <button class="join1-btn-next">
+                <button class="join1-btn-next" id="beforeBtn">
                     <div class="join1-btn-next-label" id="nextBtn">다음</div>
+                </button>
+
+                <button class="join3-btn-join" id="afterBtn" style="display: none">
+                    <div class="join3-btn-join-label" id="joinBtn">회원가입 완료</div>
                 </button>
             </div>
         </div>
 
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="ToS" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body modal-agree">
+                <div class="Drag-handle-Stroke"></div>
+
+                <div class="modal-agree-container">
+                    <div class="modal-agree-container-agree-actions">
+                        <div class="modal-entire-actions">
+                            <img src="/images/ic_check_24px.png" class="ic_check_24px">
+                            <div class="korean-B1-bold">약관 전체동의</div>
+                        </div>
+
+                        <div class="wrapper-individual-actions">
+                            <div class="individual-action">
+                                <img src="/images/ic_check_24px.png" class="ic_check_24px">
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[필수] 개인정보 수집 및 이용 동의</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+
+                            <div class="individual-action">
+                                <img src="/images/ic_check_24px.png" class="ic_check_24px">
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[필수] 위치정보 이용약관</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+
+                            <div class="individual-action">
+                                <img src="/images/ic_check_24px.png" class="ic_check_24px">
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[필수] 서비스 이용약관</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+
+                            <div class="individual-action">
+                                <img src="/images/ic_check_24px.png" class="ic_check_24px">
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[선택] 마케팅 정보 야간 수신 동의</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="modal-btn-start">
+                        <div class="modal-btn-start-label" id="agreeStartBtn">동의하고 시작하기</div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
-    // 다음을 눌렀을 때, 최종 인증번호가 맞다면 '회원가입 완료' 버튼으로 바꾸면 된다.
-    // 이때, '회원가입 완료' 버튼을 누르면 약관에 동의하는 안내문을 모달창으로 출력 후 동의하면 회원가입이 완료된다.
+
+    const myContainer = document.querySelector('#myContainer');
+    const beforeForm = document.querySelector('#beforeForm');
+    const afterForm = document.querySelector('#afterForm');
+
+    const beforePNumber = document.querySelector('#pNumber');
+    const afterPNumber = document.querySelector('#afterPNumber');
+
+    const beforeBtn = document.querySelector('#beforeBtn');
+    const afterBtn = document.querySelector('#afterBtn');
+
 
     /* Password eye on/off */
     const pwShowHide = document.querySelectorAll(".pw-eye");
@@ -120,40 +398,50 @@
         });
     });
 
-    /* verify password for nextPage */
+    document.querySelector('#sendCodeNumberBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        myContainer.style.height = '525px';
+        beforeForm.style.display = 'none';
+        afterForm.style.display = 'flex';
+        afterPNumber.value = beforePNumber.value;
+        createAuthenticationCode(beforePNumber.value.trim());
+    });
+
+    document.querySelector('#resendCodeNumberBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        createAuthenticationCode(afterPNumber.value.trim());
+    });
+
+    /* verify auth-code for join */
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
         e.preventDefault();
 
-        const pwInput = document.querySelector('#pwInput').value.trim();
-        const pwCheck = document.querySelector('#pwCheck').value.trim();
+        const codeInput = document.querySelector('#codeNumber');
+        const authenticationCode = codeInput.value.trim();
 
-        if (pwInput !== pwCheck) {
-            console.log('Password does not match');
-            // Display modal or show error message...
-            return;
-        }
-
-        if (checkPassword(pwInput)) {
-            sendPasswordByForm('cf_join3', pwInput);
+        if (checkAuthenticationCode(authenticationCode)) {
+            e.preventDefault();
+            beforeBtn.style.display = 'none';
+            afterBtn.style.display = 'flex';
         } else {
             console.log('Incorrect authentication code');
             // Display modal or show error message...
         }
 
-        async function checkPassword(pw) {
-            const data = await sendPassword(pw);
+        async function checkAuthenticationCode(code) {
+            const data = await sendAuthenticationCode(code);
             if (data === "valid") {
                 return true;
             }
 
-            async function sendPassword(pw) {
+            async function sendAuthenticationCode(code) {
                 try {
-                    const response = await fetch('/check_password', {
+                    const response = await fetch('/check_authentication_code/sms', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: pw
+                        body: code
                     });
 
                     if (response.ok) {
@@ -169,20 +457,60 @@
         }
     });
 
-    function sendPasswordByForm(path, pw) {
+    /* Modal : I agreed to the terms of service when I signed up for this website */
+    document.querySelector('#joinBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        $("#ToS").modal();
+    });
+
+    /* Join completed */
+    document.querySelector('#agreeStartBtn').addEventListener('click', function (e) {
+        join('cf_join/complete', afterPNumber.value.trim());
+    });
+
+    /* create auth-code */
+    function createAuthenticationCode(phoneNumber) {
+        getAuthenticationCode(phoneNumber);
+
+        async function getAuthenticationCode(phoneNumber) {
+            await createCode(phoneNumber);
+
+            async function createCode(phoneNumber) {
+                try {
+                    const response = await fetch('/get_authentication_code/sms', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: phoneNumber
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+        }
+    }
+
+    function join(path, phoneNumber) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
 
         const input = document.createElement('input');
         input.type = 'hidden';
-        input.name = 'password';
-        input.value = encodeURIComponent(pw);
+        input.name = 'phone_number';
+        input.value = encodeURIComponent(phoneNumber);
         form.appendChild(input);
 
         document.body.appendChild(form);
         form.submit();
     }
+
 </script>
 </body>
 </html>
