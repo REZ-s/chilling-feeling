@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,12 +14,11 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl extends MessageService {
 
     private JavaMailSender mailSender;
     private MailProperties mailProperties;
@@ -35,11 +33,12 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public String sendAuthCode(String to)
-            throws MailException, MessagingException, UnsupportedEncodingException {
-        ePw = createKey();
+    public String sendAuthCode(String to) throws MailException, MessagingException, UnsupportedEncodingException {
+        ePw = createAuthCode();
         MimeMessage message = createMessage(to);
 
+        log.info("보내는 대상 : "+ to);
+        log.info("인증 번호 : " + ePw);
         try {
             mailSender.send(message);
         } catch (MailException ex) {
@@ -49,10 +48,8 @@ public class EmailServiceImpl implements EmailService {
         return ePw;
     }
 
+    @Override
     public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
-        log.info("보내는 대상 : "+ to);
-        log.info("인증 번호 : " + ePw);
-
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, to);
         message.setSubject("칠링필링 회원가입 인증 코드 : 이메일");
@@ -71,19 +68,4 @@ public class EmailServiceImpl implements EmailService {
         return message;
     }
 
-    public static String createKey() {
-        StringBuffer key = new StringBuffer();  // thread-safe in multi-threading environment using synchronized keyword
-        Random rnd = new Random();
-
-        // code 6 digits
-        for (int i = 0; i < 6; ++i) {
-            key.append((rnd.nextInt(10)));
-        }
-
-        return key.toString();
-    }
-
-    public String getEPw() {
-        return ePw;
-    }
 }

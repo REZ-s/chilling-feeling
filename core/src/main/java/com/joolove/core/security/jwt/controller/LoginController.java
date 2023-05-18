@@ -18,6 +18,7 @@ import com.joolove.core.security.service.LogoutTokenService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.EmailServiceImpl;
+import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class LoginController {
     private final PasswordEncoder passwordEncoder;
     private final GoodsService goodsService;
     private final EmailServiceImpl emailService;
+    private final SMSServiceImpl smsService;
     private final PasswordRepository passwordRepository;
 
     @GetMapping("/")
@@ -155,11 +157,11 @@ public class LoginController {
         return ResponseEntity.ok().body(code);
     }
 
-    @PostMapping("/get_authentication_code/phone")
+    @PostMapping("/get_authentication_code/sms")
     @ResponseBody
-    public ResponseEntity<?> getAuthenticationCodePhone(@Valid @RequestBody String phoneNumber)
+    public ResponseEntity<?> getAuthenticationCodeSMS(@Valid @RequestBody String phoneNumber)
             throws Exception {
-        String code = emailService.sendAuthCode(phoneNumber);
+        String code = smsService.sendAuthCode(phoneNumber);
         return ResponseEntity.ok().body(code);
     }
 
@@ -172,10 +174,10 @@ public class LoginController {
         return ResponseEntity.ok().body("invalid");
     }
 
-    @PostMapping("/check_authentication_code/phone")
+    @PostMapping("/check_authentication_code/sms")
     @ResponseBody
-    public ResponseEntity<?> checkAuthenticationCodePhone(@Valid @RequestBody String code) {
-        if (Objects.equals(emailService.getEPw(), code)) {
+    public ResponseEntity<?> checkAuthenticationCodeSMS(@Valid @RequestBody String code) {
+        if (Objects.equals(smsService.getEPw(), code)) {
             return ResponseEntity.ok().body("valid");
         }
         return ResponseEntity.ok().body("invalid");
@@ -189,18 +191,6 @@ public class LoginController {
         }
 
         return ResponseEntity.ok().body("invalid");
-    }
-
-    @PostMapping(value = "/cf_login2", consumes = "application/x-www-form-urlencoded")
-    public String cfLogin2(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
-        String encodedEmail = formData.getFirst("email");
-        // email is not null
-        String email = URLDecoder.decode(encodedEmail, StandardCharsets.UTF_8);
-
-        User.SigninRequest request = User.SigninRequest.buildEmpty();
-        request.setUsername(email);
-        model.addAttribute("request", request);
-        return "cf_login_page2";
     }
 
     @GetMapping("/cf_join")
@@ -237,6 +227,25 @@ public class LoginController {
         }
 
         return "cf_join_page3";
+    }
+
+    @PostMapping(value = "/cf_join/complete", consumes = "application/x-www-form-urlencoded")
+    public String cfJoin4(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
+        String encodedPhoneNumber = formData.getFirst("phone_number");
+        // phoneNumber is not null
+        String phoneNumber = URLDecoder.decode(encodedPhoneNumber, StandardCharsets.UTF_8);
+
+        Object requestObject = model.getAttribute("request");
+        if (requestObject instanceof User.SignupRequest) {
+            User.SignupRequest request =  (User.SignupRequest) requestObject;
+            //request.setPhoneNumber(phoneNumber);
+            model.addAttribute("request", request);
+            System.out.println(request);
+        } else {
+            throw new RuntimeException("request is not User.SignupRequest");
+        }
+
+        return "cf_main_page";
     }
 
     @GetMapping("/main")

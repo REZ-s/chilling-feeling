@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	// mysql 추가
 	implementation 'mysql:mysql-connector-java'
+	implementation 'net.nurigo:sdk:4.3.0'
 
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.jsoup:jsoup:1.14.2'
