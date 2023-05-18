@@ -114,6 +114,13 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
 
+sms:
+  coolsms:
+    api-key: NCSCMFNPTSKXATB7
+    api-secret: L9RADSCB7EE36ZNZGBYM3IEX8UGVU3UY
+    host: 01073696639
+    domain: https://api.coolsms.co.kr
+
 
 logging:
   level:
