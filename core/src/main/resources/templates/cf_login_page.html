@@ -51,7 +51,7 @@
             background-color: #262626;
         }
 
-        .popup {
+        .modal-container {
             width: 335px;
             height: 143px;
             flex-grow: 0;
@@ -65,7 +65,7 @@
             background-color: #262626;
         }
 
-        .error_message {
+        .modal-error-message {
             height: 65px;
             align-self: stretch;
             flex-grow: 0;
@@ -77,7 +77,7 @@
             padding: 0;
         }
 
-        .text1 {
+        .modal-text1 {
             height: 32px;
             align-self: stretch;
             flex-grow: 0;
@@ -92,7 +92,7 @@
             color: #fff;
         }
 
-        .text2 {
+        .modal-text2 {
             height: 28px;
             align-self: stretch;
             flex-grow: 0;
@@ -107,7 +107,7 @@
             color: #fff;
         }
 
-        .laber {
+        .modal-label {
             width: 90px;
             height: 28px;
             flex-grow: 0;
@@ -205,46 +205,45 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="invalid" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body popup" >
-                    <div class="error_message">
-                        <div class="text1">존재하지 않는 이메일 입니다.</div>
-                        <div class="text2">회원가입을 진행할까요?</div>
-                    </div>
-                    <div class="laber">
-                        <a href="/cf_join_page">회원가입 하기</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="incorrect" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body popup" >
-                    <div class="error_message">
-                        <div class="text1">간편 로그인으로<br>가입된 이메일 입니다.</div>
-                        <br><br>
-                        <div class="text2">아래 소셜 아이콘으로 로그인해주세요.</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="invalid" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body modal-container" >
+                <div class="modal-error-message">
+                    <div class="modal-text1">존재하지 않는 이메일 입니다.</div>
+                    <div class="modal-text2">회원가입을 진행할까요?</div>
+                </div>
+                <div class="modal-label">
+                    <a href="/cf_join_page">회원가입 하기</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="incorrect" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body modal-container" >
+                <div class="modal-error-message">
+                    <div class="modal-text1">간편 로그인으로<br>가입된 이메일 입니다.</div>
+                    <br><br>
+                    <div class="modal-text2">아래 소셜 아이콘으로 로그인해주세요.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <script>
 
     document.addEventListener("DOMContentLoaded", function() {
