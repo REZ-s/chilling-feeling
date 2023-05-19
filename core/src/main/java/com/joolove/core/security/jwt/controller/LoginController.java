@@ -78,7 +78,7 @@ public class LoginController {
         return "sign_up";
     }
 
-    @PostMapping("/sign_up/create")
+/*    @PostMapping("/sign_up/create")
     public String joinByForm(Model model, @Valid @ModelAttribute User.SignupRequest request) {
         List<Role> roles = new ArrayList<>();
         Role role = roleRepository.findByName(ERole.ROLE_USER)
@@ -121,7 +121,7 @@ public class LoginController {
         userRepository.save(user);
 
         return "redirect:/sign_in";
-    }
+    }*/
 
     @GetMapping("/sign_in")
     public String loginForm(Model model) {
@@ -133,6 +133,12 @@ public class LoginController {
     public String cfLogin(Model model) {
         model.addAttribute("email", "");
         return "cf_login_page";
+    }
+
+    @PostMapping("/cf_login2")
+    public String cfLogin2(Model model, @Valid @ModelAttribute User.SigninRequest request) {
+        model.addAttribute("email", request.getUsername());
+        return "cf_login_page2";
     }
 
     @PostMapping("/check_email")
@@ -168,7 +174,7 @@ public class LoginController {
     @PostMapping("/check_authentication_code/email")
     @ResponseBody
     public ResponseEntity<?> checkAuthenticationCodeEmail(@Valid @RequestBody String code) {
-        if (Objects.equals(emailService.getEPw(), code)) {
+        if (Objects.equals(emailService.getAuthCode(), code)) {
             return ResponseEntity.ok().body("valid");
         }
         return ResponseEntity.ok().body("invalid");
@@ -177,7 +183,7 @@ public class LoginController {
     @PostMapping("/check_authentication_code/sms")
     @ResponseBody
     public ResponseEntity<?> checkAuthenticationCodeSMS(@Valid @RequestBody String code) {
-        if (Objects.equals(smsService.getEPw(), code)) {
+        if (Objects.equals(smsService.getAuthCode(), code)) {
             return ResponseEntity.ok().body("valid");
         }
         return ResponseEntity.ok().body("invalid");
@@ -186,6 +192,9 @@ public class LoginController {
     @PostMapping("/check_password")
     @ResponseBody
     public ResponseEntity<?> checkPassword(@Valid @RequestBody String password) {
+        // 비밀번호 규격에 맞는지만 확인하고 (이 로직은 클라이언트에서 진행한다.)
+        // 생성은 여기에서 한다. 아니 생성도 할 필요가 없다 생각해보니.. 나중에 회원가입할때 한번에 하는게 좋겠다.
+
         if (passwordRepository.existsByPw(passwordEncoder.encode(password))) {
             return ResponseEntity.ok().body("valid");
         }
@@ -199,20 +208,31 @@ public class LoginController {
         return "cf_join_page";
     }
 
-    @PostMapping(value = "/cf_join2", consumes = "application/x-www-form-urlencoded")
-    public String cfJoin2(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
-        String encodedEmail = formData.getFirst("email");
-        // email is not null
-        String email = URLDecoder.decode(encodedEmail, StandardCharsets.UTF_8);
+/*    @PostMapping(value = "/cf_join2")
+    public String cfJoin2(Model model,
+                          @Valid @RequestBody String requestUsername) {
+        String username = URLDecoder.decode(requestUsername, StandardCharsets.UTF_8);
 
-        User.SignupRequest request = User.SignupRequest.buildEmpty();
-        request.setEmail(email);
+        User.SignupRequest request = (User.SignupRequest) model.getAttribute("request");
+        request.setUsername(username);
         model.addAttribute("request", request);
+        return "cf_join_page2";
+    }*/
+
+    @PostMapping(value = "/cf_join2")
+    public String cfJoin2(Model model,
+                          @ModelAttribute("request") User.SignupRequest request) {
+        // @Valid 을 위의 매개변수에 넣으면, 실제 request 객체의 @NotBlank 를 인식해서 팅겨낸다.
+        // 고로... 저기에 설정하지 말자.
+
+        String username = request.getUsername();
+        System.out.println(username);
+
         return "cf_join_page2";
     }
 
     @PostMapping(value = "/cf_join3", consumes = "application/x-www-form-urlencoded")
-    public String cfJoin3(@Valid @RequestBody MultiValueMap<String, String> formData, @ModelAttribute Model model) {
+    public String cfJoin3(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
         String encodedPassword = formData.getFirst("password");
         // password is not null
         String password = URLDecoder.decode(encodedPassword, StandardCharsets.UTF_8);
@@ -264,35 +284,6 @@ public class LoginController {
         List<Goods> goodsList = goodsService.findListGoods(request.getName());
         model.addAttribute("goodsList", goodsList);
         return "search_goods_list";
-    }
-
-    @GetMapping("/form/loginInfo")
-    @ResponseBody
-    public String formLoginInfo(Authentication authentication) {
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-        return principal.getUser().toString();
-    }
-
-    @GetMapping("/oauth/loginInfo")
-    @ResponseBody
-    public String oauthLoginInfo(Authentication authentication) {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        return oAuth2User.toString();
-    }
-
-    @GetMapping("/loginInfo")
-    @ResponseBody
-    public String loginInfo(Authentication authentication) {
-        String result = "";
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-
-        if (SocialLogin.convertToProvider(principal.getUser().getSocialLogin().getProviderCode()) == null) {
-            result = result + "Form 로그인 : " + principal;
-        } else {
-            result = result + "OAuth2 로그인 : " + principal;
-        }
-
-        return result;
     }
 
     // Access auth test

@@ -219,29 +219,28 @@ public class User extends BaseTimeStamp {
         private String username;
 
         @NotBlank
-        @Size(max = 50)
-        @Email
-        private String email;
+        @Size(min = 8, max = 40)
+        private String password;
+
+        @NotBlank
+        @Size(min = 10, max = 20)
+        private String phoneNumber;
 
         private List<String> roles;
 
-        @NotBlank
-        @Size(min = 6, max = 40)
-        private String password;
-
         @Builder
-        public SignupRequest(String username, String email, List<String> roles, String password) {
+        public SignupRequest(String username, String password, String phoneNumber, List<String> roles) {
             this.username = username;
-            this.email = email;
-            this.roles = roles;
             this.password = password;
+            this.phoneNumber = phoneNumber;
+            this.roles = roles;
         }
 
         public static SignupRequest buildEmpty() {
             return SignupRequest.builder()
                     .username("")
                     .password("")
-                    .email("")
+                    .phoneNumber("")
                     .build();
         }
     }

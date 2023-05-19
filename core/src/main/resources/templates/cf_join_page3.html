@@ -377,7 +377,6 @@
     const beforeBtn = document.querySelector('#beforeBtn');
     const afterBtn = document.querySelector('#afterBtn');
 
-
     /* Password eye on/off */
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
@@ -414,8 +413,6 @@
 
     /* verify auth-code for join */
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
-        e.preventDefault();
-
         const codeInput = document.querySelector('#codeNumber');
         const authenticationCode = codeInput.value.trim();
 
@@ -465,7 +462,8 @@
 
     /* Join completed */
     document.querySelector('#agreeStartBtn').addEventListener('click', function (e) {
-        join('cf_join/complete', afterPNumber.value.trim());
+        e.preventDefault();
+        join('/cf_join/complete', afterPNumber.value.trim());
     });
 
     /* create auth-code */

@@ -129,6 +129,7 @@ public class AuthController {
                 .body(response);
     }
 
+/*
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User.SignupRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -207,6 +208,7 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully!");
     }
+    */
 
     @PostMapping("/signout")
     public ResponseEntity<?> signoutUser() {
