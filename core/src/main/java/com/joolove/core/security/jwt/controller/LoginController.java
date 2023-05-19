@@ -212,7 +212,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/cf_join3", consumes = "application/x-www-form-urlencoded")
-    public String cfJoin3(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
+    public String cfJoin3(@Valid @RequestBody MultiValueMap<String, String> formData, @ModelAttribute Model model) {
         String encodedPassword = formData.getFirst("password");
         // password is not null
         String password = URLDecoder.decode(encodedPassword, StandardCharsets.UTF_8);
