@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class SMSServiceImpl extends MessageService {
 
+    private String authCode;
     private DefaultMessageService messageService;
 
     @Value("${sms.coolsms.api-key}")
@@ -31,8 +32,6 @@ public class SMSServiceImpl extends MessageService {
     @Value("${sms.coolsms.domain}")
     private String domain;
 
-    private String ePw;
-
     @PostConstruct
     private void initialize() {
         messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, domain);
@@ -40,18 +39,18 @@ public class SMSServiceImpl extends MessageService {
 
     @Override
     public String sendAuthCode(String to) throws Exception {
-        ePw = createAuthCode();
+        authCode = createAuthCode();
         Message message = createMessage(to);
 
         log.info("보내는 대상 : "+ to);
-        log.info("인증 번호 : " + ePw);
+        log.info("인증 번호 : " + authCode);
         try {
             messageService.sendOne(new SingleMessageSendingRequest(message));
         } catch (Exception ex) {
             throw new Exception("Failed to send sms", ex);
         }
 
-        return ePw;
+        return authCode;
     }
 
     @Override
@@ -60,9 +59,14 @@ public class SMSServiceImpl extends MessageService {
         message.setFrom(to);
         message.setTo(host);
         message.setType(MessageType.SMS);
-        message.setText("[칠링필링] 인증번호 : " + ePw);
+        message.setText("[칠링필링] 인증번호 : " + authCode);
 
         return message;
+    }
+
+    @Override
+    public String getAuthCode() {
+        return authCode;
     }
 
 }

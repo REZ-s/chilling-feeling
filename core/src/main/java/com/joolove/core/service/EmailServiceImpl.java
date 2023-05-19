@@ -20,11 +20,11 @@ import java.io.UnsupportedEncodingException;
 @RequiredArgsConstructor
 public class EmailServiceImpl extends MessageService {
 
+    private String authCode;
     private JavaMailSender mailSender;
     private MailProperties mailProperties;
     @Value("${spring.mail.username}")
     private String id;
-    private String ePw;
 
     @Autowired
     public EmailServiceImpl(JavaMailSender mailSender, MailProperties mailProperties) {
@@ -34,18 +34,18 @@ public class EmailServiceImpl extends MessageService {
 
     @Override
     public String sendAuthCode(String to) throws MailException, MessagingException, UnsupportedEncodingException {
-        ePw = createAuthCode();
+        authCode = createAuthCode();
         MimeMessage message = createMessage(to);
 
         log.info("보내는 대상 : "+ to);
-        log.info("인증 번호 : " + ePw);
+        log.info("인증 번호 : " + authCode);
         try {
             mailSender.send(message);
         } catch (MailException ex) {
             throw new MailSendException("Failed to send email", ex);
         }
 
-        return ePw;
+        return authCode;
     }
 
     @Override
@@ -59,13 +59,18 @@ public class EmailServiceImpl extends MessageService {
         msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
         msg += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 확인 코드를 입력해주세요.</p>";
         msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
-        msg += ePw;
+        msg += authCode;
         msg += "</td></tr></tbody></table></div>";
 
         message.setText(msg, "utf-8", "html");
         message.setFrom(new InternetAddress(id,"CF_Admin"));
 
         return message;
+    }
+
+    @Override
+    public String getAuthCode() {
+        return authCode;
     }
 
 }

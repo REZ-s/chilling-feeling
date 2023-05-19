@@ -4,35 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
-public class MessageService {
+public abstract class MessageService {
 
-    private String ePw;
+    private String authCode;
 
-    public String sendAuthCode(String to) throws Exception {
-        ePw = createAuthCode();
-        // ...
-        return ePw;
-    }
+    public abstract String sendAuthCode(String to) throws Exception;
 
-    /* Need implementation */
-    public Object createMessage(String to) throws Exception {
-        return null;
-    }
+    public abstract Object createMessage(String to) throws Exception;
+
+    public abstract String getAuthCode();
 
     /* 6-digits auth code number */
     public String createAuthCode() {
-        StringBuffer key = new StringBuffer();  // thread-safe in multi-threading environment using synchronized keyword
+        StringBuilder key = new StringBuilder(6);
         Random rnd = new Random();
 
         for (short i = 0; i < 6; ++i) {
-            key.append((rnd.nextInt(10)));
+            key.append(rnd.nextInt(10));
         }
 
         return key.toString();
-    }
-
-    public String getEPw() {
-        return ePw;
     }
 
 }

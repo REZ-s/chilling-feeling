@@ -65,76 +65,58 @@
     </div>
 
 </div>
-<script>
+<script th:inline="javascript">
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
 
     /* verify password for nextPage */
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
         e.preventDefault();
-
         const pwInput = document.querySelector('#pwInput').value.trim();
         const pwCheck = document.querySelector('#pwCheck').value.trim();
 
         if (pwInput !== pwCheck) {
             console.log('Password does not match');
-            // Display modal or show error message...
+            /*
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = '비밀번호가 일치하지 않습니다.';
+            errorMessage.style.display = 'block';
+            */
             return;
         }
 
-        if (checkPassword(pwInput)) {
-            const myElement = document.getElementById('myElement');
-            const modelAttributeValue = myElement.getAttribute('data-model-attribute');
-            console.log(modelAttributeValue); // Output: "exampleValue"
-
-            sendPasswordByForm('cf_join3', pwInput);
-        } else {
-            console.log('Incorrect authentication code');
-            // Display modal or show error message...
-        }
-
-        async function checkPassword(pw) {
-            const data = await sendPassword(pw);
-            if (data === "valid") {
-                return true;
-            }
-
-            async function sendPassword(pw) {
-                try {
-                    const response = await fetch('/check_password', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: pw
-                    });
-
-                    if (response.ok) {
-                        return await response.text();
-                    }
-                    throw response;
-                } catch (error) {
-                    throw error;
-                }
-            }
-
-            return false;
-        }
+        sendPasswordByForm('/cf_join3', pwInput);
     });
 
-    function sendPasswordByForm(path, pw, modelAttributes) {
+    function sendPasswordByForm(path, pw) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
 
-        // Add model attributes to the form
-        for (const key in modelAttributes) {
-            if (modelAttributes.hasOwnProperty(key)) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = encodeURIComponent(modelAttributes[key]);
-                form.appendChild(input);
-            }
-        }
+        const modelValue = /*[[${request}]]*/ null;
+        const modelInput = document.createElement('input');
+        modelInput.type = 'hidden';
+        modelInput.name = 'request';
+        modelInput.value = encodeURIComponent(modelValue);
+        form.appendChild(modelInput);
 
         const passwordInput = document.createElement('input');
         passwordInput.type = 'hidden';

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
 >
 <html lang="en">
 <head>
@@ -94,7 +94,7 @@
     </section>
 
 </div>
-<script>
+<script th:inline="javascript">
 
     /* Form transformation */
     const myContainer = document.querySelector('#myContainer');
@@ -168,7 +168,6 @@
 
     /* verify auth-code for nextPage */
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
-        e.preventDefault();
 
         const codeInput = document.querySelector('#codeNumber');
         const authenticationCode = codeInput.value.trim();
@@ -176,9 +175,7 @@
         if (checkAuthenticationCode(authenticationCode)) {
             const emailInput = document.querySelector('#afterEmail');
             const afterEmail = emailInput.value.trim();
-
-            sendEmailByForm('cf_join2', afterEmail);
-
+            sendEmailByForm('/cf_join2', afterEmail);
         } else {
             console.log('Incorrect authentication code');
             // Display modal or show error message...
@@ -214,20 +211,37 @@
 
     });
 
+    /*<![CDATA[*/
     function sendEmailByForm(path, email) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
 
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'email';
-        input.value = encodeURIComponent(email);
-        form.appendChild(input);
+        let request = /*[[${request}]]*/ {};
+        request.username = email;
+
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'hidden';
+        usernameInput.name = 'username';
+        usernameInput.value = request.username;
+        form.appendChild(usernameInput);
+
+        const pwInput = document.createElement('input');
+        pwInput.type = 'hidden';
+        pwInput.name = 'password';
+        pwInput.value = request.password;
+        form.appendChild(pwInput);
+
+        const numberInput = document.createElement('input');
+        numberInput.type = 'hidden';
+        numberInput.name = 'phoneNumber';
+        numberInput.value = request.phoneNumber;
+        form.appendChild(numberInput);
 
         document.body.appendChild(form);
         form.submit();
     }
+    /*]]>*/
 
 </script>
 </body>
