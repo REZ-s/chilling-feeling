@@ -66,93 +66,15 @@ public class LoginController {
     private final SMSServiceImpl smsService;
     private final PasswordRepository passwordRepository;
 
-    @GetMapping("/")
-    public String getMainPage(Model model) {
-        model.addAttribute("allUserList", userService.findAll());
-        return "all_user_list";
-    }
-
-    @GetMapping("/sign_up")
-    public String joinForm(Model model) {
-        model.addAttribute("request", User.SignupRequest.buildEmpty());
-        return "sign_up";
-    }
-
-/*    @PostMapping("/sign_up/create")
-    public String joinByForm(Model model, @Valid @ModelAttribute User.SignupRequest request) {
-        List<Role> roles = new ArrayList<>();
-        Role role = roleRepository.findByName(ERole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(role);
-
-        //Create new user's account
-        User user = User.builder()
-                .username(request.getUsername())
-                .accountType((short) 1)
-                .build();
-
-        com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
-                .user(user)
-                .email(request.getEmail())
-                .sex("남자")
-                .phoneNumber("010-7369-6639")
-                .birthday(LocalDate.of(1992, 12, 10))
-                .country("Korea")
-                .gatherAgree(true)
-                .build();
-        user.setAuthentication(authentication);
-
-        Password password = Password.builder()
-                .user(user)
-                .pw(passwordEncoder.encode(request.getPassword()))
-                .build();
-        user.setPassword(password);
-
-        List<UserRole> userRoles = new ArrayList<>();
-        for (Role r : roles) {
-            UserRole userRole = UserRole.builder()
-                    .user(user)
-                    .role(r)
-                    .build();
-            userRoles.add(userRole);
-        }
-        user.setRoles(userRoles);
-
-        userRepository.save(user);
-
-        return "redirect:/sign_in";
-    }*/
-
-    @GetMapping("/sign_in")
-    public String loginForm(Model model) {
-        model.addAttribute("request", User.SigninRequest.buildEmpty());
-        return "sign_in";
-    }
-
     @GetMapping("/cf_login")
     public String cfLogin(Model model) {
-        model.addAttribute("email", "");
+        model.addAttribute("request", User.SigninRequest.buildEmpty());
         return "cf_login_page";
     }
 
     @PostMapping("/cf_login2")
-    public String cfLogin2(Model model, @Valid @ModelAttribute User.SigninRequest request) {
-        model.addAttribute("email", request.getUsername());
+    public String cfLogin2(Model model, @Valid @ModelAttribute("request") User.SigninRequest request) {
         return "cf_login_page2";
-    }
-
-    @PostMapping("/check_email")
-    @ResponseBody
-    public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) {
-        if (authenticationRepository.existsByEmail(email)) {
-            if (userRepository.existsByUsername(email)) {
-                return ResponseEntity.ok().body("valid-correct-access");
-            }
-
-            return ResponseEntity.ok().body("valid-incorrect-access");
-        }
-
-        return ResponseEntity.ok().body("invalid");
     }
 
     @PostMapping("/get_authentication_code/email")
@@ -189,11 +111,23 @@ public class LoginController {
         return ResponseEntity.ok().body("invalid");
     }
 
+    @PostMapping("/check_email")
+    @ResponseBody
+    public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) {
+        if (authenticationRepository.existsByEmail(email)) {
+            if (userRepository.existsByUsername(email)) {
+                return ResponseEntity.ok().body("valid-correct-access");
+            }
+
+            return ResponseEntity.ok().body("valid-incorrect-access");
+        }
+
+        return ResponseEntity.ok().body("invalid");
+    }
+
     @PostMapping("/check_password")
     @ResponseBody
     public ResponseEntity<?> checkPassword(@Valid @RequestBody String password) {
-        // 비밀번호 규격에 맞는지만 확인하고 (이 로직은 클라이언트에서 진행한다.)
-        // 생성은 여기에서 한다. 아니 생성도 할 필요가 없다 생각해보니.. 나중에 회원가입할때 한번에 하는게 좋겠다.
         if (passwordRepository.existsByPw(passwordEncoder.encode(password))) {
             return ResponseEntity.ok().body("valid");
         }
@@ -209,26 +143,64 @@ public class LoginController {
 
     @PostMapping(value = "/cf_join2")
     public String cfJoin2(Model model, @ModelAttribute("request") User.SignupRequest request) {
-        // @Valid 을 위의 매개변수에 넣으면, 실제 request 객체의 @NotBlank 를 인식해서 팅겨낸다.
-        String username = request.getUsername();
         return "cf_join_page2";
     }
 
     @PostMapping(value = "/cf_join3")
     public String cfJoin3(Model model, @ModelAttribute("request") User.SignupRequest request) {
-        String password = request.getPassword();
         return "cf_join_page3";
     }
 
     @PostMapping(value = "/cf_join/complete")
-    public String cfJoin4(Model model, @ModelAttribute("request") User.SignupRequest request) {
-        String phoneNumber = request.getPhoneNumber();
+    public String cfJoin4(Model model, @Valid @ModelAttribute("request") User.SignupRequest request) {
+        // 여기가 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 검증
+
+        // 사용자 접근 권한 생성
+        List<Role> roles = new ArrayList<>();
+        Role role = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        // 사용자 계정 생성
+        User user = User.builder()
+                .username(request.getUsername())
+                .accountType((short) 1)
+                .build();
+
+        com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
+                .user(user)
+                .email(request.getUsername())
+                .gatherAgree(true)
+                .build();
+        user.setAuthentication(authentication);
+
+        Password password = Password.builder()
+                .user(user)
+                .pw(passwordEncoder.encode(request.getPassword()))
+                .build();
+        user.setPassword(password);
+
+        List<UserRole> userRoles = new ArrayList<>();
+        for (Role r : roles) {
+            UserRole userRole = UserRole.builder()
+                    .user(user)
+                    .role(r)
+                    .build();
+            userRoles.add(userRole);
+        }
+        user.setRoles(userRoles);
+
+        userRepository.save(user);
+
         return "cf_main_page";
     }
 
-    @GetMapping("/main")
+    // 지금 고민되는게, 이 두가지가 있음
+    // 로그인한 상태인지를 검사하고, 로그인한 상태로 메인화면에 진입한다.
+    // 비로그인 상태로 메인화면에 진입한다.
+    @GetMapping("/cf_main")
     public String mainPage() {
-        return "main";
+        return "cf_main_page";
     }
 
     @GetMapping("/search")
@@ -244,7 +216,16 @@ public class LoginController {
         return "search_goods_list";
     }
 
-    // Access auth test
+
+
+    // 사용자 계정 테스트
+    @GetMapping("/")
+    public String getMainPage(Model model) {
+        model.addAttribute("allUserList", userService.findAll());
+        return "all_user_list";
+    }
+
+    // 접근 권한 테스트
     @GetMapping("/all")
     @ResponseBody
     public String allAccess() {

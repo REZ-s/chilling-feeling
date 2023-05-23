@@ -123,6 +123,7 @@
         }
 
     </style>
+
 </head>
 <body>
 <div class="login1">
@@ -244,7 +245,7 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
 
     document.addEventListener("DOMContentLoaded", function() {
         const myBtn = document.querySelector("#myBtn");
@@ -286,7 +287,7 @@
                 try {
                     const data = await checkEmailExists(email);
                     if (data === "valid-correct-access") {
-                        sendEmailByForm('/cf_login2', email);
+                        sendLoginForm('/cf_login2', email);
                     } else if (data === "valid-incorrect-access") {
                         $("#incorrect").modal();
                     } else {
@@ -300,20 +301,31 @@
         });
     });
 
-    function sendEmailByForm(path, email) {
+    /*<![CDATA[*/
+    function sendLoginForm(path, email) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
 
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'email';
-        input.value = encodeURIComponent(email);
-        form.appendChild(input);
+        let request = /*[[${request}]]*/ {};
+        request.username = email;
+
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'hidden';
+        usernameInput.name = 'username';
+        usernameInput.value = request.username;
+        form.appendChild(usernameInput);
+
+        const pwInput = document.createElement('input');
+        pwInput.type = 'hidden';
+        pwInput.name = 'password';
+        pwInput.value = request.password;
+        form.appendChild(pwInput);
 
         document.body.appendChild(form);
         form.submit();
     }
+    /*]]>*/
 
 </script>
 </body>

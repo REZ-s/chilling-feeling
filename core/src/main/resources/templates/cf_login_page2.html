@@ -16,7 +16,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
 </head>
 
 <body>
@@ -48,12 +47,18 @@
         </div>
     </div>
 
-    <form sec:authorize="isAnonymous()" th:action="@{/cf_login2/access}" th:method="post" th:object="${request}">
+    <form sec:authorize="isAnonymous()" th:action="@{/cf_login/complete}" th:method="post" th:object="${request}">
         <div class="login1-form-field">
             <!-- username(email) for spring boot form login builder -->
             <input type="hidden" th:field="${request.username}">
-            <input class="login1-form" id="myPassword" placeholder="비밀번호 입력" th:field="${request.password}"
-                   type="password">
+            <div>
+                <input class="login1-form pw-field" id="myPassword" placeholder="비밀번호 입력" th:field="${request.password}"
+                       type="password">
+
+                <div class="ic_visibility_off">
+                    <img class="pw-eye" src="/images/ic_visibility_off.png">
+                </div>
+            </div>
         </div>
 
         <button class="login2-btn-login" id="myBtn">
@@ -67,18 +72,29 @@
         </div>
     </div>
 </div>
-<script>
-/*
-    // password eye toggle
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#myPassword');
 
-    togglePassword.addEventListener('click', function (e) {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.classList.toggle('fa-eye-slash');
+<script th:inline="javascript">
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
     });
-*/
+
 </script>
 </body>
 </html>

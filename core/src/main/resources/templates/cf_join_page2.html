@@ -103,11 +103,11 @@
             return;
         }
 
-        sendPasswordByForm('/cf_join3', pwInput);
+        sendJoinForm('/cf_join3', pwInput);
     });
 
     /*<![CDATA[*/
-    function sendPasswordByForm(path, pw) {
+    function sendJoinForm(path, pw) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
