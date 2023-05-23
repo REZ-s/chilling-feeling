@@ -1346,7 +1346,7 @@ input.login1-form::placeholder {
     align-items: stretch;
     gap: 10px;
     padding: 0;
-    border: solid 1px #4a4a4a;
+    border-bottom: solid 1px #4a4a4a;
     background-color: #000;
 }
 
@@ -1363,6 +1363,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #4a4a4a;
+    background-color: black;
+    border: 0;
 }
 
 .join3-btn-code-number {

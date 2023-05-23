@@ -194,7 +194,6 @@ public class LoginController {
     public ResponseEntity<?> checkPassword(@Valid @RequestBody String password) {
         // 비밀번호 규격에 맞는지만 확인하고 (이 로직은 클라이언트에서 진행한다.)
         // 생성은 여기에서 한다. 아니 생성도 할 필요가 없다 생각해보니.. 나중에 회원가입할때 한번에 하는게 좋겠다.
-
         if (passwordRepository.existsByPw(passwordEncoder.encode(password))) {
             return ResponseEntity.ok().body("valid");
         }
@@ -208,63 +207,22 @@ public class LoginController {
         return "cf_join_page";
     }
 
-/*    @PostMapping(value = "/cf_join2")
-    public String cfJoin2(Model model,
-                          @Valid @RequestBody String requestUsername) {
-        String username = URLDecoder.decode(requestUsername, StandardCharsets.UTF_8);
-
-        User.SignupRequest request = (User.SignupRequest) model.getAttribute("request");
-        request.setUsername(username);
-        model.addAttribute("request", request);
-        return "cf_join_page2";
-    }*/
-
     @PostMapping(value = "/cf_join2")
-    public String cfJoin2(Model model,
-                          @ModelAttribute("request") User.SignupRequest request) {
+    public String cfJoin2(Model model, @ModelAttribute("request") User.SignupRequest request) {
         // @Valid 을 위의 매개변수에 넣으면, 실제 request 객체의 @NotBlank 를 인식해서 팅겨낸다.
-        // 고로... 저기에 설정하지 말자.
-
         String username = request.getUsername();
-        System.out.println(username);
-
         return "cf_join_page2";
     }
 
-    @PostMapping(value = "/cf_join3", consumes = "application/x-www-form-urlencoded")
-    public String cfJoin3(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
-        String encodedPassword = formData.getFirst("password");
-        // password is not null
-        String password = URLDecoder.decode(encodedPassword, StandardCharsets.UTF_8);
-
-        Object requestObject = model.getAttribute("request");
-        if (requestObject instanceof User.SignupRequest) {
-            User.SignupRequest request =  (User.SignupRequest) requestObject;
-            request.setPassword(password);
-            model.addAttribute("request", request);
-        } else {
-            throw new RuntimeException("request is not User.SignupRequest");
-        }
-
+    @PostMapping(value = "/cf_join3")
+    public String cfJoin3(Model model, @ModelAttribute("request") User.SignupRequest request) {
+        String password = request.getPassword();
         return "cf_join_page3";
     }
 
-    @PostMapping(value = "/cf_join/complete", consumes = "application/x-www-form-urlencoded")
-    public String cfJoin4(@Valid @RequestBody MultiValueMap<String, String> formData, Model model) {
-        String encodedPhoneNumber = formData.getFirst("phone_number");
-        // phoneNumber is not null
-        String phoneNumber = URLDecoder.decode(encodedPhoneNumber, StandardCharsets.UTF_8);
-
-        Object requestObject = model.getAttribute("request");
-        if (requestObject instanceof User.SignupRequest) {
-            User.SignupRequest request =  (User.SignupRequest) requestObject;
-            //request.setPhoneNumber(phoneNumber);
-            model.addAttribute("request", request);
-            System.out.println(request);
-        } else {
-            throw new RuntimeException("request is not User.SignupRequest");
-        }
-
+    @PostMapping(value = "/cf_join/complete")
+    public String cfJoin4(Model model, @ModelAttribute("request") User.SignupRequest request) {
+        String phoneNumber = request.getPhoneNumber();
         return "cf_main_page";
     }
 

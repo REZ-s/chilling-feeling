@@ -106,27 +106,37 @@
         sendPasswordByForm('/cf_join3', pwInput);
     });
 
+    /*<![CDATA[*/
     function sendPasswordByForm(path, pw) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
 
-        const modelValue = /*[[${request}]]*/ null;
-        const modelInput = document.createElement('input');
-        modelInput.type = 'hidden';
-        modelInput.name = 'request';
-        modelInput.value = encodeURIComponent(modelValue);
-        form.appendChild(modelInput);
+        let request = /*[[${request}]]*/ {};
+        request.password = pw;
 
-        const passwordInput = document.createElement('input');
-        passwordInput.type = 'hidden';
-        passwordInput.name = 'password';
-        passwordInput.value = encodeURIComponent(pw);
-        form.appendChild(passwordInput);
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'hidden';
+        usernameInput.name = 'username';
+        usernameInput.value = request.username;
+        form.appendChild(usernameInput);
+
+        const pwInput = document.createElement('input');
+        pwInput.type = 'hidden';
+        pwInput.name = 'password';
+        pwInput.value = request.password;
+        form.appendChild(pwInput);
+
+        const numberInput = document.createElement('input');
+        numberInput.type = 'hidden';
+        numberInput.name = 'phoneNumber';
+        numberInput.value = request.phoneNumber;
+        form.appendChild(numberInput);
 
         document.body.appendChild(form);
         form.submit();
     }
+    /*]]>*/
 
 </script>
 </body>
