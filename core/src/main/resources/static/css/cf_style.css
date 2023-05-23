@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Jost');
 
 NotoSansKR {
     font-family: 'Noto Sans KR', serif;
+}
+
+Jost {
+    font-family: Jost, serif;
 }
 
 body {
@@ -16,6 +21,209 @@ body {
 .pw-field {
     /* for js script */
 }
+
+
+/* 메인화면 */
+@media (min-width: 375px) {
+    .main-container {
+        width: 375px;
+        min-height: 100vh;
+        background-color: #000;
+    }
+}
+
+.bottom-container {
+    position: fixed;
+    bottom: 0;
+    height: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.home {
+    width: 375px;
+    height: 3613px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+    background-color: #fff;
+}
+
+.wrap-top-bar-top-banner {
+    height: 484px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 40px 0;
+    background-color: #00232d;
+}
+
+.top-bar {
+    height: 44px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 18px;
+    background-color: #00232d;
+}
+
+.logo {
+    width: 145px;
+    height: 26px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 4px 2px;
+}
+
+.wrap-logo-text {
+    width: 141px;
+    height: 18px;
+    flex-grow: 0;
+}
+
+.CHILLING-FEELING {
+    width: 141px;
+    height: 18px;
+    /*font-family: 'Jost', serif;*/
+    font-size: 18px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: -0.54px;
+    text-align: center;
+    color: #fff;
+}
+
+.btn-menu {
+    width: 62px;
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 2px;
+}
+
+.ic_search_24px {
+    width: 24px;
+    height: 24px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.ic_shopping_bag_24px {
+    width: 24px;
+    height: 24px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.btn-rounded-recommend-label {
+    width: 54px;
+    height: 22px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #fff;
+}
+
+.btn-rounded-recommend {
+    width: 86px;
+    height: 32px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 16px;
+    border-radius: 20px;
+    background-color: #004051;
+}
+
+.today-recommend-title {
+    height: 64px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: -0.44px;
+    text-align: center;
+    color: #fff;
+}
+
+.illustration-container {
+    width: 263px;
+    height: 224px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+    object-fit: contain;
+}
+
+.wrapper-illustration-title {
+    height: 298px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+}
+
+.home-container-today {
+    height: 360px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+    padding: 0 20px;
+    background-color: #00232d;
+}
+
+.bottom-home {
+    width: 375px;
+    height: 66px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0;
+    border: solid 1px #e6e6e6;
+}
+
 
 /* 로그인1 */
 @media (min-width: 375px) {
