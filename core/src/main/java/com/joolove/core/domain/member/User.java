@@ -166,17 +166,15 @@ public class User extends BaseTimeStamp {
     /**
      * DTO
      */
-
-
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SigninRequest {
         @NotBlank
-        @Size(min = 4, max = 100)
+        @Size(min = 4, max = 40)
         private String username;
 
         @NotBlank
-        @Size(min = 6, max = 100)
+        @Size(min = 8, max = 40)
         private String password;
 
         @Builder
@@ -198,7 +196,6 @@ public class User extends BaseTimeStamp {
     public static class SigninResponse {
         private UUID id;
         private String username;
-
         private String email;
         private List<String> roles;
 
@@ -248,7 +245,6 @@ public class User extends BaseTimeStamp {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OAuth2Response {
-
         private String email;
         private String name;
         private String picture;

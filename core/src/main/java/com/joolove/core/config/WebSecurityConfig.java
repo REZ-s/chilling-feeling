@@ -91,22 +91,22 @@ public class WebSecurityConfig {
 
         http.formLogin()
                 .loginPage("/cf_login2")
-                .loginProcessingUrl("/cf_login2/access")
-                .defaultSuccessUrl("/main")
+                .loginProcessingUrl("/cf_login/complete")
+                .defaultSuccessUrl("/cf_main")
                 .failureUrl("/cf_login?error=true")
                 .successHandler(formLoginSuccessHandler);
 
         http.oauth2Login()
                 .loginPage("/cf_login")
-                .defaultSuccessUrl("/main")
+                .defaultSuccessUrl("/cf_main")
                 .failureUrl("/cf_login?error=true")
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler())
                 .userInfoEndpoint().userService(oAuth2UserService());
 
         http.logout()
-                .logoutUrl("/sign_out")
-                .logoutSuccessUrl("/main")
+                .logoutUrl("/cf_logout")
+                .logoutSuccessUrl("/cf_main")
                 .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
                 .deleteCookies("JSESSIONID", "jooloveJwt", "jooloveJwtRefresh");
 

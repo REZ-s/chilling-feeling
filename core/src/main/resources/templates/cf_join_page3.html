@@ -403,7 +403,7 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
 
     const myContainer = document.querySelector('#myContainer');
     const beforeForm = document.querySelector('#beforeForm');
@@ -508,7 +508,7 @@
     document.querySelector('#agreeStartBtn').addEventListener('click', function (e) {
         e.preventDefault();
         if (isCheckboxChecked()) {
-            sendTelByForm('/cf_join/complete', afterPNumber.value.trim());
+            sendJoinForm('/cf_join/complete', afterPNumber.value.trim());
         } else {
             alert('필수 체크박스를 모두 체크해주세요.');
         }
@@ -587,7 +587,7 @@
     }
 
     /*<![CDATA[*/
-    function sendTelByForm(path, tel) {
+    function sendJoinForm(path, tel) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;

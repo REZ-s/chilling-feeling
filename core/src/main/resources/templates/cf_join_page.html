@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -104,20 +103,6 @@
     const beforeEmail = document.querySelector('#beforeEmail');
     const afterEmail = document.querySelector('#afterEmail');
 
-    document.querySelector('#sendCodeNumber').addEventListener('click', function (e) {
-        e.preventDefault();
-        myContainer.style.height = '525px';
-        beforeForm.style.display = 'none';
-        afterForm.style.display = 'flex';
-        afterEmail.value = beforeEmail.value;
-        createAuthenticationCode(beforeEmail.value.trim());
-    });
-
-    document.querySelector('#resendCodeNumber').addEventListener('click', function (e) {
-        e.preventDefault();
-        createAuthenticationCode(afterEmail.value.trim());
-    });
-
     /* Password eye on/off */
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
@@ -138,33 +123,19 @@
         });
     });
 
-    /* create auth-code */
-    function createAuthenticationCode(email) {
-        getAuthenticationCode(email);
+    document.querySelector('#sendCodeNumber').addEventListener('click', function (e) {
+        e.preventDefault();
+        myContainer.style.height = '525px';
+        beforeForm.style.display = 'none';
+        afterForm.style.display = 'flex';
+        afterEmail.value = beforeEmail.value;
+        createAuthenticationCode(beforeEmail.value.trim());
+    });
 
-        async function getAuthenticationCode(email) {
-            await createCode(email);
-
-            async function createCode(email) {
-                try {
-                    const response = await fetch('/get_authentication_code/email', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: email
-                    });
-
-                    if (response.ok) {
-                        return await response.text();
-                    }
-                    throw response;
-                } catch (error) {
-                    throw error;
-                }
-            }
-        }
-    }
+    document.querySelector('#resendCodeNumber').addEventListener('click', function (e) {
+        e.preventDefault();
+        createAuthenticationCode(afterEmail.value.trim());
+    });
 
     /* verify auth-code for nextPage */
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
@@ -175,7 +146,7 @@
         if (checkAuthenticationCode(authenticationCode)) {
             const emailInput = document.querySelector('#afterEmail');
             const afterEmail = emailInput.value.trim();
-            sendEmailByForm('/cf_join2', afterEmail);
+            sendJoinForm('/cf_join2', afterEmail);
         } else {
             console.log('Incorrect authentication code');
             // Display modal or show error message...
@@ -208,11 +179,38 @@
 
             return false;
         }
-
     });
 
+    /* create auth-code */
+    function createAuthenticationCode(email) {
+        getAuthenticationCode(email);
+
+        async function getAuthenticationCode(email) {
+            await createCode(email);
+
+            async function createCode(email) {
+                try {
+                    const response = await fetch('/get_authentication_code/email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: email
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+        }
+    }
+
     /*<![CDATA[*/
-    function sendEmailByForm(path, email) {
+    function sendJoinForm(path, email) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = path;
