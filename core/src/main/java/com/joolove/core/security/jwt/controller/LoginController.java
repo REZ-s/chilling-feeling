@@ -192,7 +192,7 @@ public class LoginController {
 
         userRepository.save(user);
 
-        return "cf_main_page";
+        return "redirect:/cf_main_page";
     }
 
     // 지금 고민되는게, 이 두가지가 있음
