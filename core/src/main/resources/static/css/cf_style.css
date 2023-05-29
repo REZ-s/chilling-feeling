@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Jost');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:wght@300&display=swap');
 
-.NotoSansKR {
+#NotoSansKR {
     font-family: 'Noto Sans KR', serif;
 }
 
@@ -21,10 +21,11 @@ body {
 }
 
 .pw-eye {
-    /* for js script */
+    /* for js code */
 }
+
 .pw-field {
-    /* for js script */
+    /* for js code */
 }
 
 
@@ -34,6 +35,12 @@ body {
         width: 375px;
         min-height: 100vh;
         background-color: #000;
+        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
+        0 1px 6px rgba(0, 23, 80, .015),
+        0 8px 8px rgba(0, 23, 80, .012),
+        0 16px 16px rgba(0, 23, 80, .012),
+        8px 32px 32px rgba(0, 23, 80, .018),
+        8px 64px 64px rgba(0, 23, 80, .018);
     }
 }
 
@@ -47,7 +54,7 @@ body {
 
 .home {
     width: 375px;
-    height: 3613px;
+    height: 2815px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -101,8 +108,8 @@ body {
 .CHILLING-FEELING {
     width: 141px;
     height: 18px;
-    /*font-family: 'Jost', serif;*/
-    font-size: 18px;
+    font-family: 'Jost', serif;
+    font-size: 17px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
@@ -227,12 +234,12 @@ body {
     justify-content: flex-start;
     align-items: center;
     padding: 10px 0;
-    border: solid 1px #e6e6e6;
+    border-top: solid 1px #e6e6e6;
 }
 
 .home-contents {
     width: 375px;
-    height: 3063px;
+    height: 2265px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -297,7 +304,7 @@ body {
 
 .home-taste-prod-swiper-wrapper {
     width: 355px;
-    height: 311px;
+    height: 264px;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -307,7 +314,7 @@ body {
 }
 
 .wrap-product-card01 {
-    width: 167px;
+    width: 168px;
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -318,8 +325,8 @@ body {
 }
 
 .product-card01 {
-    width: 159px;
-    height: 311px;
+    width: 160px;
+    height: 264px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -435,6 +442,7 @@ body {
     letter-spacing: normal;
     text-align: left;
     color: #dadada;
+    text-decoration: line-through;
 }
 
 .product-list01-price-sale {
@@ -465,7 +473,7 @@ body {
 }
 
 .discounted-price {
-    width: 57px;
+    /*width: 57px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Open Sans', serif;
@@ -590,7 +598,7 @@ body {
 
 .home-food-prod {
     width: 375px;
-    height: 566px;
+    height: 539px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -638,7 +646,7 @@ body {
 }
 
 .wrap-drop-down-food {
-    width: 81px;
+    /*width: 81px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -658,7 +666,7 @@ body {
     align-items: center;
     gap: 4px;
     padding: 0 3px 0 0;
-    border: solid 2px #e6e6e6;
+    border-bottom: solid 2px #e6e6e6;
 }
 
 .food-type {
@@ -742,7 +750,7 @@ body {
 }
 
 .product-list02-product-info {
-    height: 137px;
+    height: 110px;
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -806,6 +814,7 @@ body {
     object-fit: contain;
 }
 
+
 .product-list02-caption-price {
     width: 270px;
     height: 87px;
@@ -850,7 +859,7 @@ body {
 
 .home-best-seller {
     width: 375px;
-    height: 782px;
+    height: 698px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -873,7 +882,7 @@ body {
 }
 
 .wrap-drop-down-date {
-    width: 62px;
+    /*width: 62px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -893,7 +902,7 @@ body {
     align-items: center;
     gap: 4px;
     padding: 0;
-    border: solid 2px #e6e6e6;
+    border-bottom: solid 2px #e6e6e6;
 }
 
 .date {
@@ -940,7 +949,7 @@ body {
 
 .wrap-horizontal {
     width: 335px;
-    height: 311px;
+    height: 264px;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -997,7 +1006,7 @@ li {
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    border: solid 1px #e6e6e6;
+    border-bottom: solid 1px #e6e6e6;
 }
 
 .rank-no {
@@ -1096,7 +1105,7 @@ li {
     font-style: normal;
     line-height: 2;
     letter-spacing: -0.2px;
-    text-align: left;
+    text-align: center;
     color: #afafaf;
 }
 
@@ -1108,12 +1117,236 @@ li {
 }
 
 .ic_heart_24px {
-    width: 22px;
-    height: 20px;
+/*    width: 22px;
+    height: 20px;*/
     flex-grow: 0;
     object-fit: contain;
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background-color: #f6f6f6;
+}
+.btn-heart {
+    /* for js code */
 }
 
+.home-feed-prod {
+    width: 375px;
+    height: 564px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 20px 0 20px 20px;
+}
+
+.home-title-box {
+    width: 335px;
+    height: 70px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 0;
+}
+
+.home-title {
+    width: 335px;
+    height: 32px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: -0.44px;
+    text-align: left;
+    color: #000;
+}
+
+.home-subtitle {
+    height: 28px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: -0.36px;
+    text-align: left;
+    color: #606060;
+}
+.home-subtitle .text-style-1 {
+    font-weight: normal;
+}
+
+.home-feed-prod-swiper-wrapper {
+    width: 335px;
+    height: 392px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.wrap-product-card03 {
+    width: 335px;
+    height: 392px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    padding: 0 8px 0 0;
+}
+
+.prod-img {
+    width: 327px;
+    height: 327px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 0 16px;
+}
+
+.product-card03 {
+    width: 295px;
+    height: 84px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.wrap-product-card03-texts {
+    width: 205px;
+    height: 46px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 2px;
+    padding: 0;
+}
+
+.wrap-product-card03-img {
+    width: 70px;
+    height: 70px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0 0 0 10px;
+}
+
+.product-card03-type {
+    height: 22px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #000;
+}
+
+.product-card03-name {
+    height: 22px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #606060;
+}
+
+.feed-prodTit {
+    width: 274px;
+    height: 50px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+}
+
+.feed-prod-title {
+    width: 274px;
+    height: 28px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 15px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #000;
+}
+
+.feed-prod-tag {
+    width: 181px;
+    height: 22px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #939393;
+}
+
+.swiper-pagination-progressbar {
+    width: 335px;
+    height: 2px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    background-color: #f6f6f6;
+}
+.progressbar-active {
+    width: 60px;
+    height: 2px;
+    flex-grow: 0;
+    object-fit: contain;
+    transform: rotate(-360deg);
+    background-color: #00232d;
+}
 
 
 /* 로그인1 */
@@ -1201,7 +1434,8 @@ img.info-text {
     line-height: 1.45;
     letter-spacing: -0.44px;
     text-align: left;
-    color: #e6e6e6; !important;
+    color: #e6e6e6;
+!important;
 }
 
 img.info-text2 {
@@ -1217,7 +1451,8 @@ img.info-text2 {
     line-height: 1.57;
     letter-spacing: -0.28px;
     text-align: center;
-    color: #fff; !important;
+    color: #fff;
+!important;
 }
 
 input.login1-form {
@@ -1232,10 +1467,13 @@ input.login1-form {
     line-height: 1.56;
     letter-spacing: -0.36px;
     text-align: left;
-    background-color: black; !important;
-    color: #4a4a4a; !important;
+    background-color: black;
+!important;
+    color: #4a4a4a;
+!important;
     border: 0;
 }
+
 input.login1-form::placeholder {
     color: #4a4a4a;
 }
@@ -1250,7 +1488,8 @@ input.login1-form::placeholder {
     gap: 10px;
     margin: 59px 22px 83px 18px;
     padding: 0;
-    border-bottom: solid 1px #4a4a4a; !important;
+    border-bottom: solid 1px #4a4a4a;
+!important;
 }
 
 .login1-play {
@@ -1671,6 +1910,7 @@ input.login1-form::placeholder {
     gap: 60px;
     padding: 0 20px;
 }
+
 .join1-after-container {
     height: 525px;
     align-self: stretch;
@@ -1755,9 +1995,11 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #f6f6f6;
-    background-color: black; !important;
+    background-color: black;
+!important;
     border: 0;
 }
+
 .join1-after-input-text::placeholder {
     color: #4a4a4a;
 }
@@ -1780,7 +2022,8 @@ input.login1-form::placeholder {
     padding: 0;
     border-radius: 3px;
     border: solid 1px #606060;
-    background-color: black; !important;
+    background-color: black;
+!important;
 }
 
 .join1-btn-resend-label {
@@ -1860,7 +2103,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #4a4a4a;
-    background-color: black; !important;
+    background-color: black;
+!important;
     border: 0;
 }
 
@@ -1944,6 +2188,7 @@ input.login1-form::placeholder {
     gap: 80px;
     padding: 0;
 }
+
 .join1-after-form-container {
     height: 164px;
     align-self: stretch;
@@ -1954,6 +2199,7 @@ input.login1-form::placeholder {
     align-items: stretch;
     padding: 0;
 }
+
 .join1-after-container-low {
     height: 294px;
     align-self: stretch;
@@ -1976,8 +2222,10 @@ input.login1-form::placeholder {
     align-items: stretch;
     gap: 10px;
     padding: 0;
-    border-bottom: solid 1px #f6f6f6; !important;
+    border-bottom: solid 1px #f6f6f6;
+!important;
 }
+
 .join1-after-form-input-field {
     height: 40px;
     align-self: stretch;
@@ -1987,7 +2235,8 @@ input.login1-form::placeholder {
     justify-content: center;
     align-items: stretch;
     padding: 0;
-    border-bottom: solid 1px #4a4a4a; !important;
+    border-bottom: solid 1px #4a4a4a;
+!important;
 }
 
 .join1-input-text {
@@ -2003,7 +2252,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #f6f6f6;
-    background-color: black; !important;
+    background-color: black;
+!important;
     border: 0;
 }
 
@@ -2030,7 +2280,8 @@ input.login1-form::placeholder {
     gap: 10px;
     margin: 59px 22px 83px 18px;
     padding: 0;
-    border-bottom: solid 1px #4a4a4a; !important;
+    border-bottom: solid 1px #4a4a4a;
+!important;
 }
 
 .join1-form-input {
@@ -2045,10 +2296,13 @@ input.login1-form::placeholder {
     line-height: 1.56;
     letter-spacing: -0.36px;
     text-align: left;
-    background-color: black; !important;
-    color: #4a4a4a; !important;
+    background-color: black;
+!important;
+    color: #4a4a4a;
+!important;
     border: 0;
 }
+
 .join1-form-input::placeholder {
     color: #4a4a4a;
 }
@@ -2118,7 +2372,8 @@ input.login1-form::placeholder {
     align-items: stretch;
     gap: 16px;
     padding: 0;
-    border-bottom: solid 1px #4a4a4a; !important;
+    border-bottom: solid 1px #4a4a4a;
+!important;
 }
 
 .join1-after-subtitle {
@@ -2173,7 +2428,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #4a4a4a;
-    background-color: black; !important;
+    background-color: black;
+!important;
     border: 0;
 }
 
@@ -2411,6 +2667,7 @@ input.login1-form::placeholder {
     gap: 80px;
     padding: 0;
 }
+
 .join3-after-container-actions {
     height: 364px;
     align-self: stretch;
