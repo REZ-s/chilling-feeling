@@ -203,10 +203,10 @@ public class LoginController {
         return "cf_main_page";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/cf_search")
     public String searchPage(Model model) {
         model.addAttribute("goods", Goods.SearchRequest.buildEmpty());
-        return "search_main";
+        return "cf_search_page";
     }
 
     @PostMapping("/search/goods")

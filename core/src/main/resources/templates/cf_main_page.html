@@ -686,20 +686,6 @@
     const periodModal = document.getElementById('period');
     const snacksModal = document.getElementById('snacks');
 
-    const btnHearts = document.querySelectorAll('.btn-heart');
-
-    btnHearts.forEach(btnHeart => {
-        btnHeart.addEventListener('click', (e) => {
-            e.preventDefault();
-            let img = btnHeart.children[0];
-            if (img.src.includes('ic_heart_24px')) {
-                img.src = '/images/ic_heart_fill_24px.png';
-            } else {
-                img.src = '/images/ic_heart_24px.png';
-            }
-        });
-    });
-
     const foodButtons = Array.from({length: 6}, (_, index) => {
         const button = document.getElementById('f' + (index + 1));
         const label = button.children[0];
@@ -710,6 +696,18 @@
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
+    });
+
+    document.querySelectorAll('.btn-heart').forEach(btnHeart => {
+        btnHeart.addEventListener('click', (e) => {
+            e.preventDefault();
+            let img = btnHeart.children[0];
+            if (img.src.includes('ic_heart_24px')) {
+                img.src = '/images/ic_heart_fill_24px.png';
+            } else {
+                img.src = '/images/ic_heart_24px.png';
+            }
+        });
     });
 
     foodDropDown.addEventListener('click', function (e) {
