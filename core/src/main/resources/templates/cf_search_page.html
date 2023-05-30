@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Search </title>
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+
+</head>
+<body>
+<div class="search-container">
+
+    <!-- Header -->
+    <section class="wrap-search-top-bar-best-search-word">
+        <div class="search-top-bar">
+            <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
+            <div class="search-form">
+                <input class="search-label" placeholder="어떤 주류를 찾으시나요?">
+                <img src="/images/ic_search_black_24px.png" class="ic_search_24px">
+            </div>
+            <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
+        </div>
+
+        <div class="wrap-best-search">
+            <div class="wrap-best-search-tit-keyword">
+                <div class="best-search-title">
+                    <div class="best-search-title-label">인기검색어</div>
+                </div>
+                <div class="best-search-keyword">
+                    <div class="best-search-keyword-num">1</div>
+                    <div class="best-search-keyword-name">신상 와인</div>
+                    <div class="best-search-keyword-rank-up">new</div>
+                </div>
+            </div>
+            <img src="/images/ic_chevron_down_14px.png" class="ic_chevron_down_14px">
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="wrap-search-contents">
+        <div class="wrap-search-contents-recent">
+            <div class="wrap-recent-title-delete">
+                <div class="recent-title-label">최근검색어</div>
+                <div class="recent-delete-label">전체삭제</div>
+            </div>
+            <!-- (1) 최근 검색어가 없는 경우 -->
+            <!--<div class="recent-no-data-text">최근 검색어가 없습니다.</div>-->
+            <!-- (2) 최근 검색어가 있는 경우 -->
+            <div class="btn-search-history">
+                <div class="btn-search-history-label">혼술와인</div>
+                <img src="/images/bar.png" class="btn-search-history-bar">
+                <img src="/images/ic_close_14px.png" class="ic_close_14px">
+            </div>
+        </div>
+
+        <div class="wrap-search-contents-best-seller">
+            <div class="wrap-best-title-plus">
+                <div class="best-title-label">오늘의 칠링필링 인기 상품</div>
+                <div class="best-plus-label">더보기</div>
+            </div>
+
+            <div class="home-taste-prod-swiper-wrapper">
+                <!-- Items -->
+                <div class="wrap-product-card01">
+                    <!-- 2개까지 노출하고 옆에 살짝 보이도록 (swipe 가능) -->
+                    <div class="product-card01">
+                        <div class="product-list01-photo-container">
+                            <div class="photo-container-wrap-img">
+                                <img src="/images/item-rep01.png" class="recommend-image01">
+                            </div>
+                            <button class="ic_heart_24px btn-heart">
+                                <img src="/images/ic_heart_24px.png">
+                            </button>
+                        </div>
+                        <div class="product-list01-product-info">
+                            <div class="product-list01-product-name">
+                                <div class="product-list01-product-name-type">위스키</div>
+                                <div class="product-list01-product-name-name">짐빔 화이트</div>
+                            </div>
+                            <div class="product-list01-caption">
+                                <div class="star-score-review">
+                                    <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                    <div class="score">
+                                        <div class="star-rating">4.9</div>
+                                        <div class="reviews">(237)</div>
+                                    </div>
+                                </div>
+                                <div class="wrap-chip">
+                                    <div class="product-chip">
+                                        <div class="chip-label">가성비</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</body>
+<script th:inline="javascript">
+</script>
+</html>
