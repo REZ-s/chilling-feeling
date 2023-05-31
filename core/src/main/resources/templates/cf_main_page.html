@@ -271,8 +271,8 @@
                     </div>
                 </div>
                 <div class="btn-menu">
-                    <img src="/images/ic_search_24px.png" class="ic_search_24px">
-                    <img src="/images/ic_shopping_bag_24px.png" class="ic_shopping_bag_24px">
+                    <img src="/images/ic_search_24px.png" class="ic_search_24px" id="search">
+                    <img src="/images/ic_shopping_bag_24px.png" class="ic_shopping_bag_24px" id="myBag">
                 </div>
             </section>
             <section class="home-container-today">
@@ -696,6 +696,10 @@
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
+    });
+
+    document.getElementById('search').addEventListener('click', function (e) {
+        location.href = '/cf_search';
     });
 
     document.querySelectorAll('.btn-heart').forEach(btnHeart => {

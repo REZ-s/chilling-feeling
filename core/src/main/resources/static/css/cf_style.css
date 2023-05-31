@@ -132,17 +132,25 @@ body {
 }
 
 .ic_search_24px {
-    width: 24px;
-    height: 24px;
+    /* width: 24px; */
+    /* height: 24px; */
     flex-grow: 0;
     object-fit: contain;
+    position: relative;
+    padding: 0;
+    border: 0;
+    background-color: #f6f6f6;
 }
 
 .ic_shopping_bag_24px {
-    width: 24px;
-    height: 24px;
+    /* width: 24px; */
+    /* height: 24px; */
     flex-grow: 0;
     object-fit: contain;
+    position: relative;
+    padding: 0;
+    border: 0;
+    background-color: white;
 }
 
 .btn-rounded-recommend-label {
@@ -307,10 +315,30 @@ body {
     height: 264px;
     flex-grow: 0;
     display: flex;
+    flex-wrap: nowrap;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
     padding: 0;
+
+    /* for slide */
+    overflow: hidden;
+    user-select: none;
+    position: relative;
+}
+
+.product-cards-inner {
+/*
+    top: 0;
+    left: 0;
+    gap: 5px;
+*/
+    position: absolute;
+    height: 100%;
+/*    width: 200%;*/
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    pointer-events: none;
 }
 
 .wrap-product-card01 {
@@ -560,7 +588,7 @@ body {
 }
 
 .wrap-chip {
-    width: 36px;
+/*    width: 36px;*/
     height: 20px;
     flex-grow: 0;
     display: flex;
@@ -582,8 +610,8 @@ body {
 }
 
 .chip-label {
-    width: 28px;
-    height: 20px;
+/*    width: 28px;
+    height: 20px;*/
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 10px;
@@ -813,7 +841,6 @@ body {
     flex-grow: 0;
     object-fit: contain;
 }
-
 
 .product-list02-caption-price {
     width: 270px;
@@ -1095,7 +1122,7 @@ li {
 }
 
 .bottom-label {
-    width: 37px;
+/*    width: 37px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -1346,6 +1373,43 @@ li {
     object-fit: contain;
     transform: rotate(-360deg);
     background-color: #00232d;
+}
+
+.wrap-illustration-text-search-no-data {
+    height: 106px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+}
+
+.illustration-search-no-data {
+    width: 74px;
+    height: 74px;
+    flex-grow: 0;
+    padding: 9px 14px 9px 15px;
+}
+
+.text-search-no-data {
+    width: 182px;
+    height: 22px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #afafaf;
+}
+.text-search-no-data .text-style-1 {
+    color: #004051;
 }
 
 
