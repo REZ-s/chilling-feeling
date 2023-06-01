@@ -1391,6 +1391,187 @@ li {
     background-color: #00232d;
 }
 
+
+/* 상품 검색 결과 페이지 */
+
+.search-result-container {
+    width: 375px;
+    height: 812px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 40px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
+    0 1px 6px rgba(0, 23, 80, .015),
+    0 8px 8px rgba(0, 23, 80, .012),
+    0 16px 16px rgba(0, 23, 80, .012),
+    8px 32px 32px rgba(0, 23, 80, .018),
+    8px 64px 64px rgba(0, 23, 80, .018);
+}
+
+.wrap-search-top-bar-result {
+    height: 38px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0 20px;
+}
+
+.search-top-bar-result {
+    height: 38px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.search-form-result {
+    width: 270px;
+    height: 38px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background-color: #f6f6f6;
+}
+
+.search-form-input-result {
+    /*width: 37px;*/
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #afafaf;
+    background-color: #f6f6f6;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+.search-form-input-result::placeholder {
+    color: #afafaf;
+}
+
+.wrap-ic-search-form-result {
+    width: 45px;
+    height: 24px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+.ic_form_close_16px {
+    width: 16px;
+/*    height: 16px;*/
+    flex-grow: 0;
+    object-fit: contain;
+    padding: 0;
+    border: 0;
+    background-color: #f6f6f6;
+}
+
+.search-result-contents-frame {
+    width: 375px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.search-result-contents-frame-inner {
+    width: 375px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 100px;
+    padding: 80px 20px;
+}
+
+.category-tab-bar {
+    width: 375px;
+    height: 55px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0;
+}
+
+.wrap-tab-bar-label-ac {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0;
+    border-bottom: solid 2px #000;
+}
+.wrap-tab-bar-label {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0;
+    border-bottom: solid 1px #e6e6e6;
+}
+
+.tab-bar-label-ac {
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #000;
+}
+.tab-bar-label {
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #afafaf;
+}
+
+
+
 .wrap-illustration-text-search-no-data {
     height: 106px;
     align-self: stretch;
@@ -1427,6 +1608,7 @@ li {
 .text-search-no-data .text-style-1 {
     color: #004051;
 }
+
 
 
 /* 로그인1 */

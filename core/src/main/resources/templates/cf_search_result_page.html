@@ -1,39 +1,342 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Chilling Feeling - Search Result </title>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Search </title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+
 </head>
 <body>
-<div class="form">
-    <div class="form-content">
-        <header>Goods List</header>
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="goods : ${goodsList}">
-                <td th:if="${not #strings.isEmpty(goods.name)}" th:text="${goods.name}"></td>
-                <td th:if="${not #strings.isEmpty(goods.price)}" th:text="${goods.price}"></td>
-                <td th:if="${not #strings.isEmpty(goods.description)}" th:text="${goods.description}"></td>
-                <br>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="search-result-container">
+
+    <!-- Header -->
+    <section class="wrap-search-top-bar-result">
+        <div class="search-top-bar-result">
+            <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
+            <div class="search-form-result">
+                <input class="search-form-input-result" placeholder="어떤 주류를 찾으시나요?" id="searchInput">
+
+                <div class="wrap-ic-search-form-result">
+                    <button class="ic_form_close_16px" id="searchInputClear">
+                        <img src="/images/ic_form_close_16px.png">
+                    </button>
+                    <button class="ic_search_24px" id="searchButton">
+                        <img src="/images/ic_search_black_24px.png">
+                    </button>
+                </div>
+            </div>
+            <button class="ic_shopping_bag_24px" id="myBag">
+                <img src="/images/ic_shopping_bag_black_24px.png">
+            </button>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="search-result-contents-frame">
+        <div class="category-tab-bar">
+            <div class="wrap-tab-bar-label-ac">
+                <div class="tab-bar-label-ac">전체</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">와인</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">위스키</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">전통주</div>
+            </div>
+        </div>
+
+        <div class="search-result-contents-frame-inner">
+            <div class="wrap-illustration-text-search-no-data">
+                <div class="illustration-search-no-data">
+                    <img src="/images/ic_x_face.png">
+                </div>
+
+                <div class="text-search-no-data">
+                    <span class="text-style-1">asdzxc</span>에 대한 결과가 없습니다.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+
 </div>
 </body>
+<script th:inline="javascript">
+
+    let searchInput = document.getElementById('searchInput');
+    let searchButton = document.getElementById('searchButton');
+
+    let productsFrame = document.querySelector("#productCards");
+    let innerSlider = document.querySelector(".product-cards-inner")
+    let pressed = false;
+    let startX, nowX;
+
+    function getPopularProducts() {
+        let collectedProducts = [];
+
+        let product1 = {
+            productType: "위스키",
+            productName: "짐빔 화이트",
+            productScore: "4.9",
+            productReviews: "237",
+            productChip: "가성비",
+            productImage: "/images/item-rep01.png"
+        };
+        let product2 = {
+            productType: "위스키",
+            productName: "짐빔 블랙",
+            productScore: "5.0",
+            productReviews: "237",
+            productChip: "가성비",
+            productImage: "/images/item-rep01.png"
+        };
+        let product3 = {
+            productType: "위스키",
+            productName: "짐빔 옐로우",
+            productScore: "4.5",
+            productReviews: "237",
+            productChip: "가성비",
+            productImage: "/images/item-rep01.png"
+        };
+        collectedProducts.push(product1);
+        collectedProducts.push(product2);
+        collectedProducts.push(product3);
+
+        return collectedProducts;
+    }
+
+/*    function updateGridTemplateColumns() {
+        const innerElement = document.querySelector(".product-cards-inner");
+        const childCount = innerElement.childElementCount;
+        innerElement.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
+    }*/
+
+    /* 함수 호출 순서
+    * (1) 서버에서 인기 상품 리스트를 가져온다.
+    * (2) 가져온 상품 리스트로 폼을 동적으로 만들어 넣는다.
+    * (3) 슬라이더의 크기를 동적으로 조정한다.
+    * */
+    //searchPageInit();
+    function searchPageInit() {
+        let collectedProducts = getPopularProducts();
+        collectedProducts.forEach((product) => {
+            createFormProductCard01(innerSlider, product);
+        });
+        updateGridTemplateColumns();
+    }
+
+    /* PC Drag */
+    productsFrame.addEventListener("mousedown", (e) => {
+        pressed = true;
+        startX = e.offsetX - innerSlider.offsetLeft;
+        productsFrame.style.cursor = "grabbing";
+    });
+    productsFrame.addEventListener("mouseenter", () => {
+        productsFrame.style.cursor = "grab";
+    });
+    productsFrame.addEventListener("mouseup", (e) => {
+        productsFrame.style.cursor = "grab";
+    });
+    productsFrame.addEventListener("mousemove", (e) => {
+        if (!pressed) {
+            return;
+        }
+
+        e.preventDefault();
+        nowX = e.offsetX;
+
+        innerSlider.style.left = `${nowX - startX}px`;
+        checkBoundary();
+    });
+    window.addEventListener("mouseup", () => {
+        pressed = false;
+    });
+
+    /* Mobile Swipe */
+    productsFrame.addEventListener("touchstart", (e) => {
+        pressed = true;
+        startX = e.touches[0].clientX - innerSlider.offsetLeft;
+    });
+    productsFrame.addEventListener("touchend", () => {
+        pressed = false;
+    });
+    productsFrame.addEventListener("touchmove", (e) => {
+        if (!pressed) {
+            return;
+        }
+
+        e.preventDefault();
+        nowX = e.touches[0].clientX;
+
+        innerSlider.style.left = `${nowX - startX}px`;
+        checkBoundary();
+    });
+
+    function checkBoundary() {
+        let outer = productsFrame.getBoundingClientRect();
+        let inner = innerSlider.getBoundingClientRect();
+
+        if (parseInt(innerSlider.style.left) > 0) {
+            innerSlider.style.left = "0px";
+        } else if (inner.right < outer.right) {
+            innerSlider.style.left = `-${inner.width - outer.width}px`;
+        }
+    }
+
+    function createFormProductCard01(parentElement, product) {
+        if (parentElement == null) {
+            console.log('parentElement is null')
+            return;
+        }
+
+        const wrapProductCard01 = document.createElement('div');
+        wrapProductCard01.className = 'wrap-product-card01';
+
+        const productCard01 = document.createElement('div');
+        productCard01.className = 'product-card01';
+
+        const productPhotoContainer = document.createElement('div');
+        productPhotoContainer.className = 'product-list01-photo-container';
+
+        const photoContainerWrapImg = document.createElement('div');
+        photoContainerWrapImg.className = 'photo-container-wrap-img';
+
+        const image = document.createElement('img');
+        image.src = product.productImage;   // (1) input item image
+        image.className = 'recommend-image01';
+
+        const buttonHeart = document.createElement('button');
+        buttonHeart.className = 'ic_heart_24px btn-heart';
+
+        const imageHeart = document.createElement('img');
+        imageHeart.src = '/images/ic_heart_24px.png';
+
+        buttonHeart.appendChild(imageHeart);
+
+        photoContainerWrapImg.appendChild(image);
+
+        productPhotoContainer.appendChild(photoContainerWrapImg);
+        productPhotoContainer.appendChild(buttonHeart);
+
+        const productInfo = document.createElement('div');
+        productInfo.className = 'product-list01-product-info';
+
+        const productName = document.createElement('div');
+        productName.className = 'product-list01-product-name';
+
+        const productNameType = document.createElement('div');
+        productNameType.className = 'product-list01-product-name-type';
+        productNameType.textContent = product.productType;   // (2) input item type
+
+        const productNameName = document.createElement('div');
+        productNameName.className = 'product-list01-product-name-name';
+        productNameName.textContent = product.productName;  // (3) input item name
+
+        productName.appendChild(productNameType);
+        productName.appendChild(productNameName);
+
+        const caption = document.createElement('div');
+        caption.className = 'product-list01-caption';
+
+        const starScoreReview = document.createElement('div');
+        starScoreReview.className = 'star-score-review';
+
+        const imageStar = document.createElement('img');
+        imageStar.src = '/images/ic_star_10px.png';
+        imageStar.className = 'ic_star_10px';
+
+        const score = document.createElement('div');
+        score.className = 'score';
+
+        const starRating = document.createElement('div');
+        starRating.className = 'star-rating';
+        starRating.textContent = product.productScore;  // (4) input item rating
+
+        const reviews = document.createElement('div');
+        reviews.className = 'reviews';
+        reviews.textContent = '(' + product.productReviews + ')'    // (5) input item reviews
+
+        starScoreReview.appendChild(imageStar);
+
+        score.appendChild(starRating);
+        score.appendChild(reviews);
+
+        starScoreReview.appendChild(score);
+
+        caption.appendChild(starScoreReview);
+
+        const wrapChip = document.createElement('div');
+        wrapChip.className = 'wrap-chip';
+
+        const productChip = document.createElement('div');
+        productChip.className = 'product-chip';
+
+        const chipLabel = document.createElement('div');
+        chipLabel.className = 'chip-label';
+        chipLabel.textContent = product.productChip;  // (6) input item chip label
+
+        productChip.appendChild(chipLabel);
+
+        wrapChip.appendChild(productChip);
+
+        caption.appendChild(wrapChip);
+
+        productInfo.appendChild(productName);
+        productInfo.appendChild(caption);
+
+        productCard01.appendChild(productPhotoContainer);
+        productCard01.appendChild(productInfo);
+
+        wrapProductCard01.appendChild(productCard01);
+
+        parentElement.appendChild(wrapProductCard01);
+    }
+
+    function renderSearchResults(model) {
+        const goodsList = model.goodsList;
+        if (goodsList.length === 0) {
+            // 검색 결과가 없는 경우
+            const resultElement = document.getElementById('searchResult');
+            resultElement.textContent = '검색 결과가 없습니다.';
+        } else {
+            // 검색 결과가 있는 경우
+            // TODO: 검색 결과를 화면에 표시하는 로직을 작성해주세요.
+        }
+    }
+
+    function findSearchWord() {
+        const searchValue = searchInput.value.trim();
+        if (searchValue === '') {
+            alert('검색어를 입력해주세요.');
+            return;
+        }
+
+        location.href = '/cf_search/result?query=' + searchValue;
+    }
+
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            findSearchWord();
+        }
+    });
+    searchButton.addEventListener('click', function() {
+        findSearchWord();
+    });
+
+</script>
 </html>

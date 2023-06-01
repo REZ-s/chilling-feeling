@@ -210,7 +210,7 @@ public class LoginController {
         return "cf_search_page";
     }
 
-    @GetMapping("/search/result")
+    @GetMapping("/cf_search/result")
     public String searchResult(Model model, @RequestParam("query") String query) {
         if (!StringUtils.hasText(query)) {
             return "redirect:/cf_search_page";
@@ -220,6 +220,10 @@ public class LoginController {
         model.addAttribute("goodsList", goodsList);
         return "cf_search_result_page";
     }
+
+
+
+
 
 
     // 사용자 계정 테스트

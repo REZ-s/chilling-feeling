@@ -184,6 +184,9 @@
 </body>
 <script th:inline="javascript">
 
+    let searchInput = document.getElementById('searchInput');
+    let searchButton = document.getElementById('searchButton');
+
     let productsFrame = document.querySelector("#productCards");
     let innerSlider = document.querySelector(".product-cards-inner")
     let pressed = false;
@@ -410,8 +413,15 @@
         parentElement.appendChild(wrapProductCard01);
     }
 
-    let searchInput = document.getElementById('searchInput');
-    let searchButton = document.getElementById('searchButton');
+    function findSearchWord() {
+        const searchValue = searchInput.value.trim();
+        if (searchValue === '') {
+            alert('검색어를 입력해주세요.');
+            return;
+        }
+
+        location.href = '/cf_search/result?query=' + searchValue;
+    }
 
     searchInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
@@ -421,16 +431,6 @@
     searchButton.addEventListener('click', function() {
         findSearchWord();
     });
-
-    function findSearchWord() {
-        const searchValue = searchInput.value.trim();
-        if (searchValue === '') {
-            alert('검색어를 입력해주세요.');
-            return;
-        }
-
-        location.href = '/search/result?query=' + searchInput.value;
-    }
 
 </script>
 </html>
