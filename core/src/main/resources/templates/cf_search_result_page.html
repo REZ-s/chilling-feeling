@@ -141,51 +141,51 @@
     }
 
     /* PC Drag */
-    productsFrame.addEventListener("mousedown", (e) => {
-        pressed = true;
-        startX = e.offsetX - innerSlider.offsetLeft;
-        productsFrame.style.cursor = "grabbing";
-    });
-    productsFrame.addEventListener("mouseenter", () => {
-        productsFrame.style.cursor = "grab";
-    });
-    productsFrame.addEventListener("mouseup", (e) => {
-        productsFrame.style.cursor = "grab";
-    });
-    productsFrame.addEventListener("mousemove", (e) => {
-        if (!pressed) {
-            return;
-        }
-
-        e.preventDefault();
-        nowX = e.offsetX;
-
-        innerSlider.style.left = `${nowX - startX}px`;
-        checkBoundary();
-    });
-    window.addEventListener("mouseup", () => {
-        pressed = false;
-    });
-
-    /* Mobile Swipe */
-    productsFrame.addEventListener("touchstart", (e) => {
-        pressed = true;
-        startX = e.touches[0].clientX - innerSlider.offsetLeft;
-    });
-    productsFrame.addEventListener("touchend", () => {
-        pressed = false;
-    });
-    productsFrame.addEventListener("touchmove", (e) => {
-        if (!pressed) {
-            return;
-        }
-
-        e.preventDefault();
-        nowX = e.touches[0].clientX;
-
-        innerSlider.style.left = `${nowX - startX}px`;
-        checkBoundary();
-    });
+    // productsFrame.addEventListener("mousedown", (e) => {
+    //     pressed = true;
+    //     startX = e.offsetX - innerSlider.offsetLeft;
+    //     productsFrame.style.cursor = "grabbing";
+    // });
+    // productsFrame.addEventListener("mouseenter", () => {
+    //     productsFrame.style.cursor = "grab";
+    // });
+    // productsFrame.addEventListener("mouseup", (e) => {
+    //     productsFrame.style.cursor = "grab";
+    // });
+    // productsFrame.addEventListener("mousemove", (e) => {
+    //     if (!pressed) {
+    //         return;
+    //     }
+    //
+    //     e.preventDefault();
+    //     nowX = e.offsetX;
+    //
+    //     innerSlider.style.left = `${nowX - startX}px`;
+    //     checkBoundary();
+    // });
+    // window.addEventListener("mouseup", () => {
+    //     pressed = false;
+    // });
+    //
+    // /* Mobile Swipe */
+    // productsFrame.addEventListener("touchstart", (e) => {
+    //     pressed = true;
+    //     startX = e.touches[0].clientX - innerSlider.offsetLeft;
+    // });
+    // productsFrame.addEventListener("touchend", () => {
+    //     pressed = false;
+    // });
+    // productsFrame.addEventListener("touchmove", (e) => {
+    //     if (!pressed) {
+    //         return;
+    //     }
+    //
+    //     e.preventDefault();
+    //     nowX = e.touches[0].clientX;
+    //
+    //     innerSlider.style.left = `${nowX - startX}px`;
+    //     checkBoundary();
+    // });
 
     function checkBoundary() {
         let outer = productsFrame.getBoundingClientRect();
@@ -337,6 +337,21 @@
     searchButton.addEventListener('click', function() {
         findSearchWord();
     });
+
+    /*<![CDATA[*/
+    let goodsList = /*[[${goodsList}]]*/ [];
+    /*]]>*/
+    createFormBase();
+    function createFormBase() {
+        if (goodsList == null || goodsList.length === 0) {
+            // 검색 결과가 없음. 현재 작성된 폼
+            return;
+        }
+
+        for (let i = 0; i < goodsList.length; i++) {
+            createFormProductCard01(document.getElementById('productList'), goodsList[i]);
+        }
+    }
 
 </script>
 </html>
