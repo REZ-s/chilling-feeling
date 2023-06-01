@@ -36,6 +36,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -209,13 +210,16 @@ public class LoginController {
         return "cf_search_page";
     }
 
-    @PostMapping("/search/goods")
-    public String searchItemPage(Model model, @Valid @ModelAttribute Goods.SearchRequest request) {
-        List<Goods> goodsList = goodsService.findListGoods(request.getName());
-        model.addAttribute("goodsList", goodsList);
-        return "search_goods_list";
-    }
+    @GetMapping("/search/result")
+    public String searchResult(Model model, @RequestParam("query") String query) {
+        if (!StringUtils.hasText(query)) {
+            return "redirect:/cf_search_page";
+        }
 
+        List<Goods> goodsList = goodsService.findListGoods(query);
+        model.addAttribute("goodsList", goodsList);
+        return "cf_search_result_page";
+    }
 
 
     // 사용자 계정 테스트

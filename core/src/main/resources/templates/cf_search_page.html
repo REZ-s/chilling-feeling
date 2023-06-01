@@ -70,7 +70,6 @@
         <div class="wrap-search-contents-best-seller">
             <div class="wrap-best-title-plus">
                 <div class="best-title-label">오늘의 칠링필링 인기 상품</div>
-<!--                <div class="best-plus-label">더보기</div>-->
             </div>
 
             <div class="home-taste-prod-swiper-wrapper" id="productCards">
@@ -230,16 +229,19 @@
         innerElement.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
     }
 
-    /* 실행 순서
+    /* 함수 호출 순서
     * (1) 서버에서 인기 상품 리스트를 가져온다.
     * (2) 가져온 상품 리스트로 폼을 동적으로 만들어 넣는다.
     * (3) 슬라이더의 크기를 동적으로 조정한다.
     * */
-    let collectedProducts = getPopularProducts();
-    collectedProducts.forEach((product) => {
-        createFormProductCard01(innerSlider, product);
-    });
-    updateGridTemplateColumns();
+    searchPageInit();
+    function searchPageInit() {
+        let collectedProducts = getPopularProducts();
+        collectedProducts.forEach((product) => {
+            createFormProductCard01(innerSlider, product);
+        });
+        updateGridTemplateColumns();
+    }
 
     /* PC Drag */
     productsFrame.addEventListener("mousedown", (e) => {
@@ -370,12 +372,14 @@
 
         const reviews = document.createElement('div');
         reviews.className = 'reviews';
-        reviews.textContent = product.productReviews // (5) input item reviews
+        reviews.textContent = '(' + product.productReviews + ')'    // (5) input item reviews
 
         starScoreReview.appendChild(imageStar);
 
         score.appendChild(starRating);
         score.appendChild(reviews);
+
+        starScoreReview.appendChild(score);
 
         caption.appendChild(starScoreReview);
 
@@ -409,15 +413,24 @@
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
 
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            findSearchWord();
+        }
+    });
     searchButton.addEventListener('click', function() {
+        findSearchWord();
+    });
+
+    function findSearchWord() {
         const searchValue = searchInput.value.trim();
         if (searchValue === '') {
             alert('검색어를 입력해주세요.');
             return;
         }
 
-        location.href = '/search?name=' + searchInput.value;
-    });
+        location.href = '/search/result?query=' + searchInput.value;
+    }
 
 </script>
 </html>

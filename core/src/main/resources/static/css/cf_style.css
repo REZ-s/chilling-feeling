@@ -141,6 +141,13 @@ body {
     border: 0;
     background-color: #f6f6f6;
 }
+.ic_search_main_24px {
+    flex-grow: 0;
+    object-fit: contain;
+    position: relative;
+    padding: 0;
+    border: 0;
+}
 
 .ic_shopping_bag_24px {
     /* width: 24px; */
@@ -151,6 +158,15 @@ body {
     padding: 0;
     border: 0;
     background-color: white;
+}
+.ic_shopping_bag_main_24px {
+    /* width: 24px; */
+    /* height: 24px; */
+    flex-grow: 0;
+    object-fit: contain;
+    position: relative;
+    padding: 0;
+    border: 0;
 }
 
 .btn-rounded-recommend-label {
