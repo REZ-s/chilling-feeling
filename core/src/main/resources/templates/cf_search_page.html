@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -35,18 +34,131 @@
             </button>
         </div>
 
-        <div class="wrap-best-search">
-            <div class="wrap-best-search-tit-keyword">
+        <!-- simply form -->
+        <div class="wrap-best-search" id="simplyBestSearch">
+<!--            <div class="wrap-best-search-tit-keyword">
                 <div class="best-search-title">
                     <div class="best-search-title-label">인기검색어</div>
                 </div>
                 <div class="best-search-keyword">
                     <div class="best-search-keyword-num">1</div>
-                    <div class="best-search-keyword-name">신상 와인</div>
+                    <div class="best-search-keyword-name">-</div>
                     <div class="best-search-keyword-rank-up">new</div>
                 </div>
             </div>
-            <img src="/images/ic_chevron_down_14px.png" class="ic_chevron_down_14px">
+            <button class="ic_chevron_down_14px" id="toggleBtnBefore">
+                <img src="/images/ic_chevron_down_14px.png">
+            </button>-->
+        </div>
+
+        <!-- extended form -->
+        <div class="wrap-best-search-extended" id="extendedBestSearch" style="display: none;">
+            <!--
+            <div class="wrap-best-search-title">
+                <div class="wrap-best-search-title-time">
+                    <div class="best-search-title">
+                        <div class="best-search-title-label">인기검색어</div>
+                    </div>
+                    <div class="best-search-current-time">
+                        <div class="current-time">00.00 00:00</div>
+                        <div class="current-time-text">기준</div>
+                    </div>
+                </div>
+                <button class="ic_chevron_up_14px" id="toggleBtnAfter">
+                    <img src="/images/ic_chevron_down_14px.png">
+                </button>
+            </div>
+
+                       <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">1</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">2</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">3</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">4</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">5</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">6</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">7</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">8</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">9</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-down-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">10</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-down-extended">new</div>
+                            </div>
+                        </div>-->
         </div>
     </section>
 
@@ -186,11 +298,41 @@
 
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
-
     let productsFrame = document.querySelector("#productCards");
     let innerSlider = document.querySelector(".product-cards-inner")
     let pressed = false;
     let startX, nowX;
+
+    let beforeContent = document.getElementById('simplyBestSearch');
+    let afterContent = document.getElementById('extendedBestSearch');
+
+    /* 함수 호출 순서
+    * (1) 서버에서 인기 상품 리스트를 가져와 폼을 동적으로 만든다.
+    * (2) 슬라이더의 크기를 동적으로 조정한다.
+    * (3) 인기검색어 리스트를 가져와 폼을 동적으로 만든다.
+    * */
+    searchPageInit();
+    function searchPageInit() {
+        getPopularProducts().forEach((product) => {
+            createFormProductCard01(innerSlider, product);
+        });
+
+        updateGridTemplateColumns();
+
+        createFormBestSearchedKeywordHead(beforeContent, getBestSearchedKeyWord());
+        createFormBestSearchedKeywordList(afterContent, getBestSearchedKeyWordList());
+    }
+
+    document.getElementById('toggleBtnBefore').addEventListener('click', function(e) {
+        e.preventDefault();
+        beforeContent.style.display = 'none';
+        afterContent.style.display = 'flex';
+    });
+    document.getElementById('toggleBtnAfter').addEventListener('click', function(e) {
+        e.preventDefault();
+        afterContent.style.display = 'none';
+        beforeContent.style.display = 'flex';
+    });
 
     function getPopularProducts() {
         let collectedProducts = [];
@@ -230,20 +372,6 @@
         const innerElement = document.querySelector(".product-cards-inner");
         const childCount = innerElement.childElementCount;
         innerElement.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
-    }
-
-    /* 함수 호출 순서
-    * (1) 서버에서 인기 상품 리스트를 가져온다.
-    * (2) 가져온 상품 리스트로 폼을 동적으로 만들어 넣는다.
-    * (3) 슬라이더의 크기를 동적으로 조정한다.
-    * */
-    searchPageInit();
-    function searchPageInit() {
-        let collectedProducts = getPopularProducts();
-        collectedProducts.forEach((product) => {
-            createFormProductCard01(innerSlider, product);
-        });
-        updateGridTemplateColumns();
     }
 
     /* PC Drag */
@@ -411,6 +539,274 @@
         wrapProductCard01.appendChild(productCard01);
 
         parentElement.appendChild(wrapProductCard01);
+    }
+
+    function getBestSearchedKeyWord() {
+        const bestSearchedKeyword =
+            {
+                rank: 1,
+                name: '여름휴가',
+                searchCount: 1000,
+                previousRank: 11
+            };
+        return bestSearchedKeyword;
+    }
+
+    function getBestSearchedKeyWordList() {
+        const bestSearchedKeywordList = [
+            {
+                rank: 1,
+                name: '여름휴가',
+                searchCount: 1000,
+                previousRank: 11
+            },
+            {
+                rank: 2,
+                name: '피서',
+                searchCount: 900,
+                previousRank: 3
+            },
+            {
+                rank: 3,
+                name: '혼술',
+                searchCount: 800,
+                previousRank: 20
+            },
+            {
+                rank: 4,
+                name: '하이볼',
+                searchCount: 700,
+                previousRank: 23
+            },
+            {
+                rank: 5,
+                name: '발베니 15년산',
+                searchCount: 600,
+                previousRank: 5
+            },
+            {
+                rank: 6,
+                name: '파티',
+                searchCount: 500,
+                previousRank: 50
+            },
+            {
+                rank: 7,
+                name: '샴페인',
+                searchCount: 400,
+                previousRank: 7
+            },
+            {
+                rank: 8,
+                name: '피노누아',
+                searchCount: 300,
+                previousRank: 71
+            },
+            {
+                rank: 9,
+                name: '혼술 와인',
+                searchCount: 200,
+                previousRank: 8
+            },
+            {
+                rank: 10,
+                name: '와인 선물',
+                searchCount: 100,
+                previousRank: 19
+            }
+        ];
+
+        return bestSearchedKeywordList;
+    }
+
+    function createFormBestSearchedKeywordHead(parentElement, keyword) {
+        if (parentElement == null) {
+            console.log('parentElement is null');
+            return;
+        }
+
+        const wrapDiv = document.createElement('div');
+        wrapDiv.className = 'wrap-best-search-tit-keyword';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'best-search-title';
+
+        const titleLabelDiv = document.createElement('div');
+        titleLabelDiv.className = 'best-search-title-label';
+        titleLabelDiv.textContent = '인기검색어';
+
+        titleDiv.appendChild(titleLabelDiv);
+        wrapDiv.appendChild(titleDiv);
+
+        const keywordDiv = document.createElement('div');
+        keywordDiv.className = 'best-search-keyword';
+
+        const keywordNumDiv = document.createElement('div');
+        keywordNumDiv.className = 'best-search-keyword-num';
+        keywordNumDiv.textContent = keyword.rank;
+
+        const keywordNameDiv = document.createElement('div');
+        keywordNameDiv.className = 'best-search-keyword-name';
+        keywordNameDiv.textContent = keyword.name;
+
+        let keywordRankUpElement;
+
+        if (keyword.previousRank > 10) {
+            // 텍스트의 경우 (예: new)
+            keywordRankUpElement = document.createElement('div');
+            keywordRankUpElement.className = 'best-search-keyword-rank-up';
+            keywordRankUpElement.textContent = 'new';
+        }
+        else {
+            // 이미지의 경우 (예: up arrow, down arrow, line)
+            keywordRankUpElement = document.createElement('img');
+            if (keyword.rank === keyword.previousRank) {
+                keywordRankUpElement.src = '/images/ic_rank_line_10px.png';
+                keywordRankUpElement.className = 'ic_rank_line_10px';
+            } else if (keyword.rank < keyword.previousRank) {
+                keywordRankUpElement.src = '/images/ic_arrow_drop_up_10px.png';
+                keywordRankUpElement.className = 'ic_arrow_drop_up_10px';
+            } else {
+                keywordRankUpElement.src = '/images/ic_arrow_drop_down_10px.png';
+                keywordRankUpElement.className = 'ic_arrow_drop_down_10px';
+            }
+        }
+
+        keywordDiv.appendChild(keywordNumDiv);
+        keywordDiv.appendChild(keywordNameDiv);
+        keywordDiv.appendChild(keywordRankUpElement);
+        wrapDiv.appendChild(keywordDiv);
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'ic_chevron_down_14px';
+        toggleBtn.id = 'toggleBtnBefore';
+
+        const toggleBtnImg = document.createElement('img');
+        toggleBtnImg.src = '/images/ic_chevron_down_14px.png';
+
+        toggleBtn.appendChild(toggleBtnImg);
+
+        document.body.appendChild(wrapDiv);
+        document.body.appendChild(toggleBtn);
+
+        parentElement.appendChild(wrapDiv);
+        parentElement.appendChild(toggleBtn);
+    }
+
+    function createFormBestSearchedKeyword(parentElement, keyword) {
+        const bestSearchKeywordExtended = document.createElement('div');
+        bestSearchKeywordExtended.className = 'best-search-keyword-extended';
+
+        const wrapNumName = document.createElement('div');
+        wrapNumName.className = 'wrap-num-name';
+
+        const numExtended = document.createElement('div');
+        numExtended.className = 'num-extended';
+        numExtended.textContent = keyword.rank;
+
+        const nameExtended = document.createElement('div');
+        nameExtended.className = 'name-extended';
+        nameExtended.textContent = keyword.name;
+
+        wrapNumName.appendChild(numExtended);
+        wrapNumName.appendChild(nameExtended);
+
+        const wrapRankExtended = document.createElement('div');
+        wrapRankExtended.className = 'wrap-rank-extended';
+
+        let rankUpExtended;
+
+        if (keyword.previousRank > 10) {
+            // 텍스트의 경우 (예: new)
+            rankUpExtended = document.createElement('div');
+            rankUpExtended.className = 'rank-up-extended';
+            rankUpExtended.textContent = 'new';
+        }
+        else {
+            // 이미지의 경우 (예: up arrow, down arrow, line)
+            rankUpExtended = document.createElement('img');
+            if (keyword.rank === keyword.previousRank) {
+                rankUpExtended.src = '/images/ic_rank_line_10px.png';
+                rankUpExtended.className = 'ic_rank_line_10px';
+            } else if (keyword.rank > keyword.previousRank) {
+                rankUpExtended.src = '/images/ic_arrow_drop_up_10px.png';
+                rankUpExtended.className = 'ic_arrow_drop_up_10px';
+            } else {
+                rankUpExtended.src = '/images/ic_arrow_drop_down_10px.png';
+                rankUpExtended.className = 'ic_arrow_drop_down_10px';
+            }
+        }
+
+        wrapRankExtended.appendChild(rankUpExtended);
+
+        bestSearchKeywordExtended.appendChild(wrapNumName);
+        bestSearchKeywordExtended.appendChild(wrapRankExtended);
+
+        parentElement.appendChild(bestSearchKeywordExtended);
+    }
+
+    function createFormBestSearchedKeywordList(parentElement, keywords) {
+        if (parentElement == null) {
+            console.log('parentElement is null');
+            return;
+        }
+
+        const wrapBestSearchTitle = document.createElement('div');
+        wrapBestSearchTitle.className = 'wrap-best-search-title';
+
+        const wrapBestSearchTitleTime = document.createElement('div');
+        wrapBestSearchTitleTime.className = 'wrap-best-search-title-time';
+
+        const bestSearchTitle = document.createElement('div');
+        bestSearchTitle.className = 'best-search-title';
+
+        const bestSearchTitleLabel = document.createElement('div');
+
+        bestSearchTitleLabel.className = 'best-search-title-label';
+        bestSearchTitleLabel.textContent = '인기검색어';
+
+        bestSearchTitle.appendChild(bestSearchTitleLabel);
+
+        const bestSearchCurrentTime = document.createElement('div');
+        bestSearchCurrentTime.className = 'best-search-current-time';
+
+        const currentTime = document.createElement('div');
+        currentTime.className = 'current-time';
+
+        let nowDate = new Date();
+        let month = nowDate.getMonth();
+        let day = nowDate.getDay();
+        let hours = nowDate.getHours();
+        let minutes = nowDate.getMinutes();
+        currentTime.textContent = month + '.' + day + ' ' + hours + ':' + minutes;
+
+        const currentTimeText = document.createElement('div');
+        currentTimeText.className = 'current-time-text';
+        currentTimeText.textContent = '기준';
+
+        bestSearchCurrentTime.appendChild(currentTime);
+        bestSearchCurrentTime.appendChild(currentTimeText);
+
+        wrapBestSearchTitleTime.appendChild(bestSearchTitle);
+        wrapBestSearchTitleTime.appendChild(bestSearchCurrentTime);
+
+        const icChevronUp14px = document.createElement('button');
+        icChevronUp14px.className = 'ic_chevron_up_14px';
+        icChevronUp14px.id = 'toggleBtnAfter';
+
+        const icChevronUp14pxImg = document.createElement('img');
+        icChevronUp14pxImg.src = '/images/ic_chevron_down_14px.png';
+
+        icChevronUp14px.appendChild(icChevronUp14pxImg);
+
+        wrapBestSearchTitle.appendChild(wrapBestSearchTitleTime);
+        wrapBestSearchTitle.appendChild(icChevronUp14px);
+
+        parentElement.appendChild(wrapBestSearchTitle);
+
+        for (let i = 0; i < keywords.length; i++) {
+            createFormBestSearchedKeyword(parentElement, keywords[i]);
+        }
     }
 
     function findSearchWord() {
