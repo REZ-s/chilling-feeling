@@ -216,6 +216,13 @@ public class LoginController {
             return "redirect:/cf_search_page";
         }
 
+/*        // 테스트용
+        Goods goods = Goods.builder().
+                name(query).
+                salesStatus((short)1).
+                build();
+        goodsService.addGoods(goods);*/
+
         List<Goods> goodsList = goodsService.findListGoods(query);
         model.addAttribute("goodsList", goodsList);
         return "cf_search_result_page";

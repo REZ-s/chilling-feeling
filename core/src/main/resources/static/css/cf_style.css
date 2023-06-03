@@ -1609,6 +1609,212 @@ li {
     color: #004051;
 }
 
+/* 인기 검색어 */
+
+.search-best-container {
+    width: 375px;
+    height: 1153px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 32px;
+    padding: 40px 0;
+    background-color: #fff;
+}
+
+.wrap-search-top-bar-best-search-word-extended {
+    height: 512px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 12px;
+    padding: 0 20px;
+    border-bottom: solid 1px #e6e6e6;
+}
+
+.wrap-best-search-extended {
+    height: 462px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0;
+}
+
+.wrap-best-search-title {
+    height: 42px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.wrap-best-search-title-time {
+    width: 161px;
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+}
+
+.best-search-current-time {
+    width: 73px;
+    height: 20px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 0;
+}
+
+.current-time {
+    width: 51px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: -0.2px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.current-time-text {
+    width: 19px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: -0.2px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.best-search-keyword-extended {
+    height: 42px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 4px;
+    border: solid 1px #f6f6f6;
+}
+
+.wrap-num-name {
+    width: 108px;
+    height: 22px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+}
+
+.num-extended {
+    width: 20px;
+    height: 22px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #000;
+}
+
+.name-extended {
+    width: 79px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #000;
+}
+
+.wrap-rank-extended {
+    width: 26px;
+    height: 24px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 0;
+}
+
+.rank-up-extended {
+    height: 20px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: -0.2px;
+    text-align: center;
+    color: #f42828;
+}
+
+.ic_arrow_drop_up_10px {
+    width: 10px;
+    height: 10px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.ic_arrow_drop_down_10px {
+    width: 10px;
+    height: 10px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.ic_rank_line_10px {
+    width: 10px;
+    height: 10px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
 
 
 /* 로그인1 */
@@ -3041,30 +3247,32 @@ input.login1-form::placeholder {
 
 /* 상품 검색 페이지 */
 
-.search-container {
-    width: 375px;
-    height: 747px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 32px;
-    padding: 40px 0;
-    background-color: #fff;
-    box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-    0 1px 6px rgba(0, 23, 80, .015),
-    0 8px 8px rgba(0, 23, 80, .012),
-    0 16px 16px rgba(0, 23, 80, .012),
-    8px 32px 32px rgba(0, 23, 80, .018),
-    8px 64px 64px rgba(0, 23, 80, .018);
+@media (min-width: 375px) {
+    .search-container {
+        width: 375px;
+        min-height: 100vh;
+        flex-grow: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 32px;
+        padding: 40px 0;
+        background-color: #fff;
+        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
+        0 1px 6px rgba(0, 23, 80, .015),
+        0 8px 8px rgba(0, 23, 80, .012),
+        0 16px 16px rgba(0, 23, 80, .012),
+        8px 32px 32px rgba(0, 23, 80, .018),
+        8px 64px 64px rgba(0, 23, 80, .018);
+    }
 }
 
 .wrap-search-top-bar-best-search-word {
     height: 92px;
     align-self: stretch;
     flex-grow: 0;
-    display: flex;
+    display: table;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
@@ -3169,6 +3377,7 @@ input.login1-form::placeholder {
     justify-content: space-between;
     align-items: center;
     padding: 0;
+    margin-top: 10px;
 }
 
 .wrap-best-search-tit-keyword {
@@ -3268,11 +3477,21 @@ input.login1-form::placeholder {
 }
 
 .ic_chevron_down_14px {
-    width: 14px;
-    height: 14px;
+    /* width: 14px; */
+    /* height: 14px; */
     flex-grow: 0;
     object-fit: contain;
-/*    transform: rotate(-270deg);*/
+    border: 0;
+    background-color: white;
+}
+.ic_chevron_up_14px {
+    /* width: 14px; */
+    /* height: 14px; */
+    flex-grow: 0;
+    object-fit: contain;
+    border: 0;
+    background-color: white;
+    transform: rotate(-180deg);
 }
 
 .wrap-search-contents {
