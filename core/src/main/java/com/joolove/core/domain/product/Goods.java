@@ -33,6 +33,10 @@ public class Goods extends BaseTimeStamp {
     @JoinColumn(name = "goods_details_id")
     private GoodsDetails goodsDetails;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "goods_stats_id")
+    private GoodsStats goodsStats;
+
     @NotNull
     private String name;
 
@@ -52,10 +56,11 @@ public class Goods extends BaseTimeStamp {
     private Short salesStatus;
 
     @Builder
-    public Goods(UUID id, Category category, GoodsDetails goodsDetails, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
+    public Goods(UUID id, Category category, GoodsDetails goodsDetails, GoodsStats goodsStats, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
         this.id = id;
         this.category = category;
         this.goodsDetails = goodsDetails;
+        this.goodsStats = goodsStats;
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -70,6 +75,7 @@ public class Goods extends BaseTimeStamp {
                 "id=" + id +
                 ", category=" + category +
                 ", goodsDetails=" + goodsDetails +
+                ", goodsStats=" + goodsStats +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
@@ -167,6 +173,40 @@ public class Goods extends BaseTimeStamp {
                     .salesStatus((short) 0)
                     .build();
         }
+    }
+
+    @Data
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class GoodsView {
+        private String type;
+        private String name;
+        private String imageUrl;
+        private String label;
+        private String score;
+        private Integer reviewCount;
+
+        @Builder
+        public GoodsView(String type, String name, String imageUrl, String label, String score, Integer reviewCount) {
+            this.type = type;
+            this.name = name;
+            this.imageUrl = imageUrl;
+            this.label = label;
+            this.score = score;
+            this.reviewCount = reviewCount;
+        }
+
+        public static GoodsView buildEmpty() {
+            return GoodsView.builder()
+                    .type("")
+                    .name("")
+                    .imageUrl("")
+                    .label("")
+                    .score("")
+                    .reviewCount(0)
+                    .build();
+        }
+
+
     }
 
 }

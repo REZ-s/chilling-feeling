@@ -175,7 +175,6 @@ public class SeleniumComponent {
                 .engName(engName)
                 .type(type)
                 .imageUrl(imageUrl)
-                .priceLevel(priceLevel)
                 .degree(degree)
                 .country(country)
                 .company(company)

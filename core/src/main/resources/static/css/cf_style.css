@@ -14,10 +14,12 @@
     font-family: 'Jost', serif;
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    padding-bottom: env(safe-area-inset-bottom);
+@media (min-width: 375px) {
+    body {
+        display: flex;
+        justify-content: center;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
 }
 
 .pw-eye {
@@ -27,6 +29,8 @@ body {
 .pw-field {
     /* for js code */
 }
+
+
 
 
 /* 메인화면 */
@@ -1391,12 +1395,11 @@ li {
     background-color: #00232d;
 }
 
-
 /* 상품 검색 결과 페이지 */
 
 .search-result-container {
     width: 375px;
-    height: 812px;
+    min-height: 100vh;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -1530,6 +1533,8 @@ li {
     justify-content: center;
     align-items: stretch;
     padding: 0;
+    border: 0;
+    background-color: white;
     border-bottom: solid 2px #000;
 }
 .wrap-tab-bar-label {
@@ -1540,6 +1545,8 @@ li {
     justify-content: center;
     align-items: stretch;
     padding: 0;
+    border: 0;
+    background-color: white;
     border-bottom: solid 1px #e6e6e6;
 }
 
@@ -1569,6 +1576,114 @@ li {
     text-align: center;
     color: #afafaf;
 }
+
+.search-data-container {
+    width: 375px;
+    height: 680px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.wrap-category-container {
+    /*height: 625px;*/
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 24px;
+    padding: 15px 20px;
+}
+
+.wrap-category-product-list {
+/*    height: 553px;*/
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    padding: 0;
+}
+
+.wrap-horizontality {
+/*    height: 264px;*/
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 0;
+}
+
+.wrap-counting-range {
+    height: 18px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.counting-product-text {
+    width: 41px;
+    height: 18px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.64;
+    letter-spacing: -0.22px;
+    text-align: left;
+    color: #a4a4a4;
+}
+
+.wrap-range-chevron {
+    width: 58px;
+    height: 18px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+}
+
+.range-label {
+    width: 44px;
+    height: 18px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #4e4e4e;
+}
+
+.ic_chevron_down_10px {
+    width: 10px;
+    height: 10px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
 
 
 
@@ -1723,7 +1838,7 @@ li {
     justify-content: space-between;
     align-items: center;
     padding: 0 0 0 4px;
-    border: solid 1px #f6f6f6;
+    border-bottom: solid 1px #f6f6f6;
 }
 
 .wrap-num-name {
@@ -1821,7 +1936,7 @@ li {
 @media (min-width: 375px) {
     .login1 {
         width: 375px;
-        height: 812px;
+        min-height: 100vh;
         flex-grow: 0;
         padding: 40px 0 132px;
         background-color: #000;
@@ -2129,7 +2244,7 @@ input.login1-form::placeholder {
 @media (min-width: 375px) {
     .login2 {
         width: 375px;
-        height: 812px;
+        min-height: 100vh;
         flex-grow: 0;
         padding: 40px 0 355px;
         background-color: #000;
@@ -2329,7 +2444,7 @@ input.login1-form::placeholder {
 @media (min-width: 375px) {
     .join1 {
         width: 375px;
-        height: 812px;
+        min-height: 100vh;
         flex-grow: 0;
         display: flex;
         flex-direction: column;
@@ -3279,6 +3394,7 @@ input.login1-form::placeholder {
     gap: 12px;
     padding: 0 20px;
     border-bottom: solid 1px #e6e6e6;
+
 }
 
 .search-top-bar {
@@ -3625,4 +3741,3 @@ input.login1-form::placeholder {
     text-align: center;
     color: #7c7c7c;
 }
-

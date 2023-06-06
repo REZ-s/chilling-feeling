@@ -7,9 +7,9 @@ import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.domain.product.Goods;
-import com.joolove.core.repository.GoodsRepository;
-import com.joolove.core.repository.RoleRepository;
-import com.joolove.core.repository.UserRepository;
+import com.joolove.core.domain.product.GoodsDetails;
+import com.joolove.core.domain.product.GoodsStats;
+import com.joolove.core.repository.*;
 import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.jwt.repository.PasswordRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
@@ -50,6 +50,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
@@ -63,6 +64,8 @@ public class LoginController {
     private final AuthenticationRepository authenticationRepository;
     private final PasswordEncoder passwordEncoder;
     private final GoodsService goodsService;
+    private final GoodsDetailsRepository goodsDetailsRepository;
+    private final GoodsStatsRepository goodsStatsRepository;
     private final EmailServiceImpl emailService;
     private final SMSServiceImpl smsService;
     private final PasswordRepository passwordRepository;
@@ -216,18 +219,78 @@ public class LoginController {
             return "redirect:/cf_search_page";
         }
 
-/*        // 테스트용
-        Goods goods = Goods.builder().
-                name(query).
-                salesStatus((short)1).
-                build();
-        goodsService.addGoods(goods);*/
+/*        GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
+                .name("짐빔 화이트")
+                .engName("Jim Beam White")
+                .color("white")
+                .description("테스트 위스키")
+                .summary("테스트 위스키")
+                .country("korea")
+                .company("테스트 컴퍼니")
+                .supplier("테스트 컴퍼니")
+                .degree("10.0")
+                .imageUrl("/images/item-rep01.png")
+                .type("위스키")
+                .opt1Value("opt1Value")
+                .opt2Value("opt2Value")
+                .opt3Value("opt3Value")
+                .opt4Value("opt4Value")
+                .opt5Value("opt5Value")
+                .opt6Value("opt6Value")
+                .opt7Value("opt7Value")
+                .build();
 
+        GoodsStats goodsStats = GoodsStats.builder()
+                .label("가성비")
+                .score("4.4")
+                .reviewCount(100)
+                .build();
+
+        Goods goods = Goods.builder()
+                .name("짐빔 화이트")
+                .salesStatus((short)1)
+                .goodsDetails(goodsDetails)
+                .goodsStats(goodsStats)
+                .build();
+
+        goodsService.addGoods(goods);       */
+
+        List<Goods.GoodsView> goodsViewList = new ArrayList<>();
         List<Goods> goodsList = goodsService.findListGoods(query);
-        model.addAttribute("goodsList", goodsList);
+        goodsList.forEach(goods -> {
+            if (goods.getSalesStatus() != 1) {
+                return;
+            }
+
+            GoodsDetails goodsDetails = goodsDetailsRepository.findOneById(goods.getGoodsDetails().getId());
+            GoodsStats goodsStats = goodsStatsRepository.findOneById(goods.getGoodsStats().getId());
+            if (goodsDetails == null || goodsStats == null) {
+                return;
+            }
+
+            String type = goodsDetails.getType();
+            String name = goodsDetails.getName();
+            String imageUrl = goodsDetails.getImageUrl();
+            String label = goodsStats.getLabel();
+            Integer reviewCount = goodsStats.getReviewCount();
+            String score = goodsStats.getScore();
+
+            Goods.GoodsView goodsView = Goods.GoodsView.builder()
+                    .type(type)
+                    .name(name)
+                    .imageUrl(imageUrl)
+                    .label(label)
+                    .reviewCount(reviewCount)
+                    .score(score)
+                    .build();
+
+            goodsViewList.add(goodsView);
+        });
+
+        model.addAttribute("goodsViewList", goodsViewList);
+        model.addAttribute("query", query);
         return "cf_search_result_page";
     }
-
 
 
 
