@@ -292,6 +292,28 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <section class="bottom-container">
+        <div class="bottom-home">
+            <div class="bottom-home-action">
+                <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">홈</div>
+            </div>
+            <div class="bottom-home-action">
+                <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">카테고리</div>
+            </div>
+            <div class="bottom-home-action">
+                <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">피드</div>
+            </div>
+            <div class="bottom-home-action">
+                <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">마이</div>
+            </div>
+        </div>
+    </section>
+
 </div>
 </body>
 <script th:inline="javascript">
@@ -774,11 +796,14 @@
         currentTime.className = 'current-time';
 
         let nowDate = new Date();
-        let month = nowDate.getMonth();
-        let day = nowDate.getDay();
+        let month = nowDate.getMonth() + 1;    // because it returns value 0 ~ 11
+        let date = nowDate.getDate();
         let hours = nowDate.getHours();
         let minutes = nowDate.getMinutes();
-        currentTime.textContent = month + '.' + day + ' ' + hours + ':' + minutes;
+        currentTime.textContent = (month > 9 ? month : '0' + month)
+            + '.' + (date > 9 ? date : '0' + date)
+            + ' ' + (hours > 9 ? hours : '0' + hours)
+            + ':' + (minutes > 9 ? minutes : '0' + minutes);
 
         const currentTimeText = document.createElement('div');
         currentTimeText.className = 'current-time-text';

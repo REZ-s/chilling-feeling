@@ -96,16 +96,15 @@ public class GoodsDetails extends BaseTimeStamp {
     }
 
     @Builder(builderClassName = "AlcoholBuilder", builderMethodName = "alcoholBuilder")
-    public GoodsDetails(UUID id, String name, String engName, String type, Short priceLevel,
-                        String imageUrl, String degree, String country, String company,
-                        String supplier, String description, String summary, String color,
+    public GoodsDetails(UUID id, String name, String engName, String type, String imageUrl,
+                        String degree, String country, String company, String supplier,
+                        String description, String summary, String color,
                         String opt1Value, String opt2Value, String opt3Value, String opt4Value,
                         String opt5Value, String opt6Value, String opt7Value) {
         this.id = id;
         this.name = name;
         this.engName = engName;
         this.type = type;
-        this.priceLevel = priceLevel;
         this.imageUrl = imageUrl;
         this.degree = degree;
         this.country = country;
