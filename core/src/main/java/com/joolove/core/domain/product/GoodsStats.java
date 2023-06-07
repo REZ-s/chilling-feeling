@@ -20,6 +20,9 @@ public class GoodsStats extends BaseTimeStamp {
     @Column(name = "goods_stats_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @OneToOne(mappedBy = "goodsStats")
+    private Goods goods;
+
     private String label;
     private String score;
     private Integer reviewCount;
