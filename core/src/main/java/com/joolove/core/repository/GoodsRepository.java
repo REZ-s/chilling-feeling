@@ -1,6 +1,7 @@
 package com.joolove.core.repository;
 
 import com.joolove.core.domain.product.Goods;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,32 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
-    @Query("select g from Goods g where g.name like %?1%")
-    List<Goods> findListByName(String name);
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
+            "from GoodsDetails gd, GoodsStats gs " +
+            "where gd.goods.id = gs.goods.id")
+    List<Goods.GoodsView> findGoodsList(Pageable pageable);
 
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
+            "from GoodsDetails gd, GoodsStats gs " +
+            "where (gd.name like %?1% or gd.engName like %?1%) " +
+            "and gd.goods.id = gs.goods.id")
+    List<Goods.GoodsView> findGoodsListByName(String name, Pageable pageable);
+
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
+            "from GoodsDetails gd, GoodsStats gs " +
+            "where gd.type = ?1" +
+            "and gd.goods.id = gs.goods.id")
+    List<Goods.GoodsView> findGoodsListByType(String type, Pageable pageable);
+
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
+            "from GoodsDetails gd, GoodsStats gs " +
+            "where (gd.name like %?1% or gd.engName like %?1%) " +
+            "and gd.type = ?2 " +
+            "and gd.goods.id = gs.goods.id")
+    List<Goods.GoodsView> findGoodsListByNameAndType(String name, String type, Pageable pageable);
+
+    @Query("select gd " +
+            "from GoodsDetails gd " +
+            "where gd.name = ?1")
+    Goods.GoodsViewDetail findGoodsDetailByName(String name);
 }

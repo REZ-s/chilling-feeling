@@ -20,6 +20,7 @@ import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.EmailServiceImpl;
 import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -69,6 +70,7 @@ public class LoginController {
     private final EmailServiceImpl emailService;
     private final SMSServiceImpl smsService;
     private final PasswordRepository passwordRepository;
+    private final GoodsRepository goodsRepository;
 
     @GetMapping("/cf_login")
     public String cfLogin(Model model) {
@@ -209,7 +211,6 @@ public class LoginController {
 
     @GetMapping("/cf_search")
     public String searchPage(Model model) {
-        model.addAttribute("goods", Goods.SearchRequest.buildEmpty());
         return "cf_search_page";
     }
 
@@ -219,7 +220,36 @@ public class LoginController {
             return "redirect:/cf_search_page";
         }
 
-/*        GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
+        model.addAttribute("goodsViewList",
+                goodsService.findGoodsListByPaging(query, null, null, null, null));
+        model.addAttribute("query", query);
+        return "cf_search_result_page";
+    }
+
+    // 처음 카테고리 페이지가 로딩될 때
+    @GetMapping("/cf_category")
+    public String categoryPage(Model model) {
+        model.addAttribute("goodsViewList",
+                goodsService.findGoodsListByPaging(null, "전체", null, null, null));
+        return "cf_category_page";
+    }
+
+    // 검색하거나 카테고리를 선택했을 때
+    @GetMapping("/goods")
+    @ResponseBody
+    public ResponseEntity<List<Goods.GoodsView>> getGoodsList(
+            @RequestParam("name") String name,
+            @RequestParam("category") String category,
+            @RequestParam("page") Integer page,
+            @RequestParam("size") Integer size,
+            @RequestParam("sort") String sort) {
+        return ResponseEntity.ok().body(goodsService.findGoodsListByPaging(name, category, page, size, sort));
+    }
+
+    @PostMapping("/test/goods")
+    @ResponseBody
+    public ResponseEntity<?> addGoodsTest() {
+        GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
                 .name("짐빔 화이트")
                 .engName("Jim Beam White")
                 .color("white")
@@ -253,47 +283,10 @@ public class LoginController {
                 .goodsStats(goodsStats)
                 .build();
 
-        goodsService.addGoods(goods);       */
+        goodsService.addGoods(goods);
 
-        List<Goods.GoodsView> goodsViewList = new ArrayList<>();
-        List<Goods> goodsList = goodsService.findListGoods(query);
-        goodsList.forEach(goods -> {
-            if (goods.getSalesStatus() != 1) {
-                return;
-            }
-
-            GoodsDetails goodsDetails = goodsDetailsRepository.findOneById(goods.getGoodsDetails().getId());
-            GoodsStats goodsStats = goodsStatsRepository.findOneById(goods.getGoodsStats().getId());
-            if (goodsDetails == null || goodsStats == null) {
-                return;
-            }
-
-            String type = goodsDetails.getType();
-            String name = goodsDetails.getName();
-            String imageUrl = goodsDetails.getImageUrl();
-            String label = goodsStats.getLabel();
-            Integer reviewCount = goodsStats.getReviewCount();
-            String score = goodsStats.getScore();
-
-            Goods.GoodsView goodsView = Goods.GoodsView.builder()
-                    .type(type)
-                    .name(name)
-                    .imageUrl(imageUrl)
-                    .label(label)
-                    .reviewCount(reviewCount)
-                    .score(score)
-                    .build();
-
-            goodsViewList.add(goodsView);
-        });
-
-        model.addAttribute("goodsViewList", goodsViewList);
-        model.addAttribute("query", query);
-        return "cf_search_result_page";
+        return ResponseEntity.ok().body("valid");
     }
-
-
-
 
 
     // 사용자 계정 테스트

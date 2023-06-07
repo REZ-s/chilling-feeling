@@ -205,8 +205,12 @@ public class Goods extends BaseTimeStamp {
                     .reviewCount(0)
                     .build();
         }
+    }
+
+    @Data
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class GoodsViewDetail {
 
 
     }
-
 }
