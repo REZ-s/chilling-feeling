@@ -15,28 +15,24 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
-    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
-            "from GoodsDetails gd, GoodsStats gs " +
-            "where gd.goods.id = gs.goods.id")
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount " +
+            "from GoodsDetails gd, GoodsStats gs")
     List<Goods.GoodsView> findGoodsList(Pageable pageable);
 
-    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
-            "from GoodsDetails gd, GoodsStats gs " +
-            "where (gd.name like %?1% or gd.engName like %?1%) " +
-            "and gd.goods.id = gs.goods.id")
+    @Query("select gd.name as name, gd.type as type, gd.imageUrl as imageUrl, gs.label as label, gs.score as score, gs.reviewCount as reviewCount " +
+            "from GoodsDetails as gd, GoodsStats as gs " +
+            "where gd.name like %?1% or gd.engName like %?1%")
     List<Goods.GoodsView> findGoodsListByName(String name, Pageable pageable);
 
-    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount " +
             "from GoodsDetails gd, GoodsStats gs " +
-            "where gd.type = ?1" +
-            "and gd.goods.id = gs.goods.id")
+            "where gd.type = ?1")
     List<Goods.GoodsView> findGoodsListByType(String type, Pageable pageable);
 
-    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.reviewCount, gs.score " +
+    @Query("select gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount " +
             "from GoodsDetails gd, GoodsStats gs " +
             "where (gd.name like %?1% or gd.engName like %?1%) " +
-            "and gd.type = ?2 " +
-            "and gd.goods.id = gs.goods.id")
+            "and gd.type = ?2")
     List<Goods.GoodsView> findGoodsListByNameAndType(String name, String type, Pageable pageable);
 
     @Query("select gd " +

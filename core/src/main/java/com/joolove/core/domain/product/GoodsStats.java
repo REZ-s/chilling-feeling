@@ -28,8 +28,9 @@ public class GoodsStats extends BaseTimeStamp {
     private Integer reviewCount;
 
     @Builder
-    public GoodsStats(UUID id, String label, String score, Integer reviewCount) {
+    public GoodsStats(UUID id, Goods goods, String label, String score, Integer reviewCount) {
         this.id = id;
+        this.goods = goods;
         this.score = score;
         this.reviewCount = reviewCount;
         this.label = label;

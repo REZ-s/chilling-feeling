@@ -176,6 +176,8 @@ public class GoodsService {
     // 상품 1개 추가
     @Transactional
     public void addGoods(Goods goods) {
+        // UTC 기준으로 생성 시간을 기록
+        // 우리나라 기준으로 바꿀 필요가 있겠음
         goodsRepository.save(goods);
     }
 
