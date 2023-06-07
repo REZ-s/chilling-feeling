@@ -66,8 +66,9 @@ public class GoodsDetails extends BaseTimeStamp {
     private String opt8Value;
 
     @Builder
-    public GoodsDetails(UUID id, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String summary, String color, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
+    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String summary, String color, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
         this.id = id;
+        this.goods = goods;
         this.name = name;
         this.engName = engName;
         this.type = type;
@@ -99,12 +100,13 @@ public class GoodsDetails extends BaseTimeStamp {
     }
 
     @Builder(builderClassName = "AlcoholBuilder", builderMethodName = "alcoholBuilder")
-    public GoodsDetails(UUID id, String name, String engName, String type, String imageUrl,
+    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, String imageUrl,
                         String degree, String country, String company, String supplier,
                         String description, String summary, String color,
                         String opt1Value, String opt2Value, String opt3Value, String opt4Value,
                         String opt5Value, String opt6Value, String opt7Value) {
         this.id = id;
+        this.goods = goods;
         this.name = name;
         this.engName = engName;
         this.type = type;

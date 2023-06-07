@@ -1930,6 +1930,121 @@ li {
     object-fit: contain;
 }
 
+/* 카테고리 페이지 */
+.wrap-btn-tag-filter {
+    width: 375px;
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 0 20px;
+}
+
+.wap-btn-tag {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 0;
+    background-color: #fff;
+}
+
+.btn-tag {
+/*    width: 90px;*/
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: solid 1px #e6e6e6;
+}
+
+.btn-tag-label {
+    height: 20px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #000;
+}
+
+.btn-tag-chip {
+/*    width: 68px;*/
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.point-chip {
+    width: 31px;
+    height: 14px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 4px;
+    background-color: #f42828;
+}
+
+.point-chip-label {
+    width: 23px;
+    height: 10px;
+    flex-grow: 0;
+    font-family: 'Open Sans', serif;
+    font-size: 7px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+}
+
+.warp-btn-filter {
+    width: 63px;
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 20px 0 10px;
+    background-image: linear-gradient(to left, #fff 17%, rgba(255, 255, 255, 0) -17%);
+}
+
+.btn-filter {
+    width: 34px;
+    height: 28px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: solid 1px #e6e6e6;
+    background-color: #fff;
+}
+
 
 
 /* 로그인1 */

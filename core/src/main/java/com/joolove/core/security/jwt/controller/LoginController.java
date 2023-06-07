@@ -246,7 +246,7 @@ public class LoginController {
         return ResponseEntity.ok().body(goodsService.findGoodsListByPaging(name, category, page, size, sort));
     }
 
-    @PostMapping("/test/goods")
+    @GetMapping("/test/goods")
     @ResponseBody
     public ResponseEntity<?> addGoodsTest() {
         GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
