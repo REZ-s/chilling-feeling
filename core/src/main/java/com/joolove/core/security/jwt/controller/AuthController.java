@@ -13,6 +13,8 @@ import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.domain.auth.Password;
 import com.joolove.core.domain.member.User;
+import com.joolove.core.dto.request.SigninRequest;
+import com.joolove.core.dto.response.SigninResponse;
 import com.joolove.core.repository.*;
 import com.joolove.core.security.jwt.exception.ResourceNotFoundException;
 import com.joolove.core.security.jwt.utils.JwtUtils;
@@ -70,7 +72,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        User.SigninResponse response = User.SigninResponse.builder()
+        SigninResponse response = SigninResponse.builder()
                 .id(userPrincipal.getUser().getId())
                 .username(userPrincipal.getUsername())
                 .email(userPrincipal.getUser().getAuthentication().getEmail())
@@ -82,7 +84,7 @@ public class AuthController {
     }
 
     @PostMapping("/oauth2/signin")
-    public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody User.SigninRequest request) {
+    public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody SigninRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -101,7 +103,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody User.SigninRequest request) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody SigninRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -113,7 +115,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        User.SigninResponse response = User.SigninResponse.builder()
+        SigninResponse response = SigninResponse.builder()
                 .id(userPrincipal.getUser().getId())
                 .username(userPrincipal.getUsername())
                 .email(userPrincipal.getUser().getAuthentication().getEmail())

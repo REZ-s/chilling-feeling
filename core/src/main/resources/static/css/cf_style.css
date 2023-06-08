@@ -151,6 +151,7 @@
     position: relative;
     padding: 0;
     border: 0;
+    background-color: #00232d;
 }
 
 .ic_shopping_bag_24px {
@@ -171,6 +172,7 @@
     position: relative;
     padding: 0;
     border: 0;
+    background-color: #00232d;
 }
 
 .btn-rounded-recommend-label {
@@ -1139,6 +1141,8 @@ li {
     align-items: center;
     gap: 2px;
     padding: 0;
+    border: 0;
+    background-color: white;
 }
 
 .bottom-label {
@@ -1931,18 +1935,19 @@ li {
 }
 
 /* 카테고리 페이지 */
+
 .wrap-btn-tag-filter {
     width: 375px;
     height: 28px;
     flex-grow: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: end;
     align-items: center;
     padding: 0 0 0 20px;
 }
 
-.wap-btn-tag {
+.wrap-btn-tag {
     align-self: stretch;
     flex-grow: 1;
     display: flex;
@@ -1952,6 +1957,18 @@ li {
     gap: 7px;
     padding: 0;
     background-color: #fff;
+}
+
+.category-container {
+    height: 723px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 0;
 }
 
 .btn-tag {
@@ -2019,7 +2036,7 @@ li {
     color: #fff;
 }
 
-.warp-btn-filter {
+.wrap-btn-filter {
     width: 63px;
     height: 28px;
     flex-grow: 0;
@@ -2029,6 +2046,9 @@ li {
     align-items: flex-start;
     padding: 0 20px 0 10px;
     background-image: linear-gradient(to left, #fff 17%, rgba(255, 255, 255, 0) -17%);
+    position: absolute;
+    background-color: white;
+    z-index: 1;
 }
 
 .btn-filter {
@@ -2043,6 +2063,13 @@ li {
     border-radius: 20px;
     border: solid 1px #e6e6e6;
     background-color: #fff;
+}
+
+.ic_filter_14px {
+    width: 14px;
+    height: 14px;
+    flex-grow: 0;
+    object-fit: contain;
 }
 
 
@@ -3856,3 +3883,69 @@ input.login1-form::placeholder {
     text-align: center;
     color: #7c7c7c;
 }
+
+/* 오늘의 추천 */
+
+.recommend-container {
+    width: 375px;
+    height: 100vh;
+    flex-grow: 0;
+    padding: 40px 0 48px;
+    background-color: #000;
+}
+
+.recommend-top-container {
+    width: 375px;
+    height: 45px;
+    flex-grow: 0;
+    margin: 0 0 44px;
+    padding: 11px 14px 10px 169px;
+    background-color: #000;
+}
+
+.recommend-dot-active {
+    width: 6px;
+    height: 6px;
+    flex-grow: 0;
+    margin: 0 10px 0 0;
+    background-color: #d9d9d9;
+}
+
+.recommend-dot {
+    width: 6px;
+    height: 6px;
+    flex-grow: 0;
+    margin: 0 10px;
+    background-color: #525252;
+}
+
+.recommend-title-label {
+    width: 244px;
+    height: 30px;
+    margin: 44px 66px 5px 65px;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 27px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.11;
+    letter-spacing: -0.54px;
+    text-align: center;
+    color: #fff;
+}
+
+.recommend-subtitle-label {
+    width: 201px;
+    height: 30px;
+    margin: 5px 3px 88px 8px;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.14;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #ccc;
+}
+

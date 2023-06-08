@@ -271,8 +271,12 @@
                     </div>
                 </div>
                 <div class="btn-menu">
-                    <img src="/images/ic_search_24px.png" class="ic_search_main_24px" id="search">
-                    <img src="/images/ic_shopping_bag_24px.png" class="ic_shopping_bag_main_24px" id="myBag">
+                    <button class="ic_search_main_24px" id="search">
+                        <img src="/images/ic_search_24px.png" >
+                    </button>
+                    <button class="ic_shopping_bag_main_24px" id="myBag">
+                        <img src="/images/ic_shopping_bag_24px.png" >
+                    </button>
                 </div>
             </section>
             <section class="home-container-today">
@@ -583,22 +587,22 @@
         <!-- Footer -->
         <section class="bottom-container">
             <div class="bottom-home">
-                <div class="bottom-home-action">
+                <button class="bottom-home-action" id="goToHome">
                     <img src="/images/ic_home_ac.png" class="ic_bottom_icon">
                     <div class="bottom-label">홈</div>
-                </div>
-                <div class="bottom-home-action">
+                </button>
+                <button class="bottom-home-action" id="goToCategory">
                     <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
                     <div class="bottom-label">카테고리</div>
-                </div>
-                <div class="bottom-home-action">
+                </button>
+                <button class="bottom-home-action">
                     <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
                     <div class="bottom-label">피드</div>
-                </div>
-                <div class="bottom-home-action">
+                </button>
+                <button class="bottom-home-action">
                     <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
                     <div class="bottom-label">마이</div>
-                </div>
+                </button>
             </div>
         </section>
 
@@ -696,6 +700,11 @@
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
+    });
+
+    // 카테고리 버튼
+    document.getElementById("goToCategory").addEventListener("click", function () {
+        location.href = "/cf_category";
     });
 
     document.getElementById('search').addEventListener('click', function (e) {
