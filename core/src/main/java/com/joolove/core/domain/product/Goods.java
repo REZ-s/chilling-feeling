@@ -6,6 +6,7 @@ import com.joolove.core.domain.member.Favorite;
 import com.joolove.core.domain.member.FavoriteGoods;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.jetbrains.annotations.Contract;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -140,77 +141,4 @@ public class Goods extends BaseTimeStamp {
         this.price = price;
     }
 
-    /**
-     * DTO
-     */
-    @Data
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class SearchRequest {
-        private String name;
-        private Integer price;
-        private Integer stock;
-        private String description;
-        private Long salesFigures;
-        private Short salesStatus;
-
-        @Builder
-        public SearchRequest(String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
-            this.name = name;
-            this.price = price;
-            this.stock = stock;
-            this.description = description;
-            this.salesFigures = salesFigures;
-            this.salesStatus = salesStatus;
-        }
-
-        public static SearchRequest buildEmpty() {
-            return SearchRequest.builder()
-                    .name("")
-                    .price(0)
-                    .stock(0)
-                    .description("")
-                    .salesFigures(0L)
-                    .salesStatus((short) 0)
-                    .build();
-        }
-    }
-
-    @Data
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class GoodsView {
-        private String name;
-        private String type;
-        private String imageUrl;
-        private String label;
-        private String score;
-        private Integer reviewCount;
-
-        @Builder
-        public GoodsView(String name, String type, String imageUrl, String label, String score, Integer reviewCount) {
-            this.name = name;
-            this.type = type;
-            this.imageUrl = imageUrl;
-            this.label = label;
-            this.score = score;
-            this.reviewCount = reviewCount;
-        }
-
-        public static GoodsView buildEmpty() {
-            return GoodsView.builder()
-                    .name("")
-                    .type("")
-                    .imageUrl("")
-                    .label("")
-                    .score("")
-                    .reviewCount(0)
-                    .build();
-        }
-    }
-
-    @Data
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class GoodsViewDetail {
-
-
-    }
 }

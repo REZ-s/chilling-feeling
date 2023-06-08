@@ -9,6 +9,9 @@ import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
+import com.joolove.core.dto.query.GoodsView;
+import com.joolove.core.dto.request.SigninRequest;
+import com.joolove.core.dto.request.SignupRequest;
 import com.joolove.core.repository.*;
 import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.jwt.repository.PasswordRepository;
@@ -65,21 +68,19 @@ public class LoginController {
     private final AuthenticationRepository authenticationRepository;
     private final PasswordEncoder passwordEncoder;
     private final GoodsService goodsService;
-    private final GoodsDetailsRepository goodsDetailsRepository;
-    private final GoodsStatsRepository goodsStatsRepository;
     private final EmailServiceImpl emailService;
     private final SMSServiceImpl smsService;
     private final PasswordRepository passwordRepository;
-    private final GoodsRepository goodsRepository;
+
 
     @GetMapping("/cf_login")
     public String cfLogin(Model model) {
-        model.addAttribute("request", User.SigninRequest.buildEmpty());
+        model.addAttribute("request", SigninRequest.buildEmpty());
         return "cf_login_page";
     }
 
     @PostMapping("/cf_login2")
-    public String cfLogin2(Model model, @Valid @ModelAttribute("request") User.SigninRequest request) {
+    public String cfLogin2(Model model, @Valid @ModelAttribute("request") SigninRequest request) {
         return "cf_login_page2";
     }
 
@@ -143,22 +144,22 @@ public class LoginController {
 
     @GetMapping("/cf_join")
     public String cfJoin(Model model) {
-        model.addAttribute("request", User.SignupRequest.buildEmpty());
+        model.addAttribute("request", SignupRequest.buildEmpty());
         return "cf_join_page";
     }
 
     @PostMapping(value = "/cf_join2")
-    public String cfJoin2(Model model, @ModelAttribute("request") User.SignupRequest request) {
+    public String cfJoin2(Model model, @ModelAttribute("request") SignupRequest request) {
         return "cf_join_page2";
     }
 
     @PostMapping(value = "/cf_join3")
-    public String cfJoin3(Model model, @ModelAttribute("request") User.SignupRequest request) {
+    public String cfJoin3(Model model, @ModelAttribute("request") SignupRequest request) {
         return "cf_join_page3";
     }
 
     @PostMapping(value = "/cf_join/complete")
-    public String cfJoin4(Model model, @Valid @ModelAttribute("request") User.SignupRequest request) {
+    public String cfJoin4(Model model, @Valid @ModelAttribute("request") SignupRequest request) {
         // 여기가 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 검증
 
         // 사용자 접근 권한 생성
@@ -220,8 +221,7 @@ public class LoginController {
             return "redirect:/cf_search_page";
         }
 
-        model.addAttribute("goodsViewList",
-                goodsService.findGoodsListByPaging(query, null, null, null, null));
+        model.addAttribute("goodsViewList", goodsService.findGoodsListByPaging(query, null, null, null, null));
         model.addAttribute("query", query);
         return "cf_search_result_page";
     }
@@ -229,21 +229,20 @@ public class LoginController {
     // 처음 카테고리 페이지가 로딩될 때
     @GetMapping("/cf_category")
     public String categoryPage(Model model) {
-        model.addAttribute("goodsViewList",
-                goodsService.findGoodsListByPaging(null, "전체", null, null, null));
+        model.addAttribute("goodsViewList", goodsService.findGoodsListByPaging(null, "전체", null, null, null));
         return "cf_category_page";
     }
 
-    // 검색하거나 카테고리를 선택했을 때
+    // 실시간 API 호출 (예: 검색하거나 카테고리를 선택했을 때)
     @GetMapping("/goods")
     @ResponseBody
-    public ResponseEntity<List<Goods.GoodsView>> getGoodsList(
-            @RequestParam("name") String name,
-            @RequestParam("category") String category,
-            @RequestParam("page") Integer page,
-            @RequestParam("size") Integer size,
-            @RequestParam("sort") String sort) {
-        return ResponseEntity.ok().body(goodsService.findGoodsListByPaging(name, category, page, size, sort));
+    public ResponseEntity<List<GoodsView>> getGoodsList(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "type", required = false) String type,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort) {
+        return ResponseEntity.ok().body(goodsService.findGoodsListByPaging(name, type, page, size, sort));
     }
 
     @GetMapping("/test/goods")
@@ -286,6 +285,11 @@ public class LoginController {
         goodsService.addGoods(goods);
 
         return ResponseEntity.ok().body("valid");
+    }
+
+    @GetMapping("/cf_recommend")
+    public String recommendPage(Model model) {
+        return "cf_recommend_page";
     }
 
 

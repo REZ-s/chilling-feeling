@@ -3,6 +3,8 @@ package com.joolove.core.security.service;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
+import com.joolove.core.dto.query.GoodsView;
+import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.GoodsRepository;
 import com.joolove.core.repository.GoodsStatsRepository;
@@ -30,13 +32,13 @@ public class GoodsService {
 
     // 상품 상세 화면을 위한 조회
     /*
-    public Goods.GoodsViewDetails getGoodsViewDetails(String query) {
+    public GoodsViewDetails getGoodsViewDetails(String query) {
     }*/
 
     // 상품 썸네일을 위한 조회
     /*
-    public List<Goods.GoodsView> getGoodsViewList(String query) {
-        List<Goods.GoodsView> goodsViewList = new ArrayList<>();
+    public List<GoodsView> getGoodsViewList(String query) {
+        List<GoodsView> goodsViewList = new ArrayList<>();
 
         this.findGoodsListByPaging(query).forEach(goods -> {
             if (goods.getSalesStatus() != 1) {
@@ -56,7 +58,7 @@ public class GoodsService {
             Integer reviewCount = goodsStats.getReviewCount();
             String score = goodsStats.getScore();
 
-            Goods.GoodsView goodsView = Goods.GoodsView.builder()
+            GoodsView goodsView = GoodsView.builder()
                     .type(type)
                     .name(name)
                     .imageUrl(imageUrl)
@@ -72,14 +74,14 @@ public class GoodsService {
     }*/
 
     // 상품 1개 상세 조회
-    public Goods.GoodsViewDetail findGoodsDetail(String goodsName) {
+    public GoodsViewDetails findGoodsDetail(String goodsName) {
         return goodsRepository.findGoodsDetailByName(goodsName);
     }
 
     // 상품 n개 조회 (이름, 카테고리 별)
-    public List<Goods.GoodsView> findGoodsListByPaging(String goodsName,
-                                                       String category,
-                                                       Integer page, Integer size, String sort) {
+    public List<GoodsView> findGoodsListByPaging(String goodsName,
+                                                 String type,
+                                                 Integer page, Integer size, String sort) {
         int defaultPage = 0;
         int defaultSize = 10;
         int requestedPage = page != null ? page : defaultPage;
@@ -94,16 +96,16 @@ public class GoodsService {
         }
 
         if (StringUtils.isBlank(goodsName)) {
-            if (StringUtils.isBlank(category) || category.equals("전체")) {
+            if (StringUtils.isBlank(type) || type.equals("전체")) {
                 return goodsRepository.findGoodsList(pagingInfo);
             } else {
-                return goodsRepository.findGoodsListByType(category, pagingInfo);
+                return goodsRepository.findGoodsListByType(type, pagingInfo);
             }
         } else {
-            if (StringUtils.isBlank(category) || category.equals("전체")) {
+            if (StringUtils.isBlank(type) || type.equals("전체")) {
                 return goodsRepository.findGoodsListByName(goodsName, pagingInfo);
             } else {
-                return goodsRepository.findGoodsListByNameAndType(goodsName, category, pagingInfo);
+                return goodsRepository.findGoodsListByNameAndType(goodsName, type, pagingInfo);
             }
         }
     }
