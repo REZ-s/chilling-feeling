@@ -71,6 +71,8 @@ public class LoginController {
     private final EmailServiceImpl emailService;
     private final SMSServiceImpl smsService;
     private final PasswordRepository passwordRepository;
+    private final GoodsDetailsRepository goodsDetailsRepository;
+    private final GoodsStatsRepository goodsStatsRepository;
 
 
     @GetMapping("/cf_login")
@@ -248,11 +250,20 @@ public class LoginController {
     @GetMapping("/test/goods")
     @ResponseBody
     public ResponseEntity<?> addGoodsTest() {
+
+        Goods goods = Goods.builder()
+                .name("짐빔 화이트")
+                .salesStatus((short)1)
+                .build();
+
         GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
+                .goods(goods)
                 .name("짐빔 화이트")
                 .engName("Jim Beam White")
                 .color("white")
+                .colorImgUrl("https://cdn.veluga.kr/icons/tasting-note/color/brick-red.svg")
                 .description("테스트 위스키")
+                .descriptionImageUrl("/images/item-rep01.png")
                 .summary("테스트 위스키")
                 .country("korea")
                 .company("테스트 컴퍼니")
@@ -270,19 +281,15 @@ public class LoginController {
                 .build();
 
         GoodsStats goodsStats = GoodsStats.builder()
+                .goods(goods)
                 .label("가성비")
                 .score("4.4")
                 .reviewCount(100)
                 .build();
 
-        Goods goods = Goods.builder()
-                .name("짐빔 화이트")
-                .salesStatus((short)1)
-                .goodsDetails(goodsDetails)
-                .goodsStats(goodsStats)
-                .build();
-
         goodsService.addGoods(goods);
+        goodsDetailsRepository.save(goodsDetails);
+        goodsStatsRepository.save(goodsStats);
 
         return ResponseEntity.ok().body("valid");
     }

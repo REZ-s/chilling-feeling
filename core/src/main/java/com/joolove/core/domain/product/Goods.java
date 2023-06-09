@@ -27,41 +27,28 @@ public class Goods extends BaseTimeStamp {
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", unique = true)
     private Category category;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "goods_details_id")
-    private GoodsDetails goodsDetails;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "goods_stats_id")
-    private GoodsStats goodsStats;
-
     @NotNull
-    private String name;
+    @Column(unique = true)
+    private String name;        // 상품명 (Goods, GoodsDetail, GoodsStats 에서 사용한다.)
 
-    //@NotNull
     private Integer price;
 
-    //@NotNull
     private Integer stock;
 
-    //@NotNull
     private String description;
 
-    //@NotNull
     private Long salesFigures;
 
     @NotNull
-    private Short salesStatus;
+    private Short salesStatus;      // 판매 상태 (0: 판매하지않음, 1: 판매중, 2: 기타)
 
     @Builder
-    public Goods(UUID id, Category category, GoodsDetails goodsDetails, GoodsStats goodsStats, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
+    public Goods(UUID id, Category category, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
         this.id = id;
         this.category = category;
-        this.goodsDetails = goodsDetails;
-        this.goodsStats = goodsStats;
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -75,8 +62,6 @@ public class Goods extends BaseTimeStamp {
         return "Goods{" +
                 "id=" + id +
                 ", category=" + category +
-                ", goodsDetails=" + goodsDetails +
-                ", goodsStats=" + goodsStats +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
@@ -86,9 +71,13 @@ public class Goods extends BaseTimeStamp {
                 '}';
     }
 
-
-
     /* mappedBy */
+    @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    private GoodsStats goodsStats;
+
+    @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    private GoodsDetails goodsDetail;
+
     @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
     private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
 

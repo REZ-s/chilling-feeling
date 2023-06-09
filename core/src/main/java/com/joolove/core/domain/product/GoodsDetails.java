@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
@@ -22,31 +23,32 @@ public class GoodsDetails extends BaseTimeStamp {
     @Column(name = "goods_details_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(mappedBy = "goodsDetails")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
+    @JoinColumn(name = "goods_id", nullable = false, unique = true)
     private Goods goods;
 
     @NotBlank
     private String name;
-
     @NotBlank
     private String engName;
-
     @NotBlank
     private String type;        // 주류 종류 (예: 와인, 위스키 등)
 
-    private Short priceLevel;   // 가격대
-
     @Size(max = 1000)
     private String imageUrl;
+    @Size(max = 1000)
+    private String descriptionImageUrl;
+    @Size(max = 1000)
+    private String colorImgUrl;
+
     private String degree;      // 도수
     private String country;     // 생산국
     private String company;     // 제조사
     private String supplier;    // 공급사
-    @Size(max = 1000)
-    private String description;
-    @Size(max = 1000)
-    private String summary;
-    private String color;
+    private String description; // 상품 설명
+    private String summary;     // 상품 요약
+    private String color;       // 색감
+    private Short priceLevel;   // 가격대
 
     private String opt1Name;    // aroma : 향 (예: "nuts,cocoa")
     private String opt1Value;
@@ -66,7 +68,7 @@ public class GoodsDetails extends BaseTimeStamp {
     private String opt8Value;
 
     @Builder
-    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String summary, String color, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
+    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String descriptionImageUrl, String summary, String color, String colorImgUrl, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
         this.id = id;
         this.goods = goods;
         this.name = name;
@@ -79,8 +81,10 @@ public class GoodsDetails extends BaseTimeStamp {
         this.company = company;
         this.supplier = supplier;
         this.description = description;
+        this.descriptionImageUrl = descriptionImageUrl;
         this.summary = summary;
         this.color = color;
+        this.colorImgUrl = colorImgUrl;
         this.opt1Name = opt1Name;
         this.opt1Value = opt1Value;
         this.opt2Name = opt2Name;
@@ -102,8 +106,8 @@ public class GoodsDetails extends BaseTimeStamp {
     @Builder(builderClassName = "AlcoholBuilder", builderMethodName = "alcoholBuilder")
     public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, String imageUrl,
                         String degree, String country, String company, String supplier,
-                        String description, String summary, String color,
-                        String opt1Value, String opt2Value, String opt3Value, String opt4Value,
+                        String description, String descriptionImageUrl, String summary, String color,
+                        String colorImgUrl, String opt1Value, String opt2Value, String opt3Value, String opt4Value,
                         String opt5Value, String opt6Value, String opt7Value) {
         this.id = id;
         this.goods = goods;
@@ -116,8 +120,10 @@ public class GoodsDetails extends BaseTimeStamp {
         this.company = company;
         this.supplier = supplier;
         this.description = description;
+        this.descriptionImageUrl = descriptionImageUrl;
         this.summary = summary;
         this.color = color;
+        this.colorImgUrl = colorImgUrl;
         this.opt1Name = "aroma";
         this.opt1Value = opt1Value;
         this.opt2Name = "balance";
