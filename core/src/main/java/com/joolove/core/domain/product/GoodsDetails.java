@@ -29,10 +29,10 @@ public class GoodsDetails extends BaseTimeStamp {
 
     @NotBlank
     private String name;
+
+    private String engName;     // 우리나라 술 중에서 영문 이름이 없는 것이 있어서 @NotBlank 지움
     @NotBlank
-    private String engName;
-    @NotBlank
-    private String type;        // 주류 종류 (예: 와인, 위스키 등)
+    private String type;        // 주류 종류 (예: 와인, 위스키, 전통 소주, 탁주 등)
 
     @Size(max = 1000)
     private String imageUrl;
