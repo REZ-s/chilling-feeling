@@ -62,7 +62,7 @@ public class SeleniumComponent {
         driver = new ChromeDriver(options);
 
         List<String[]> listForFile = new ArrayList<>();
-        for (int i = 1; i <= 25778; ++i) {  // 24656 x 10 = 246.560 seconds
+        for (int i = 996; i <= 25778; ++i) {  // 24656 x 10 = 246.560 seconds?
             driver.get(detailUrl + i);    // open url
 
             try {
@@ -75,11 +75,11 @@ public class SeleniumComponent {
                 e.printStackTrace();
             }
 
-            driver.close(); // close tab
+
         }
 
         System.out.println("all done!");
-
+        driver.close(); // close tab
         driver.quit();  // close browser
     }
 
@@ -154,7 +154,7 @@ public class SeleniumComponent {
                 List<WebElement> textElements = element.findElements(By.className("eKsMbC"));
 
                 if (header.getText().equals("색상")) {
-                    colorImgUrl = element.findElement(By.cssSelector("div[class*='iworJg']"))
+                    colorImgUrl = element.findElement(By.cssSelector("div[class*='ContentCircle-']"))
                             .findElement(By.tagName("img")).getAttribute("src");
                     color = textElements.get(0).getText();
 
