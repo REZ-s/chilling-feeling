@@ -1,6 +1,8 @@
 package com.joolove.core.domain.product;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.mysql.cj.util.StringUtils;
+import io.netty.util.internal.StringUtil;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,12 +22,13 @@ public class GoodsStats extends BaseTimeStamp {
     @Column(name = "goods_stats_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(mappedBy = "goodsStats")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
+    @JoinColumn(name = "goods_id", nullable = false, unique = true)
     private Goods goods;
 
-    private String label;
-    private String score;
-    private Integer reviewCount;
+    private String label = StringUtil.EMPTY_STRING;
+    private String score = StringUtil.EMPTY_STRING;
+    private Integer reviewCount = 0;
 
     @Builder
     public GoodsStats(UUID id, Goods goods, String label, String score, Integer reviewCount) {
