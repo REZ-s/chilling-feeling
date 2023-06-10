@@ -72,10 +72,10 @@ public class Goods extends BaseTimeStamp {
     }
 
     /* mappedBy */
-    @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST, optional = false)
     private GoodsStats goodsStats;
 
-    @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST, optional = false)
     private GoodsDetails goodsDetail;
 
     @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)

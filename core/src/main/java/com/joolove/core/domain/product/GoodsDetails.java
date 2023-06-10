@@ -45,6 +45,7 @@ public class GoodsDetails extends BaseTimeStamp {
     private String country;     // 생산국
     private String company;     // 제조사
     private String supplier;    // 공급사
+    @Column(columnDefinition = "TEXT")
     private String description; // 상품 설명
     private String summary;     // 상품 요약
     private String color;       // 색감
