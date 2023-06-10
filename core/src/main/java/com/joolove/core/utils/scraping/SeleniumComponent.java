@@ -62,7 +62,7 @@ public class SeleniumComponent {
         driver = new ChromeDriver(options);
 
         List<String[]> listForFile = new ArrayList<>();
-        for (int i = 996; i <= 25778; ++i) {  // 24656 x 10 = 246.560 seconds?
+        for (int i = 500; i <= 25778; ++i) {  // 24656 x 10 = 246.560 seconds?
             driver.get(detailUrl + i);    // open url
 
             try {
@@ -74,8 +74,6 @@ public class SeleniumComponent {
                 System.out.println("exception " + i);
                 e.printStackTrace();
             }
-
-
         }
 
         System.out.println("all done!");
@@ -129,7 +127,8 @@ public class SeleniumComponent {
                 case "국가/지역" -> country = tdString;
                 case "제조사" -> company = tdString;
                 case "공급사" -> supplier = tdString;
-                default -> throw new RuntimeException("Unknown type: " + thString);
+                //default -> throw new RuntimeException("Unknown type: " + thString);
+                // 주요 품종 이라는 th가 가끔 있어서 주석 처리
             }
         }
 
@@ -248,9 +247,9 @@ public class SeleniumComponent {
                 .build();
 
         // DB 저장
-        goodsService.addGoods(goods);
-        goodsDetailsRepository.save(goodsDetails);
         goodsStatsRepository.save(goodsStats);
+        goodsDetailsRepository.save(goodsDetails);
+        goodsService.addGoods(goods);
 
         // CSV 형태로 저장
 /*        listForFile.add(new String[]{
