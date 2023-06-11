@@ -4564,6 +4564,20 @@ input.login1-form::placeholder {
     text-align: left;
     color: #5c6668;
 }
+.wine-style-details-label-reverse {
+    width: 27px;
+    height: 12px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    text-align: right;
+    color: #5c6668;
+}
 
 .product-details-product-episode {
 /*    height: 136px;*/
