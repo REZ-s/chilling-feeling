@@ -37,8 +37,13 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "and gd.type = ?2")
     List<GoodsView> findGoodsListByNameAndType(String name, String type, Pageable pageable);
 
-    @Query("select gd " +
-            "from GoodsDetails gd " +
+    @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
+            "gd.name, gd.engName, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount, " +
+            "gd.degree, gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
+            "gd.summary, gd.opt1Value, gd.opt2Value, gd.opt3Value, gd.opt4Value, gd.opt5Value, gd.opt6Value, gd.opt7Value)  " +
+            "from GoodsDetails gd, GoodsStats gs " +
             "where gd.name = ?1")
     GoodsViewDetails findGoodsDetailByName(String name);
+
+
 }

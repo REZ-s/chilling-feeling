@@ -39,7 +39,7 @@ public class GoodsDetails extends BaseTimeStamp {
     @Size(max = 1000)
     private String descriptionImageUrl;
     @Size(max = 1000)
-    private String colorImgUrl;
+    private String colorImageUrl;
 
     private String degree;      // 도수
     private String country;     // 생산국
@@ -53,23 +53,23 @@ public class GoodsDetails extends BaseTimeStamp {
 
     private String opt1Name;    // aroma : 향 (예: "nuts,cocoa")
     private String opt1Value;
-    private String opt2Name;    // balance : 알코올과 다른 성분의 균형. 높으면 알코올향이 쎄다. (1, 2, 3, 4, 5)
+    private String opt2Name;    // balance : 알코올과 다른 성분의 균형. 높으면 알코올향이 쎄다.
     private String opt2Value;
-    private String opt3Name;    // body : 목 넘김. 높으면 중후해진다. (1, 2, 3, 4, 5)
+    private String opt3Name;    // body : 목 넘김. 높으면 중후해진다.
     private String opt3Value;
-    private String opt4Name;    // tannin : 떫기. 높으면 떫다. (1, 2, 3, 4, 5)
+    private String opt4Name;    // tannin : 떫기. 높으면 떫다.
     private String opt4Value;
-    private String opt5Name;    // sweetness : 당도. 높으면 단맛이 강하다. (1, 2, 3, 4, 5)
+    private String opt5Name;    // sweetness : 당도. 높으면 단맛이 강하다.
     private String opt5Value;
-    private String opt6Name;    // acidity : 산도. 높으면 산미가 강하다. (1, 2, 3, 4, 5)
+    private String opt6Name;    // acidity : 산도. 높으면 산미가 강하다.
     private String opt6Value;
-    private String opt7Name;    // soda : 탄산. 높으면 탄산이 강하다. (1, 2, 3, 4, 5)
+    private String opt7Name;    // soda : 탄산. 높으면 탄산이 강하다.
     private String opt7Value;
     private String opt8Name;
     private String opt8Value;
 
     @Builder
-    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String descriptionImageUrl, String summary, String color, String colorImgUrl, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
+    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String descriptionImageUrl, String summary, String color, String colorImageUrl, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
         this.id = id;
         this.goods = goods;
         this.name = name;
@@ -85,7 +85,7 @@ public class GoodsDetails extends BaseTimeStamp {
         this.descriptionImageUrl = descriptionImageUrl;
         this.summary = summary;
         this.color = color;
-        this.colorImgUrl = colorImgUrl;
+        this.colorImageUrl = colorImageUrl;
         this.opt1Name = opt1Name;
         this.opt1Value = opt1Value;
         this.opt2Name = opt2Name;
@@ -108,7 +108,7 @@ public class GoodsDetails extends BaseTimeStamp {
     public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, String imageUrl,
                         String degree, String country, String company, String supplier,
                         String description, String descriptionImageUrl, String summary, String color,
-                        String colorImgUrl, String opt1Value, String opt2Value, String opt3Value, String opt4Value,
+                        String colorImageUrl, String opt1Value, String opt2Value, String opt3Value, String opt4Value,
                         String opt5Value, String opt6Value, String opt7Value) {
         this.id = id;
         this.goods = goods;
@@ -124,7 +124,7 @@ public class GoodsDetails extends BaseTimeStamp {
         this.descriptionImageUrl = descriptionImageUrl;
         this.summary = summary;
         this.color = color;
-        this.colorImgUrl = colorImgUrl;
+        this.colorImageUrl = colorImageUrl;
         this.opt1Name = "aroma";
         this.opt1Value = opt1Value;
         this.opt2Name = "balance";
