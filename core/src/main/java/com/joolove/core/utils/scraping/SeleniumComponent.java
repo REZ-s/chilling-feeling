@@ -229,7 +229,7 @@ public class SeleniumComponent {
                 .company(company)
                 .supplier(supplier)
                 .color(color)
-                .colorImgUrl(colorImgUrl)
+                .colorImageUrl(colorImgUrl)
                 .description(description)
                 .descriptionImageUrl(descImgUrlString)
                 .summary(summary)

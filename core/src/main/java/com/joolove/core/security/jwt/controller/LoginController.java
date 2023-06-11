@@ -212,11 +212,13 @@ public class LoginController {
         return "cf_main_page";
     }
 
+    // 상품 검색 처음
     @GetMapping("/cf_search")
     public String searchPage(Model model) {
         return "cf_search_page";
     }
 
+    // 상품 검색 결과
     @GetMapping("/cf_search/result")
     public String searchResult(Model model, @RequestParam("query") String query) {
         if (!StringUtils.hasText(query)) {
@@ -233,6 +235,13 @@ public class LoginController {
     public String categoryPage(Model model) {
         model.addAttribute("goodsViewList", goodsService.findGoodsListByPaging(null, "전체", null, null, null));
         return "cf_category_page";
+    }
+
+    // 상품 1개에 대한 상세
+    @GetMapping(("/cf_goods/{name}"))
+    public String goodsPage(Model model, @PathVariable("name") String name) {
+        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetail(name));
+        return "cf_goods_page";
     }
 
     // 실시간 API 호출 (예: 검색하거나 카테고리를 선택했을 때)
@@ -261,7 +270,7 @@ public class LoginController {
                 .name("짐빔 화이트")
                 .engName("Jim Beam White")
                 .color("white")
-                .colorImgUrl("https://cdn.veluga.kr/icons/tasting-note/color/brick-red.svg")
+                .colorImageUrl("https://cdn.veluga.kr/icons/tasting-note/color/brick-red.svg")
                 .description("테스트 위스키")
                 .descriptionImageUrl("/images/item-rep01.png")
                 .summary("테스트 위스키")

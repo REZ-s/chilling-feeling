@@ -1,9 +1,288 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Goods </title>
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
 </head>
 <body>
+<div class="product-details-container">
+    <!-- Header -->
+    <section class="top-bar-details-frame">
+        <div class="wrap-back-home">
+            <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
+            <img src="/images/ic_home_black_24px.png" class="ic_home_de_24px">
+        </div>
+
+        <div class="wrap-share-cart">
+            <img src="/images/ic_share_24px.png" class="ic_share_24px">
+            <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="product-details-frame">
+        <div class="product-details-product-card">
+            <div class="product-details-photo-container-wrap-img">
+                <img src="/images/product_sample.png">
+            </div>
+
+            <div class="product-details-product-info">
+                <div class="product-detail-product-name">
+                    <div class="product-details-product-name-type-category">
+                        <div class="product-details-product-name-type">와인</div>
+
+                        <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
+
+                        <div class="product-details-product-name-category">화이트와인</div>
+                    </div>
+
+                    <div class="product-name">레이크 찰리스 네스트 소비뇽 블랑</div>
+                </div>
+
+                <div class="product-details-caption">
+                    <div class="wrap-star-review">
+                        <div class="wrap-star-group-score">
+                            <div class="star-group">
+                                <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_half_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_star_off_10px.png" class="ic_star_10px">
+                            </div>
+
+                            <div class="product-details-star-score">3.5</div>
+                        </div>
+
+                        <button class="product-details-btn-review">
+                            <div class="product-details-btn-review-label">74개 리뷰 보기</div>
+                        </button>
+                    </div>
+
+                    <div class="wrap-chip-wh">
+                        <div class="product-chip">
+                            <div class="chip-label-wh">스테디</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-details-tab-bar">
+            <div class="wrap-tab-bar-label-ac">
+                <div class="tab-bar-label-ac">상품정보</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">리뷰</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">문의</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">교환/반품</div>
+            </div>
+        </div>
+
+        <button class="product-details-banner">
+            <img src="/images/product_details_banner.png">
+        </button>
+
+        <div class="wrap-product-info-list">
+            <div class="wrap-product-details-product-info">
+
+                <div class="product-details-product-basic-info">
+                    <div class="product-details-title">기본 정보</div>
+                    <div class="product-details-product-info">
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">스타일</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style">화이트 와인</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">도수</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style">13%</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">국가/지역</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style">뉴질랜드</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">제조사</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style">콰리사</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">공급사</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style">퍼미넌트</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-product-point">
+                    <div class="product-details-title">상품 특징</div>
+                    <div class="product-details-product-info">
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">색상</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="ic_color_chip"></div>
+                            <div class="product-details-style">Light Olive</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">향</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style">Red fruit, Herb</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-product-style-info">
+                    <div class="product-details-title">스타일</div>
+                    <div class="wine-style-list">
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">바디</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <img src="/images/wine_style_graphy_level1.png" class="wine-style-graphy">
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">가벼움</div>
+                                    <div class="wine-style-details-label">묵직함</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">탄닌</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <img src="/images/wine_style_graphy_level2.png" class="wine-style-graphy">
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">매끈함</div>
+                                    <div class="wine-style-details-label">떫음</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">당도</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <img src="/images/wine_style_graphy_level3.png" class="wine-style-graphy">
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">드라이</div>
+                                    <div class="wine-style-details-label">스위트</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">산도</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <img src="/images/wine_style_graphy_level4.png" class="wine-style-graphy">
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">낮음</div>
+                                    <div class="wine-style-details-label">시큼함</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">탄산</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <img src="/images/wine_style_graphy_level5.png" class="wine-style-graphy">
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">없음</div>
+                                    <div class="wine-style-details-label">강함</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-product-episode">
+                    <div class="product-details-title">술 이야기</div>
+                    <div class="product-episode">붉은 벽돌 색상을 지니며 레드 체리 향과 붉은 베리 향이 어우러져 있다.
+                        초콜릿과 후추 향이 뒤이어 나타나고,
+                        부드러움과 균형미가 잘 드러나 있으며 목넘김이 부드러워 부담 없이 즐길 수 있는 와인이다.
+                    </div>
+                </div>
+
+                <div class="product-details-similar-product-list">
+                    <div class="product-details-title">비슷한 취향의 추천 상품</div>
+                    <div class="home-taste-prod-swiper-wrapper">
+                        <!-- 카테고리 내 추천 상품 리스트 생성 -->
+                    </div>
+                </div>
+
+                <div class="product-details-category-best-list">
+                    <div class="product-details-title">카테고리 인기 상품</div>
+                    <div class="home-taste-prod-swiper-wrapper">
+                        <!-- 카테고리 내 인기 상품 리스트 생성 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="bottom-container">
+        <div class="product-details-bottom">
+            <div class="wrap-product-details-bottom-ic">
+                <div class="wrap-heart-counting">
+                    <img src="/images/ic_heart_black_24px.png" class="ic_heart_bottom_24px">
+                    <div class="heart-counting-label">12</div>
+                </div>
+
+                <div class="ic_divider"></div>
+
+                <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
+            </div>
+
+            <div class="product-details-btn-order">
+                <div class="product-details-btn-order-label">픽업 주문하기</div>
+            </div>
+        </div>
+    </section>
+
+</div>
 </body>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
+    /*]]>*/
+
+
+
+
+</script>
 </html>
