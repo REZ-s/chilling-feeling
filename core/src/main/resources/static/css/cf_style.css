@@ -4106,7 +4106,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-name-type {
-    width: 26px;
+/*    width: 26px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
