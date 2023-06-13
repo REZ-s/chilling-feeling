@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GoodsViewDetails {
@@ -22,16 +24,17 @@ public class GoodsViewDetails {
     private String supplier;
     private String color;
     private String colorImageUrl;
+
     private String description;
     private String descriptionImageUrl;
     private String summary;
-    private String opt1Value;
-    private String opt2Value;
-    private String opt3Value;
-    private String opt4Value;
-    private String opt5Value;
-    private String opt6Value;
-    private String opt7Value;
+    private String opt1Value;   // aroma
+    private String opt2Value;   // balance
+    private String opt3Value;   // body
+    private String opt4Value;   // tannin
+    private String opt5Value;   // sweetness
+    private String opt6Value;   // acidity
+    private String opt7Value;   // soda
 
     @Builder
     public GoodsViewDetails(String name, String engName, String type, String imageUrl, String label, String score, Integer reviewCount, String degree, String country, String company, String supplier, String color, String colorImageUrl, String description, String descriptionImageUrl, String summary, String opt1Value, String opt2Value, String opt3Value, String opt4Value, String opt5Value, String opt6Value, String opt7Value) {
