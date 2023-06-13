@@ -10,6 +10,7 @@ import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
 import com.joolove.core.dto.query.GoodsView;
+import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SigninRequest;
 import com.joolove.core.dto.request.SignupRequest;
 import com.joolove.core.repository.*;
@@ -247,7 +248,7 @@ public class LoginController {
     // 실시간 API 호출 (예: 검색하거나 카테고리를 선택했을 때)
     @GetMapping("/goods")
     @ResponseBody
-    public ResponseEntity<List<GoodsView>> getGoodsList(
+    public ResponseEntity<List<IGoodsView>> getGoodsList(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "page", required = false) Integer page,
