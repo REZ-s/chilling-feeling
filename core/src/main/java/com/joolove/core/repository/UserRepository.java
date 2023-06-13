@@ -17,11 +17,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByUsername(String username);
 
-    /*
-    @Query("select u.username, u.accountType from User u")
-    List<Object[]> findAllFastV0();
-    */
-
     @Query("select new User(u.id, u.username, u.accountType) from User u")
     List<User> findAllFast();
 

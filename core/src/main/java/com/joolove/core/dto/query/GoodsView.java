@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GoodsView {
+public class GoodsView implements IGoodsView {
     private String name;
     private String type;
     private String imageUrl;

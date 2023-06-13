@@ -1,12 +1,10 @@
 package com.joolove.core.security.service;
 
 import com.joolove.core.domain.product.Goods;
-import com.joolove.core.domain.product.GoodsDetails;
-import com.joolove.core.domain.product.GoodsStats;
-import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.GoodsViewDetails;
+import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.repository.GoodsDetailsRepository;
-import com.joolove.core.repository.GoodsRepository;
+import com.joolove.core.repository.query.GoodsRepository;
 import com.joolove.core.repository.GoodsStatsRepository;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,51 +23,6 @@ import java.util.Optional;
 public class GoodsService {
 
     private final GoodsRepository goodsRepository;
-    private final GoodsDetailsRepository goodsDetailsRepository;
-    private final GoodsStatsRepository goodsStatsRepository;
-
-    // 상품 상세 화면을 위한 조회
-    /*
-    public GoodsViewDetails getGoodsViewDetails(String query) {
-    }*/
-
-    // 상품 썸네일을 위한 조회
-    /*
-    public List<GoodsView> getGoodsViewList(String query) {
-        List<GoodsView> goodsViewList = new ArrayList<>();
-
-        this.findGoodsListByPaging(query).forEach(goods -> {
-            if (goods.getSalesStatus() != 1) {
-                return;
-            }
-
-            GoodsDetails goodsDetails = goodsDetailsRepository.findOneById(goods.getGoodsDetails().getId());
-            GoodsStats goodsStats = goodsStatsRepository.findOneById(goods.getGoodsStats().getId());
-            if (goodsDetails == null || goodsStats == null) {
-                return;
-            }
-
-            String type = goodsDetails.getType();
-            String name = goodsDetails.getName();
-            String imageUrl = goodsDetails.getImageUrl();
-            String label = goodsStats.getLabel();
-            Integer reviewCount = goodsStats.getReviewCount();
-            String score = goodsStats.getScore();
-
-            GoodsView goodsView = GoodsView.builder()
-                    .type(type)
-                    .name(name)
-                    .imageUrl(imageUrl)
-                    .label(label)
-                    .reviewCount(reviewCount)
-                    .score(score)
-                    .build();
-
-            goodsViewList.add(goodsView);
-        });
-
-        return goodsViewList;
-    }*/
 
     // 상품 1개 상세 조회
     public GoodsViewDetails findGoodsDetail(String goodsName) {
@@ -79,9 +30,9 @@ public class GoodsService {
     }
 
     // 상품 n개 조회 (이름, 카테고리 별)
-    public List<GoodsView> findGoodsListByPaging(String goodsName,
-                                                 String type,
-                                                 Integer page, Integer size, String sort) {
+    public List<IGoodsView> findGoodsListByPaging(String goodsName,
+                                                  String type,
+                                                  Integer page, Integer size, String sort) {
         int defaultPage = 0;
         int defaultSize = 10;
         int requestedPage = page != null ? page : defaultPage;
