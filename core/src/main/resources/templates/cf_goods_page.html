@@ -38,7 +38,7 @@
             </div>
 
             <div class="product-details-product-info">
-                <div class="product-detail-product-name">
+                <div class="product-details-product-name">
                     <div class="product-details-product-name-type-category">
                         <div class="product-details-product-name-type" id="pType1">와인</div>
 
@@ -47,7 +47,11 @@
                         <div class="product-details-product-name-category" id="pType2">화이트와인</div>
                     </div>
 
-                    <div class="product-name" id="pName">레이크 찰리스 네스트 소비뇽 블랑</div>
+                    <div class="wrap-product-name-english">
+                        <div class="product-name" id="pName">레이크 찰리스 네스트 소비뇽 블랑</div>
+                        <div class="product-name-english" id="pEngName">Lake Chalice Nest Sauvignon Blanc</div>
+                    </div>
+
                 </div>
 
                 <div class="product-details-caption">
@@ -474,6 +478,7 @@
     function initForm() {
         let pImageUrl = document.getElementById("pImageUrl");
         let pName = document.getElementById("pName");
+        let pEngName = document.getElementById("pEngName");
         let pType = document.getElementById("pType");
         let pType1 = document.getElementById("pType1");     // primary category
         let pType2 = document.getElementById("pType2");     // sub category
@@ -497,6 +502,7 @@
 
         pImageUrl.src = goodsViewDetails.imageUrl;
         pName.innerText = fill(goodsViewDetails.name);
+        pEngName.innerText = fill(goodsViewDetails.engName);
         pType.innerText = fill(goodsViewDetails.type);
         let types = goodsViewDetails.type.split(",");
         pType1.innerText = fill(types[0]);

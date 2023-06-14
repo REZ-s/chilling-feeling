@@ -4055,7 +4055,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-info {
-    height: 118px;
+/*    height: 118px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -4067,7 +4067,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-name {
-    height: 55px;
+/*    height: 55px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -4075,6 +4075,18 @@ input.login1-form::placeholder {
     justify-content: flex-start;
     align-items: stretch;
     gap: 5px;
+    padding: 0;
+}
+
+.wrap-product-name-english {
+    height: 50px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 2px;
     padding: 0;
 }
 
@@ -4091,6 +4103,21 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #000;
+}
+
+.product-name-english {
+    height: 20px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Open Sans', serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4a4a4a;
 }
 
 .product-details-product-name-type-category {
@@ -4143,7 +4170,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-caption {
-    height: 50px;
+/*    height: 50px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
