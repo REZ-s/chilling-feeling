@@ -2,16 +2,12 @@ package com.joolove.core.domain.billing;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.member.User;
-import com.joolove.core.utils.CoreAssert;
+import com.joolove.core.domain.product.OrdersGoods;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

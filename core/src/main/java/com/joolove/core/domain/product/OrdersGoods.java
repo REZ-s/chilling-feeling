@@ -1,11 +1,9 @@
-package com.joolove.core.domain.billing;
+package com.joolove.core.domain.product;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.product.Goods;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,6 +14,8 @@ import java.util.UUID;
 @Table(schema = "billing")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder
+@ToString(exclude = {"order", "goods"})
 public class OrdersGoods extends BaseTimeStamp {
 
     @Id
@@ -40,6 +40,14 @@ public class OrdersGoods extends BaseTimeStamp {
     @NotNull
     private Integer count;
 
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public void setOrder(Orders order) {
+        this.order = order;
+    }
+
     @Builder
     public OrdersGoods(UUID id, Orders order, Goods goods, Integer singleSalePrice, Integer count) {
         this.id = id;
@@ -47,17 +55,6 @@ public class OrdersGoods extends BaseTimeStamp {
         this.goods = goods;
         this.singleSalePrice = singleSalePrice;
         this.count = count;
-    }
-
-    @Override
-    public String toString() {
-        return "OrdersGoods{" +
-                "id=" + id +
-                ", order=" + order +
-                ", goods=" + goods +
-                ", singleSalePrice=" + singleSalePrice +
-                ", count=" + count +
-                '}';
     }
 
 }

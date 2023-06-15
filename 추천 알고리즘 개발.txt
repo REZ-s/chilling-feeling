@@ -1,0 +1,99 @@
+추천 해주기 위해서는 별도의 항목이 필요하다.
+예를 들면, 
+1. 도수(기본설정) - GoodsDetails.degree
+2. 선호 카테고리(기본설정) - GoodsDetails.type
+3. 현재 기분 (오늘의추천) - DB 필요 없음
+4. 상품 별점 - GoodsStats
+5. 상품 좋아요 개수 - GoodsStats
+6. 판매량 - Goods
+
+# '회원가입' 최초 설정 로직
+setLimitDegree();        // 도수 설정
+function setLimitDegree(userData) {
+    
+}
+
+setPreferredCategory();    // 선호하는 카테고리
+function setPreferredCategory(userData) {
+    
+}
+
+# '지금 내 기분은?' 로직
+updateNowFeeling();    // 기분 설정
+function updateNowFeeling(userData) {
+    mySweetness = null;
+
+    if userData.feeling == "즐거워요" || "기뻐요"
+        mySweetness = 높음
+    else if userData.feeling == "슬퍼요" || "화나요"
+        mySweetness = 낮음
+    else 
+        mySweetness = 무관
+    
+    return mySweetness;
+}
+
+# 추천 로직
+applyPersonalRecommend();
+
+function applyPersonalRecommand(userId) {
+    // userId로 정보 가져오기
+    userData = getUserData(userId);
+
+    // rn은 추천에 사용되는 요소
+    r1(userDegree) = getLimitDegree(userData);
+    r2(userCategory) = getPreferredCategory(userData);
+    r3(userSweetness) = getNowFeeling(userData);
+
+    인기상품 = getPopularGoodsList();
+    신상품 = getNewGoodsList();
+
+    getRealTimeRecommand();
+
+    return 
+}
+ 
+[인기상품] 
+1. 판매량이 많음 = SalesFigures
+2. 별점이 높음 = Score
+3. 좋아요가 많음 = Heart (GoodsStat에 추가)
+getPopularGoodsList();
+ 
+[신상품]
+DB에 저장된 날짜로 구분
+getNewGoodsList();
+ 
+[카테고리 선호]
+해당 카테고리에 해당하는 상품만 보여준다. 
+예) 전통주를 기본으로 설정하면, 전통주만 보여준다.
+육류 : 레드와인 우선
+해산물 : 화이트와인 우선
+디저트 : 와인, 위스키 둘다
+setPreferredCategory();
+ 
+[도수] 
+해당 도수 상한선 아래로만 보여준다.
+예) 
+무알콜러 : 무알콜만
+술린이 : 10도 아래
+알콜요정 : 20도 아래
+영혼의술반자 : 모두
+setLimitDegree();
+ 
+[현재기분]
+좋을수록 단맛, 나쁠수록 쓴맛에 가깝게
+예) 
+즐거워요 : 당도가 높은 순
+기뻐요 : 당도가 높은 순
+그냥 그래요 : 상관X
+피곤해요 : 상관X
+슬퍼요 : 당도가 낮은 순
+화나요 : 당도가 낮은 순
+updateNowFeeling();
+ 
+[실시간 반영]
+1. 추천 조건을 만족한 상태로 무작위 추첨을 해서 상위 몇 개를 리스트업
+2. 사용자가 '클릭' 하거나 '검색' 한 경우, 해당 상품이 추천 조건을 만족한다면 비슷한 상품들을 먼저 리스트업
+-> 비슷한 상품이란?
+'이름', '도수', '당도', '탄산', '색깔' 등의 요소를 종합적으로 산출하여, 가장 유사한 (일정 range 내) 상품들
+updateRealTimeRecommand();

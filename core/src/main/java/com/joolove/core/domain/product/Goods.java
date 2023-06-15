@@ -1,12 +1,8 @@
 package com.joolove.core.domain.product;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.billing.OrdersGoods;
-import com.joolove.core.domain.member.Favorite;
-import com.joolove.core.domain.member.FavoriteGoods;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.jetbrains.annotations.Contract;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +14,7 @@ import java.util.UUID;
 @Table(schema = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString(exclude = {"category", "goodsDetails", "goodsStats"})
 public class Goods extends BaseTimeStamp {
 
     @Id
@@ -32,21 +29,21 @@ public class Goods extends BaseTimeStamp {
 
     @NotNull
     @Column(unique = true)
-    private String name;        // 상품명 (Goods, GoodsDetail, GoodsStats 에서 사용한다.)
+    private String name;            // 상품명 (GoodsDetails 테이블의 name 과 동일)
 
     private Integer price;
 
-    private Integer stock;
+    private Integer stock;          // 재고
+
+    private Long salesFigures;      // 판매량
+
+    @NotNull
+    private Short salesStatus;      // 판매 상태 (0: 판매중지, 1: 판매중, 2: 기타)
 
     private String description;
 
-    private Long salesFigures;
-
-    @NotNull
-    private Short salesStatus;      // 판매 상태 (0: 판매하지않음, 1: 판매중, 2: 기타)
-
     @Builder
-    public Goods(UUID id, Category category, String name, Integer price, Integer stock, String description, Long salesFigures, Short salesStatus) {
+    public Goods(UUID id, Category category, String name, Integer price, Integer stock, Long salesFigures, Short salesStatus, String description) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -55,20 +52,6 @@ public class Goods extends BaseTimeStamp {
         this.description = description;
         this.salesFigures = salesFigures;
         this.salesStatus = salesStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "Goods{" +
-                "id=" + id +
-                ", category=" + category +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", stock=" + stock +
-                ", description='" + description + '\'' +
-                ", salesFigures=" + salesFigures +
-                ", salesStatus=" + salesStatus +
-                '}';
     }
 
     /* mappedBy */
@@ -82,7 +65,7 @@ public class Goods extends BaseTimeStamp {
     private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
-    private List<GoodsSale> goodsSales = new ArrayList<>();
+    private List<GoodsDiscount> goodsDiscounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
     private List<OrdersGoods> ordersGoodsList = new ArrayList<>();
@@ -94,8 +77,8 @@ public class Goods extends BaseTimeStamp {
         this.favoriteGoodsList = favoriteGoodsList;
     }
 
-    public void setGoodsSales(List<GoodsSale> goodsSales) {
-        this.goodsSales = goodsSales;
+    public void setGoodsDiscounts(List<GoodsDiscount> goodsDiscounts) {
+        this.goodsDiscounts = goodsDiscounts;
     }
 
     public void setOrderGoodsList(List<OrdersGoods> ordersGoodsList) {
