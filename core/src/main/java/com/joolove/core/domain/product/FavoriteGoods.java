@@ -1,6 +1,7 @@
-package com.joolove.core.domain.member;
+package com.joolove.core.domain.product;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.member.Favorite;
 import com.joolove.core.domain.product.Goods;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;

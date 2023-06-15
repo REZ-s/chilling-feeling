@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(schema = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
+@ToString(exclude = {"goods"})
 public class GoodsDetails extends BaseTimeStamp {
 
     @Id
@@ -29,11 +29,9 @@ public class GoodsDetails extends BaseTimeStamp {
 
     @NotBlank
     private String name;
-
-    private String engName;     // 우리나라 술 중에서 영문 이름이 없는 것이 있어서 @NotBlank 지움
+    private String engName;     // 영문 이름이 없는 것이 있어서 @NotBlank 적용하지 않음
     @NotBlank
-    private String type;        // 주류 종류 (예: 와인, 위스키, 전통 소주, 탁주 등)
-
+    private String type;        // 주류 종류 (예: 와인, 위스키, 전통 소주, 칵테일, 논알콜 등)
     @Size(max = 1000)
     private String imageUrl;
     @Size(max = 1000)
@@ -41,17 +39,17 @@ public class GoodsDetails extends BaseTimeStamp {
     @Size(max = 1000)
     private String colorImageUrl;
 
-    private String degree;      // 도수
+    private String degree;      // 도수 (예: "40%")
     private String country;     // 생산국
     private String company;     // 제조사
     private String supplier;    // 공급사
     @Column(columnDefinition = "TEXT")
     private String description; // 상품 설명
     private String summary;     // 상품 요약
-    private String color;       // 색감
+    private String color;       // 색감 (예: "red")
     private Short priceLevel;   // 가격대
 
-    private String opt1Name;    // aroma : 향 (예: "nuts,cocoa")
+    private String opt1Name;    // aroma : 향 (예: "nuts, cocoa")
     private String opt1Value;
     private String opt2Name;    // balance : 알코올과 다른 성분의 균형. 높으면 알코올향이 쎄다.
     private String opt2Value;
@@ -67,6 +65,10 @@ public class GoodsDetails extends BaseTimeStamp {
     private String opt7Value;
     private String opt8Name;
     private String opt8Value;
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
 
     @Builder
     public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String descriptionImageUrl, String summary, String color, String colorImageUrl, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
