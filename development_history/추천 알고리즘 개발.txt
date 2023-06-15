@@ -33,25 +33,33 @@ function updateNowFeeling(userData) {
     return mySweetness;
 }
 
-# 추천 로직
-applyPersonalRecommend();
+# 추천 로직 흐름
+// 사용하는 변수
+Map<userId, rList> rMap;                 // userId로 개인 추천 요소 리스트 가져오기
+userData = getUserData(userId);        // userId로 개인 정보 가져오기
+userSelectedGoods = getSelectedGoods(userData);        // userData로 선택한 상품 정보 가져오기
 
-function applyPersonalRecommand(userId) {
-    // userId로 정보 가져오기
-    userData = getUserData(userId);
+// 실제 로직
+userData = getUserData(userId);
+rMap[userId] = applyPersonalRecommend(rMap[userId], userData);        // 개인 추천 알고리즘 적용
+if (event.active) {
+    userSelectedGoods = getSelectedGoods(userData);
+    rMap[userId] = updateRealTimeRecommand(rMap[userId], userSelectedGoods);     // 실시간 추천 알고리즘 적용
+}
+/* rMap[userId]를 인자로 넣는건 옵션. 구현하다보면 넣어도되고 빼도됨 */
 
+function applyPersonalRecommand(rList, userData) {
     // rn은 추천에 사용되는 요소
     r1(userDegree) = getLimitDegree(userData);
     r2(userCategory) = getPreferredCategory(userData);
     r3(userSweetness) = getNowFeeling(userData);
+    r4(인기상품) = getPopularGoodsList();
+    r5(신상품) = getNewGoodsList();
 
-    인기상품 = getPopularGoodsList();
-    신상품 = getNewGoodsList();
-
-    getRealTimeRecommand();
-
-    return 
+    return rList = { r1, r2, r3, r4, r5 };
 }
+
+
  
 [인기상품] 
 1. 판매량이 많음 = SalesFigures
