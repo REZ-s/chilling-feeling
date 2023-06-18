@@ -5,17 +5,14 @@ import com.joolove.core.domain.auth.*;
 import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.log.LoginLog;
 import com.joolove.core.domain.log.UserActivityLog;
-import com.joolove.core.domain.recommend.RecommendationDaily;
-import com.joolove.core.domain.recommend.RecommendationFirst;
+import com.joolove.core.domain.recommend.UserRecommendationDaily;
+import com.joolove.core.domain.recommend.UserRecommendationBase;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +31,7 @@ public class User extends BaseTimeStamp {
 
     @NotBlank
     @Column(unique = true, length = 64)
-    private String username;
+    private String username;    // email
 
     @NotNull
     private Short accountType;
@@ -77,7 +74,7 @@ public class User extends BaseTimeStamp {
     private Authentication authentication;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private RecommendationFirst recommendationFirst;
+    private UserRecommendationBase userRecommendationBase;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private RefreshToken refreshToken;
@@ -98,7 +95,7 @@ public class User extends BaseTimeStamp {
     private List<Device> devices = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private List<RecommendationDaily> recommendationDailies = new ArrayList<>();
+    private List<UserRecommendationDaily> recommendationDailies = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<UserRole> roles = new ArrayList<>();
@@ -131,8 +128,8 @@ public class User extends BaseTimeStamp {
         this.authentication = authentication;
     }
 
-    public void setRecommendationFirst(RecommendationFirst recommendationFirst) {
-        this.recommendationFirst = recommendationFirst;
+    public void setUserRecommendationBase(UserRecommendationBase userRecommendationBase) {
+        this.userRecommendationBase = userRecommendationBase;
     }
 
     public void setOrders(List<Orders> orders) {
@@ -155,7 +152,7 @@ public class User extends BaseTimeStamp {
         this.devices = devices;
     }
 
-    public void setRecommendationDailies(List<RecommendationDaily> recommendationDailies) {
+    public void setRecommendationDailies(List<UserRecommendationDaily> recommendationDailies) {
         this.recommendationDailies = recommendationDailies;
     }
 

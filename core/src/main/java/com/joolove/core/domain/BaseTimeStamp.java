@@ -12,10 +12,8 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeStamp {
-
     @CreatedDate
     private LocalDateTime createdDate;
-
     @LastModifiedDate
     private LocalDateTime updatedDate;
 
