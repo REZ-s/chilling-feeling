@@ -1,6 +1,7 @@
 package com.joolove.core.domain.recommend;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.EEmotion;
 import com.joolove.core.domain.member.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,12 +17,12 @@ import java.util.UUID;
 @Table(schema = "recommend")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RecommendationDaily extends BaseTimeStamp {
+public class UserRecommendationDaily extends BaseTimeStamp {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "recommendation_daily_id", columnDefinition = "BINARY(16)")
+    @Column(name = "user_recommendation_daily_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotNull
@@ -30,26 +31,21 @@ public class RecommendationDaily extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    private Short feeling;
-
-    @NotNull
-    private Short abv;
+    @Enumerated(EnumType.STRING)
+    private EEmotion feeling;      // 오늘의 기분
 
     @Builder
-    public RecommendationDaily(UUID id, User user, Short feeling, Short abv) {
+    public UserRecommendationDaily(UUID id, User user, EEmotion feeling) {
         this.id = id;
         this.user = user;
         this.feeling = feeling;
-        this.abv = abv;
     }
 
     @Override
     public String toString() {
-        return "RecommendationDaily{" +
+        return "UserRecommendationDaily{" +
                 "id=" + id +
-                ", user=" + user +
                 ", feeling=" + feeling +
-                ", abv=" + abv +
                 '}';
     }
 

@@ -1,11 +1,9 @@
 package com.joolove.core.domain.recommend;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.ECategory;
 import com.joolove.core.domain.member.User;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,12 +16,12 @@ import java.util.UUID;
 @Table(schema = "recommend")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RecommendationFirst extends BaseTimeStamp {
+public class UserRecommendationBase extends BaseTimeStamp {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "recommendation_first_id", columnDefinition = "BINARY(16)")
+    @Column(name = "user_recommendation_base_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotNull
@@ -32,31 +30,32 @@ public class RecommendationFirst extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    private Short drinkCapacity;
+    private Short abvLimit;     // 알콜 도수 제한 (0 ~ 100)
 
     @NotNull
-    private Integer priceLimit;
+    @Enumerated(EnumType.STRING)
+    private ECategory preferredCategory;   // 선호하는 카테고리
 
     @Builder
-    public RecommendationFirst(UUID id, User user, Short drinkCapacity, Integer priceLimit) {
+    public UserRecommendationBase(UUID id, User user, Short abvLimit, ECategory preferredCategory) {
         this.id = id;
         this.user = user;
-        this.drinkCapacity = drinkCapacity;
-        this.priceLimit = priceLimit;
+        this.abvLimit = abvLimit;
+        this.preferredCategory = preferredCategory;
     }
 
     @Override
     public String toString() {
-        return "RecommendationFirst{" +
+        return "UserRecommendationBase{" +
                 "id=" + id +
                 ", user=" + user +
-                ", drinkCapacity=" + drinkCapacity +
-                ", priceLimit=" + priceLimit +
+                ", abvLimit=" + abvLimit +
+                ", preferredCategory='" + preferredCategory + '\'' +
                 '}';
     }
 
     /* mappedBy */
-    @OneToMany(mappedBy = "recommendationFirst")
+    @OneToMany(mappedBy = "userRecommendationBase")
     private List<RecommendationFirstInterestKeyword> recommendationFirstInterestKeywordList = new ArrayList<>();
 
     public void setRecommendationFirstInterestKeywordList(List<RecommendationFirstInterestKeyword> recommendationFirstInterestKeywordList) {

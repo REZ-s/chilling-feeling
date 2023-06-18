@@ -1,6 +1,7 @@
 package com.joolove.core.domain.log;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.member.Device;
 import com.joolove.core.domain.member.Profile;
 import com.joolove.core.domain.member.User;
@@ -33,7 +34,8 @@ public class LoginLog extends BaseTimeStamp {
     private Device device;
 
     @NotNull
-    private Short activityCode;
+    @Enumerated(EnumType.ORDINAL)
+    private EActivityCode activityCode;
 
     @NotNull
     private String ip;
@@ -45,7 +47,7 @@ public class LoginLog extends BaseTimeStamp {
     private Short failReason;
 
     @Builder
-    public LoginLog(UUID id, User user, Device device, Short activityCode, String ip, Short failCount, Short failReason) {
+    public LoginLog(UUID id, User user, Device device, EActivityCode activityCode, String ip, Short failCount, Short failReason) {
         this.id = id;
         this.user = user;
         this.device = device;

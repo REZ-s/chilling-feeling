@@ -1,6 +1,7 @@
 package com.joolove.core.domain.log;
 
 import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.member.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,47 +28,24 @@ public class UserActivityLog extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    private String tableName;
+    @Enumerated(EnumType.ORDINAL)
+    private EActivityCode activityCode;
 
-    @NotNull
-    private Integer rowId;
-
-    @NotNull
-    private String activityCode;
-
-    @NotNull
-    private String asIs;
-
-    @NotNull
-    private String toBe;
-
-    @NotNull
-    private Short modifier;
+    private String activityDescription;
 
     @Builder
-    public UserActivityLog(UUID id, User user, String tableName, Integer rowId, String activityCode, String asIs, String toBe, Short modifier) {
-        this.id = id;
+    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription) {
         this.user = user;
-        this.tableName = tableName;
-        this.rowId = rowId;
         this.activityCode = activityCode;
-        this.asIs = asIs;
-        this.toBe = toBe;
-        this.modifier = modifier;
+        this.activityDescription = activityDescription;
     }
 
     @Override
     public String toString() {
         return "UserActivityLog{" +
                 "id=" + id +
-                ", user=" + user +
-                ", tableName='" + tableName + '\'' +
-                ", rowId=" + rowId +
-                ", activityCode='" + activityCode + '\'' +
-                ", asIs='" + asIs + '\'' +
-                ", toBe='" + toBe + '\'' +
-                ", modifier=" + modifier +
+                ", activityCode=" + activityCode +
+                ", activityDescription='" + activityDescription + '\'' +
                 '}';
     }
-
 }

@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -26,8 +25,8 @@ public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "recommendation_first_id")
-    private RecommendationFirst recommendationFirst;
+    @JoinColumn(name = "user_recommendation_base_id")
+    private UserRecommendationBase userRecommendationBase;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -35,9 +34,9 @@ public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
     private InterestKeyword interestKeyword;
 
     @Builder
-    public RecommendationFirstInterestKeyword(UUID id, RecommendationFirst recommendationFirst, InterestKeyword interestKeyword) {
+    public RecommendationFirstInterestKeyword(UUID id, UserRecommendationBase userRecommendationBase, InterestKeyword interestKeyword) {
         this.id = id;
-        this.recommendationFirst = recommendationFirst;
+        this.userRecommendationBase = userRecommendationBase;
         this.interestKeyword = interestKeyword;
     }
 
@@ -45,7 +44,7 @@ public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
     public String toString() {
         return "RecommendationFirstInterestKeyword{" +
                 "id=" + id +
-                ", recommendationFirst=" + recommendationFirst +
+                ", userRecommendationBase=" + userRecommendationBase +
                 ", interestKeyword=" + interestKeyword +
                 '}';
     }
