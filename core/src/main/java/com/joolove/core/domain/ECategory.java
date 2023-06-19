@@ -6,5 +6,5 @@ public enum ECategory {
     COCKTAIL,
     TRADITIONAL_LIQUOR,
     NON_ALCOHOL,
-    All
+    ALL
 }

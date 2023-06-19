@@ -7,25 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRecommendElements {
+    @NotNull
+    private String username;
     private Short abvLimit;
     private ECategory preferredCategory;
     private EEmotion recentFeeling;
 
     @Builder
-    public UserRecommendElements(Short abvLimit, ECategory preferredCategory, EEmotion recentFeeling) {
+    public UserRecommendElements(String username, Short abvLimit, ECategory preferredCategory, EEmotion recentFeeling) {
+        this.username = username;
         this.abvLimit = abvLimit;
         this.preferredCategory = preferredCategory;
         this.recentFeeling = recentFeeling;
     }
 
-    public static UserRecommendElements buildEmpty() {
-        return UserRecommendElements.builder()
-                .abvLimit((short) 100)
-                .preferredCategory(ECategory.All)
-                .recentFeeling(EEmotion.BLANK)
-                .build();
-    }
 }

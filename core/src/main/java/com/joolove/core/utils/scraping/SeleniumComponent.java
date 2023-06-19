@@ -6,7 +6,7 @@ import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
 import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.GoodsStatsRepository;
-import com.joolove.core.security.service.GoodsService;
+import com.joolove.core.service.GoodsService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

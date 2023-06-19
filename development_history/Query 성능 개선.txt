@@ -1,0 +1,36 @@
+< index 와 like 의 작동 방식 >
+1. 기본적으로 인덱스를 사용하지 않는다면 full table scan 이 적용된다.
+2. 해당 컬럼에 인덱스는 걸려있으나 조건절에 사용되지 않는다면 index full scan 이 작동한다.
+3. = equal : index unique scan (B-tree를 수직으로 내려가면서 탐색)
+4. like 'A' : index range scan (마차나지로 between, <, >, like 와 같은 범위검색에 적용)
+5. like 'A%' : 접두사에 와일드카드가 없는 경우, 마찬가지로 index range scan
+6. like '%A' : 접두사에 와일드카드가 있는 경우, full table scan (전수조사)
+속도 : index unique scan > index range scan > index full scan > full table scan 
+
+우리는 결국, 와일드카드를 적극 사용해야하므로, full table scan이 자주 발생할 수 밖에 없다.
+그렇다면, 일반적인 인덱스를 걸어서는 속도 향상이 안될 것이고, fts 를 적용해서 성능 개선을 하기로 한다.
+이때, 파서가 bulit-in (delimiter) 와 ngram 이 있는데, ngram 을 사용한다.
+구분자로 검색하는 경우, 
+사용자가 한글자라도 잘못 입력하던가 생각나는 중간 단어를 입력하는 경우에 제대로된 검색이 안된다.
+ngram은 최소토큰사이즈를 기준으로 잘라서 역인덱스를 만들어 저장해두고 검색에 활용하기 때문에
+해당 단어에 대한 많은 검색 결과를 보여주기 위해서 적합하다고 판단했다.
+
+
+검색 문자열의 길이가 길어지면, 단순 like 로 적용할까?
+그런데 굳이 그럴필요가 있을까?
+
+(1) searchString.length <= 5
+select gd.name as name, gd.type as type, gd.image_url as imageUrl, 
+    gs.label as label, gs.score as score, gs.review_count as reviewCount 
+from goods_details gd inner join goods_stats gs 
+on gd.goods_id = gs.goods_id 
+and gd.type = ?2 
+and match(gd.name) against (concat('*', ?1, '*') in boolean mode) 
+
+(2) searchString.length > 5
+select gd.name as name, gd.type as type, gd.image_url as imageUrl, 
+    gs.label as label, gs.score as score, gs.review_count as reviewCount 
+from goods_details gd inner join goods_stats gs 
+on gd.goods_id = gs.goods_id 
+and gd.type = ?2 
+and gd.name like '%?1%'
