@@ -1,4 +1,4 @@
-package com.joolove.core.security.service;
+package com.joolove.core.service;
 
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.GoodsViewDetails;
@@ -30,8 +30,7 @@ public class GoodsService {
     }
 
     // 상품 n개 조회 (이름, 카테고리 별)
-    public List<IGoodsView> findGoodsListByPaging(String goodsName,
-                                                  String type,
+    public List<IGoodsView> findGoodsListByPaging(String goodsName, String type,
                                                   Integer page, Integer size, String sort) {
         int defaultPage = 0;
         int defaultSize = 10;

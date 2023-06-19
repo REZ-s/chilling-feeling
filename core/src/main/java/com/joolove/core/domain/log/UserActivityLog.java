@@ -28,16 +28,20 @@ public class UserActivityLog extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private EActivityCode activityCode;
 
     private String activityDescription;
 
+    @NotNull
+    private String targetName;
+
     @Builder
-    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription) {
+    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription, String targetName) {
         this.user = user;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
+        this.targetName = targetName;
     }
 
     @Override
@@ -46,6 +50,7 @@ public class UserActivityLog extends BaseTimeStamp {
                 "id=" + id +
                 ", activityCode=" + activityCode +
                 ", activityDescription='" + activityDescription + '\'' +
+                ", targetName='" + targetName + '\'' +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.joolove.core.security.service;
+package com.joolove.core.service;
 
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
