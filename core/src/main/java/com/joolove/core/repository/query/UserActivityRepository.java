@@ -13,11 +13,11 @@ import java.util.UUID;
 @Repository
 public interface UserActivityRepository extends JpaRepository<UserActivityLog, UUID> {
 
-    // 최근 5개를 그냥 가져오면 안되고, targetName이 goodsName인 경우에만 가져와야한다.
     @Query("select new com.joolove.core.dto.request.UserActivityElements(" +
-            "?1, u.targetName, u.activityCode, u.activityDescription) " +
+            "?1, u.targetCode, u.activityCode, u.activityDescription) " +
             "from UserActivityLog u " +
-            "where u.user.username = ?1")
-    List<UserActivityElements> findByUsername(String username, Pageable pageable);
+            "where u.user.username = ?1" +
+            "and u.targetCode = ?2")
+    List<UserActivityElements> findByUsername(String username, String targetName, Pageable pageable);
 
 }

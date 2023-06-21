@@ -1,6 +1,7 @@
 package com.joolove.core.dto.request;
 
 import com.joolove.core.domain.EActivityCode;
+import com.joolove.core.domain.ETargetCode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class UserActivityElements {
     private String username;
 
     @NotNull
-    private String goodsName;
+    private ETargetCode targetCode;
 
     @NotNull
     private EActivityCode activityCode;
@@ -25,9 +26,9 @@ public class UserActivityElements {
     private String activityDescription;
 
     @Builder
-    public UserActivityElements(String username, String goodsName, EActivityCode activityCode, String activityDescription) {
+    public UserActivityElements(String username, ETargetCode targetCode, EActivityCode activityCode, String activityDescription) {
         this.username = username;
-        this.goodsName = goodsName;
+        this.targetCode = targetCode;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
     }
