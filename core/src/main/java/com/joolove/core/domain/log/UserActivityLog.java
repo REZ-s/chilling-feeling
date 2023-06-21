@@ -2,6 +2,7 @@ package com.joolove.core.domain.log;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.EActivityCode;
+import com.joolove.core.domain.ETargetCode;
 import com.joolove.core.domain.member.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,19 +30,20 @@ public class UserActivityLog extends BaseTimeStamp {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private EActivityCode activityCode;
+    private EActivityCode activityCode;     // 활동 코드 (예: 로그인, 로그아웃, 회원가입, 검색, 클릭 등)
 
     private String activityDescription;
 
     @NotNull
-    private String targetName;
+    @Enumerated(EnumType.STRING)
+    private ETargetCode targetCode;         // 활동 목적 대상 (예: 상품을 클릭했다면, Goods)
 
     @Builder
-    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription, String targetName) {
+    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription, ETargetCode targetCode) {
         this.user = user;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
-        this.targetName = targetName;
+        this.targetCode = targetCode;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class UserActivityLog extends BaseTimeStamp {
                 "id=" + id +
                 ", activityCode=" + activityCode +
                 ", activityDescription='" + activityDescription + '\'' +
-                ", targetName='" + targetName + '\'' +
+                ", targetCode='" + targetCode + '\'' +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.joolove.core.utils.algorithm;
 
 import com.joolove.core.domain.ECategory;
 import com.joolove.core.domain.EEmotion;
+import com.joolove.core.domain.ETargetCode;
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.recommend.UserRecommendationBase;
@@ -46,7 +47,9 @@ public class RecommendationComponent {
     // 즉, '최종 상품 추천 리스트' = run('기본 추천' + '오늘의 추천' + '사용자 행동 데이터 요소 5개')
     public List<String> run(String username) {
         UserRecommendElements userRecommendElements = getUserRecommendElements(username);   // 개인 추천 관련 데이터 가져오기
-        allRecommendElementsList = combineRecommendElements(userRecommendElements);    // 모든 추천 요소 리스트
+        List<UserActivityElements> userActivityElementsList = getUserActivityElements(username, ETargetCode.GOODS);    // 사용자 행동 데이터 가져오기
+
+        allRecommendElementsList = combineRecommendElements(userRecommendElements, userActivityElementsList);    // 모든 추천 요소 리스트
         return allRecommendElementsList;
     }
 
@@ -74,7 +77,7 @@ public class RecommendationComponent {
         return true;
     }
 
-    private boolean updateUserRecommendElements(String username, UserRecommendElements userRecommendElements)
+    private void updateUserRecommendElements(String username, UserRecommendElements userRecommendElements)
             throws UsernameNotFoundException {
 
         User user = userService.findByUsername(username);
@@ -94,10 +97,9 @@ public class RecommendationComponent {
                     .build();
 
         userRecommendationService.addUserRecommendation(userRecommendationBase, userRecommendationDaily);
-        return true;
     }
 
-    private boolean updateUserActivityElements(String username, UserActivityElements userActivityElements)
+    private void updateUserActivityElements(String username, UserActivityElements userActivityElements)
             throws UsernameNotFoundException {
 
         User user = userService.findByUsername(username);
@@ -107,17 +109,16 @@ public class RecommendationComponent {
 
         UserActivityLog userActivityLog = UserActivityLog.builder()
                 .user(user)
-                .targetName(userActivityElements.getGoodsName())
+                .targetCode(userActivityElements.getTargetCode())
                 .activityCode(userActivityElements.getActivityCode())
                 .activityDescription(userActivityElements.getActivityDescription())
                 .build();
 
         userActivityService.addUserActivity(userActivityLog);
-        return true;
     }
 
     // 최근에 수집된 사용자 행동 데이터 (DTO : UserActivityElements) 를 가져온다.
-    private List<UserActivityElements> getUserActivityElements(String username)
+    private List<UserActivityElements> getUserActivityElements(String username, ETargetCode target)
             throws UsernameNotFoundException {
 
         User user = userService.findByUsername(username);
@@ -125,7 +126,8 @@ public class RecommendationComponent {
             throw new UsernameNotFoundException("User not found with username : " + username);
         }
 
-        return userActivityService.findUserActivityList(username);
+        // 최근 5개를 그냥 가져오면 안되고, target 이 goods 인 경우에만 가져와야한다.
+        return userActivityService.findUserActivityList(username, target);
     }
 
     // 기존에 저장해두었던 사용자 추천 관련 데이터 (DTO : UserRecommendElements) 를 가져온다.
@@ -160,7 +162,7 @@ public class RecommendationComponent {
     }
 
     // 모든 추천 요소들을 하나의 리스트에 담는다.
-    private List<String> combineRecommendElements(UserRecommendElements userRecommendElements) {
+    private List<String> combineRecommendElements(UserRecommendElements userRecommendElements, List<UserActivityElements> userActivityElements) {
         List<String> userRecommendElementsList = new ArrayList<>();
 
         // 개인별 추천 요소
@@ -173,9 +175,8 @@ public class RecommendationComponent {
         userRecommendElementsList.add(getNewGoodsList());
 
         // 사용자 행동 데이터 기반 추천 요소
-        List<UserActivityElements> userActivityElementsList = getUserActivityElements(userRecommendElements.getUsername());
-        for (UserActivityElements userActivityElements : userActivityElementsList) {
-            userRecommendElementsList.add(userActivityElements.getActivityDescription());
+        for (UserActivityElements e : userActivityElements) {
+            userRecommendElementsList.add(e.getActivityDescription());
         }
 
         return userRecommendElementsList;
