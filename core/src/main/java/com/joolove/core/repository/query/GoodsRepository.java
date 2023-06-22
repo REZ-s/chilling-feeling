@@ -21,12 +21,6 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
             "from GoodsDetails gd inner join GoodsStats gs " +
             "on gd.goods.id = gs.goods.id")
-    List<IGoodsView> findPopularGoodsList(Pageable pageable);
-
-    @Query("select new com.joolove.core.dto.query.GoodsView(" +
-            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
-            "from GoodsDetails gd inner join GoodsStats gs " +
-            "on gd.goods.id = gs.goods.id")
     List<IGoodsView> findNewGoodsList(Pageable pageable);
 
     @Query("select new com.joolove.core.dto.query.GoodsView(" +

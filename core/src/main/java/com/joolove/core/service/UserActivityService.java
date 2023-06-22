@@ -4,7 +4,7 @@ import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.ETargetCode;
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.dto.request.UserActivityElements;
+import com.joolove.core.dto.query.UserActivityElements;
 import com.joolove.core.repository.query.UserActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,13 +43,22 @@ public class UserActivityService {
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
-    // 인기 상품 조회
-    public List<IGoodsView> findBestViewsUserActivityList() {
-        int page = 0;
-        int size = 10;
+    public List<IGoodsView> findBestViewsUserActivityListDefault() {
+        return findBestViewsUserActivityList(0, 10, LocalDateTime.now().minusDays(7));
+    }
 
-        return userActivityRepository.findGoodsListBestViews(EActivityCode.SEARCH.name(), EActivityCode.CLICK.name(), ETargetCode.GOODS.name(),
-                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
+    // 인기 상품 조회용
+    public List<IGoodsView> findBestViewsUserActivityList(Integer page, Integer size, LocalDateTime days) {
+        int defaultPage = 0;
+        int defaultSize = 10;
+        LocalDateTime defaultDays = LocalDateTime.now().minusDays(7);
+        int requestedPage = page != null ? page : defaultPage;
+        int requestedSize = size != null ? size : defaultSize;
+        LocalDateTime requestedDays = days != null ? days : defaultDays;
+
+        return userActivityRepository.findGoodsListBestViews(EActivityCode.SEARCH.name(), EActivityCode.CLICK.name(),
+                ETargetCode.GOODS.name(), requestedDays,
+                PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
 }

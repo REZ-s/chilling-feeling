@@ -1,6 +1,5 @@
 package com.joolove.core.utils.algorithm;
 
-import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.ECategory;
 import com.joolove.core.domain.EEmotion;
 import com.joolove.core.domain.ETargetCode;
@@ -9,7 +8,7 @@ import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.recommend.UserRecommendationBase;
 import com.joolove.core.domain.recommend.UserRecommendationDaily;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.dto.request.UserActivityElements;
+import com.joolove.core.dto.query.UserActivityElements;
 import com.joolove.core.dto.request.UserRecommendElements;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserActivityService;
@@ -125,7 +124,7 @@ public class RecommendationComponent {
             throw new UsernameNotFoundException("User not found with username : " + username);
         }
 
-        // 최근 5개를 그냥 가져오면 안되고, target 이 goods 인 경우에만 가져와야한다.
+        // 최근 5개를 target 이 goods 인 경우에만 가져온다.
         return userActivityService.findUserActivityListByUsername(username, ETargetCode.GOODS);
     }
 
@@ -183,22 +182,12 @@ public class RecommendationComponent {
 
     // 최신 상품 리스트를 가져온다.
     private List<IGoodsView> getNewGoodsList() {
-        return goodsService.findNewGoodsListByPaging(0, 10);
+        return goodsService.findNewGoodsListDefault();
     }
 
     // 인기 상품 리스트를 가져온다.
     private List<IGoodsView> getPopularGoodsList() {
-        // 인기 상품이란?
-        // 최근 1주일간의 상품 조회수가 높은 상품 = UserActivityLog.targetName = Goods.name (activityCode = Search || Click)
-        userActivityService.findBestViewsUserActivityList();
-        // 최근 1주일간의 상품 좋아요 수가 높은 상품 = GoodsStats.heartCount
-
-        // 최근 1주일간의 상품 리뷰수가 높은 상품 = GoodsStats.reviewCount
-        // 최근 1주일간의 상품 평점이 높은 상품 = GoodsStats.score
-
-
-
-        return null;
+        return userActivityService.findBestViewsUserActivityListDefault();
     }
 
     private String getDailyFeeling(UserRecommendElements userRecommendElements) {

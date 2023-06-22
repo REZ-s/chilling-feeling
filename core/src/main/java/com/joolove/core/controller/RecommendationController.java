@@ -1,6 +1,6 @@
 package com.joolove.core.controller;
 
-import com.joolove.core.dto.request.UserActivityElements;
+import com.joolove.core.dto.query.UserActivityElements;
 import com.joolove.core.dto.request.UserRecommendElements;
 import com.joolove.core.utils.algorithm.RecommendationComponent;
 import lombok.RequiredArgsConstructor;
