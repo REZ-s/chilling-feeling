@@ -1,8 +1,8 @@
 package com.joolove.core.service;
 
 import com.joolove.core.domain.member.User;
-import com.joolove.core.domain.recommend.UserRecommendationBase;
-import com.joolove.core.domain.recommend.UserRecommendationDaily;
+import com.joolove.core.domain.recommendation.UserRecommendationBase;
+import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import com.joolove.core.repository.UserRecommendationBaseRepository;
 import com.joolove.core.repository.UserRecommendationDailyRepository;
 import lombok.RequiredArgsConstructor;

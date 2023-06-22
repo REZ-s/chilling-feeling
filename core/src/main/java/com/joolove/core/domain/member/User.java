@@ -5,8 +5,8 @@ import com.joolove.core.domain.auth.*;
 import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.log.LoginLog;
 import com.joolove.core.domain.log.UserActivityLog;
-import com.joolove.core.domain.recommend.UserRecommendationDaily;
-import com.joolove.core.domain.recommend.UserRecommendationBase;
+import com.joolove.core.domain.recommendation.UserRecommendationDaily;
+import com.joolove.core.domain.recommendation.UserRecommendationBase;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 

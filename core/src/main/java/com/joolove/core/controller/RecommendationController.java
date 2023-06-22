@@ -1,7 +1,7 @@
 package com.joolove.core.controller;
 
 import com.joolove.core.dto.query.UserActivityElements;
-import com.joolove.core.dto.request.UserRecommendElements;
+import com.joolove.core.dto.request.UserRecommendationElements;
 import com.joolove.core.utils.algorithm.RecommendationComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class RecommendationController {
     @ResponseBody
     public ResponseEntity<Object> setRecommendation(
             @Valid @RequestBody String username,
-            @Valid @RequestBody UserRecommendElements userRecommendElements) {
-        if (recommendationComponent.setUserRecommendation(username, userRecommendElements)) {
+            @Valid @RequestBody UserRecommendationElements userRecommendationElements) {
+        if (recommendationComponent.setUserRecommendation(username, userRecommendationElements)) {
             return ResponseEntity.ok().build();
         }
 

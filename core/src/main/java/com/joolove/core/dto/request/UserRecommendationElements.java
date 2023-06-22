@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserRecommendElements {
+public class UserRecommendationElements {
     @NotNull
     private String username;
     private Short abvLimit;
@@ -19,7 +19,7 @@ public class UserRecommendElements {
     private EEmotion recentFeeling;
 
     @Builder
-    public UserRecommendElements(String username, Short abvLimit, ECategory preferredCategory, EEmotion recentFeeling) {
+    public UserRecommendationElements(String username, Short abvLimit, ECategory preferredCategory, EEmotion recentFeeling) {
         this.username = username;
         this.abvLimit = abvLimit;
         this.preferredCategory = preferredCategory;

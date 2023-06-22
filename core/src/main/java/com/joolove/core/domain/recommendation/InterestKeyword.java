@@ -1,4 +1,4 @@
-package com.joolove.core.domain.recommend;
+package com.joolove.core.domain.recommendation;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import lombok.AccessLevel;
@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.jmx.export.annotation.ManagedNotifications;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
