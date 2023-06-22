@@ -1,4 +1,4 @@
-package com.joolove.core.dto.request;
+package com.joolove.core.dto.query;
 
 import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.ETargetCode;

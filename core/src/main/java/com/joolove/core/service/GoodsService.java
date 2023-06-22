@@ -30,7 +30,7 @@ public class GoodsService {
     }
 
     // 상품 n개 조회 (이름, 카테고리 별)
-    public List<IGoodsView> findGoodsListByPaging(String goodsName, String type,
+    public List<IGoodsView> findGoodsList(String goodsName, String type,
                                                   Integer page, Integer size, String sort) {
         int defaultPage = 0;
         int defaultSize = 10;
@@ -60,29 +60,20 @@ public class GoodsService {
         }
     }
 
+    public List<IGoodsView> findNewGoodsListDefault() {
+        return findNewGoodsList(null, null);
+    }
+
     // 상품 n개 조회 (신상품)
-    public List<IGoodsView> findNewGoodsListByPaging(Integer page, Integer size) {
+    public List<IGoodsView> findNewGoodsList(Integer page, Integer size) {
         int defaultPage = 0;
         int defaultSize = 10;
         int requestedPage = page != null ? page : defaultPage;
         int requestedSize = size != null ? size : defaultSize;
-        Pageable pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate"));
 
-        return goodsRepository.findNewGoodsList(pagingInfo);
+        return goodsRepository.findNewGoodsList(
+                PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
-
-    // 상품 n개 조회 (인기상품)
-    public List<IGoodsView> findPopularGoodsListByPaging(Integer page, Integer size) {
-        int defaultPage = 0;
-        int defaultSize = 10;
-        int requestedPage = page != null ? page : defaultPage;
-        int requestedSize = size != null ? size : defaultSize;
-        Pageable pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "salesFigures"));
-
-        return goodsRepository.findPopularGoodsList(pagingInfo);
-    }
-
-
 
     // 가격 변경
     @Transactional

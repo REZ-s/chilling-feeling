@@ -199,7 +199,7 @@ public class LoginController {
             return "redirect:/cf_search_page";
         }
 
-        model.addAttribute("goodsViewList", goodsService.findGoodsListByPaging(query, null, null, null, null));
+        model.addAttribute("goodsViewList", goodsService.findGoodsList(query, null, null, null, null));
         model.addAttribute("query", query);
         return "cf_search_result_page";
     }
@@ -207,7 +207,7 @@ public class LoginController {
     // 처음 카테고리 페이지가 로딩될 때
     @GetMapping("/cf_category")
     public String categoryPage(Model model) {
-        model.addAttribute("goodsViewList", goodsService.findGoodsListByPaging(null, "전체", null, null, null));
+        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_category_page";
     }
 
@@ -227,7 +227,7 @@ public class LoginController {
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
             @RequestParam(value = "sort", required = false) String sort) {
-        return ResponseEntity.ok().body(goodsService.findGoodsListByPaging(name, type, page, size, sort));
+        return ResponseEntity.ok().body(goodsService.findGoodsList(name, type, page, size, sort));
     }
 
     @GetMapping("/test/goods")
