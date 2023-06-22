@@ -5,5 +5,6 @@ public enum EActivityCode {
     LOGOUT,
     SIGNUP,
     SEARCH,
-    CLICK
+    CLICK,
+    UNDEFINED
 }

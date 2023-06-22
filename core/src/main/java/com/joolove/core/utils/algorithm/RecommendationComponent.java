@@ -1,5 +1,6 @@
 package com.joolove.core.utils.algorithm;
 
+import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.ECategory;
 import com.joolove.core.domain.EEmotion;
 import com.joolove.core.domain.ETargetCode;
@@ -7,11 +8,9 @@ import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.recommend.UserRecommendationBase;
 import com.joolove.core.domain.recommend.UserRecommendationDaily;
+import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.UserActivityElements;
 import com.joolove.core.dto.request.UserRecommendElements;
-import com.joolove.core.repository.UserRecommendationBaseRepository;
-import com.joolove.core.repository.UserRecommendationDailyRepository;
-import com.joolove.core.repository.query.UserActivityRepository;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserActivityService;
 import com.joolove.core.service.UserRecommendationService;
@@ -40,14 +39,13 @@ public class RecommendationComponent {
     private UserActivityService userActivityService;
 
     // 사용자의 행동 패턴이 변한 것이 없다면, 기존에 저장된 추천 요소를 가져온다. (서비스 진입 시, run 호출 후 저장됨)
-    private List<String> allRecommendElementsList;         // 추천 요소 리스트 (0 : abvLimit, 1 : preferredCategory, 2 : recentFeeling, 3 : popularGoodsList, 4 : newGoodsList)
+    private List<Object> allRecommendElementsList;         // 추천 요소 리스트 (0 : abvLimit, 1 : preferredCategory, 2 : recentFeeling, 3 : popularGoodsList, 4 : newGoodsList, 5 : )
 
     // 실시간 추천
-    // 실시간 추천을 하기위해 UserActivity 를 가져오는 경우, 최근 5개까지만 가중치로 적용하도록 한다.
-    // 즉, '최종 상품 추천 리스트' = run('기본 추천' + '오늘의 추천' + '사용자 행동 데이터 요소 5개')
-    public List<String> run(String username) {
+    // '최종 상품 추천 리스트' = run('기본 추천' + '오늘의 추천' + '최근 사용자 행동 데이터 요소 5개')
+    public List<Object> run(String username) {
         UserRecommendElements userRecommendElements = getUserRecommendElements(username);   // 개인 추천 관련 데이터 가져오기
-        List<UserActivityElements> userActivityElementsList = getUserActivityElements(username, ETargetCode.GOODS);    // 사용자 행동 데이터 가져오기
+        List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
         allRecommendElementsList = combineRecommendElements(userRecommendElements, userActivityElementsList);    // 모든 추천 요소 리스트
         return allRecommendElementsList;
@@ -110,6 +108,7 @@ public class RecommendationComponent {
         UserActivityLog userActivityLog = UserActivityLog.builder()
                 .user(user)
                 .targetCode(userActivityElements.getTargetCode())
+                .targetName(userActivityElements.getTargetName())
                 .activityCode(userActivityElements.getActivityCode())
                 .activityDescription(userActivityElements.getActivityDescription())
                 .build();
@@ -118,7 +117,7 @@ public class RecommendationComponent {
     }
 
     // 최근에 수집된 사용자 행동 데이터 (DTO : UserActivityElements) 를 가져온다.
-    private List<UserActivityElements> getUserActivityElements(String username, ETargetCode target)
+    private List<UserActivityElements> getUserActivityElements(String username)
             throws UsernameNotFoundException {
 
         User user = userService.findByUsername(username);
@@ -127,7 +126,7 @@ public class RecommendationComponent {
         }
 
         // 최근 5개를 그냥 가져오면 안되고, target 이 goods 인 경우에만 가져와야한다.
-        return userActivityService.findUserActivityList(username, target);
+        return userActivityService.findUserActivityListByUsername(username, ETargetCode.GOODS);
     }
 
     // 기존에 저장해두었던 사용자 추천 관련 데이터 (DTO : UserRecommendElements) 를 가져온다.
@@ -162,8 +161,8 @@ public class RecommendationComponent {
     }
 
     // 모든 추천 요소들을 하나의 리스트에 담는다.
-    private List<String> combineRecommendElements(UserRecommendElements userRecommendElements, List<UserActivityElements> userActivityElements) {
-        List<String> userRecommendElementsList = new ArrayList<>();
+    private List<Object> combineRecommendElements(UserRecommendElements userRecommendElements, List<UserActivityElements> userActivityElements) {
+        List<Object> userRecommendElementsList = new ArrayList<>();
 
         // 개인별 추천 요소
         userRecommendElementsList.add(getDegreeLimit(userRecommendElements));        // 기본 추천
@@ -176,20 +175,29 @@ public class RecommendationComponent {
 
         // 사용자 행동 데이터 기반 추천 요소
         for (UserActivityElements e : userActivityElements) {
-            userRecommendElementsList.add(e.getActivityDescription());
+            userRecommendElementsList.add(e.getTargetName());
         }
 
         return userRecommendElementsList;
     }
 
-    private String getNewGoodsList() {
-        // Goods 테이블 에서 timestamp(created) 를 기준으로 최신 상품 리스트를 가져온다.
-        return null;
+    // 최신 상품 리스트를 가져온다.
+    private List<IGoodsView> getNewGoodsList() {
+        return goodsService.findNewGoodsListByPaging(0, 10);
     }
 
-    private String getPopularGoodsList() {
-        // 사용자 행동 데이터를 기반으로 인기 상품 리스트를 가져온다.
-        // UserActivityLog 테이블에 필요한 칼럼들을 정의하고 추가해야 이 작업이 가능하네.
+    // 인기 상품 리스트를 가져온다.
+    private List<IGoodsView> getPopularGoodsList() {
+        // 인기 상품이란?
+        // 최근 1주일간의 상품 조회수가 높은 상품 = UserActivityLog.targetName = Goods.name (activityCode = Search || Click)
+        userActivityService.findBestViewsUserActivityList();
+        // 최근 1주일간의 상품 좋아요 수가 높은 상품 = GoodsStats.heartCount
+
+        // 최근 1주일간의 상품 리뷰수가 높은 상품 = GoodsStats.reviewCount
+        // 최근 1주일간의 상품 평점이 높은 상품 = GoodsStats.score
+
+
+
         return null;
     }
 
