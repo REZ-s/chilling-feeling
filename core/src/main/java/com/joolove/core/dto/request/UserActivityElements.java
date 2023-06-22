@@ -21,14 +21,18 @@ public class UserActivityElements {
     private ETargetCode targetCode;
 
     @NotNull
+    private String targetName;
+
+    @NotNull
     private EActivityCode activityCode;
 
     private String activityDescription;
 
     @Builder
-    public UserActivityElements(String username, ETargetCode targetCode, EActivityCode activityCode, String activityDescription) {
+    public UserActivityElements(String username, ETargetCode targetCode, String targetName, EActivityCode activityCode, String activityDescription) {
         this.username = username;
         this.targetCode = targetCode;
+        this.targetName = targetName;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
     }

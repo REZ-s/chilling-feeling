@@ -38,12 +38,15 @@ public class UserActivityLog extends BaseTimeStamp {
     @Enumerated(EnumType.STRING)
     private ETargetCode targetCode;         // 활동 목적 대상 (예: 상품을 클릭했다면, Goods)
 
+    private String targetName;
+
     @Builder
-    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription, ETargetCode targetCode) {
+    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription, ETargetCode targetCode, String targetName) {
         this.user = user;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
         this.targetCode = targetCode;
+        this.targetName = targetName;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class UserActivityLog extends BaseTimeStamp {
                 ", activityCode=" + activityCode +
                 ", activityDescription='" + activityDescription + '\'' +
                 ", targetCode='" + targetCode + '\'' +
+                ", targetName='" + targetName + '\'' +
                 '}';
     }
 }
