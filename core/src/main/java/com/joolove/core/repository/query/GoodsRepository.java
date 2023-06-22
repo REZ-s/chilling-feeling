@@ -17,15 +17,15 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
-    // like 와 in 을 함께 사용하고 싶은데, 수동으로 적어줘야하나보다... goodsName 이 1개일때부터 5개일때까지 함수를 만들어줘야겠지?
-    @Query("select new com.joolove.core.dto.query.GoodsView(" +
-            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
-            "from GoodsDetails gd inner join GoodsStats gs " +
-            "on gd.goods.id = gs.goods.id " +
+    // like 와 in 을 함께 사용하고 싶은데, List<String> 에 있는걸 한번에 처리하는 방법은 없다.
+    // for 문으로 한번에 하나의 String 을 보내도록 했다.
+    @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
+            "from goods_details gd inner join goods_stats gs " +
+            "on gd.goods_id = gs.goods_id " +
             "and (gd.type like concat('%', ?2, '%') or gs.label = ?2) " +
-            "and gd.degree <= ?1" +
-            "and gd.name in ?3")
-    List<IGoodsView> findRecommendationGoodsListByGoodsNameList(Short abvLimit, String typeOrLabel, Pageable pagingInfo, String... goodsNameList);
+            "and gd.degree <= ?1 " +
+            "and match(gd.name) against (concat('*', ?3, '*') in boolean mode) ", nativeQuery = true)
+    List<IGoodsView> findRecommendationGoodsListByGoodsNameList(Short abvLimit, String typeOrLabel, String goodsName, Pageable pagingInfo);
 
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +

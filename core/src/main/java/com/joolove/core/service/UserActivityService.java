@@ -56,8 +56,8 @@ public class UserActivityService {
         int requestedSize = size != null ? size : defaultSize;
         LocalDateTime requestedDays = days != null ? days : defaultDays;
 
-        return userActivityRepository.findGoodsListBestViews(EActivityCode.SEARCH.name(), EActivityCode.CLICK.name(),
-                ETargetCode.GOODS.name(), requestedDays,
+        return userActivityRepository.findGoodsListBestViews(
+                EActivityCode.SEARCH.name(), EActivityCode.CLICK.name(), ETargetCode.GOODS.name(), requestedDays,
                 PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 

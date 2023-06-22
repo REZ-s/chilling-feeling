@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +79,12 @@ public class GoodsService {
             return goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabel, pagingInfo);
         }
 
-        return goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabel, pagingInfo, String.valueOf(goodsNameList));
+        List<IGoodsView> iGoodsViewList = new ArrayList<>();
+        for (String goodsName: goodsNameList) {
+            iGoodsViewList.addAll(goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabel, goodsName, pagingInfo));
+        }
+
+        return iGoodsViewList.size() > 100 ? iGoodsViewList.subList(0, 100) : iGoodsViewList;
     }
 
     public List<IGoodsView> findNewGoodsListDefault() {
