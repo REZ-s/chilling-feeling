@@ -1,4 +1,4 @@
-package com.joolove.core.domain.recommend;
+package com.joolove.core.domain.recommendation;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.EEmotion;

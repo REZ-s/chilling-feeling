@@ -17,6 +17,24 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
+    // like 와 in 을 함께 사용하고 싶은데, 수동으로 적어줘야하나보다... goodsName 이 1개일때부터 5개일때까지 함수를 만들어줘야겠지?
+    @Query("select new com.joolove.core.dto.query.GoodsView(" +
+            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
+            "from GoodsDetails gd inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "and (gd.type like concat('%', ?2, '%') or gs.label = ?2) " +
+            "and gd.degree <= ?1" +
+            "and gd.name in ?3")
+    List<IGoodsView> findRecommendationGoodsListByGoodsNameList(Short abvLimit, String typeOrLabel, Pageable pagingInfo, String... goodsNameList);
+
+    @Query("select new com.joolove.core.dto.query.GoodsView(" +
+            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
+            "from GoodsDetails gd inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "and (gd.type like concat('%', ?2, '%') or gs.label = ?2) " +
+            "and gd.degree <= ?1")
+    List<IGoodsView> findRecommendationGoodsList(Short abvLimit, String preferredCategory, Pageable pageable);
+
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
             "from GoodsDetails gd inner join GoodsStats gs " +
@@ -57,6 +75,5 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "on gd.name = ?1 " +
             "and gd.goods.id = gs.goods.id")
     GoodsViewDetails findGoodsDetailByName(String name);
-
 
 }

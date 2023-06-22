@@ -6,5 +6,9 @@ public enum ECategory {
     COCKTAIL,
     TRADITIONAL_LIQUOR,
     NON_ALCOHOL,
+    MEAT,
+    SEAFOOD,
+    BRAND_NEW,
+    BEST_SELLER,
     ALL
 }

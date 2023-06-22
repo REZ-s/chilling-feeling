@@ -123,7 +123,7 @@ public class SeleniumComponent {
 
             switch (thString) {
                 case "스타일" -> type = tdString;
-                case "도수" -> degree = tdString;
+                case "도수" -> degree = tdString.substring(0, tdString.length() - 1);
                 case "국가/지역" -> country = tdString;
                 case "제조사" -> company = tdString;
                 case "공급사" -> supplier = tdString;

@@ -1,5 +1,7 @@
 package com.joolove.core.service;
 
+import com.joolove.core.domain.ECategory;
+import com.joolove.core.domain.EFigure;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
@@ -42,7 +44,7 @@ public class GoodsService {
             pagingInfo = PageRequest.of(requestedPage, requestedSize);
         } else {
             // 현재 이름 기준으로 정렬 지원. (추후에 신상품, 베스트셀러, 리뷰숫자, 고득점 기준 정렬 추가 개발 예정)
-            pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by("name").ascending());
+            pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.ASC, "name"));
         }
 
         if (StringUtils.isBlank(goodsName)) {
@@ -58,6 +60,25 @@ public class GoodsService {
                 return goodsRepository.findGoodsListByNameAndType(goodsName, type, pagingInfo);
             }
         }
+    }
+
+    // 사용자별 추천 리스트
+    public List<IGoodsView> getRecommendationGoodsList(Short abvLimit, String typeOrLabel, EFigure sweetness, List<String> goodsNameList) {
+        int defaultPage = 0;
+        int defaultSize = 10;
+        Pageable pagingInfo = PageRequest.of(defaultPage, defaultSize);
+
+        if (sweetness == EFigure.HIGH) {
+            pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.DESC, "opt5Value"));
+        } else if (sweetness == EFigure.LOW) {
+            pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.ASC, "opt5Value"));
+        }
+
+        if (goodsNameList == null || goodsNameList.isEmpty()) {
+            return goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabel, pagingInfo);
+        }
+
+        return goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabel, pagingInfo, String.valueOf(goodsNameList));
     }
 
     public List<IGoodsView> findNewGoodsListDefault() {
