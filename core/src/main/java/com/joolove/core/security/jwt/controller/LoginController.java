@@ -11,6 +11,7 @@ import com.joolove.core.domain.product.GoodsStats;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SigninRequest;
 import com.joolove.core.dto.request.SignupRequest;
+import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.repository.*;
 import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.jwt.repository.PasswordRepository;
@@ -20,6 +21,8 @@ import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -277,11 +280,36 @@ public class LoginController {
         return ResponseEntity.ok().body("valid");
     }
 
-    @GetMapping("/cf_recommend")
+    @GetMapping("/cf_recommendation_base")
     public String recommendPage(Model model) {
-        return "cf_recommend_page";
+        return "cf_recommendation_base_page";
     }
 
+    @GetMapping("/cf_recommendation_base2")
+    public String recommendPage2(Model model, @RequestParam("abvLimit") String abvLimit) {
+        model.addAttribute("abvLimit", abvLimit);
+        return "cf_recommendation_base_page2";
+    }
+
+    @PostMapping("/user_recommendation")
+    @ResponseBody
+    public ResponseEntity<?> setUserRecommendation(@AuthenticationPrincipal UserDetails userDetails,
+                                                   @RequestBody String abvLimit,
+                                                   @RequestBody List<String> activeLabels) {
+        // 사용자 이름(username) 가져오기
+        String username = userDetails.getUsername();
+
+        UserRecommendationBaseRequest request = UserRecommendationBaseRequest.builder()
+                .username(username)
+                .abvLimit(abvLimit)
+                .preferredCategory(activeLabels)
+                .build();
+
+        // request 를 처리 컴포넌트에 넘겨서 알아서 저장
+        // 성공시 ok, 실패시 badRequest
+
+        return ResponseEntity.ok().build();
+    }
 
     // 사용자 계정 테스트
     @GetMapping("/")

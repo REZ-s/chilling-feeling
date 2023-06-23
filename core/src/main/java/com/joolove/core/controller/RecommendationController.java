@@ -1,7 +1,8 @@
 package com.joolove.core.controller;
 
 import com.joolove.core.dto.query.UserActivityElements;
-import com.joolove.core.dto.request.UserRecommendationElements;
+import com.joolove.core.dto.request.UserRecommendationBaseRequest;
+import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.utils.algorithm.RecommendationComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,20 @@ public class RecommendationController {
 
     private final RecommendationComponent recommendationComponent;
 
-    // 사용자가 직접 추천 설정하기
-    @PostMapping("/api/v1/recommendation")
+    @PostMapping("/api/v1/recommendation/base")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendation(
-            @Valid @RequestBody String username,
-            @Valid @RequestBody UserRecommendationElements userRecommendationElements) {
-        if (recommendationComponent.setUserRecommendation(username, userRecommendationElements)) {
+    public ResponseEntity<Object> setRecommendationBase(@Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
+        if (recommendationComponent.setUserRecommendationBase(userRecommendationBaseRequest)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.internalServerError().build();
+    }
+
+    @PostMapping("/api/v1/recommendation/daily")
+    @ResponseBody
+    public ResponseEntity<Object> setRecommendationDaily(@Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
+        if (recommendationComponent.setUserRecommendationDaily(userRecommendationDailyRequest)) {
             return ResponseEntity.ok().build();
         }
 
@@ -33,7 +41,7 @@ public class RecommendationController {
     // 사용자 행동 데이터에 따른 추천 요소 업데이트
     @PostMapping("/api/v1/recommendation/activity")
     @ResponseBody
-    public ResponseEntity<Object> updateRecommendation(
+    public ResponseEntity<Object> setRecommendationActivity(
             @Valid @RequestBody String username,
             @Valid @RequestBody UserActivityElements userActivityElements) {
         if (recommendationComponent.setUserActivityRecommendation(username, userActivityElements)) {

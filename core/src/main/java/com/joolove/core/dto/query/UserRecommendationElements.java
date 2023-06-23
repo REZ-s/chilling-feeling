@@ -1,4 +1,4 @@
-package com.joolove.core.dto.request;
+package com.joolove.core.dto.query;
 
 import com.joolove.core.domain.ECategory;
 import com.joolove.core.domain.EEmotion;
@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,15 +16,14 @@ public class UserRecommendationElements {
     @NotNull
     private String username;
     private Short abvLimit;
-    private ECategory preferredCategory;
+    private List<ECategory> preferredCategories;
     private EEmotion recentFeeling;
 
     @Builder
-    public UserRecommendationElements(String username, Short abvLimit, ECategory preferredCategory, EEmotion recentFeeling) {
+    public UserRecommendationElements(String username, Short abvLimit, List<ECategory>  preferredCategories, EEmotion recentFeeling) {
         this.username = username;
         this.abvLimit = abvLimit;
-        this.preferredCategory = preferredCategory;
+        this.preferredCategories = preferredCategories;
         this.recentFeeling = recentFeeling;
     }
-
 }
