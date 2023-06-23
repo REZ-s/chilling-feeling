@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> Chilling Feeling - Taste (2/2) </title>
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        button.active {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="taste-container">
+    <!-- Header -->
+    <div class="taste-setting-header">
+        <a href="/cf_recommendation_base">
+            <img class="ic_back_24px" src="/images/ic_back_24px.png">
+        </a>
+        <div class="taste-header-content-text">취향설정 (2/2)</div>
+        <a href="/cf_main">
+            <img class="ic_close_24px" src="/images/ic_close_24px.png">
+        </a>
+    </div>
+
+    <!-- Content -->
+    <div class="taste-setting-content2">
+        <div class="taste-setting-title-subtitle">
+            <div class="join1-title">선호하는 키워드를 <br>3개 이상 선택하세요!</div>
+            <div class="join1-subtitle">내게 꼭 맞는 술을 추천해 드릴게요.</div>
+        </div>
+
+        <div class="wrap-btn-keyword">
+            <div class="wrap-horizon-btn-taste-setting-keyword">
+                <button class="btn-taste-setting-keyword" id="b1">
+                    <img src="/images/illust_keyword_wine.png" class="illust_keyword_img">
+                    <div class="keyword-label">#와인</div>
+                </button>
+
+                <button class="btn-taste-setting-keyword" id="b2">
+                    <img src="/images/illust_keyword_whisky.png" class="illust_keyword_img">
+                    <div class="keyword-label">#위스키</div>
+                </button>
+
+                <button class="btn-taste-setting-keyword" id="b3">
+                    <img src="/images/illust_keyword_cocktail.png" class="illust_keyword_img">
+                    <div class="keyword-label">#칵테일</div>
+                </button>
+            </div>
+
+            <div class="wrap-horizon-btn-taste-setting-keyword">
+                <button class="btn-taste-setting-keyword" id="b4">
+                    <img src="/images/illust_keyword_traditional.png" class="illust_keyword_img">
+                    <div class="keyword-label">#전통주</div>
+                </button>
+
+                <button class="btn-taste-setting-keyword" id="b5">
+                    <img src="/images/illust_keyword_steak.png" class="illust_keyword_img">
+                    <div class="keyword-label">#육류</div>
+                </button>
+
+                <button class="btn-taste-setting-keyword" id="b6">
+                    <img src="/images/illust_keyword_fish.png" class="illust_keyword_img">
+                    <div class="keyword-label">#해산물</div>
+                </button>
+            </div>
+
+            <div class="wrap-horizon-btn-taste-setting-keyword">
+                <button class="btn-taste-setting-keyword" id="b7">
+                    <img src="/images/illust_keyword_dessert.png" class="illust_keyword_img">
+                    <div class="keyword-label">#디저트</div>
+                </button>
+
+                <button class="btn-taste-setting-keyword" id="b8">
+                    <img src="/images/illust_keyword_heart.png" class="illust_keyword_img">
+                    <div class="keyword-label">#인기상품</div>
+                </button>
+
+                <button class="btn-taste-setting-keyword" id="b9">
+                    <img src="/images/illust_keyword_new.png" class="illust_keyword_img">
+                    <div class="keyword-label">#신상품</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-rounded-stroke" id="nextBtn">
+        <div class="btn-rounded-stroke-label">취향 설정하기</div>
+    </button>
+
+</div>
+
+<script th:inline="javascript">
+
+    const buttons = document.querySelectorAll("#b1, #b2, #b3, #b4, #b5, #b6, #b7, #b8, #b9");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let activeLabels = []; // 라벨을 저장할 배열
+    let abvLimit = /*[[${abvLimit}]]*/ 100;
+
+    buttons.forEach(function(button) {
+        button.addEventListener("click", function(e) {
+            e.currentTarget.classList.toggle("active");
+        });
+    });
+
+    nextBtn.addEventListener("click", function(e) {
+        activeLabels.length = 0;
+
+        buttons.forEach(function(button) {
+            if (button.classList.contains("active")) {
+                const label = button.getElementsByClassName("keyword-label")[0].innerHTML.substring(1);
+                activeLabels.push(label);
+            }
+        });
+
+        // 3개 이상 선택했는지 확인
+        if (activeLabels.length < 3) {
+            alert("3개 이상의 키워드를 선택해주세요.");
+        } else {
+            // 선택한 취향 목록을 서버로 전송
+            $.ajax({
+                type: "POST",
+                url: "/user_recommendation",
+                data: {
+                    activeLabels: activeLabels,
+                    abvLimit: abvLimit
+                },
+                ok: function (data) {
+                    location.href = "/cf_main";
+                },
+                error: function (e) {
+                    alert("설정 에러");
+                }
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

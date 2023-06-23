@@ -10,18 +10,20 @@ import com.joolove.core.domain.recommendation.UserRecommendationBase;
 import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.query.UserActivityElements;
-import com.joolove.core.dto.request.UserRecommendationElements;
+import com.joolove.core.dto.query.UserRecommendationElements;
+import com.joolove.core.dto.request.UserRecommendationBaseRequest;
+import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserActivityService;
 import com.joolove.core.service.UserRecommendationService;
 import com.joolove.core.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.sql.OracleJoinFragment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -47,7 +49,7 @@ public class RecommendationComponent {
         List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
         Short abvLimit = userRecommendationElements.getAbvLimit();
-        ECategory preferredCategory = userRecommendationElements.getPreferredCategory();
+        List<ECategory> preferredCategories = userRecommendationElements.getPreferredCategories();
         EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
         List<String> goodsNameList = new ArrayList<>();
         for (UserActivityElements u : userActivityElementsList) {
@@ -55,7 +57,7 @@ public class RecommendationComponent {
         }
 
         userRecommendationGoodsList = goodsService.getRecommendationGoodsList(
-                    abvLimit, getKRTypeOrLabel(preferredCategory), getSweetnessByFeeling(recentFeeling), goodsNameList);
+                    abvLimit, getKRTypeOrLabel(preferredCategories), getSweetnessByFeeling(recentFeeling), goodsNameList);
 
         return userRecommendationGoodsList;
     }
@@ -97,12 +99,24 @@ public class RecommendationComponent {
         return userActivityService.findBestViewsUserActivityListDefault();
     }
 
-    // 사용자의 '기본 추천' 과 '오늘의 추천' 을 설정한다.
-    public boolean setUserRecommendation(String username, UserRecommendationElements userRecommendationElements) {
+    // 사용자가 '기본 추천' 을 설정한다.
+    public boolean setUserRecommendationBase(UserRecommendationBaseRequest userRecommendationBaseRequest) {
         try {
-            updateUserRecommendElements(username, userRecommendationElements);
+            updateUserRecommendationBase(userRecommendationBaseRequest);
         } catch (Exception e) {
-            log.error("setUserRecommendation error : {}", e.getMessage());
+            log.error("setUserRecommendationBase error : {}", e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    // 사용자가 '오늘의 추천' 을 설정한다.
+    public boolean setUserRecommendationDaily(UserRecommendationDailyRequest userRecommendationDailyRequest) {
+        try {
+            updateUserRecommendationDaily(userRecommendationDailyRequest);
+        } catch (Exception e) {
+            log.error("setUserRecommendationDaily error : {}", e.getMessage());
             return false;
         }
 
@@ -121,26 +135,50 @@ public class RecommendationComponent {
         return true;
     }
 
-    private void updateUserRecommendElements(String username, UserRecommendationElements userRecommendationElements)
+    private void updateUserRecommendationBase(UserRecommendationBaseRequest userRecommendationBaseRequest)
             throws UsernameNotFoundException {
 
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(userRecommendationBaseRequest.getUsername());
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username : " + username);
+            throw new UsernameNotFoundException("User not found with username : " + userRecommendationBaseRequest.getUsername());
         }
 
         UserRecommendationBase userRecommendationBase = UserRecommendationBase.builder()
                     .user(user)
-                    .abvLimit(userRecommendationElements.getAbvLimit())
-                    .preferredCategory(userRecommendationElements.getPreferredCategory())
+                    .abvLimit(Short.parseShort(userRecommendationBaseRequest.getAbvLimit()))
+                    .preferredCategories(String.join(",", userRecommendationBaseRequest.getPreferredCategory()))
                     .build();
+
+        userRecommendationService.addUserRecommendationBase(userRecommendationBase);
+    }
+
+    private void updateUserRecommendationDaily(UserRecommendationDailyRequest userRecommendationDailyRequest)
+            throws UsernameNotFoundException {
+
+        User user = userService.findByUsername(userRecommendationDailyRequest.getUsername());
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username : " + userRecommendationDailyRequest.getUsername());
+        }
+
+        String feeling = userRecommendationDailyRequest.getRecentFeeling();
+        EEmotion recentFeeling = EEmotion.BLANK;
+
+        if (EEmotion.valueOf(feeling) == EEmotion.HAPPY) {
+            recentFeeling = EEmotion.HAPPY;
+        } else if (EEmotion.valueOf(feeling) == EEmotion.SMILE) {
+            recentFeeling = EEmotion.SMILE;
+        } else if (EEmotion.valueOf(feeling) == EEmotion.SAD) {
+            recentFeeling = EEmotion.SAD;
+        } else if (EEmotion.valueOf(feeling) == EEmotion.ANGRY) {
+            recentFeeling = EEmotion.ANGRY;
+        }
 
         UserRecommendationDaily userRecommendationDaily = UserRecommendationDaily.builder()
-                    .user(user)
-                    .feeling(userRecommendationElements.getRecentFeeling())
-                    .build();
+                .user(user)
+                .feeling(recentFeeling)
+                .build();
 
-        userRecommendationService.addUserRecommendation(userRecommendationBase, userRecommendationDaily);
+        userRecommendationService.addUserRecommendationDaily(userRecommendationDaily);
     }
 
     private void updateUserActivityElements(String username, UserActivityElements userActivityElements)
@@ -186,10 +224,10 @@ public class RecommendationComponent {
 
         UserRecommendationBase userRecommendationBase = userRecommendationService.findUserRecommendationBase(user);
         Short abvLimit = 100;
-        ECategory preferredCategory = ECategory.ALL;
+        String preferredCategories = ECategory.ALL.name();
         if (userRecommendationBase != null) {
             abvLimit = userRecommendationBase.getAbvLimit();
-            preferredCategory = userRecommendationBase.getPreferredCategory();
+            preferredCategories = userRecommendationBase.getPreferredCategories();
         }
 
         UserRecommendationDaily userRecommendationDaily = userRecommendationService.findUserRecommendationDaily(user);
@@ -198,10 +236,29 @@ public class RecommendationComponent {
             dailyFeeling = userRecommendationDaily.getFeeling();
         }
 
+        // 육류, 해산물, 신상품, 인기상품 도 여기서 해야하나?
+        String[] pcStrings = preferredCategories.split(",");
+        List<ECategory> ePreferredCategories = new ArrayList<>();
+        for (String pcString : pcStrings) {
+            if (ECategory.valueOf(pcString) == ECategory.NON_ALCOHOL) {
+                ePreferredCategories.add(ECategory.NON_ALCOHOL);
+            } else if (ECategory.valueOf(pcString) == ECategory.WINE) {
+                ePreferredCategories.add(ECategory.WINE);
+            } else if (ECategory.valueOf(pcString) == ECategory.WHISKY) {
+                ePreferredCategories.add(ECategory.WHISKY);
+            } else if (ECategory.valueOf(pcString) == ECategory.TRADITIONAL_LIQUOR) {
+                ePreferredCategories.add(ECategory.TRADITIONAL_LIQUOR);
+            } else if (ECategory.valueOf(pcString) == ECategory.COCKTAIL) {
+                ePreferredCategories.add(ECategory.COCKTAIL);
+            } else {
+                ePreferredCategories.add(ECategory.ALL);
+            }
+        }
+
         return UserRecommendationElements.builder()
                 .username(username)
                 .abvLimit(abvLimit)
-                .preferredCategory(preferredCategory)
+                .preferredCategories(ePreferredCategories)
                 .recentFeeling(dailyFeeling)
                 .build();
     }
@@ -213,9 +270,9 @@ public class RecommendationComponent {
         List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
         // 개인별 추천 요소
-        userRecommendationElementsList.add(getDegreeLimit(userRecommendationElements));        // 기본 추천
-        userRecommendationElementsList.add(getPreferredCategory(userRecommendationElements));  // 기본 추천
-        userRecommendationElementsList.add(getDailyFeeling(userRecommendationElements));       // 오늘의 추천
+        userRecommendationElementsList.add(userRecommendationElements.getAbvLimit());        // 기본 추천
+        userRecommendationElementsList.add(userRecommendationElements.getPreferredCategories());  // 기본 추천
+        userRecommendationElementsList.add(userRecommendationElements.getRecentFeeling());       // 오늘의 추천
 
         // 사용자 행동 데이터 기반 추천 요소
         for (UserActivityElements e : userActivityElementsList) {
@@ -225,82 +282,4 @@ public class RecommendationComponent {
         return userRecommendationElementsList;
     }
 
-    private EEmotion getDailyFeeling(UserRecommendationElements userRecommendationElements) {
-        return userRecommendationElements.getRecentFeeling();
-    }
-
-    private ECategory getPreferredCategory(UserRecommendationElements userRecommendationElements) {
-        return userRecommendationElements.getPreferredCategory();
-    }
-
-    private String getDegreeLimit(UserRecommendationElements userRecommendationElements) {
-        return userRecommendationElements.getAbvLimit().toString();
-    }
-
-    private boolean updateDailyFeeling(String username, String feeling) {
-        UserRecommendationElements userRecommendationElements;
-
-        try {
-            userRecommendationElements = getUserRecommendElements(username);
-        } catch (Exception e) {
-            log.error("updateDailyFeeling error : {}", e.getMessage());
-            return false;
-        }
-
-        if (feeling.equals(EEmotion.SMILE.name())) {
-            userRecommendationElements.setRecentFeeling(EEmotion.SMILE);
-        } else if (feeling.equals(EEmotion.HAPPY.name())) {
-            userRecommendationElements.setRecentFeeling(EEmotion.HAPPY);
-        } else if (feeling.equals(EEmotion.SAD.name())) {
-            userRecommendationElements.setRecentFeeling(EEmotion.SAD);
-        } else if (feeling.equals(EEmotion.ANGRY.name())) {
-            userRecommendationElements.setRecentFeeling(EEmotion.ANGRY);
-        } else {
-            userRecommendationElements.setRecentFeeling(EEmotion.BLANK);
-        }
-
-        return true;
-    }
-
-    private boolean updateAbvLimit(String username, String abvLimit) {
-        UserRecommendationElements userRecommendationElements;
-
-        try {
-            userRecommendationElements = getUserRecommendElements(username);
-        } catch (Exception e) {
-            log.error("updateAbvLimit error : {}", e.getMessage());
-            return false;
-        }
-
-        userRecommendationElements.setAbvLimit(Short.parseShort(abvLimit));
-
-        return true;
-    }
-
-    private boolean updatePreferredCategory(String username, String preferredCategory) {
-        UserRecommendationElements userRecommendationElements;
-
-        try {
-            userRecommendationElements = getUserRecommendElements(username);
-        } catch (Exception e) {
-            log.error("updatePreferredCategory error : {}", e.getMessage());
-            return false;
-        }
-
-        if (preferredCategory.equals(ECategory.WINE.name())) {
-            userRecommendationElements.setPreferredCategory(ECategory.WINE);
-        } else if (preferredCategory.equals(ECategory.COCKTAIL.name())) {
-            userRecommendationElements.setPreferredCategory(ECategory.COCKTAIL);
-        } else if (preferredCategory.equals(ECategory.TRADITIONAL_LIQUOR.name())) {
-            userRecommendationElements.setPreferredCategory(ECategory.TRADITIONAL_LIQUOR);
-        } else if (preferredCategory.equals(ECategory.WHISKY.name())) {
-            userRecommendationElements.setPreferredCategory(ECategory.WHISKY);
-        } else if (preferredCategory.equals(ECategory.NON_ALCOHOL.name())) {
-            userRecommendationElements.setPreferredCategory(ECategory.NON_ALCOHOL);
-        } else {
-            userRecommendationElements.setPreferredCategory(ECategory.ALL);
-        }
-
-        return true;
-    }
 }

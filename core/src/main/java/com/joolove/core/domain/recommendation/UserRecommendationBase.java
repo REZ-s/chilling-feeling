@@ -33,15 +33,14 @@ public class UserRecommendationBase extends BaseTimeStamp {
     private Short abvLimit;     // 알콜 도수 제한 (0 ~ 100)
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private ECategory preferredCategory;   // 선호하는 카테고리
+    private String preferredCategories;   // 선호하는 카테고리. List<ECategory> -> List<String> -> String
 
     @Builder
-    public UserRecommendationBase(UUID id, User user, Short abvLimit, ECategory preferredCategory) {
+    public UserRecommendationBase(UUID id, User user, Short abvLimit, String preferredCategories) {
         this.id = id;
         this.user = user;
         this.abvLimit = abvLimit;
-        this.preferredCategory = preferredCategory;
+        this.preferredCategories = preferredCategories;
     }
 
     @Override
@@ -50,7 +49,7 @@ public class UserRecommendationBase extends BaseTimeStamp {
                 "id=" + id +
                 ", user=" + user +
                 ", abvLimit=" + abvLimit +
-                ", preferredCategory='" + preferredCategory + '\'' +
+                ", preferredCategories='" + preferredCategories + '\'' +
                 '}';
     }
 

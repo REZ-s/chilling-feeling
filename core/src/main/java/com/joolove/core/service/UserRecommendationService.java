@@ -19,12 +19,18 @@ public class UserRecommendationService {
     private final UserRecommendationDailyRepository userRecommendationDailyRepository;
 
     @Transactional
-    public void addUserRecommendation(UserRecommendationBase userRecommendationBase,
-                                      UserRecommendationDaily userRecommendationDaily) {
+    public void addUserRecommendationBase(UserRecommendationBase userRecommendationBase) {
 
         // 아래에 save 메소드로 update 를 했는데, 만약에 기존에 있던 데이터를 update 하는게 아닌
         // 새로 create 하는 것이라면 수정해야 함.
         userRecommendationBaseRepository.save(userRecommendationBase);
+    }
+
+    @Transactional
+    public void addUserRecommendationDaily(UserRecommendationDaily userRecommendationDaily) {
+
+        // 아래에 save 메소드로 update 를 했는데, 만약에 기존에 있던 데이터를 update 하는게 아닌
+        // 새로 create 하는 것이라면 수정해야 함.
         userRecommendationDailyRepository.save(userRecommendationDaily);
     }
 

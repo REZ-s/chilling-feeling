@@ -4750,3 +4750,275 @@ input.login1-form::placeholder {
     flex-grow: 0;
     object-fit: contain;
 }
+
+/* 취향 설정 */
+
+.taste-container {
+    width: 375px;
+    height: 812px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 0;
+    background-color: #000;
+}
+
+.taste-setting-header {
+    height: 44px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 80px;
+    padding: 0 20px;
+}
+
+.taste-header-content-text {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #eef1f1;
+}
+
+.taste-setting-content {
+    height: 567px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.taste-setting-title-subtitle {
+    height: 101px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 15px;
+    padding: 0;
+}
+
+.taste-setting-title {
+    height: 64px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: -0.44px;
+    text-align: left;
+    color: #e6e6e6;
+}
+
+.taste-setting-subtitle {
+    height: 22px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #fff;
+}
+
+.wrap-btn-taste-setting-capacity {
+    height: 436px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+    padding: 0;
+}
+
+.btn-taste-setting-capacity {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding: 14px 20px;
+    background-color: #171717;
+    border: 0;
+
+}
+
+.ic_face_taste {
+    width: 60px;
+    height: 70px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.wrap-capacity-title-caption {
+    width: 193px;
+    height: 75px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0;
+}
+
+.capacity-title {
+    height: 28px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: left;
+    color: #fff;
+}
+
+.capacity-caption {
+    height: 44px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #f6f6f6;
+}
+
+.btn-rounded-stroke {
+/*    width: 83px;*/
+    height: 32px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: solid 1px #afafaf;
+    background-color: black;
+}
+
+.btn-rounded-stroke-label {
+/*    width: 51px;*/
+    height: 22px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #fff;
+}
+
+.taste-setting-content2 {
+    height: 463px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.wrap-btn-keyword {
+    width: 335px;
+    height: 332px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0;
+}
+
+.wrap-horizon-btn-taste-setting-keyword {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+    padding: 0;
+}
+
+.btn-taste-setting-keyword {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    background-color: #171717;
+    border: 0;
+}
+
+.illust_keyword_img {
+    width: 60px;
+    height: 60px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.keyword-label {
+/*    width: 29px;*/
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #f6f6f6;
+}
+
+.capacity-degree {
+    display: none;
+}
