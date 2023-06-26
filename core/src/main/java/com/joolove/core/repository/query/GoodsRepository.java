@@ -18,7 +18,11 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
     Optional<Goods> findOneByName(String name);
 
     // like 와 in 을 함께 사용하고 싶은데, List<String> 에 있는걸 한번에 처리하는 방법은 없다.
-    // for 문으로 한번에 하나의 String 을 보내도록 했다.
+    // for 문으로 한번에 하나의 Query String 을 보내도록 했다.
+
+    // 정정한다. String 형태로 보내고, goodsName 을 콤마로 구분하여 연결하도록 한다.
+    // 이렇게하면 db query 상으로도 nativeQuery를 사용하여 콤마단위로 구분하여 서칭이 가능할 것 같다.
+    // 예) 보드카01,와인02,논알콜03
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
             "from goods_details gd inner join goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
