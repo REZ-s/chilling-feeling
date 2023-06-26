@@ -242,23 +242,10 @@ public class RecommendationComponent {
             dailyFeeling = userRecommendationDaily.getFeeling();
         }
 
-        // 육류, 해산물, 신상품, 인기상품 도 여기서 해야하나?
         String[] pcStrings = preferredCategories.split(",");
         List<ECategory> ePreferredCategories = new ArrayList<>();
         for (String pcString : pcStrings) {
-            if (ECategory.valueOf(pcString) == ECategory.NON_ALCOHOL) {
-                ePreferredCategories.add(ECategory.NON_ALCOHOL);
-            } else if (ECategory.valueOf(pcString) == ECategory.WINE) {
-                ePreferredCategories.add(ECategory.WINE);
-            } else if (ECategory.valueOf(pcString) == ECategory.WHISKY) {
-                ePreferredCategories.add(ECategory.WHISKY);
-            } else if (ECategory.valueOf(pcString) == ECategory.TRADITIONAL_LIQUOR) {
-                ePreferredCategories.add(ECategory.TRADITIONAL_LIQUOR);
-            } else if (ECategory.valueOf(pcString) == ECategory.COCKTAIL) {
-                ePreferredCategories.add(ECategory.COCKTAIL);
-            } else {
-                ePreferredCategories.add(ECategory.ALL);
-            }
+            ePreferredCategories.add(getECategory(pcString));
         }
 
         return UserRecommendationElements.builder()
@@ -267,6 +254,32 @@ public class RecommendationComponent {
                 .preferredCategories(ePreferredCategories)
                 .recentFeeling(dailyFeeling)
                 .build();
+    }
+
+    private ECategory getECategory(String pcString) {
+        ECategory ePreferredCategory = ECategory.ALL;
+
+        if (ECategory.valueOf(pcString) == ECategory.NON_ALCOHOL) {
+            ePreferredCategory = ECategory.NON_ALCOHOL;
+        } else if (ECategory.valueOf(pcString) == ECategory.WINE) {
+            ePreferredCategory = ECategory.WINE;
+        } else if (ECategory.valueOf(pcString) == ECategory.WHISKY) {
+            ePreferredCategory = ECategory.WHISKY;
+        } else if (ECategory.valueOf(pcString) == ECategory.TRADITIONAL_LIQUOR) {
+            ePreferredCategory = ECategory.TRADITIONAL_LIQUOR;
+        } else if (ECategory.valueOf(pcString) == ECategory.COCKTAIL) {
+            ePreferredCategory = ECategory.COCKTAIL;
+        } else if (ECategory.valueOf(pcString) == ECategory.MEAT) {
+            ePreferredCategory = ECategory.MEAT;
+        } else if (ECategory.valueOf(pcString) == ECategory.SEAFOOD) {
+            ePreferredCategory = ECategory.SEAFOOD;
+        } else if (ECategory.valueOf(pcString) == ECategory.BRAND_NEW) {
+            ePreferredCategory = ECategory.BRAND_NEW;
+        } else if (ECategory.valueOf(pcString) == ECategory.BEST_SELLER) {
+            ePreferredCategory = ECategory.BEST_SELLER;
+        }
+
+        return ePreferredCategory;
     }
 
     // 모든 추천 요소들을 하나의 리스트에 담는다.

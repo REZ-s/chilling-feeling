@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Daily </title>
+    <!-- CSS -->
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div class="taste-container">
+    <!-- Header -->
+    <div class="taste-setting-header">
+        <a href="/cf_recommendation_base">
+            <img class="ic_back_24px" src="/images/ic_back_24px.png">
+        </a>
+        <div class="taste-header-content-text">오늘의 추천</div>
+        <a href="/cf_main">
+            <img class="ic_close_24px" src="/images/ic_close_24px.png">
+        </a>
+    </div>
+
+    <!-- Content -->
+    <div class="recommend-today2-container">
+        <div class="recommend-today2-title-subtitle">
+            <div class="recommend-today2-title">오늘의 추천</div>
+            <div class="recommend-today2-subtitle">오늘의 기분과 딱 맞는 술을 보여드릴게요!</div>
+        </div>
+
+        <div class="wrap-recommend-today-product-card">
+            <div class="recommend-today-product-card">
+                <div class="photo_container_120px">
+                    <div class="photo_container_120px_img">
+                        <img class="image-81" src="/images/item-rep01.png">
+
+                    </div>
+                    <img src="/images/ic_heart_24px.png" class="ic_heart_recommend_24px">
+                </div>
+
+                <div class="recommend-today-product-info">
+                    <div class="recommend-today-product-name">
+                        <div class="recommend-today-type">와인</div>
+                        <div class="recommend-today-name">레이크 찰리스 네스트 소비뇽 블랑</div>
+                    </div>
+                    <div class="recommend-today-caption">
+                        <div class="star-score-review">
+                            <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                            <div class="star-score-review">
+                                <div class="recommend-star-rating">
+                                    4.7
+                                </div>
+                                <div class="recommend-reviews">
+                                    (74)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recommend-wrap-chip">
+                            <div class="recommend-chip">
+                                <div class="recommend-chip-label">트렌디</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-rounded-stroke" id="nextBtn">
+        <div class="btn-rounded-stroke-label">다른 술 추천 받기</div>
+    </button>
+
+</div>
+
+<script th:inline="javascript">
+
+</script>
+</body>
+</html>

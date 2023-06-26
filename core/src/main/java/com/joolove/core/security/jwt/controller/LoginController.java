@@ -282,14 +282,26 @@ public class LoginController {
     }
 
     @GetMapping("/cf_recommendation_base")
-    public String recommendPage(Model model) {
+    public String recommendBasePage(Model model) {
         return "cf_recommendation_base_page";
     }
 
     @GetMapping("/cf_recommendation_base2")
-    public String recommendPage2(Model model, @RequestParam("abvLimit") String abvLimit) {
+    public String recommendBasePage2(Model model, @RequestParam("abvLimit") String abvLimit) {
         model.addAttribute("abvLimit", abvLimit);
         return "cf_recommendation_base_page2";
+    }
+
+    @GetMapping("/cf_recommendation_daily")
+    public String recommendDailyPage(Model model) {
+        return "cf_recommendation_daily_page";
+    }
+
+    @GetMapping("/cf_recommendation_daily2")
+    public String recommendDailyPage2(Model model, @RequestParam("feeling") String feeling) {
+
+
+        return "cf_recommendation_daily_page2";
     }
 
     @PostMapping("/user_recommendation")
