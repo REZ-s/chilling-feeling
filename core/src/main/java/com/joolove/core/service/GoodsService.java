@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +65,7 @@ public class GoodsService {
     }
 
     // 사용자별 추천 리스트
-    public List<IGoodsView> getRecommendationGoodsList(Short abvLimit, String typeOrLabel, EFigure sweetness, List<String> goodsNameList) {
+    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabel, EFigure sweetness, List<String> goodsNameList) {
         int defaultPage = 0;
         int defaultSize = 10;
         Pageable pagingInfo = PageRequest.of(defaultPage, defaultSize);
@@ -75,15 +76,23 @@ public class GoodsService {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.ASC, "opt5Value"));
         }
 
+        // 예) '위스키','와인','베스트'
+        String typeOrLabelStr = "'" + String.join("','", typeOrLabel) + "'";
+
+        /*
+        MySQL 에서는 in like 를 동시 지원하지 않는다.
+        따라서 아래처럼 하고싶으면 FTS 를 고려해야한다.
+        예) '%위스키%','%와인%','%베스트%'
+        */
+
         if (goodsNameList == null || goodsNameList.isEmpty()) {
-            return goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabel, pagingInfo);
+            return goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabelStr, pagingInfo);
         }
 
-        List<IGoodsView> iGoodsViewList = new ArrayList<>();
-        for (String goodsName: goodsNameList) {
-            iGoodsViewList.addAll(goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabel, goodsName, pagingInfo));
-        }
+        // 예) '짐빔 그라몰랑 세이비어'
+        String goodsName = String.join(" ", goodsNameList);
 
+        List<IGoodsView> iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabelStr, goodsName, pagingInfo);
         return iGoodsViewList.size() > 100 ? iGoodsViewList.subList(0, 100) : iGoodsViewList;
     }
 

@@ -39,7 +39,7 @@ public class GoodsDetails extends BaseTimeStamp {
     @Size(max = 1000)
     private String colorImageUrl;
 
-    private String degree;      // 도수 (예: "40%")
+    private String degree;      // 도수 (예: "40.0")
     private String country;     // 생산국
     private String company;     // 제조사
     private String supplier;    // 공급사
