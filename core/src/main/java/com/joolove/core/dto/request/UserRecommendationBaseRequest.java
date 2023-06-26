@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRecommendationBaseRequest {
 
-    @NotNull
     private String username;
     private String abvLimit;
     private List<String> preferredCategory;

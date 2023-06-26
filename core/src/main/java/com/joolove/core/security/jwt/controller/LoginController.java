@@ -20,6 +20,7 @@ import com.joolove.core.service.EmailServiceImpl;
 import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -294,15 +295,14 @@ public class LoginController {
     @PostMapping("/user_recommendation")
     @ResponseBody
     public ResponseEntity<?> setUserRecommendation(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestBody String abvLimit,
-                                                   @RequestBody List<String> activeLabels) {
+                                                   @RequestBody UserRecommendationBaseRequest request) {
         // 사용자 이름(username) 가져오기
         String username = userDetails.getUsername();
 
-        UserRecommendationBaseRequest request = UserRecommendationBaseRequest.builder()
+        UserRecommendationBaseRequest userRequest = UserRecommendationBaseRequest.builder()
                 .username(username)
-                .abvLimit(abvLimit)
-                .preferredCategory(activeLabels)
+                .abvLimit(request.getAbvLimit())
+                .preferredCategory(request.getPreferredCategory())
                 .build();
 
         // request 를 처리 컴포넌트에 넘겨서 알아서 저장

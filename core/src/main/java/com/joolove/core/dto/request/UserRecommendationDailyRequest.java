@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRecommendationDailyRequest {
 
-    @NotNull
     private String username;
     private String recentFeeling;
 
