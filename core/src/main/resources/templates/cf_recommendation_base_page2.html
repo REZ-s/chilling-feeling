@@ -129,20 +129,29 @@
             alert("3개 이상의 키워드를 선택해주세요.");
         } else {
             // 선택한 취향 목록을 서버로 전송
-            $.ajax({
-                type: "POST",
-                url: "/user_recommendation",
-                data: {
-                    activeLabels: activeLabels,
-                    abvLimit: abvLimit
-                },
-                ok: function (data) {
-                    location.href = "/cf_main";
-                },
-                error: function (e) {
-                    alert("설정 에러");
+            createCode();
+            async function createCode() {
+                try {
+                    const response = await fetch('/user_recommendation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            username: null,
+                            abvLimit: abvLimit.toString(),
+                            activeLabels: activeLabels
+                        }),
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    alert("HTTP error: " + error);
                 }
-            });
+            }
         }
     });
 
