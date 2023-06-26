@@ -15,12 +15,12 @@ import java.util.List;
 public class UserRecommendationElements {
     @NotNull
     private String username;
-    private Short abvLimit;
+    private String abvLimit;
     private List<ECategory> preferredCategories;
     private EEmotion recentFeeling;
 
     @Builder
-    public UserRecommendationElements(String username, Short abvLimit, List<ECategory>  preferredCategories, EEmotion recentFeeling) {
+    public UserRecommendationElements(String username, String abvLimit, List<ECategory>  preferredCategories, EEmotion recentFeeling) {
         this.username = username;
         this.abvLimit = abvLimit;
         this.preferredCategories = preferredCategories;

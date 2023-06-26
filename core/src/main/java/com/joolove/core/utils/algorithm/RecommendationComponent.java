@@ -48,16 +48,22 @@ public class RecommendationComponent {
         UserRecommendationElements userRecommendationElements = getUserRecommendElements(username);   // 개인 추천 관련 데이터 가져오기
         List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
-        Short abvLimit = userRecommendationElements.getAbvLimit();
+        String abvLimit = userRecommendationElements.getAbvLimit();
         List<ECategory> preferredCategories = userRecommendationElements.getPreferredCategories();
+        List<String> typeOrLabelList = new ArrayList<>();
+        for (ECategory category : preferredCategories) {
+            typeOrLabelList.add(getKRTypeOrLabel(category));
+        }
+
         EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
+        EFigure feeling = getSweetnessByFeeling(recentFeeling);
         List<String> goodsNameList = new ArrayList<>();
         for (UserActivityElements u : userActivityElementsList) {
             goodsNameList.add(u.getTargetName());
         }
 
         userRecommendationGoodsList = goodsService.getRecommendationGoodsList(
-                    abvLimit, getKRTypeOrLabel(preferredCategories), getSweetnessByFeeling(recentFeeling), goodsNameList);
+                    abvLimit, typeOrLabelList, feeling, goodsNameList);
 
         return userRecommendationGoodsList;
     }
@@ -145,7 +151,7 @@ public class RecommendationComponent {
 
         UserRecommendationBase userRecommendationBase = UserRecommendationBase.builder()
                     .user(user)
-                    .abvLimit(Short.parseShort(userRecommendationBaseRequest.getAbvLimit()))
+                    .abvLimit(userRecommendationBaseRequest.getAbvLimit())
                     .preferredCategories(String.join(",", userRecommendationBaseRequest.getPreferredCategory()))
                     .build();
 
@@ -223,7 +229,7 @@ public class RecommendationComponent {
         }
 
         UserRecommendationBase userRecommendationBase = userRecommendationService.findUserRecommendationBase(user);
-        Short abvLimit = 100;
+        String abvLimit = "100";
         String preferredCategories = ECategory.ALL.name();
         if (userRecommendationBase != null) {
             abvLimit = userRecommendationBase.getAbvLimit();

@@ -17,27 +17,23 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
-    // like 와 in 을 함께 사용하고 싶은데, List<String> 에 있는걸 한번에 처리하는 방법은 없다.
-    // for 문으로 한번에 하나의 Query String 을 보내도록 했다.
-
-    // 정정한다. String 형태로 보내고, goodsName 을 콤마로 구분하여 연결하도록 한다.
-    // 이렇게하면 db query 상으로도 nativeQuery를 사용하여 콤마단위로 구분하여 서칭이 가능할 것 같다.
-    // 예) 보드카01,와인02,논알콜03
+    // 문자열의 길이가 길 때, FTS 가 생각보다 느리다면 기존의 like in 도 고려해본다. (성능 테스트 필요)
+    // 와인 > 레드와인 의 경우처럼, type 외에 sub_type 을 만들어줄까 생각중..
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
             "from goods_details gd inner join goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
-            "and (gd.type like concat('%', ?2, '%') or gs.label = ?2) " +
+            "and (gd.type in (?2) or gs.label = ?2) " +
             "and gd.degree <= ?1 " +
             "and match(gd.name) against (concat('*', ?3, '*') in boolean mode) ", nativeQuery = true)
-    List<IGoodsView> findRecommendationGoodsListByGoodsNameList(Short abvLimit, String typeOrLabel, String goodsName, Pageable pagingInfo);
+    List<IGoodsView> findRecommendationGoodsListByGoodsNameList(String abvLimit, String typeOrLabels, String goodsNames, Pageable pagingInfo);
 
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
             "from GoodsDetails gd inner join GoodsStats gs " +
             "on gd.goods.id = gs.goods.id " +
-            "and (gd.type like concat('%', ?2, '%') or gs.label = ?2) " +
+            "and (gd.type in (?2) or gs.label = ?2) " +
             "and gd.degree <= ?1")
-    List<IGoodsView> findRecommendationGoodsList(Short abvLimit, String preferredCategory, Pageable pageable);
+    List<IGoodsView> findRecommendationGoodsList(String abvLimit, String typeOrLabels, Pageable pageable);
 
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
