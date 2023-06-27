@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SigninRequest {
+public class SignInRequest {
     @NotBlank
     @Size(min = 4, max = 40)
     private String username;
@@ -20,13 +20,13 @@ public class SigninRequest {
     private String password;
 
     @Builder
-    public SigninRequest(String username, String password) {
+    public SignInRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public static SigninRequest buildEmpty() {
-        return SigninRequest.builder()
+    public static SignInRequest buildEmpty() {
+        return SignInRequest.builder()
                 .username("")
                 .password("")
                 .build();

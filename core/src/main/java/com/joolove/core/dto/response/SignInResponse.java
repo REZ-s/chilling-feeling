@@ -10,17 +10,15 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SigninResponse {
+public class SignInResponse {
     private UUID id;
     private String username;
-    private String email;
     private List<String> roles;
 
     @Builder
-    public SigninResponse(UUID id, String username, String email, List<String> roles) {
+    public SignInResponse(UUID id, String username, List<String> roles) {
         this.id = id;
         this.username = username;
-        this.email = email;
         this.roles = roles;
     }
 }

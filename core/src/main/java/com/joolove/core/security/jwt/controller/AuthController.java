@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.joolove.core.domain.auth.RefreshToken;
-import com.joolove.core.dto.request.SigninRequest;
-import com.joolove.core.dto.response.SigninResponse;
+import com.joolove.core.dto.request.SignInRequest;
+import com.joolove.core.dto.response.SignInResponse;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.jwt.exception.TokenRefreshException;
 import com.joolove.core.security.service.AuthService;
@@ -38,7 +38,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/oauth2/signin")
-    public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody SigninRequest request) {
+    public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody SignInRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -57,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody SigninRequest request) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody SignInRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -69,10 +69,9 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        SigninResponse response = SigninResponse.builder()
+        SignInResponse response = SignInResponse.builder()
                 .id(userPrincipal.getUser().getId())
                 .username(userPrincipal.getUsername())
-                .email(userPrincipal.getUser().getAuthentication().getEmail())
                 .roles(roles)
                 .build();
 
@@ -87,7 +86,7 @@ public class AuthController {
 
 /*
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody User.SignupRequest request) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User.SignUpRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             return ResponseEntity.badRequest()
                     .body("Error: username is already taken!");
@@ -133,17 +132,6 @@ public class AuthController {
                 .username(request.getUsername())
                 .accountType((short)1)
                 .build();
-
-        com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
-                .user(user)
-                .email(request.getEmail())
-                .sex("남자")
-                .phoneNumber("010-7369-6639")
-                .birthday(LocalDate.of(1992, 12, 10))
-                .country("Korea")
-                .gatherAgree(true)
-                .build();
-        user.setAuthentication(authentication);
 
         Password password = Password.builder()
                 .user(user)
