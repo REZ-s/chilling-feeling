@@ -79,6 +79,9 @@ public class User extends BaseTimeStamp {
     private UserRecommendationBase userRecommendationBase;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private UserRecommendationDaily userRecommendationDaily;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private RefreshToken refreshToken;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -95,9 +98,6 @@ public class User extends BaseTimeStamp {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Device> devices = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private List<UserRecommendationDaily> recommendationDailies = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<UserRole> roles = new ArrayList<>();
@@ -134,6 +134,14 @@ public class User extends BaseTimeStamp {
         this.userRecommendationBase = userRecommendationBase;
     }
 
+    public void setUserRecommendationDaily(UserRecommendationDaily userRecommendationDaily) {
+        this.userRecommendationDaily = userRecommendationDaily;
+    }
+
+    public void setRefreshToken(RefreshToken refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
@@ -152,14 +160,6 @@ public class User extends BaseTimeStamp {
 
     public void setDevices(List<Device> devices) {
         this.devices = devices;
-    }
-
-    public void setRecommendationDailies(List<UserRecommendationDaily> recommendationDailies) {
-        this.recommendationDailies = recommendationDailies;
-    }
-
-    public void setRefreshToken(RefreshToken refreshToken) {
-        this.refreshToken = refreshToken;
     }
 
 }
