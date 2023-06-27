@@ -18,12 +18,14 @@ public class UserActivityElements {
     private String username;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ETargetCode targetCode;
 
     @NotNull
     private String targetName;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private EActivityCode activityCode;
 
     private String activityDescription;
