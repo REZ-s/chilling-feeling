@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -16,7 +18,10 @@ public class UserRecommendationElements {
     @NotNull
     private String username;
     private String abvLimit;
+    @Enumerated(EnumType.STRING)
     private List<ECategory> preferredCategories;
+
+    @Enumerated(EnumType.STRING)
     private EEmotion recentFeeling;
 
     @Builder

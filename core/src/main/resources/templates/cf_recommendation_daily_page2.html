@@ -83,8 +83,9 @@
 
 <script th:inline="javascript">
 
-    let goodsViewList = getRecommendationDaily();
+    let goodsViewList;
 
+    getRecommendationDaily();
     for (let i = 0; i < goodsViewList.length; i++) {
         createFormRecommendProductCard(goodsViewList[0]);
     }
@@ -96,9 +97,11 @@
             async: false,
             success: function (data) {
                 goodsViewList = data;
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
             }
         });
-        return goodsViewList;
     }
 
     function createFormRecommendProductCard(goodsView) {
