@@ -37,15 +37,14 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = UserPrincipal.buildOAuth2UserInfo(provider, oAuth2User.getAttributes());
 
         String providerId = oAuth2UserInfo.getProviderId();
-        String username = provider + "_" + providerId;
-        String email = oAuth2UserInfo.getEmail();
+        String username = oAuth2UserInfo.getEmail();
 
-        User user = createUserByOAuth2(username, email, provider, providerId);
+        User user = createUserByOAuth2(username, provider, providerId);
 
         return UserPrincipal.buildOAuth2User(user, oAuth2UserInfo);
     }
 
-    public User createUserByOAuth2(String username, String email, String provider, String providerId) {
+    public User createUserByOAuth2(String username, String provider, String providerId) {
         User user = userRepository.findByUsername(username).orElse(null);
 
         if (user == null) {
@@ -53,13 +52,6 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
                     .username(username)
                     .accountType((short) 1)
                     .build();
-
-            com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
-                    .user(user)
-                    .email(email)
-                    .gatherAgree(true)
-                    .build();
-            user.setAuthentication(authentication);
 
             Password password = Password.builder()
                     .user(user)

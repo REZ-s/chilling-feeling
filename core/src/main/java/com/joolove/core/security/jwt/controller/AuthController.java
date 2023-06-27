@@ -40,43 +40,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
     private final AuthService authService;
-
-    private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
-
-    private final AuthenticationRepository authenticationRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
-    private final JwtUtils jwtUtils;
-
     private final RefreshTokenService refreshTokenService;
-
-    @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        System.out.println(userPrincipal.toString());
-
-        User user = userRepository.findById(userPrincipal.getUser().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUser().getId()));
-
-        List<String> roles = userPrincipal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        SigninResponse response = SigninResponse.builder()
-                .id(userPrincipal.getUser().getId())
-                .username(userPrincipal.getUsername())
-                .email(userPrincipal.getUser().getAuthentication().getEmail())
-                .roles(roles)
-                .build();
-
-        return ResponseEntity.ok()
-                .body(response);
-    }
+    private final JwtUtils jwtUtils;
 
     @PostMapping("/oauth2/signin")
     public ResponseEntity<?> oauth2LoginUser(@Valid @RequestBody SigninRequest request) {

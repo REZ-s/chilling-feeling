@@ -1,15 +1,20 @@
 package com.joolove.core.controller;
 
+import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.query.UserActivityElements;
 import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
+import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.utils.algorithm.RecommendationComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @Controller
@@ -20,7 +25,10 @@ public class RecommendationController {
 
     @PostMapping("/api/v1/recommendation/base")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendationBase(@Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
+    public ResponseEntity<Object> setRecommendationBase(@AuthenticationPrincipal String username,
+                                                        @Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
+        userRecommendationBaseRequest.setUsername(username);
+
         if (recommendationComponent.setUserRecommendationBase(userRecommendationBaseRequest)) {
             return ResponseEntity.ok().build();
         }
@@ -30,7 +38,10 @@ public class RecommendationController {
 
     @PostMapping("/api/v1/recommendation/daily")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendationDaily(@Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
+    public ResponseEntity<Object> setRecommendationDaily(@AuthenticationPrincipal String username,
+                                                         @Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
+        userRecommendationDailyRequest.setUsername(username);
+
         if (recommendationComponent.setUserRecommendationDaily(userRecommendationDailyRequest)) {
             return ResponseEntity.ok().build();
         }
@@ -38,13 +49,28 @@ public class RecommendationController {
         return ResponseEntity.internalServerError().build();
     }
 
+    @GetMapping("/api/v1/recommendation/daily")
+    @ResponseBody
+    public ResponseEntity<Object> getRecommendationDaily(@AuthenticationPrincipal String username) {
+        List<IGoodsView> goodsViews = recommendationComponent.getUserRecommendationGoodsList(username);
+        return ResponseEntity.ok().body(goodsViews);
+    }
+
+    @GetMapping("/api/v1/recommendation")
+    @ResponseBody
+    public ResponseEntity<Object> getRecommendation(@AuthenticationPrincipal String username) {
+        List<IGoodsView> goodsViews = recommendationComponent.getUserRecommendationGoodsList(username);
+        return ResponseEntity.ok().body(goodsViews);
+    }
+
     // 사용자 행동 데이터에 따른 추천 요소 업데이트
     @PostMapping("/api/v1/recommendation/activity")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendationActivity(
-            @Valid @RequestBody String username,
-            @Valid @RequestBody UserActivityElements userActivityElements) {
-        if (recommendationComponent.setUserActivityRecommendation(username, userActivityElements)) {
+    public ResponseEntity<Object> setRecommendationActivity(@AuthenticationPrincipal String username,
+                                                            @Valid @RequestBody UserActivityElements userActivityElements) {
+        userActivityElements.setUsername(username);
+
+        if (recommendationComponent.setUserActivityRecommendation(userActivityElements)) {
             return ResponseEntity.ok().build();
         }
 

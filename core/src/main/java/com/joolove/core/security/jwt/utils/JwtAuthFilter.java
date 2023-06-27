@@ -39,9 +39,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)
                     && jwtRefresh != null && refreshTokenService.findByToken(jwtRefresh).isPresent()) {
-                // 위의 부분에서 refrshToken을 확인하는 과정이 결국 DB에서 조회하는 과정이기 때문에 성능상의 문제가 있을 수 있음
-                // 해결책은 refresh token을 redis에 저장하는 것을 고려해보자
-                // refresh token을 redis에 저장하면, redis에 저장된 refresh token을 확인하는 과정이 필요함
+                // 위의 부분에서 refreshToken 을 확인하는 과정이 결국 DB 에서 조회하는 과정이기 때문에 성능 저하 될 가능성이 있음
+                // refreshToken 을 redis 에 저장하는 것을 고려해보자.
+                // refreshToken 을 redis 에 저장하면, redis 에 저장된 refreshToken 을 확인하는 과정을 코드에 추가한다.
 
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 buildAuthenticationUserDetails(request, userDetailsService.loadUserByUsername(username));
@@ -58,7 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(),
-                        userDetails.getPassword(),
+                        null,
                         userDetails.getAuthorities());
 
         // 아래 코드가 꼭 필요할지 확인

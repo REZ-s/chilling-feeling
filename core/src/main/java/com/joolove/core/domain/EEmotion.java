@@ -5,5 +5,5 @@ public enum EEmotion {
     HAPPY,  // "기뻐요"
     SAD,    // "슬퍼요"
     ANGRY,  // "화나요"
-    BLANK
+    BLANK   // 그 외
 }

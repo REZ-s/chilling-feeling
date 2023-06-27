@@ -11,6 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class User extends BaseTimeStamp {
 
     @NotBlank
     @Column(unique = true, length = 64)
+    @Email
     private String username;    // email
 
     @NotNull
@@ -71,7 +73,7 @@ public class User extends BaseTimeStamp {
     private Favorite favorite;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private Authentication authentication;
+    private UserPersonal userPersonal;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserRecommendationBase userRecommendationBase;
@@ -124,8 +126,8 @@ public class User extends BaseTimeStamp {
         this.favorite = favorite;
     }
 
-    public void setAuthentication(Authentication authentication) {
-        this.authentication = authentication;
+    public void setUserPersonal(UserPersonal userPersonal) {
+        this.userPersonal = userPersonal;
     }
 
     public void setUserRecommendationBase(UserRecommendationBase userRecommendationBase) {
