@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface UserRecommendationDailyRepository extends JpaRepository<UserRecommendationDaily, UUID> {
 
     UserRecommendationDaily findByUser(User user);
+
 }

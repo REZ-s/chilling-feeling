@@ -27,7 +27,7 @@ public class UserRecommendationDaily extends BaseTimeStamp {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @NotNull
@@ -49,4 +49,7 @@ public class UserRecommendationDaily extends BaseTimeStamp {
                 '}';
     }
 
+    public void setFeeling(EEmotion feeling) {
+        this.feeling = feeling;
+    }
 }

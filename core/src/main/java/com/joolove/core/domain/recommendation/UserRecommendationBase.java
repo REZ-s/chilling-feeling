@@ -60,4 +60,12 @@ public class UserRecommendationBase extends BaseTimeStamp {
     public void setRecommendationFirstInterestKeywordList(List<RecommendationFirstInterestKeyword> recommendationFirstInterestKeywordList) {
         this.recommendationFirstInterestKeywordList = recommendationFirstInterestKeywordList;
     }
+
+    public void setAbvLimit(String abvLimit) {
+        this.abvLimit = abvLimit;
+    }
+
+    public void setPreferredCategories(String preferredCategories) {
+        this.preferredCategories = preferredCategories;
+    }
 }
