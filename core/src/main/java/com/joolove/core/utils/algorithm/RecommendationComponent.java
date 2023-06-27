@@ -213,7 +213,7 @@ public class RecommendationComponent {
 
         User user = userService.findByUsername(username);
         if (user == null) {
-            return null;
+            throw new UsernameNotFoundException("User not found with username : " + username);
         }
 
         // 최근 5개를 target 이 goods 인 경우에만 가져온다.
