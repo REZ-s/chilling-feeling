@@ -32,8 +32,8 @@ public class CommonLogoutSuccessHandler implements LogoutHandler {
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
 
-        if (refreshTokenService.findByToken(refreshToken).isPresent()) {
-            RefreshToken token = refreshTokenService.findByToken(refreshToken).get();
+        if (refreshTokenService.findByToken(refreshToken) != null) {
+            RefreshToken token = refreshTokenService.findByToken(refreshToken);
             User user = userService.findByUsername(token.getUser().getUsername());
 
             logoutTokenService.createRefreshToken(user.getId());

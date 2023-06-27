@@ -31,7 +31,7 @@ public class UserActivityService {
         int page = 0;
         int size = 5;
 
-        return userActivityRepository.findByUsername(username, target.name(),
+        return userActivityRepository.findByUsername(username, target,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
@@ -39,7 +39,7 @@ public class UserActivityService {
         int page = 0;
         int size = 5;
 
-        return userActivityRepository.findByGoodsName(goodsName, target.name(),
+        return userActivityRepository.findByGoodsName(goodsName, target,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
@@ -57,7 +57,7 @@ public class UserActivityService {
         LocalDateTime requestedDays = days != null ? days : defaultDays;
 
         return userActivityRepository.findGoodsListBestViews(
-                EActivityCode.SEARCH.name(), EActivityCode.CLICK.name(), ETargetCode.GOODS.name(), requestedDays,
+                EActivityCode.SEARCH, EActivityCode.CLICK, ETargetCode.GOODS, requestedDays,
                 PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 

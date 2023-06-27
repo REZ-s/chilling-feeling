@@ -154,7 +154,7 @@ public class AuthController {
     }
     */
 
-    @PostMapping("/signout")
+/*    @PostMapping("/signout")
     public ResponseEntity<?> signoutUser() {
         return authService.logout(true);
     }
@@ -184,6 +184,6 @@ public class AuthController {
 
         return ResponseEntity.badRequest()
                 .body("Refresh Token is empty!");
-    }
+    }*/
 
 }

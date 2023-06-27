@@ -156,7 +156,11 @@ public class RecommendationComponent {
                     .preferredCategories(String.join(",", userRecommendationBaseRequest.getPreferredCategory()))
                     .build();
 
-        userRecommendationService.addUserRecommendationBase(userRecommendationBase);
+        if (userRecommendationService.findUserRecommendationBase(user) == null) {
+            userRecommendationService.addUserRecommendationBase(userRecommendationBase);
+        } else {
+            userRecommendationService.updateUserRecommendationBase(userRecommendationBase);
+        }
     }
 
     private void updateUserRecommendationDaily(UserRecommendationDailyRequest userRecommendationDailyRequest)
@@ -185,7 +189,11 @@ public class RecommendationComponent {
                 .feeling(recentFeeling)
                 .build();
 
-        userRecommendationService.addUserRecommendationDaily(userRecommendationDaily);
+        if (userRecommendationService.findUserRecommendationDaily(user) == null) {
+            userRecommendationService.addUserRecommendationDaily(userRecommendationDaily);
+        } else {
+            userRecommendationService.updateUserRecommendationDaily(userRecommendationDaily);
+        }
     }
 
     private void updateUserActivityElements(UserActivityElements userActivityElements)

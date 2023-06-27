@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String jwtRefresh = jwtUtils.getJwtRefreshFromCookies(request);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)
-                    && jwtRefresh != null && refreshTokenService.findByToken(jwtRefresh).isPresent()) {
+                    && jwtRefresh != null && refreshTokenService.findByToken(jwtRefresh) != null) {
                 // 위의 부분에서 refreshToken 을 확인하는 과정이 결국 DB 에서 조회하는 과정이기 때문에 성능 저하 될 가능성이 있음
                 // refreshToken 을 redis 에 저장하는 것을 고려해보자.
                 // refreshToken 을 redis 에 저장하면, redis 에 저장된 refreshToken 을 확인하는 과정을 코드에 추가한다.

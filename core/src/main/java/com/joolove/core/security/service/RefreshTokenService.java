@@ -29,23 +29,23 @@ public class RefreshTokenService {
 
     private final UserRepository userRepository;
 
-    public Optional<RefreshToken> findByToken(String token) {
+    public RefreshToken findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }
 
-    public Optional<RefreshToken> findByUser(User user) {
+    public RefreshToken findByUser(User user) {
         return refreshTokenRepository.findByUser(user);
     }
 
     public ResponseCookie getRefreshToken(UserPrincipal userPrincipal) {
         ResponseCookie refreshToken = null;
-        Optional<RefreshToken> token = findByUser(userPrincipal.getUser());
-        if (token.isEmpty()) {
+        RefreshToken token = findByUser(userPrincipal.getUser());
+        if (token == null) {
             RefreshToken newToken = createRefreshToken(userPrincipal.getUser().getId());
             refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken());
         }
         else {
-            RefreshToken originToken = verifyExpiration(token.get());
+            RefreshToken originToken = verifyExpiration(token);
             refreshToken = jwtUtils.generateRefreshJwtCookie(originToken.getToken());
         }
 
