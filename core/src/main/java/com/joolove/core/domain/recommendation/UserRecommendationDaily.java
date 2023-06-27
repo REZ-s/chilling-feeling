@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "recommend")
+@Table(schema = "recommendation")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class UserRecommendationDaily extends BaseTimeStamp {

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "billing")
+@Table(schema = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder

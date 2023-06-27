@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "recommend")
+@Table(schema = "recommendation")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class UserRecommendationBase extends BaseTimeStamp {
