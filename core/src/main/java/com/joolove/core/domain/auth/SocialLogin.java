@@ -34,7 +34,6 @@ public class SocialLogin extends BaseTimeStamp {
     @Column(unique = true)
     private String providerId;  // Authorization Server ID
 
-    //@NotBlank
     @Column(unique = true)
     private String accessToken; // oauth 2.0 jwt
 
