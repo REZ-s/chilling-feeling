@@ -9,8 +9,8 @@ import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.dto.request.SigninRequest;
-import com.joolove.core.dto.request.SignupRequest;
+import com.joolove.core.dto.request.SignInRequest;
+import com.joolove.core.dto.request.SignUpRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.repository.*;
 import com.joolove.core.security.jwt.repository.PasswordRepository;
@@ -55,13 +55,13 @@ public class LoginController {
 
     @GetMapping("/cf_login")
     public String cfLogin(Model model) {
-        model.addAttribute("request", SigninRequest.buildEmpty());
+        model.addAttribute("request", SignInRequest.buildEmpty());
         return "cf_login_page";
     }
 
     @PostMapping("/cf_login2")
     public String cfLogin2(Model model,
-                           @Valid @ModelAttribute("request") SigninRequest request) {
+                           @Valid @ModelAttribute("request") SignInRequest request) {
         model.addAttribute("request", request);
         return "cf_login_page2";
     }
@@ -127,22 +127,22 @@ public class LoginController {
 
     @GetMapping("/cf_join")
     public String cfJoin(Model model) {
-        model.addAttribute("request", SignupRequest.buildEmpty());
+        model.addAttribute("request", SignUpRequest.buildEmpty());
         return "cf_join_page";
     }
 
     @PostMapping(value = "/cf_join2")
-    public String cfJoin2(@ModelAttribute("request") SignupRequest request) {
+    public String cfJoin2(@ModelAttribute("request") SignUpRequest request) {
         return "cf_join_page2";
     }
 
     @PostMapping(value = "/cf_join3")
-    public String cfJoin3(@ModelAttribute("request") SignupRequest request) {
+    public String cfJoin3(@ModelAttribute("request") SignUpRequest request) {
         return "cf_join_page3";
     }
 
     @PostMapping(value = "/cf_join/complete")
-    public String cfJoin4(@Valid @ModelAttribute("request") SignupRequest request) {
+    public String cfJoin4(@Valid @ModelAttribute("request") SignUpRequest request) {
         // 여기가 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 검증
 
         // 사용자 접근 권한 생성

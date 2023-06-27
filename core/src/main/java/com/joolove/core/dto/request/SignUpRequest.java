@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SignupRequest {
+public class SignUpRequest {
     @NotBlank
     @Size(min = 4, max = 40)
     private String username;
@@ -27,15 +27,15 @@ public class SignupRequest {
     private List<String> roles;
 
     @Builder
-    public SignupRequest(String username, String password, String phoneNumber, List<String> roles) {
+    public SignUpRequest(String username, String password, String phoneNumber, List<String> roles) {
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.roles = roles;
     }
 
-    public static SignupRequest buildEmpty() {
-        return SignupRequest.builder()
+    public static SignUpRequest buildEmpty() {
+        return SignUpRequest.builder()
                 .username("")
                 .password("")
                 .phoneNumber("")
