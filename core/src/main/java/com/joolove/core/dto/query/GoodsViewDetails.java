@@ -10,7 +10,7 @@ import javax.persistence.Column;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GoodsViewDetails {
+public class GoodsViewDetails implements IGoodsView {
     private String name;
     private String engName;
     private String type;

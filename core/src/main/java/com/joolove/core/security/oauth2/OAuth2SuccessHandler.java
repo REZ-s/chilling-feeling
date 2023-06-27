@@ -52,7 +52,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             throw new BadRequestException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
         }
 
-        String targetUrl = (redirectUri == null ? getDefaultTargetUrl() : redirectUri);
+        String targetUrl = (redirectUri == null ? "/cf_main" : redirectUri);
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 

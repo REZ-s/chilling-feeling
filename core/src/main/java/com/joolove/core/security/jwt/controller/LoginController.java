@@ -12,13 +12,16 @@ import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SigninRequest;
 import com.joolove.core.dto.request.SignupRequest;
 import com.joolove.core.dto.request.UserRecommendationBaseRequest;
+import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.repository.*;
 import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.jwt.repository.PasswordRepository;
+import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.EmailServiceImpl;
 import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
+import com.joolove.core.utils.algorithm.RecommendationComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +42,6 @@ import java.util.Objects;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-
     private final UserService userService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -51,6 +53,8 @@ public class LoginController {
     private final PasswordRepository passwordRepository;
     private final GoodsDetailsRepository goodsDetailsRepository;
     private final GoodsStatsRepository goodsStatsRepository;
+    private final RecommendationComponent recommendationComponent;
+
 
 
     @GetMapping("/cf_login")
@@ -60,7 +64,9 @@ public class LoginController {
     }
 
     @PostMapping("/cf_login2")
-    public String cfLogin2(Model model, @Valid @ModelAttribute("request") SigninRequest request) {
+    public String cfLogin2(Model model,
+                           @Valid @ModelAttribute("request") SigninRequest request) {
+        model.addAttribute("request", request);
         return "cf_login_page2";
     }
 
@@ -129,17 +135,17 @@ public class LoginController {
     }
 
     @PostMapping(value = "/cf_join2")
-    public String cfJoin2(Model model, @ModelAttribute("request") SignupRequest request) {
+    public String cfJoin2(@ModelAttribute("request") SignupRequest request) {
         return "cf_join_page2";
     }
 
     @PostMapping(value = "/cf_join3")
-    public String cfJoin3(Model model, @ModelAttribute("request") SignupRequest request) {
+    public String cfJoin3(@ModelAttribute("request") SignupRequest request) {
         return "cf_join_page3";
     }
 
     @PostMapping(value = "/cf_join/complete")
-    public String cfJoin4(Model model, @Valid @ModelAttribute("request") SignupRequest request) {
+    public String cfJoin4(@Valid @ModelAttribute("request") SignupRequest request) {
         // 여기가 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 검증
 
         // 사용자 접근 권한 생성
@@ -153,13 +159,6 @@ public class LoginController {
                 .username(request.getUsername())
                 .accountType((short) 1)
                 .build();
-
-        com.joolove.core.domain.auth.Authentication authentication = com.joolove.core.domain.auth.Authentication.builder()
-                .user(user)
-                .email(request.getUsername())
-                .gatherAgree(true)
-                .build();
-        user.setAuthentication(authentication);
 
         Password password = Password.builder()
                 .user(user)
@@ -198,7 +197,8 @@ public class LoginController {
 
     // 상품 검색 결과
     @GetMapping("/cf_search/result")
-    public String searchResult(Model model, @RequestParam("query") String query) {
+    public String searchResult(Model model,
+                               @RequestParam("query") String query) {
         if (!StringUtils.hasText(query)) {
             return "redirect:/cf_search_page";
         }
@@ -217,7 +217,8 @@ public class LoginController {
 
     // 상품 1개에 대한 상세
     @GetMapping(("/cf_goods/{name}"))
-    public String goodsPage(Model model, @PathVariable("name") String name) {
+    public String goodsPage(Model model,
+                            @PathVariable("name") String name) {
         model.addAttribute("goodsViewDetails", goodsService.findGoodsDetail(name));
         return "cf_goods_page";
     }
@@ -282,46 +283,35 @@ public class LoginController {
     }
 
     @GetMapping("/cf_recommendation_base")
-    public String recommendBasePage(Model model) {
+    public String recommendBasePage() {
         return "cf_recommendation_base_page";
     }
 
     @GetMapping("/cf_recommendation_base2")
-    public String recommendBasePage2(Model model, @RequestParam("abvLimit") String abvLimit) {
+    public String recommendBasePage2(Model model,
+                                     @RequestParam("abvLimit") String abvLimit) {
         model.addAttribute("abvLimit", abvLimit);
         return "cf_recommendation_base_page2";
     }
 
     @GetMapping("/cf_recommendation_daily")
-    public String recommendDailyPage(Model model) {
+    public String recommendDailyPage() {
         return "cf_recommendation_daily_page";
     }
 
     @GetMapping("/cf_recommendation_daily2")
-    public String recommendDailyPage2(Model model, @RequestParam("feeling") String feeling) {
-
+    public String recommendDailyPage2(@AuthenticationPrincipal String username,
+                                      @RequestParam String feeling) {
+        recommendationComponent.setUserRecommendationDaily(
+                UserRecommendationDailyRequest.builder()
+                        .username(username)
+                        .recentFeeling(feeling)
+                        .build()
+        );
 
         return "cf_recommendation_daily_page2";
     }
 
-    @PostMapping("/user_recommendation")
-    @ResponseBody
-    public ResponseEntity<?> setUserRecommendation(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestBody UserRecommendationBaseRequest request) {
-        // 사용자 이름(username) 가져오기
-        String username = userDetails.getUsername();
-
-        UserRecommendationBaseRequest userRequest = UserRecommendationBaseRequest.builder()
-                .username(username)
-                .abvLimit(request.getAbvLimit())
-                .preferredCategory(request.getPreferredCategory())
-                .build();
-
-        // request 를 처리 컴포넌트에 넘겨서 알아서 저장
-        // 성공시 ok, 실패시 badRequest
-
-        return ResponseEntity.ok().build();
-    }
 
     // 사용자 계정 테스트
     @GetMapping("/")

@@ -83,6 +83,103 @@
 
 <script th:inline="javascript">
 
+    let goodsViewList = getRecommendationDaily();
+
+    for (let i = 0; i < goodsViewList.length; i++) {
+        createFormRecommendProductCard(goodsViewList[0]);
+    }
+
+    function getRecommendationDaily() {
+        $.ajax({
+            type: "GET",
+            url: "/api/v1/recommendation/daily",
+            async: false,
+            success: function (data) {
+                goodsViewList = data;
+            }
+        });
+        return goodsViewList;
+    }
+
+    function createFormRecommendProductCard(goodsView) {
+
+        const recommendTodayProductCard = document.createElement("div");
+        recommendTodayProductCard.setAttribute("class", "recommend-today-product-card");
+
+        const photoContainer120px = document.createElement("div");
+        photoContainer120px.setAttribute("class", "photo_container_120px");
+
+        const photoContainer120pxImg = document.createElement("div");
+        photoContainer120pxImg.setAttribute("class", "photo_container_120px_img");
+
+        const image81 = document.createElement("img");
+        image81.setAttribute("class", "image-81");
+        image81.setAttribute("src", goodsView.imageUrl);  // GoodsView.imageUrl
+
+        const recommendTodayProductInfo = document.createElement("div");
+        recommendTodayProductInfo.setAttribute("class", "recommend-today-product-info");
+
+        const recommendTodayProductName = document.createElement("div");
+        recommendTodayProductName.setAttribute("class", "recommend-today-product-name");
+
+        const recommendTodayType = document.createElement("div");
+        recommendTodayType.setAttribute("class", "recommend-today-type");
+        recommendTodayType.innerText = goodsView.type;    // GoodsView.type
+
+        const recommendTodayName = document.createElement("div");
+        recommendTodayName.setAttribute("class", "recommend-today-name");
+        recommendTodayName.innerText = goodsView.name;    // GoodsView.name
+
+        const recommendTodayCaption = document.createElement("div");
+        recommendTodayCaption.setAttribute("class", "recommend-today-caption");
+
+        const starScoreReview = document.createElement("div");
+        starScoreReview.setAttribute("class", "star-score-review");
+
+        const starScoreReviewImg = document.createElement("img");
+        starScoreReviewImg.setAttribute("src", "/images/ic_star_10px.png");
+        starScoreReviewImg.setAttribute("class", "ic_star_10px");
+
+        const starScoreReviewDiv = document.createElement("div");
+        starScoreReviewDiv.setAttribute("class", "star-score-review");
+
+        const recommendStarRating = document.createElement("div");
+        recommendStarRating.setAttribute("class", "recommend-star-rating");
+        recommendStarRating.innerText = goodsView.score;      // GoodsView.score
+
+        const recommendReviews = document.createElement("div");
+        recommendReviews.setAttribute("class", "recommend-reviews");
+        recommendReviews.innerText = goodsView.reviewCount;        // GoodsView.reviewCount
+
+        const recommendWrapChip = document.createElement("div");
+        recommendWrapChip.setAttribute("class", "recommend-wrap-chip");
+
+        const recommendChip = document.createElement("div");
+        recommendChip.setAttribute("class", "recommend-chip");
+
+        const recommendChipLabel = document.createElement("div");
+        recommendChipLabel.setAttribute("class", "recommend-chip-label");
+        recommendChipLabel.innerText = goodsView.label;       // GoodsView.label
+
+        recommendChip.appendChild(recommendChipLabel);
+        recommendWrapChip.appendChild(recommendChip);
+        starScoreReviewDiv.appendChild(recommendStarRating);
+        starScoreReviewDiv.appendChild(recommendReviews);
+        starScoreReview.appendChild(starScoreReviewImg);
+        starScoreReview.appendChild(starScoreReviewDiv);
+        recommendTodayCaption.appendChild(starScoreReview);
+        recommendTodayCaption.appendChild(recommendWrapChip);
+        recommendTodayProductName.appendChild(recommendTodayType);
+        recommendTodayProductName.appendChild(recommendTodayName);
+        recommendTodayProductInfo.appendChild(recommendTodayProductName);
+        recommendTodayProductInfo.appendChild(recommendTodayCaption);
+        photoContainer120pxImg.appendChild(image81);
+        photoContainer120px.appendChild(photoContainer120pxImg);
+        photoContainer120px.appendChild(recommendTodayProductInfo);
+        recommendTodayProductCard.appendChild(photoContainer120px);
+
+        return recommendTodayProductCard;
+    }
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.joolove.core.domain.auth;
+package com.joolove.core.domain.member;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.member.User;
@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "auth")
+@Table(schema = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Authentication extends BaseTimeStamp {
+public class UserPersonal extends BaseTimeStamp {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "authentication_id", columnDefinition = "BINARY(16)")
+    @Column(name = "user_personal_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -36,11 +36,6 @@ public class Authentication extends BaseTimeStamp {
 
     private String phoneNumber;
 
-    @NotBlank
-    @Column(unique = true)
-    @Email
-    private String email;
-
     private String sex;
 
     private LocalDate birthday;
@@ -48,12 +43,11 @@ public class Authentication extends BaseTimeStamp {
     private String country;
 
     @Builder
-    public Authentication(UUID id, User user, Boolean gatherAgree, String phoneNumber, String email, String sex, LocalDate birthday, String country) {
+    public UserPersonal(UUID id, User user, Boolean gatherAgree, String phoneNumber, String sex, LocalDate birthday, String country) {
         this.id = id;
         this.user = user;
         this.gatherAgree = gatherAgree;
         this.phoneNumber = phoneNumber;
-        this.email = email;
         this.sex = sex;
         this.birthday = birthday;
         this.country = country;
@@ -61,12 +55,11 @@ public class Authentication extends BaseTimeStamp {
 
     @Override
     public String toString() {
-        return "Authentication{" +
+        return "UserPersonal{" +
                 "id=" + id +
                 ", user=" + user +
                 ", gatherAgree=" + gatherAgree +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthday=" + birthday +
                 ", country='" + country + '\'' +

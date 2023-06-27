@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @Slf4j
@@ -130,9 +131,9 @@ public class RecommendationComponent {
     }
 
     // 사용자가 어떤 상품을 직접 '클릭' 하거나 '검색' 할 때 호출된다.
-    public boolean setUserActivityRecommendation(String username, UserActivityElements userActivityElements) {
+    public boolean setUserActivityRecommendation(UserActivityElements userActivityElements) {
         try {
-            updateUserActivityElements(username, userActivityElements);
+            updateUserActivityElements(userActivityElements);
         } catch (Exception e) {
             log.error("setUserActivityRecommendation error : {}", e.getMessage());
             return false;
@@ -169,13 +170,13 @@ public class RecommendationComponent {
         String feeling = userRecommendationDailyRequest.getRecentFeeling();
         EEmotion recentFeeling = EEmotion.BLANK;
 
-        if (EEmotion.valueOf(feeling) == EEmotion.HAPPY) {
+        if (Objects.equals(feeling, "기뻐요")) {
             recentFeeling = EEmotion.HAPPY;
-        } else if (EEmotion.valueOf(feeling) == EEmotion.SMILE) {
+        } else if (Objects.equals(feeling, "즐거워요")) {
             recentFeeling = EEmotion.SMILE;
-        } else if (EEmotion.valueOf(feeling) == EEmotion.SAD) {
+        } else if (Objects.equals(feeling, "슬퍼요")) {
             recentFeeling = EEmotion.SAD;
-        } else if (EEmotion.valueOf(feeling) == EEmotion.ANGRY) {
+        } else if (Objects.equals(feeling, "화나요")) {
             recentFeeling = EEmotion.ANGRY;
         }
 
@@ -187,12 +188,12 @@ public class RecommendationComponent {
         userRecommendationService.addUserRecommendationDaily(userRecommendationDaily);
     }
 
-    private void updateUserActivityElements(String username, UserActivityElements userActivityElements)
+    private void updateUserActivityElements(UserActivityElements userActivityElements)
             throws UsernameNotFoundException {
 
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(userActivityElements.getUsername());
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username : " + username);
+            throw new UsernameNotFoundException("User not found with username : " + userActivityElements.getUsername());
         }
 
         UserActivityLog userActivityLog = UserActivityLog.builder()
