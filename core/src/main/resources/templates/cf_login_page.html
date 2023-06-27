@@ -286,9 +286,9 @@
 
                 try {
                     const data = await checkEmailExists(email);
-                    if (data === "valid-correct-access") {
+                    if (data === "valid-correct") {
                         sendLoginForm('/cf_login2', email);
-                    } else if (data === "valid-incorrect-access") {
+                    } else if (data === "valid-incorrect") {
                         $("#incorrect").modal();
                     } else {
                         $("#invalid").modal();

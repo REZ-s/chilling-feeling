@@ -9,4 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface SocialLoginRepository extends JpaRepository<SocialLogin, UUID> {
+
+    boolean existsByUser(User user);
 }

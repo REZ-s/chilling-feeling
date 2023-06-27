@@ -11,22 +11,17 @@ import com.joolove.core.domain.product.GoodsStats;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SigninRequest;
 import com.joolove.core.dto.request.SignupRequest;
-import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.repository.*;
-import com.joolove.core.security.jwt.repository.AuthenticationRepository;
 import com.joolove.core.security.jwt.repository.PasswordRepository;
-import com.joolove.core.security.service.UserPrincipal;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.EmailServiceImpl;
 import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
 import com.joolove.core.utils.algorithm.RecommendationComponent;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +32,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @Controller
@@ -45,8 +41,8 @@ public class LoginController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final AuthenticationRepository authenticationRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SocialLoginRepository socialLoginRepository;
     private final GoodsService goodsService;
     private final EmailServiceImpl emailService;
     private final SMSServiceImpl smsService;
@@ -107,15 +103,16 @@ public class LoginController {
     @PostMapping("/check_email")
     @ResponseBody
     public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) {
-        if (authenticationRepository.existsByEmail(email)) {
-            if (userRepository.existsByUsername(email)) {
-                return ResponseEntity.ok().body("valid-correct-access");
-            }
-
-            return ResponseEntity.ok().body("valid-incorrect-access");
+        User user = userService.findByUsername(email);
+        if (user == null) {
+            return ResponseEntity.ok().body("invalid");
         }
 
-        return ResponseEntity.ok().body("invalid");
+        if (socialLoginRepository.existsByUser(user)) {
+            return ResponseEntity.ok().body("valid-correct");
+        }
+
+        return ResponseEntity.ok().body("valid-incorrect");
     }
 
     @PostMapping("/check_password")
