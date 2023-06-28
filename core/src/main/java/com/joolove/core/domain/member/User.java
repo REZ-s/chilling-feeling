@@ -1,4 +1,4 @@
-package com.joolove.core.domain.member;
+    package com.joolove.core.domain.member;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.auth.*;

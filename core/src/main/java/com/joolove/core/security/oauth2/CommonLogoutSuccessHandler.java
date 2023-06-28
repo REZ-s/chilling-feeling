@@ -34,8 +34,7 @@ public class CommonLogoutSuccessHandler implements LogoutHandler {
 
         if (refreshTokenService.findByToken(refreshToken) != null) {
             RefreshToken token = refreshTokenService.findByToken(refreshToken);
-            User user = userService.findByUsername(token.getUser().getUsername());
-
+            User user = token.getUser();
             logoutTokenService.createRefreshToken(user.getId());
             refreshTokenService.deleteByUser(user);
         }

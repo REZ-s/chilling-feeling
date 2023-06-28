@@ -76,23 +76,34 @@ public class GoodsService {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.ASC, "opt5Value"));
         }
 
-        // 예) '위스키','와인','베스트'
-        String typeOrLabelStr = "'" + String.join("','", typeOrLabel) + "'";
+        List<IGoodsView> iGoodsViewList;
+        String typeOrLabelStr = null;
+        if (typeOrLabel != null && !typeOrLabel.isEmpty()) {
+            typeOrLabelStr = "'" + String.join("','", typeOrLabel) + "'";    // 예) '위스키','와인','베스트'
+        }
 
         /*
-        MySQL 에서는 in like 를 동시 지원하지 않는다.
-        따라서 아래처럼 하고싶으면 FTS 를 고려해야한다.
+        MySQL 에서는 in like 를 동시에 사용할 수 없다.
+        따라서 아래 예처럼 검색하고 싶으면 FTS 등 다른 방식을 고려해야한다.
         예) '%위스키%','%와인%','%베스트%'
         */
 
         if (goodsNameList == null || goodsNameList.isEmpty()) {
-            return goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabelStr, pagingInfo);
+            if (StringUtils.isBlank(typeOrLabelStr)) {
+                iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, pagingInfo);
+            } else {
+                iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabelStr, pagingInfo);
+            }
+        } else {
+            String goodsName = String.join(" ", goodsNameList);     // 예) '짐빔 그라몰랑 세이비어'
+
+            if (StringUtils.isBlank(typeOrLabelStr)) {
+                iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, goodsName, pagingInfo);
+            } else {
+                iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabelStr, goodsName, pagingInfo);
+            }
         }
 
-        // 예) '짐빔 그라몰랑 세이비어'
-        String goodsName = String.join(" ", goodsNameList);
-
-        List<IGoodsView> iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabelStr, goodsName, pagingInfo);
         return iGoodsViewList.size() > 100 ? iGoodsViewList.subList(0, 100) : iGoodsViewList;
     }
 

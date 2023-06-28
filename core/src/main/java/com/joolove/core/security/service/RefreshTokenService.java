@@ -71,7 +71,7 @@ public class RefreshTokenService {
     }
 
     public int deleteByUser(User user) {
-        return refreshTokenRepository.deleteByUser(userRepository.findByUsername(user.getUsername()).get());
+        return refreshTokenRepository.deleteByUser(user);
     }
 
     public int deleteByToken(String token) {

@@ -53,7 +53,11 @@ public class RecommendationComponent {
         List<ECategory> preferredCategories = userRecommendationElements.getPreferredCategories();
         List<String> typeOrLabelList = new ArrayList<>();
         for (ECategory category : preferredCategories) {
-            typeOrLabelList.add(getKRTypeOrLabel(category));
+            String nowTypeOrLabel = getKRTypeOrLabel(category);
+            if (Objects.equals(nowTypeOrLabel, "전체")) {
+                continue;
+            }
+            typeOrLabelList.add(nowTypeOrLabel);
         }
 
         EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
