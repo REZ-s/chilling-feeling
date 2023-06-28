@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -36,12 +35,11 @@
             <div class="recommend-today2-subtitle">오늘의 기분과 딱 맞는 술을 보여드릴게요!</div>
         </div>
 
-        <div class="wrap-recommend-today-product-card">
-            <div class="recommend-today-product-card">
+        <div class="wrap-recommend-today-product-card" id="recommendProductList">
+<!--        <div class="recommend-today-product-card">
                 <div class="photo_container_120px">
                     <div class="photo_container_120px_img">
                         <img class="image-81" src="/images/item-rep01.png">
-
                     </div>
                     <img src="/images/ic_heart_24px.png" class="ic_heart_recommend_24px">
                 </div>
@@ -71,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 
@@ -84,28 +82,45 @@
 <script th:inline="javascript">
 
     let goodsViewList;
+    let goodsViewListIndex;
+    let recommendProductList = document.getElementById("recommendProductList");
+    let recommendProductListLength; // 화면에 출력할 상품 개수
 
-    getRecommendationDaily();
-    for (let i = 0; i < goodsViewList.length; i++) {
-        createFormRecommendProductCard(goodsViewList[0]);
+    init();
+
+    async function init() {
+        goodsViewListIndex = 0;
+        recommendProductListLength = 3;
+        await getRecommendationDaily();
+        displayRecommendationGoodsList();
     }
 
-    function getRecommendationDaily() {
-        $.ajax({
-            type: "GET",
-            url: "/api/v1/recommendation/daily",
-            async: false,
-            success: function (data) {
-                goodsViewList = data;
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
+    document.getElementById("nextBtn").addEventListener("click", function() {
+        displayRecommendationGoodsList();
+    });
+
+    function displayRecommendationGoodsList() {
+        recommendProductList.innerHTML = "";
+        for (let i = 0; i < recommendProductListLength; i++) {
+            recommendProductList.appendChild(createFormRecommendProductCard(goodsViewList[goodsViewListIndex]));
+            goodsViewListIndex = (goodsViewListIndex + 1) % goodsViewList.length;
+        }
+    }
+
+    async function getRecommendationDaily() {
+        try {
+            const response = await fetch("/api/v1/recommendation/daily");
+            if (response.ok) {
+                return goodsViewList = await response.json();
+            } else {
+                throw new Error("Error: " + response.status);
             }
-        });
+        } catch (error) {
+            console.log("ERROR: " + error.message);
+        }
     }
 
     function createFormRecommendProductCard(goodsView) {
-
         const recommendTodayProductCard = document.createElement("div");
         recommendTodayProductCard.setAttribute("class", "recommend-today-product-card");
 
@@ -127,7 +142,17 @@
 
         const recommendTodayType = document.createElement("div");
         recommendTodayType.setAttribute("class", "recommend-today-type");
-        recommendTodayType.innerText = goodsView.type;    // GoodsView.type
+
+        const recommendTodaySubType = document.createElement("span");
+        recommendTodaySubType.setAttribute("class", "recommend-today-subtype");
+
+        const typeArray = goodsView.type.split(" ");    // GoodsView.type
+        if (typeArray.length < 2) {
+            recommendTodayType.innerText = goodsView.type;
+        } else {
+            recommendTodayType.innerText = typeArray[0] + "  ";
+            recommendTodaySubType.innerText = "( " + typeArray[1] + " )";    // GoodsView.subType
+        }
 
         const recommendTodayName = document.createElement("div");
         recommendTodayName.setAttribute("class", "recommend-today-name");
@@ -148,11 +173,23 @@
 
         const recommendStarRating = document.createElement("div");
         recommendStarRating.setAttribute("class", "recommend-star-rating");
-        recommendStarRating.innerText = goodsView.score;      // GoodsView.score
+        const score = goodsView.score;      // GoodsView.score
+        if (score === null) {
+            recommendStarRating.innerText = "0.0";
+        } else {
+            recommendStarRating.innerText = score.toFixed(1);
+        }
 
         const recommendReviews = document.createElement("div");
         recommendReviews.setAttribute("class", "recommend-reviews");
-        recommendReviews.innerText = goodsView.reviewCount;        // GoodsView.reviewCount
+        const reviewCount = goodsView.reviewCount;      // GoodsView.reviewCount
+        if (reviewCount === null || reviewCount === 0) {
+            recommendReviews.innerText = "(0)";
+        } else if (reviewCount < 100) {
+            recommendReviews.innerText = "(" + reviewCount + ")";
+        } else {
+            recommendReviews.innerText = "(99+)";
+        }
 
         const recommendWrapChip = document.createElement("div");
         recommendWrapChip.setAttribute("class", "recommend-wrap-chip");
@@ -162,7 +199,10 @@
 
         const recommendChipLabel = document.createElement("div");
         recommendChipLabel.setAttribute("class", "recommend-chip-label");
-        recommendChipLabel.innerText = goodsView.label;       // GoodsView.label
+        const label = goodsView.label;       // GoodsView.label
+        if (label === null) {
+            recommendChipLabel.innerText = "추천";
+        }
 
         recommendChip.appendChild(recommendChipLabel);
         recommendWrapChip.appendChild(recommendChip);
@@ -172,14 +212,15 @@
         starScoreReview.appendChild(starScoreReviewDiv);
         recommendTodayCaption.appendChild(starScoreReview);
         recommendTodayCaption.appendChild(recommendWrapChip);
+        recommendTodayType.appendChild(recommendTodaySubType);
         recommendTodayProductName.appendChild(recommendTodayType);
         recommendTodayProductName.appendChild(recommendTodayName);
         recommendTodayProductInfo.appendChild(recommendTodayProductName);
         recommendTodayProductInfo.appendChild(recommendTodayCaption);
         photoContainer120pxImg.appendChild(image81);
         photoContainer120px.appendChild(photoContainer120pxImg);
-        photoContainer120px.appendChild(recommendTodayProductInfo);
         recommendTodayProductCard.appendChild(photoContainer120px);
+        recommendTodayProductCard.appendChild(recommendTodayProductInfo);
 
         return recommendTodayProductCard;
     }

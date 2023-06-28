@@ -5271,7 +5271,7 @@ input.login1-form::placeholder {
 }
 
 .recommend-today-product-name {
-    height: 44px;
+    /*height: 44px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -5295,9 +5295,24 @@ input.login1-form::placeholder {
     text-align: left;
     color: #fff;
 }
+.recommend-today-subtype {
+    height: 22px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #fff;
+}
+
 
 .recommend-today-name {
-    height: 22px;
+    /*height: 22px;*/
     align-self: stretch;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5354,7 +5369,7 @@ input.login1-form::placeholder {
 }
 
 .recommend-wrap-chip {
-    width: 36px;
+    /*width: 36px;*/
     height: 20px;
     flex-grow: 0;
     display: flex;
@@ -5376,7 +5391,7 @@ input.login1-form::placeholder {
 }
 
 .recommend-chip-label {
-    width: 28px;
+    /*width: 28px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5386,7 +5401,7 @@ input.login1-form::placeholder {
     font-style: normal;
     line-height: 2;
     letter-spacing: -0.2px;
-    text-align: left;
+    text-align: center;
     color: #afafaf;
 }
 

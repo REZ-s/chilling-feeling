@@ -27,6 +27,13 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "and match(gd.name) against (concat('*', ?3, '*') in boolean mode) ", nativeQuery = true)
     List<IGoodsView> findRecommendationGoodsListByGoodsNameList(String abvLimit, String typeOrLabels, String goodsNames, Pageable pagingInfo);
 
+    @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
+            "from goods_details gd inner join goods_stats gs " +
+            "on gd.goods_id = gs.goods_id " +
+            "and gd.degree <= ?1 " +
+            "and match(gd.name) against (concat('*', ?2, '*') in boolean mode) ", nativeQuery = true)
+    List<IGoodsView> findRecommendationGoodsListByGoodsNameList(String abvLimit, String goodsNames, Pageable pagingInfo);
+
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
             "from GoodsDetails gd inner join GoodsStats gs " +
@@ -34,6 +41,13 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "and (gd.type in (?2) or gs.label = ?2) " +
             "and gd.degree <= ?1")
     List<IGoodsView> findRecommendationGoodsList(String abvLimit, String typeOrLabels, Pageable pageable);
+
+    @Query("select new com.joolove.core.dto.query.GoodsView(" +
+            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
+            "from GoodsDetails gd inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "and gd.degree <= ?1")
+    List<IGoodsView> findRecommendationGoodsList(String abvLimit, Pageable pageable);
 
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
