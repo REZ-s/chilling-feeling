@@ -34,7 +34,9 @@
                 </button>
                 <div class="wrap-cart-total-select-label">
                     <div class="cart-total-select-label">전체선택</div>
-                    <div class="cart-total-select-counting-zero" id="choiceCount">(0/0)</div>
+                    <div class="cart-total-select-counting-zero">
+                        (<span id="choiceCount">0</span>/<span class="cart-total-count">0</span>)
+                    </div>
                 </div>
             </div>
             <div class="cart-delete">선택삭제</div>
@@ -50,11 +52,12 @@
         <div class="wrap-cart-product-cards-counting">
             <div class="wrap-cart-product-total-counting">
                 <div class="cart-product-total-counting-label">총 주문 상품 수</div>
-                <div class="cart-product-total-counting" id="totalCount">1개</div>
+                <div class="cart-product-total-counting"><span class="cart-total-count">1</span>개</div>
             </div>
 
-            <div class="wrap-cart-product-cards">
+            <div class="wrap-cart-product-cards" id="cardsFrame">
                 <!-- 상품 1개 -->
+                <!--
                 <div class="wrap-cart-product-card">
                     <div class="wrap-check-delete">
                         <button class="check-box" id="cb1">
@@ -78,7 +81,7 @@
                             <div class="wrap-btn-counting">
                                 <div class="btn-counting">
                                     <img src="/images/ic_minus.png" class="ic_minus">
-                                    <div class="btn-counting-label" id="goodsNowCount1">1</div>
+                                    <div class="btn-counting-label" id="goodsCount1">1</div>
                                     <img src="/images/ic_plus.png" class="ic_plus">
                                 </div>
                             </div>
@@ -88,10 +91,10 @@
                             <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl1">
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <!-- 상품 2개 -->
-                <div class="wrap-cart-product-card">
+<!--                <div class="wrap-cart-product-card">
                     <div class="wrap-check-delete">
                         <button class="check-box" id="cb2">
                             <img src="/images/check_box.png">
@@ -114,7 +117,7 @@
                             <div class="wrap-btn-counting">
                                 <div class="btn-counting">
                                     <img src="/images/ic_minus.png" class="ic_minus">
-                                    <div class="btn-counting-label" id="goodsNowCount2">1</div>
+                                    <div class="btn-counting-label" id="goodsCount2">1</div>
                                     <img src="/images/ic_plus.png" class="ic_plus">
                                 </div>
                             </div>
@@ -124,7 +127,7 @@
                             <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl2">
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -136,22 +139,276 @@
 
 <script th:inline="javascript">
 
-    // cbAll, cb1, cb2, ... , cbN 누르면 활성화 이미지로 변경
-    // cbAll 누르면 cb1, cb2, ... , cbN 모두 활성화 이미지로 변경
-    // cb1, cb2, ... , cbN 중 하나라도 비활성화 이미지면 cbAll도 비활성화 이미지로 변경
-    // cb1, cb2, ... , cbN 모두 활성화 이미지면 cbAll도 활성화 이미지로 변경
+    /*<![CDATA[*/
+    let goodsViewList = /*[[${goodsViewList}]]*/ [];
+    /*]]>*/
 
-    toggleCheckbox("cbAll");
+    let cbAllElement = document.getElementById('cbAll');
+    let cardsFrameElement = document.getElementById('cardsFrame');
+    let totalCountElementList = document.getElementsByClassName('cart-total-count');
+    let choiceCountElement = document.getElementById('choiceCount');
+    let cbBtnElements;
+    let cardCloseBtnElements;
+    let plusBtnElements;
+    let minusBtnElements;
 
-    function toggleCheckbox(checkboxId) {
-        const checkbox = document.getElementById(checkboxId);
-        const image = document.getElementById(`img${checkboxId}`);
-
-        if (checkbox.checked) {
-            image.src = "active_img.png"; // 활성화된 이미지로 변경
-        } else {
-            image.src = "inactive_img.png"; // 비활성화된 이미지로 변경
+    init();
+    function init() {
+        for (let i = 0; i < goodsViewList.length; i++) {
+            cardsFrameElement.appendChild(createCartProductCard(goodsViewList[i], i));
         }
+
+        for (let i = 0; i < totalCountElementList.length; i++) {
+            totalCountElementList[i].innerText = cardsFrameElement.childElementCount.toString();
+        }
+
+        updateCbBtnElements();
+        updateCardCloseBtnElements();
+        updatePlusBtnElements();
+        updateMinusBtnElements();
+    }
+
+    function updateCbBtnElements() {
+        return cbBtnElements = document.querySelectorAll('[id*="cb"]');
+    }
+
+    function updateCardCloseBtnElements() {
+        return cardCloseBtnElements = document.querySelectorAll('[id*="close"]');
+    }
+
+    function updatePlusBtnElements() {
+        return plusBtnElements = document.querySelectorAll('[class*="plus"]');
+    }
+
+    function updateMinusBtnElements() {
+        return minusBtnElements = document.querySelectorAll('[class*="minus"]');
+    }
+
+    function getCheckedBoxCount() {
+        let count = 0;
+
+        for (let i = 0; i < cbBtnElements.length; i++) {
+            if (cbBtnElements[i] === cbAllElement || cbBtnElements[i].className === 'check-box') {
+                continue;
+            }
+            count++;
+        }
+
+        return count;
+    }
+
+    function updateTotalCountElement() {
+        for (let i = 0; i < totalCountElementList.length; i++) {
+            totalCountElementList[i].innerText = cardsFrameElement.childElementCount.toString();
+        }
+    }
+
+    function updateChoiceCountElement() {
+        choiceCountElement.innerText = getCheckedBoxCount().toString();
+    }
+
+    plusBtnElements.forEach(function(plusBtn) {
+        plusBtn.addEventListener('click', function() {
+            let parentElement = plusBtn.parentElement;
+            let goodsCountElement = parentElement.querySelector('[id*="Count"]');
+            let goodsCount = parseInt(goodsCountElement.innerText);
+
+            goodsCountElement.innerText = (goodsCount + 1).toString();
+        });
+    });
+
+    minusBtnElements.forEach(function(minusBtn) {
+        minusBtn.addEventListener('click', function() {
+            let parentElement = minusBtn.parentElement;
+            let goodsCountElement = parentElement.querySelector('[id*="Count"]');
+            let goodsCount = parseInt(goodsCountElement.innerText);
+
+            if (goodsCount > 1) {
+                goodsCountElement.innerText = (goodsCount - 1).toString();
+            }
+        });
+    });
+
+    cardCloseBtnElements.forEach(function(card) {
+        card.addEventListener("click", function() {
+            let parentElement = card.parentElement.parentElement;
+
+            if (parentElement != null
+                && parentElement.className === 'wrap-cart-product-card') {
+
+                cardsFrameElement.removeChild(parentElement);
+                updateCbBtnElements();
+                updateCardCloseBtnElements();
+                updateTotalCountElement();
+                updateChoiceCountElement();
+                updateCbAll();
+            }
+        });
+    });
+
+    cbBtnElements.forEach(function(cbBtn) {
+        cbBtn.addEventListener('click', function() {
+            if (cbBtn === cbAllElement) {
+                return;
+            }
+
+            if (cbBtn.className === 'check-box') {
+                cbBtn.className = 'check-box-pressed';
+                cbBtn.firstElementChild.src = '/images/check_box_pressed.png';
+            } else {
+                cbBtn.className = 'check-box';
+                cbBtn.firstElementChild.src = '/images/check_box.png';
+            }
+
+            updateChoiceCountElement();
+            updateCbAll();
+        });
+    });
+
+    cbAllElement.addEventListener('click', function () {
+        if (cbAllElement.className === 'check-box') {
+            cbAllElement.classList.remove('check-box');
+            cbAllElement.classList.add('check-box-pressed');
+            cbAllElement.firstElementChild.src = '/images/check_box_pressed.png';
+
+            cbBtnElements.forEach(function(cbBtn) {
+                cbBtn.classList.remove('check-box');
+                cbBtn.classList.add('check-box-pressed');
+                cbBtn.firstElementChild.src = '/images/check_box_pressed.png';
+                updateChoiceCountElement();
+            });
+        } else {
+            cbAllElement.classList.remove('check-box-pressed');
+            cbAllElement.classList.add('check-box');
+            cbAllElement.firstElementChild.src = '/images/check_box.png';
+
+            cbBtnElements.forEach(function(cbBtn) {
+                cbBtn.classList.remove('check-box-pressed');
+                cbBtn.classList.add('check-box');
+                cbBtn.firstElementChild.src = '/images/check_box.png';
+                updateChoiceCountElement();
+            });
+        }
+    });
+
+    function updateCbAll() {
+        let allChecked = true;
+
+        cbBtnElements.forEach(function(cbBtn) {
+            if (cbBtn === cbAllElement) {
+                return;
+            }
+
+            if (cbBtn.className === 'check-box') {
+                allChecked = false;
+            }
+        });
+
+        if (allChecked) {
+            cbAllElement.classList.remove('check-box');
+            cbAllElement.classList.add('check-box-pressed');
+            cbAllElement.firstElementChild.src = '/images/check_box_pressed.png';
+        } else {
+            cbAllElement.classList.remove('check-box-pressed');
+            cbAllElement.classList.add('check-box');
+            cbAllElement.firstElementChild.src = '/images/check_box.png';
+        }
+    }
+
+    function createCartProductCard(goodsView, index) {
+        const parentElement = document.createElement('div');
+        parentElement.id = 'card' + index;
+        parentElement.classList.add('wrap-cart-product-card');
+
+        const checkDeleteElement = document.createElement('div');
+        checkDeleteElement.classList.add('wrap-check-delete');
+        const checkBoxElement = document.createElement('button');
+        checkBoxElement.classList.add('check-box');
+        checkBoxElement.id = 'cb' + index;
+        const checkBoxImage = document.createElement('img');
+        checkBoxImage.src = '/images/check_box.png';
+        checkBoxElement.appendChild(checkBoxImage);
+        checkDeleteElement.appendChild(checkBoxElement);
+
+        const closeImageElement = document.createElement('img');
+        closeImageElement.classList.add('ic_close_14px');
+        closeImageElement.src = '/images/ic_close_14px.png';
+        closeImageElement.id = 'close' + index;
+        checkDeleteElement.appendChild(closeImageElement);
+        parentElement.appendChild(checkDeleteElement);
+
+        const productCardElement = document.createElement('div');
+        productCardElement.classList.add('cart-product-card');
+        const nameCountingElement = document.createElement('div');
+        nameCountingElement.classList.add('wrap-cart-name-counting');
+        const productNameElement = document.createElement('div');
+        productNameElement.classList.add('wrap-cart-product-name');
+        const nameTypeSubtypeElement = document.createElement('div');
+        nameTypeSubtypeElement.classList.add('wrap-cart-product-name-type-subtype');
+
+        const productTypeElement = document.createElement('div');
+        productTypeElement.classList.add('cart-product-name-type');
+        productTypeElement.id = 'goodsType' + index;
+
+        nameTypeSubtypeElement.appendChild(productTypeElement);
+        const chevronRightElement = document.createElement('img');
+        chevronRightElement.classList.add('ic_chevron_right_10px');
+        chevronRightElement.src = '/images/ic_chevron_right_10px.png';
+        nameTypeSubtypeElement.appendChild(chevronRightElement);
+
+        const productSubtypeElement = document.createElement('div');
+        productSubtypeElement.classList.add('cart-product-name-subtype');
+        productSubtypeElement.id = 'goodsSubType' + index;
+
+        nameTypeSubtypeElement.appendChild(productSubtypeElement);
+        productNameElement.appendChild(nameTypeSubtypeElement);
+
+        const typeArray = goodsView.type.split(" ");    // GoodsView.type
+        if (typeArray.length < 2) {
+            productTypeElement.textContent = goodsView.type;
+        } else {
+            productTypeElement.textContent = typeArray[0];
+            productSubtypeElement.textContent = typeArray[1];    // GoodsView.subType
+        }
+
+        const productNameElement2 = document.createElement('div');
+        productNameElement2.classList.add('cart-product-name');
+        productNameElement2.id = 'goodsName' + index;
+        productNameElement2.textContent = goodsView.name;    // GoodsView.name
+        productNameElement.appendChild(productNameElement2);
+        nameCountingElement.appendChild(productNameElement);
+        const btnCountingElement = document.createElement('div');
+        btnCountingElement.classList.add('wrap-btn-counting');
+        const countingElement = document.createElement('div');
+        countingElement.classList.add('btn-counting');
+        const minusImageElement = document.createElement('img');
+        minusImageElement.classList.add('ic_minus');
+        minusImageElement.src = '/images/ic_minus.png';
+        countingElement.appendChild(minusImageElement);
+        const countingLabelElement = document.createElement('div');
+        countingLabelElement.classList.add('btn-counting-label');
+        countingLabelElement.id = 'goodsCount' + index;
+        countingLabelElement.classList.add('cart-one-count');
+        countingLabelElement.textContent = '1';
+        countingElement.appendChild(countingLabelElement);
+        const plusImageElement = document.createElement('img');
+        plusImageElement.classList.add('ic_plus');
+        plusImageElement.src = '/images/ic_plus.png';
+        countingElement.appendChild(plusImageElement);
+        btnCountingElement.appendChild(countingElement);
+        nameCountingElement.appendChild(btnCountingElement);
+        productCardElement.appendChild(nameCountingElement);
+        const photoContainerElement = document.createElement('div');
+        photoContainerElement.classList.add('photo-container-85px');
+        const imageElement = document.createElement('img');
+        imageElement.classList.add('image-81');
+        imageElement.id = 'goodsImageUrl' + index;
+        imageElement.src = goodsView.imageUrl;    // GoodsView.imageUrl
+        photoContainerElement.appendChild(imageElement);
+        productCardElement.appendChild(photoContainerElement);
+        parentElement.appendChild(productCardElement);
+
+        return parentElement;
     }
 
 </script>

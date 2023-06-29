@@ -5497,9 +5497,9 @@ input.login1-form::placeholder {
     height: 20px;
     flex-grow: 0;
     object-fit: contain;
-    background-color: white;
     border: 0;
     padding: 0;
+    background-color: white;
 }
 
 .check-box-pressed {
@@ -5507,6 +5507,8 @@ input.login1-form::placeholder {
     height: 20px;
     flex-grow: 0;
     object-fit: contain;
+    border: 0;
+    padding: 0;
 }
 
 .wrap-cart-total-select-label {
@@ -5760,7 +5762,7 @@ input.login1-form::placeholder {
 }
 
 .cart-product-name-type {
-    width: 22px;
+/*    width: 22px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5775,7 +5777,7 @@ input.login1-form::placeholder {
 }
 
 .cart-product-name-subtype {
-    width: 55px;
+/*    width: 55px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5868,3 +5870,12 @@ input.login1-form::placeholder {
     object-fit: contain;
 }
 
+.cart-total-count {
+    /* for js code */
+}
+.cart-one-count {
+    /* for js code */
+}
+.cart-choice-count {
+    /* for js code */
+}

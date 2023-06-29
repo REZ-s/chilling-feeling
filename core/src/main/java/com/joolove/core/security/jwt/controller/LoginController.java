@@ -310,7 +310,8 @@ public class LoginController {
     }
 
     @GetMapping("/cf_cart")
-    public String cartPage() {
+    public String cartPage(Model model) {
+        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_cart_page";
     }
 
