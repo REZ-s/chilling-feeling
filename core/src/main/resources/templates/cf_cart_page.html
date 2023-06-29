@@ -17,12 +17,142 @@
     </style>
 </head>
 <body>
-<div class="">
+<div class="cart-container">
+    <!-- Header -->
+    <div class="cart-header">
+        <img class="ic_back_24px" src="/images/ic_back_black_24px.png">
+        <div class="cart-header-text">장바구니</div>
+        <img class="ic_close_24px" src="/images/ic_close_24px.png" >
+    </div>
 
+    <!-- Content -->
+    <div class="cart-contents">
+        <div class="wrap-cart-total-select-delete">
+            <div class="wrap-cart-total-select">
+                <button class="check-box" id="cbAll">
+                    <img src="/images/check_box.png">
+                </button>
+                <div class="wrap-cart-total-select-label">
+                    <div class="cart-total-select-label">전체선택</div>
+                    <div class="cart-total-select-counting-zero" id="choiceCount">(0/0)</div>
+                </div>
+            </div>
+            <div class="cart-delete">선택삭제</div>
+        </div>
+
+        <!-- 장바구니가 비었을 때 -->
+<!--        <div class="wrap-illust-text-cart-no-data">-->
+<!--            <img class="illust-no-data" src="/images/ic_x_face.png">-->
+<!--            <div class="text-cart-no-data">장바구니가 비었습니다.</div>-->
+<!--        </div>-->
+
+        <!-- 장바구니에 상품이 있을 때 -->
+        <div class="wrap-cart-product-cards-counting">
+            <div class="wrap-cart-product-total-counting">
+                <div class="cart-product-total-counting-label">총 주문 상품 수</div>
+                <div class="cart-product-total-counting" id="totalCount">1개</div>
+            </div>
+
+            <div class="wrap-cart-product-cards">
+                <!-- 상품 1개 -->
+                <div class="wrap-cart-product-card">
+                    <div class="wrap-check-delete">
+                        <button class="check-box" id="cb1">
+                            <img src="/images/check_box.png">
+                        </button>
+                        <img src="/images/ic_close_14px.png" class="ic_close_14px">
+                    </div>
+
+                    <div class="cart-product-card">
+                        <div class="wrap-cart-name-counting">
+                            <div class="wrap-cart-product-name">
+                                <div class="wrap-cart-product-name-type-subtype">
+                                    <div class="cart-product-name-type" id="goodsType1">와인</div>
+                                    <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
+                                    <div class="cart-product-name-subtype" id="goodsSubType1">화이트와인</div>
+                                </div>
+
+                                <div class="cart-product-name" id="goodsName1">레이크 찰리스 네스트 소비뇽 블랑</div>
+                            </div>
+
+                            <div class="wrap-btn-counting">
+                                <div class="btn-counting">
+                                    <img src="/images/ic_minus.png" class="ic_minus">
+                                    <div class="btn-counting-label" id="goodsNowCount1">1</div>
+                                    <img src="/images/ic_plus.png" class="ic_plus">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="photo-container-85px">
+                            <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 상품 2개 -->
+                <div class="wrap-cart-product-card">
+                    <div class="wrap-check-delete">
+                        <button class="check-box" id="cb2">
+                            <img src="/images/check_box.png">
+                        </button>
+                        <img src="/images/ic_close_14px.png" class="ic_close_14px">
+                    </div>
+
+                    <div class="cart-product-card">
+                        <div class="wrap-cart-name-counting">
+                            <div class="wrap-cart-product-name">
+                                <div class="wrap-cart-product-name-type-subtype">
+                                    <div class="cart-product-name-type" id="goodsType2">와인</div>
+                                    <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
+                                    <div class="cart-product-name-subtype" id="goodsSubType2">화이트와인</div>
+                                </div>
+
+                                <div class="cart-product-name" id="goodsName2">레이크 찰리스 네스트 소비뇽 블랑</div>
+                            </div>
+
+                            <div class="wrap-btn-counting">
+                                <div class="btn-counting">
+                                    <img src="/images/ic_minus.png" class="ic_minus">
+                                    <div class="btn-counting-label" id="goodsNowCount2">1</div>
+                                    <img src="/images/ic_plus.png" class="ic_plus">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="photo-container-85px">
+                            <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-btn-active">
+        <div class="cart-btn-default-label">주문하기</div>
+    </div>
 </div>
 
 <script th:inline="javascript">
 
+    // cbAll, cb1, cb2, ... , cbN 누르면 활성화 이미지로 변경
+    // cbAll 누르면 cb1, cb2, ... , cbN 모두 활성화 이미지로 변경
+    // cb1, cb2, ... , cbN 중 하나라도 비활성화 이미지면 cbAll도 비활성화 이미지로 변경
+    // cb1, cb2, ... , cbN 모두 활성화 이미지면 cbAll도 활성화 이미지로 변경
+
+    toggleCheckbox("cbAll");
+
+    function toggleCheckbox(checkboxId) {
+        const checkbox = document.getElementById(checkboxId);
+        const image = document.getElementById(`img${checkboxId}`);
+
+        if (checkbox.checked) {
+            image.src = "active_img.png"; // 활성화된 이미지로 변경
+        } else {
+            image.src = "inactive_img.png"; // 비활성화된 이미지로 변경
+        }
+    }
 
 </script>
 </body>
