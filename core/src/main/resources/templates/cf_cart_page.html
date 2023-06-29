@@ -43,13 +43,13 @@
         </div>
 
         <!-- 장바구니가 비었을 때 -->
-<!--        <div class="wrap-illust-text-cart-no-data">-->
-<!--            <img class="illust-no-data" src="/images/ic_x_face.png">-->
-<!--            <div class="text-cart-no-data">장바구니가 비었습니다.</div>-->
-<!--        </div>-->
+        <div class="wrap-illust-text-cart-no-data" id="emptyCartFrame" style="display: none">
+            <img class="illust-no-data" src="/images/ic_x_face.png">
+            <div class="text-cart-no-data">장바구니가 비었습니다.</div>
+        </div>
 
         <!-- 장바구니에 상품이 있을 때 -->
-        <div class="wrap-cart-product-cards-counting">
+        <div class="wrap-cart-product-cards-counting" id="containCartFrame">
             <div class="wrap-cart-product-total-counting">
                 <div class="cart-product-total-counting-label">총 주문 상품 수</div>
                 <div class="cart-product-total-counting"><span class="cart-total-count">1</span>개</div>
@@ -132,8 +132,12 @@
         </div>
     </div>
 
-    <div class="cart-btn-active">
+    <button class="cart-btn-active" id="orderBtn">
         <div class="cart-btn-default-label">주문하기</div>
+    </button>
+
+    <div class="cart-btn-default" id="emptyBtn" style="display: none">
+        <div class="cart-btn-default-label">상품을 담아주세요</div>
     </div>
 </div>
 
@@ -154,6 +158,14 @@
 
     init();
     function init() {
+        if (goodsViewList.length === 0) {
+            document.getElementById('containCartFrame').style.display = 'none';
+            document.getElementById('emptyCartFrame').style.display = 'flex';
+            document.getElementById('orderBtn').style.display = 'none';
+            document.getElementById('emptyBtn').style.display = 'flex';
+            return;
+        }
+
         for (let i = 0; i < goodsViewList.length; i++) {
             cardsFrameElement.appendChild(createCartProductCard(goodsViewList[i], i));
         }
@@ -237,6 +249,13 @@
                 && parentElement.className === 'wrap-cart-product-card') {
 
                 cardsFrameElement.removeChild(parentElement);
+                if (cardsFrameElement.childElementCount === 0) {
+                    document.getElementById('containCartFrame').style.display = 'none';
+                    document.getElementById('emptyCartFrame').style.display = 'flex';
+                    document.getElementById('orderBtn').style.display = 'none';
+                    document.getElementById('emptyBtn').style.display = 'flex';
+                }
+
                 updateCbBtnElements();
                 updateCardCloseBtnElements();
                 updateTotalCountElement();
