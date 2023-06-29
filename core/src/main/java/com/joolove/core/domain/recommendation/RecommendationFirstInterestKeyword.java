@@ -24,12 +24,12 @@ public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_recommendation_base_id")
     private UserRecommendationBase userRecommendationBase;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "interest_keyword_id")
     private InterestKeyword interestKeyword;
 

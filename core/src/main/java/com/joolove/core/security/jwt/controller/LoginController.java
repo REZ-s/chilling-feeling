@@ -311,6 +311,9 @@ public class LoginController {
 
     @GetMapping("/cf_cart")
     public String cartPage(Model model) {
+        // 사용자 이름으로 장바구니에 있는 상품만 조회해야한다.
+
+
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_cart_page";
     }

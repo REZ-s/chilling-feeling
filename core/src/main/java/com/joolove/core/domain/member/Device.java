@@ -72,7 +72,7 @@ public class Device extends BaseTimeStamp {
     }
 
     /* mappedBy */
-    @OneToMany(mappedBy = "device", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "device",  fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<LoginLog> loginLogs = new ArrayList<>();
 
     public void setLoginLogs(List<LoginLog> loginLogs) {

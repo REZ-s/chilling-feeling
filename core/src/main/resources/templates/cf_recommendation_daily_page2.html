@@ -177,7 +177,7 @@
         if (score === null) {
             recommendStarRating.innerText = "0.0";
         } else {
-            recommendStarRating.innerText = score.toFixed(1);
+            recommendStarRating.innerText = score;
         }
 
         const recommendReviews = document.createElement("div");
@@ -200,9 +200,7 @@
         const recommendChipLabel = document.createElement("div");
         recommendChipLabel.setAttribute("class", "recommend-chip-label");
         const label = goodsView.label;       // GoodsView.label
-        if (label === null) {
-            recommendChipLabel.innerText = "추천";
-        }
+        recommendChipLabel.innerText = label || "추천";
 
         recommendChip.appendChild(recommendChipLabel);
         recommendWrapChip.appendChild(recommendChip);

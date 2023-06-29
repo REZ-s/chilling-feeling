@@ -54,7 +54,7 @@ public class UserRecommendationBase extends BaseTimeStamp {
     }
 
     /* mappedBy */
-    @OneToMany(mappedBy = "userRecommendationBase")
+    @OneToMany(mappedBy = "userRecommendationBase", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RecommendationFirstInterestKeyword> recommendationFirstInterestKeywordList = new ArrayList<>();
 
     public void setRecommendationFirstInterestKeywordList(List<RecommendationFirstInterestKeyword> recommendationFirstInterestKeywordList) {

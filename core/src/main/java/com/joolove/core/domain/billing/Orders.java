@@ -62,7 +62,7 @@ public class Orders extends BaseTimeStamp {
     @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Payment payment;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<OrdersGoods> ordersGoodsList = new ArrayList<>();
 
     public void setPayment(Payment payment) {
