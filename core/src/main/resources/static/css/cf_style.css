@@ -1,19 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Jost');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-#NotoSansKR {
-    font-family: 'Noto Sans KR', serif;
-}
-
-#OpenSans {
-    font-family: 'Open Sans', serif;
-}
-
-#Jost {
-    font-family: 'Jost', serif;
-}
-
+/* 기본 세팅 */
 @media (min-width: 375px) {
     body {
         display: flex;
@@ -29,7 +19,6 @@
 .pw-field {
     /* for js code */
 }
-
 
 
 
@@ -5422,3 +5411,460 @@ input.login1-form::placeholder {
     flex-grow: 0;
     padding: 9.5px 1px;
 }
+
+/* 장바구니 */
+@media (min-width: 375px) {
+    .cart-container {
+        width: 375px;
+        min-height: 100vh;
+        flex-grow: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 40px 0 35px;
+        background-color: #fff;
+        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
+        0 1px 6px rgba(0, 23, 80, .015),
+        0 8px 8px rgba(0, 23, 80, .012),
+        0 16px 16px rgba(0, 23, 80, .012),
+        8px 32px 32px rgba(0, 23, 80, .018),
+        8px 64px 64px rgba(0, 23, 80, .018);
+    }
+}
+
+.cart-header {
+    height: 44px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.cart-header-text {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #000;
+}
+
+.cart-contents {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 13px;
+    padding: 0 20px;
+}
+
+.wrap-cart-total-select-delete {
+    height: 70px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0 20px;
+    border-bottom: solid 1px #000;
+}
+
+.wrap-cart-total-select {
+    height: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+}
+
+.check-box {
+    width: 20px;
+    height: 20px;
+    flex-grow: 0;
+    object-fit: contain;
+    background-color: white;
+    border: 0;
+    padding: 0;
+}
+
+.check-box-pressed {
+    width: 20px;
+    height: 20px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.wrap-cart-total-select-label {
+    width: 72px;
+    height: 20px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 0;
+}
+
+.cart-total-select-label {
+    height: 20px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #000;
+}
+
+.cart-total-select-counting-zero {
+    width: 26px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #dadada;
+}
+
+.cart-delete {
+    width: 44px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.wrap-illust-text-cart-no-data {
+    height: 266px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 80px 20px;
+}
+
+.illust-no-data {
+    width: 74px;
+    height: 74px;
+    flex-grow: 0;
+    padding: 9px 14px 9px 15px;
+}
+
+.text-cart-no-data {
+    width: 134px;
+    height: 22px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #afafaf;
+}
+
+.cart-btn-default {
+    width: 335px;
+    height: 50px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 3px;
+    background-color: #afafaf;
+}
+.cart-btn-active {
+    width: 335px;
+    height: 50px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 3px;
+    background-color: #004051;
+}
+
+.cart-btn-default-label {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #fff;
+}
+
+.wrap-cart-product-cards-counting {
+    height: 364px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 20px;
+    padding: 0;
+}
+
+.wrap-cart-product-total-counting {
+    height: 28px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 213px;
+    padding: 0;
+}
+
+.cart-product-total-counting-label {
+    height: 28px;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: left;
+    color: #000;
+}
+
+.cart-product-total-counting {
+    width: 24px;
+    height: 28px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: left;
+    color: #4a4a4a;
+}
+
+.wrap-cart-product-card {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+    padding: 20px 0;
+    border-bottom: solid 1px #dadada;
+}
+
+.wrap-check-delete {
+    height: 20px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.cart-product-card {
+    height: 85px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.wrap-cart-name-counting {
+    height: 82px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0;
+}
+
+.wrap-cart-product-name {
+    height: 42px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.wrap-cart-product-name-type-subtype {
+    width: 250px;
+    height: 20px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1px;
+    padding: 0;
+}
+
+.cart-product-name-type {
+    width: 22px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #7c7c7c;
+}
+
+.cart-product-name-subtype {
+    width: 55px;
+    height: 20px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: -0.24px;
+    text-align: left;
+    color: #7c7c7c;
+}
+
+.cart-product-name {
+    height: 22px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: left;
+    color: #000;
+}
+
+.photo-container-85px {
+    width: 85px;
+    height: 85px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background-color: #f6f6f6;
+}
+
+.wrap-btn-counting {
+    width: 85px;
+    height: 30px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0;
+}
+
+.btn-counting {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 30px;
+    border: solid 1px #dadada;
+}
+
+.btn-counting-label {
+    align-self: stretch;
+    flex-grow: 1;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+}
+
+.ic_minus {
+    width: 14px;
+    height: 14px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+
+.ic_plus {
+    width: 14px;
+    height: 14px;
+    flex-grow: 0;
+    object-fit: contain;
+}
+

@@ -309,6 +309,11 @@ public class LoginController {
         return "cf_recommendation_daily_page2";
     }
 
+    @GetMapping("/cf_cart")
+    public String cartPage() {
+        return "cf_cart_page";
+    }
+
 
     // 사용자 계정 테스트
     @GetMapping("/")
