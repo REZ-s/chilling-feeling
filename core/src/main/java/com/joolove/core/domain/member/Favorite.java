@@ -41,7 +41,7 @@ public class Favorite extends BaseTimeStamp {
     }
 
     /* mappedBy */
-    @OneToMany(mappedBy = "favorite")
+    @OneToMany(mappedBy = "favorite", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
 
     public void setFavoriteGoodsList(List<FavoriteGoods> favoriteGoodsList) {

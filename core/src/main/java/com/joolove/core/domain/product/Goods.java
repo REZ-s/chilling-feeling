@@ -61,16 +61,16 @@ public class Goods extends BaseTimeStamp {
     @OneToOne(mappedBy = "goods", cascade = CascadeType.PERSIST, optional = false)
     private GoodsDetails goodsDetail;
 
-    @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<GoodsDiscount> goodsDiscounts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<OrdersGoods> ordersGoodsList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "goods", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<GoodsRelatedKeyword> goodsRelatedKeywords = new ArrayList<>();
 
     public void setFavoriteGoodsList(List<FavoriteGoods> favoriteGoodsList) {
