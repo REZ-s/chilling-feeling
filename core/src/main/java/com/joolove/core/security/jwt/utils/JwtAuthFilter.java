@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.joolove.core.security.service.LogoutTokenService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -34,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
+            System.out.println("====================== JwtAuthFilter.doFilterInternal ======================");
             String jwt = jwtUtils.getJwtFromCookies(request);
             String jwtRefresh = jwtUtils.getJwtRefreshFromCookies(request);
 
@@ -54,7 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void buildAuthenticationUserDetails(HttpServletRequest request, UserDetails userDetails) {
+    private void buildAuthenticationUserDetails(HttpServletRequest request, @NotNull UserDetails userDetails) {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(),
