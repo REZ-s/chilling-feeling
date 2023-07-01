@@ -7,13 +7,13 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
 @Table(schema = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
 public class GoodsStats extends BaseTimeStamp {
 
     @Id
@@ -22,9 +22,9 @@ public class GoodsStats extends BaseTimeStamp {
     @Column(name = "goods_stats_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
-    @JoinColumn(name = "goods_id", nullable = false, unique = true)
-    @ToString.Exclude
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "goods_id", unique = true)
     private Goods goods;
 
     private String label = StringUtil.EMPTY_STRING;     // 라벨 (예: 신상품, 베스트, 스테디, 가성비 등)
