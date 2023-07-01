@@ -45,7 +45,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
     }
 
     public User createUserByOAuth2(String username, String provider, String providerId) {
-        User user = userRepository.findByUsername(username).orElse(null);
+        User user = userRepository.findByUsername(username);
 
         if (user == null) {
             user = User.builder()

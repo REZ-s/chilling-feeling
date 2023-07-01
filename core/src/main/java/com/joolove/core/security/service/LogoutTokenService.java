@@ -44,7 +44,7 @@ public class LogoutTokenService {
     }
 
     public int deleteByUser(User user) {
-        return logoutTokenRepository.deleteByUser(userRepository.findByUsername(user.getUsername()).get());
+        return logoutTokenRepository.deleteByUser(userRepository.findByUsername(user.getUsername()));
     }
 
     public int deleteByToken(String token) {

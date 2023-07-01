@@ -22,22 +22,14 @@ public class Favorite extends BaseTimeStamp {
     @Column(name = "favorite_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @Builder
     public Favorite(UUID id, User user) {
         this.id = id;
         this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Favorite{" +
-                "id=" + id +
-                ", user=" + user +
-                '}';
     }
 
     /* mappedBy */

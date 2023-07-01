@@ -32,7 +32,7 @@ public class UserPersonal extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    private Boolean gatherAgree;
+    private Boolean gatherAgree;    // 개인정보 수집 동의 여부
 
     private String phoneNumber;
 
