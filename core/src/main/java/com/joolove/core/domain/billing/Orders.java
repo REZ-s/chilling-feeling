@@ -25,7 +25,7 @@ public class Orders extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 

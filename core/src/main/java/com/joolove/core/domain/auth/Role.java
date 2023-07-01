@@ -7,6 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.sql.OracleJoinFragment;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +25,9 @@ public class Role {
     @Column(name = "role_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private ERole name;
 
     @Builder

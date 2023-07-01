@@ -21,8 +21,8 @@ public class CIDI extends BaseTimeStamp {
     @Column(name = "cidi_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @NotNull

@@ -25,8 +25,8 @@ public class UserRecommendationBase extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @NotNull
