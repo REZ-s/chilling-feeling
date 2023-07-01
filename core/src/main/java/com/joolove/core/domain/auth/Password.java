@@ -38,12 +38,4 @@ public class Password extends BaseTimeStamp {
         this.pw = pw;
     }
 
-    @Override
-    public String toString() {
-        return "Password{" +
-                "id=" + id +
-                ", user=" + user +
-                ", pw='" + pw + '\'' +
-                '}';
-    }
 }

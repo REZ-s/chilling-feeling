@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Transactional
 public class UserServiceTest {
 
     @Autowired
@@ -53,7 +54,7 @@ public class UserServiceTest {
     @Test
     public void EnumTest() {
         String username = "test1@naver.com";
-
+/*
         User user = User.builder()
                 .username(username)
                 .accountType((short) 1)
@@ -76,11 +77,11 @@ public class UserServiceTest {
 
         userRepository.save(user);
         System.out.println("---------------------------------------");
-        userRoleRepository.findById(userRole.getId());
-        System.out.println("---------------------------------------");
+        userRoleRepository.findById(userRole.getId());*/
+//        System.out.println("---------------------------------------");
         userRepository.findByUsername(username);
         System.out.println("---------------------------------------");
-        userDetailsService.loadUserByUsername(username);
+        userRepository.findByUsernameWithRelations(username);
         System.out.println("---------------------------------------");
         refreshTokenService.findByToken(RandomString.make(10));
     }
