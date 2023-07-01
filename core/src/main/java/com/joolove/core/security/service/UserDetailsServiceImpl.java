@@ -3,6 +3,7 @@ package com.joolove.core.security.service;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.exception.ResourceNotFoundException;
+import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,22 +17,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
 
         return UserPrincipal.buildUserDetails(user);
     }
 
-    @Transactional
-    public UserDetails loadUserById(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-
-        return UserPrincipal.buildUserDetails(user);
-    }
 }
