@@ -72,6 +72,7 @@ spring:
 
   jpa:
     database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
     show-sql: true
     generate-ddl: true
@@ -84,7 +85,7 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 
   thymeleaf:
