@@ -14,7 +14,6 @@ import java.util.UUID;
 @Table(schema = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"goods"})
 public class GoodsDetails extends BaseTimeStamp {
 
     @Id
@@ -23,8 +22,9 @@ public class GoodsDetails extends BaseTimeStamp {
     @Column(name = "goods_details_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
-    @JoinColumn(name = "goods_id", nullable = false, unique = true)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "goods_id", unique = true)
     private Goods goods;
 
     @NotBlank

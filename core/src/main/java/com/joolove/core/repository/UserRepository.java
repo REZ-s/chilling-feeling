@@ -18,15 +18,15 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     // @OneToOne 관계에 있는 엔티티들을 한꺼번에 가져온다. (Lazy Loading 적용 대상이 아니기 때문에)
     @Query("SELECT u " +
             "FROM User u " +
-            "JOIN FETCH u.socialLogin " +
-            "JOIN FETCH u.password " +
-            "JOIN FETCH u.cidi " +
-            "JOIN FETCH u.profile " +
-            "JOIN FETCH u.favorite " +
-            "JOIN FETCH u.userPersonal " +
-            "JOIN FETCH u.userRecommendationBase " +
-            "JOIN FETCH u.userRecommendationDaily " +
-            "JOIN FETCH u.refreshToken " +
+            "LEFT JOIN FETCH u.socialLogin " +
+            "LEFT JOIN FETCH u.password " +
+            "LEFT JOIN FETCH u.cidi " +
+            "LEFT JOIN FETCH u.profile " +
+            "LEFT JOIN FETCH u.favorite " +
+            "LEFT JOIN FETCH u.userPersonal " +
+            "LEFT JOIN FETCH u.userRecommendationBase " +
+            "LEFT JOIN FETCH u.userRecommendationDaily " +
+            "LEFT JOIN FETCH u.refreshToken " +
             "WHERE u.username = :username")
     User findByUsernameWithRelations(@Param("username") String username);
 
