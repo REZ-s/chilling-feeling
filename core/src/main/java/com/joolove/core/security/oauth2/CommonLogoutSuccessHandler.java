@@ -22,10 +22,8 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class CommonLogoutSuccessHandler implements LogoutHandler {
-
     private final RefreshTokenService refreshTokenService;
     private final LogoutTokenService logoutTokenService;
-    private final UserService userService;
     private final JwtUtils jwtUtils;
 
     @Override

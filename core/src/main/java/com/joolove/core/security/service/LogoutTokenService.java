@@ -22,9 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LogoutTokenService {
     private final JwtUtils jwtUtils;
-
     private final LogoutTokenRepository logoutTokenRepository;
-
     private final UserRepository userRepository;
 
     public Optional<LogoutToken> findByToken(String token) {

@@ -20,7 +20,6 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
 

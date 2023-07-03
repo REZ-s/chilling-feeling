@@ -25,7 +25,6 @@ import static com.joolove.core.security.jwt.repository.HttpCookieOAuth2Authoriza
 @Component
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private final JwtUtils jwtUtils;
     private final AppProperties appProperties;
     private final RefreshTokenService refreshTokenService;
@@ -33,7 +32,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+            throws IOException {
         String targetUrl = determineTargetUrl(request, response, authentication);
 
         if (response.isCommitted()) {

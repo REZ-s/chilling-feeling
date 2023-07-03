@@ -23,21 +23,15 @@ import io.jsonwebtoken.*;
 
 @Component
 public class JwtUtils {
-
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
     @Value("${joolove.app.jwtSecret}")
     private String jwtSecret;
-
     @Value("${joolove.app.jwtExpirationMs}")
     private long jwtExpirationMs;
-
     @Value("${joolove.app.jwtRefreshExpirationMs}")
     private long jwtRefreshExpirationMs;
-
     @Value("${joolove.app.jwtCookieName}")
     private String jwtCookie;
-
     @Value("${joolove.app.jwtRefreshCookieName}")
     private String jwtRefreshCookie;
 
