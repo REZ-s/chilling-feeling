@@ -17,6 +17,7 @@ import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserActivityService;
 import com.joolove.core.service.UserRecommendationService;
 import com.joolove.core.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,15 +30,12 @@ import java.util.Objects;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class RecommendationComponent {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private GoodsService goodsService;
-    @Autowired
-    private UserRecommendationService userRecommendationService;
-    @Autowired
-    private UserActivityService userActivityService;
+    private final UserService userService;
+    private final GoodsService goodsService;
+    private final UserRecommendationService userRecommendationService;
+    private final UserActivityService userActivityService;
 
     // 사용자별 추천 상품 리스트를 가져온다.
     public List<IGoodsView> getUserRecommendationGoodsList(String username) {
