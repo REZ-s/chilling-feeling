@@ -64,8 +64,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         null,
                         userDetails.getAuthorities());
 
-        // 아래 코드가 꼭 필요할지 확인
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        // 아래 코드는 username, password 외에도 다른 정보로 인증을 할 때 사용한다.
+        // 인증 부가기능이라고 하는데, 현재 프로젝트에서 필요하지 않으므로 세팅하지 않는다.
+        // authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
