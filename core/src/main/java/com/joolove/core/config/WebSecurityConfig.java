@@ -22,6 +22,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
@@ -74,17 +76,23 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers().frameOptions().sameOrigin();
+        http.headers()
+                .frameOptions().sameOrigin();
 
         http.cors()
                 .and()
                 .csrf().disable()  // don't need for using rest api
-                .httpBasic().disable()  // don't need for using jwt
-                .authorizeRequests().anyRequest().permitAll()   // all access about using jwt
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need for using jwt
-                .and()
-                .exceptionHandling()    // 아래 번호 순서대로 필터링
+                .httpBasic().disable();  // don't need for using jwt
+
+        http.authorizeRequests()
+                .anyRequest().authenticated();
+
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // don't need for using jwt
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling()    // 아래 번호 순서대로 필터링
                     .authenticationEntryPoint(authEntryPointJwt)  // (1) 401 Unauthorized 인증이 안된 경우
                     .accessDeniedHandler(accessDeniedHandlerJwt);   // (2) 403 Forbidden 접근권한이 없는 경우
 
@@ -116,11 +124,6 @@ public class WebSecurityConfig {
                 .tokenValiditySeconds(60 * 60 * 24 * 30)  // 30 days
                 .alwaysRemember(false)
                 .userDetailsService(userDetailsService);
-
-        // common before filter
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        // common after filter
 
         return http.build();
     }
