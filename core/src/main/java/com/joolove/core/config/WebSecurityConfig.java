@@ -85,7 +85,7 @@ public class WebSecurityConfig {
                 .httpBasic().disable();  // don't need for using jwt
 
         http.authorizeRequests()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // don't need for using jwt
