@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserRecommendationService {
-
     private final UserRecommendationBaseRepository userRecommendationBaseRepository;
-
     private final UserRecommendationDailyRepository userRecommendationDailyRepository;
 
     @Transactional

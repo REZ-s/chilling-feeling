@@ -20,7 +20,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class RecommendationController {
-
     private final RecommendationComponent recommendationComponent;
 
     @PostMapping("/api/v1/recommendation/base")

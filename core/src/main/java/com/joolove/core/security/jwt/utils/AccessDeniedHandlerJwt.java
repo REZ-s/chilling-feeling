@@ -17,7 +17,6 @@ import java.util.Map;
 
 @Component
 public class AccessDeniedHandlerJwt implements AccessDeniedHandler {
-
     private static final Logger logger = LoggerFactory.getLogger(AccessDeniedHandlerJwt.class);
 
     //403 (Forbidden)

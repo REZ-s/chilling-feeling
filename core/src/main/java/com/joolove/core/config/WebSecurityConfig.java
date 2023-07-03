@@ -42,6 +42,7 @@ public class WebSecurityConfig {
     private final AuthEntryPointJwt authEntryPointJwt;
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
     private final FormLoginSuccessHandler formLoginSuccessHandler;
     private final CommonLogoutSuccessHandler commonLogoutSuccessHandler;
 
@@ -59,11 +60,6 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public OAuth2FailureHandler oAuth2FailureHandler() {
-        return new OAuth2FailureHandler();
     }
 
     /**
@@ -108,7 +104,7 @@ public class WebSecurityConfig {
                 .defaultSuccessUrl("/cf_main")
                 .failureUrl("/cf_login?error=true")
                 .successHandler(oAuth2SuccessHandler)
-                .failureHandler(oAuth2FailureHandler())
+                .failureHandler(oAuth2FailureHandler)
                 .userInfoEndpoint().userService(oAuth2UserService());
 
         http.logout()
