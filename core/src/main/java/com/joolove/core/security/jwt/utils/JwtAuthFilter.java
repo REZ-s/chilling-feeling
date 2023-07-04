@@ -44,7 +44,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         try {
-            System.out.println("====================== JwtAuthFilter.doFilterInternal ======================");
             String jwt = jwtUtils.getJwtFromCookies(request);
             String jwtRefresh = jwtUtils.getJwtRefreshFromCookies(request);
 
