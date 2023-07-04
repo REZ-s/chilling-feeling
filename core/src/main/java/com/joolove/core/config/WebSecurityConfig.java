@@ -35,7 +35,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
     private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsService;
     private final RoleRepository roleRepository;

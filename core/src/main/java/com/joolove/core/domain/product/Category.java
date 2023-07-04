@@ -28,6 +28,7 @@ public class Category extends BaseTimeStamp {
     private Category parent;
 
     @NotBlank
+    @Column(unique = true)
     private String categoryName;
 
     @Builder
