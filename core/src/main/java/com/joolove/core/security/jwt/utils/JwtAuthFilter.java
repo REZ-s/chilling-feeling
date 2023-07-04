@@ -1,13 +1,5 @@
 package com.joolove.core.security.jwt.utils;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.joolove.core.security.service.LogoutTokenService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
 
 
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -31,9 +30,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private RefreshTokenService refreshTokenService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request,
+                                    @NotNull HttpServletResponse response,
+                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
+
+        String[] staticResourcePatterns = { "/static/**", "/css/**", "/js/**", "/images/**" };
+        boolean isStaticResource = Arrays.stream(staticResourcePatterns)
+                .anyMatch(pattern -> new AntPathMatcher().match(pattern, request.getServletPath()));
+
+        if (isStaticResource) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             System.out.println("====================== JwtAuthFilter.doFilterInternal ======================");
             String jwt = jwtUtils.getJwtFromCookies(request);
@@ -46,7 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 // refreshToken 을 redis 에 저장하면, redis 에 저장된 refreshToken 을 확인하는 과정을 코드에 추가한다.
 
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                buildAuthenticationUserDetails(request, userDetailsService.loadUserByUsername(username));
+                buildAuthenticationUserDetails(userDetailsService.loadUserByUsername(username));
             }
 
         } catch (Exception e) {
@@ -56,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void buildAuthenticationUserDetails(HttpServletRequest request, @NotNull UserDetails userDetails) {
+    private void buildAuthenticationUserDetails(@NotNull UserDetails userDetails) {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(),

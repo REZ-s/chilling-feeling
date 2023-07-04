@@ -9,16 +9,14 @@ import com.joolove.core.security.oauth2.CommonLogoutSuccessHandler;
 import com.joolove.core.security.oauth2.FormLoginSuccessHandler;
 import com.joolove.core.security.oauth2.OAuth2FailureHandler;
 import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
-import com.joolove.core.security.service.LogoutTokenService;
-import com.joolove.core.security.service.RefreshTokenService;
-import com.joolove.core.security.service.UserDetailsServiceImpl;
 import com.joolove.core.security.service.OAuth2UserServiceImpl;
-import com.joolove.core.service.UserService;
+import com.joolove.core.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,13 +26,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
     private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsService;
     private final RoleRepository roleRepository;
@@ -69,8 +68,34 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/")
+                .addResourceLocations("classpath:/static/css/")
+                .addResourceLocations("classpath:/static/images/");
+    }
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(0)
+    public SecurityFilterChain securityFilterChainToIgnoringResources(HttpSecurity http) throws Exception {
+        http.requestMatchers((matchers) ->
+                        matchers.mvcMatchers("/static/**")
+                                .mvcMatchers("/css/**")
+                                .mvcMatchers("/images/**")
+                )
+                .authorizeHttpRequests((authorize) ->
+                        authorize.anyRequest().permitAll())
+                .requestCache().disable()
+                .securityContext().disable()
+                .sessionManagement().disable();
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(1)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.headers()
                 .frameOptions().sameOrigin();
 
@@ -79,11 +104,14 @@ public class WebSecurityConfig {
                 .csrf().disable()  // don't need for using rest api
                 .httpBasic().disable();  // don't need for using jwt
 
-        http.authorizeRequests()
-                .anyRequest().permitAll();
-
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // don't need for using jwt
+
+        http.authorizeHttpRequests()
+                .mvcMatchers(HttpMethod.GET, "/cf_main").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/cf_login").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/").permitAll()
+                .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
