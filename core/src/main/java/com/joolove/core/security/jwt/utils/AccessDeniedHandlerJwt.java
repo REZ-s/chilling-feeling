@@ -23,7 +23,7 @@ public class AccessDeniedHandlerJwt implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
-                       AccessDeniedException e) throws ServletException, IOException {
+                       AccessDeniedException e) throws IOException {
         logger.error("Forbidden error: {}", e.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

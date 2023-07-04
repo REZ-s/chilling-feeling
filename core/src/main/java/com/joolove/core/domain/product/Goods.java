@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.UUID;
 @Table(schema = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(exclude = {"category", "goodsDetails", "goodsStats"})
 public class Goods extends BaseTimeStamp {
 
     @Id
@@ -24,10 +24,10 @@ public class Goods extends BaseTimeStamp {
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "category_id", unique = true)
+    @JoinColumn(name = "category_name")
     private Category category;
 
-    @NotNull
+    @NotBlank
     @Column(unique = true)
     private String name;            // 상품명 (GoodsDetails 테이블의 name 과 동일)
 
