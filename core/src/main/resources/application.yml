@@ -1,6 +1,6 @@
 # Host
 server:
-  address: localhost
+  address: 14.35.75.216
   port: 8080
 
 # Data compression setting
