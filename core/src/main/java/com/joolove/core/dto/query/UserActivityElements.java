@@ -1,7 +1,6 @@
 package com.joolove.core.dto.query;
 
-import com.joolove.core.domain.EActivityCode;
-import com.joolove.core.domain.ETargetCode;
+import com.joolove.core.domain.log.UserActivityLog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -19,19 +18,19 @@ public class UserActivityElements {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private ETargetCode targetCode;
+    private UserActivityLog.ETargetCode targetCode;
 
     @NotNull
     private String targetName;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private EActivityCode activityCode;
+    private UserActivityLog.EActivityCode activityCode;
 
     private String activityDescription;
 
     @Builder
-    public UserActivityElements(String username, ETargetCode targetCode, String targetName, EActivityCode activityCode, String activityDescription) {
+    public UserActivityElements(String username, UserActivityLog.ETargetCode targetCode, String targetName, UserActivityLog.EActivityCode activityCode, String activityDescription) {
         this.username = username;
         this.targetCode = targetCode;
         this.targetName = targetName;

@@ -1,15 +1,12 @@
 package com.joolove.core.domain.log;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.EActivityCode;
-import com.joolove.core.domain.ETargetCode;
 import com.joolove.core.domain.member.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -59,5 +56,21 @@ public class UserActivityLog extends BaseTimeStamp {
                 ", targetCode='" + targetCode + '\'' +
                 ", targetName='" + targetName + '\'' +
                 '}';
+    }
+
+    public enum EActivityCode {
+        LOGIN,
+        LOGOUT,
+        SIGNUP,
+        SEARCH,
+        CLICK,
+        UNDEFINED
+    }
+
+    public enum ETargetCode {
+        GOODS,
+        USER,
+        CATEGORY,
+        UNKNOWN
     }
 }

@@ -1,7 +1,6 @@
 package com.joolove.core.domain.recommendation;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.ECategory;
 import com.joolove.core.domain.member.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -67,5 +66,12 @@ public class UserRecommendationBase extends BaseTimeStamp {
 
     public void setPreferredCategories(String preferredCategories) {
         this.preferredCategories = preferredCategories;
+    }
+
+    public enum EFigure {
+        HIGH,
+        MIDDLE,
+        LOW,
+        UNKNOWN
     }
 }

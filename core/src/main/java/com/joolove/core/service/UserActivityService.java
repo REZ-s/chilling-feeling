@@ -1,7 +1,5 @@
 package com.joolove.core.service;
 
-import com.joolove.core.domain.EActivityCode;
-import com.joolove.core.domain.ETargetCode;
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.query.UserActivityElements;
@@ -27,7 +25,7 @@ public class UserActivityService {
         userActivityRepository.save(userActivityLog);
     }
 
-    public List<UserActivityElements> findUserActivityListByUsername(String username, ETargetCode target) {
+    public List<UserActivityElements> findUserActivityListByUsername(String username, UserActivityLog.ETargetCode target) {
         int page = 0;
         int size = 5;
 
@@ -35,7 +33,7 @@ public class UserActivityService {
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
-    public List<UserActivityElements> findUserActivityListByGoodsName(String goodsName, ETargetCode target) {
+    public List<UserActivityElements> findUserActivityListByGoodsName(String goodsName, UserActivityLog.ETargetCode target) {
         int page = 0;
         int size = 5;
 
@@ -57,7 +55,7 @@ public class UserActivityService {
         LocalDateTime requestedDays = days != null ? days : defaultDays;
 
         return userActivityRepository.findGoodsListBestViews(
-                EActivityCode.SEARCH, EActivityCode.CLICK, ETargetCode.GOODS, requestedDays,
+                UserActivityLog.EActivityCode.SEARCH, UserActivityLog.EActivityCode.CLICK, UserActivityLog.ETargetCode.GOODS, requestedDays,
                 PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 

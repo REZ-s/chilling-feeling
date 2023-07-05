@@ -1,13 +1,10 @@
 package com.joolove.core.service;
 
-import com.joolove.core.domain.ECategory;
-import com.joolove.core.domain.EFigure;
 import com.joolove.core.domain.product.Goods;
+import com.joolove.core.domain.recommendation.UserRecommendationBase;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.query.GoodsRepository;
-import com.joolove.core.repository.GoodsStatsRepository;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,14 +60,14 @@ public class GoodsService {
     }
 
     // 사용자별 추천 리스트
-    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabel, EFigure sweetness, List<String> goodsNameList) {
+    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabel, UserRecommendationBase.EFigure sweetness, List<String> goodsNameList) {
         int defaultPage = 0;
         int defaultSize = 10;
         Pageable pagingInfo = PageRequest.of(defaultPage, defaultSize);
 
-        if (sweetness == EFigure.HIGH) {
+        if (sweetness == UserRecommendationBase.EFigure.HIGH) {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.DESC, "opt5Value"));
-        } else if (sweetness == EFigure.LOW) {
+        } else if (sweetness == UserRecommendationBase.EFigure.LOW) {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.ASC, "opt5Value"));
         }
 
