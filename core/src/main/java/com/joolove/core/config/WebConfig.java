@@ -12,9 +12,11 @@ import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
 import com.joolove.core.security.service.OAuth2UserServiceImpl;
 import com.joolove.core.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.StaticResourceLocation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,15 +27,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.NullRequestCache;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.time.Duration;
+
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class WebSecurityConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
     private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsService;
     private final RoleRepository roleRepository;
@@ -60,35 +68,52 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    /**
-     * hashing (password + salt)
-     * */
+    // hashing method (password + salt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // 정적리소스 관련 설정 (경로 설정 및 캐시)
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/static/")
+        registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/")
-                .addResourceLocations("classpath:/static/images/");
+                .setCacheControl(CacheControl.maxAge(Duration.ofDays(7)));
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/")
+                .setCacheControl(CacheControl.maxAge(Duration.ofDays(7)));
+
+        registry.addResourceHandler("/favicon.ico")
+                .addResourceLocations("classpath:/favicon.ico")
+                .setCacheControl(CacheControl.maxAge(Duration.ofDays(7)));
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/")
+                .setCacheControl(CacheControl.noCache().cachePrivate());
     }
 
+    // 정적리소스 관련 필터 체인 (인증 및 접근권한과 같은 불필요한 필터 제외)
     @Bean
     @Order(0)
     public SecurityFilterChain securityFilterChainToIgnoringResources(HttpSecurity http) throws Exception {
         http.requestMatchers((matchers) ->
-                        matchers.mvcMatchers("/static/**")
-                                .mvcMatchers("/css/**")
+                        matchers.mvcMatchers("/css/**")
                                 .mvcMatchers("/images/**")
+                                .mvcMatchers("/js/**")
+                                .mvcMatchers("/favicon.ico")
                 )
                 .authorizeHttpRequests((authorize) ->
                         authorize.anyRequest().permitAll())
-                .requestCache().disable()
                 .securityContext().disable()
-                .sessionManagement().disable();
+                .sessionManagement().disable()
+                .logout().disable()
+                .anonymous().disable()
+                .csrf().disable()
+                .exceptionHandling().disable()
+                .requestCache()
+                .requestCache(new NullRequestCache()).disable();
 
         return http.build();
     }
