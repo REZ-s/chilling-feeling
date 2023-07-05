@@ -85,10 +85,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/images/")
                 .setCacheControl(CacheControl.maxAge(Duration.ofDays(7)));
 
-        registry.addResourceHandler("/favicon.ico")
-                .addResourceLocations("classpath:/favicon.ico")
-                .setCacheControl(CacheControl.maxAge(Duration.ofDays(7)));
-
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:/static/js/")
                 .setCacheControl(CacheControl.noCache().cachePrivate());
@@ -102,7 +98,6 @@ public class WebConfig implements WebMvcConfigurer {
                         matchers.mvcMatchers("/css/**")
                                 .mvcMatchers("/images/**")
                                 .mvcMatchers("/js/**")
-                                .mvcMatchers("/favicon.ico")
                 )
                 .authorizeHttpRequests((authorize) ->
                         authorize.anyRequest().permitAll())
