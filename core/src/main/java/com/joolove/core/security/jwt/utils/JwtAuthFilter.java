@@ -36,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
 
-        String[] staticResourcePatterns = { "/css/**", "/js/**", "/images/**", "/favicon.ico" };
+        String[] staticResourcePatterns = { "/css/**", "/js/**", "/images/**" };
         boolean isStaticResource = Arrays.stream(staticResourcePatterns)
                 .anyMatch(pattern -> new AntPathMatcher().match(pattern, request.getServletPath()));
 
