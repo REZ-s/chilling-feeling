@@ -1,6 +1,5 @@
 package com.joolove.core.security.jwt.controller;
 
-import com.joolove.core.domain.ERole;
 import com.joolove.core.domain.auth.Password;
 import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.member.User;
@@ -32,7 +31,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @Controller
@@ -147,7 +145,7 @@ public class LoginController {
 
         // 사용자 접근 권한 생성
         List<Role> roles = new ArrayList<>();
-        Role role = roleRepository.findByName(ERole.ROLE_USER)
+        Role role = roleRepository.findByName(Role.ERole.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(role);
 

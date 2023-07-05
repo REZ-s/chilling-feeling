@@ -1,7 +1,7 @@
 package com.joolove.core.dto.query;
 
-import com.joolove.core.domain.ECategory;
-import com.joolove.core.domain.EEmotion;
+import com.joolove.core.domain.product.Category;
+import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +19,13 @@ public class UserRecommendationElements {
     private String username;
     private String abvLimit;
     @Enumerated(EnumType.STRING)
-    private List<ECategory> preferredCategories;
+    private List<Category.ECategory> preferredCategories;
 
     @Enumerated(EnumType.STRING)
-    private EEmotion recentFeeling;
+    private UserRecommendationDaily.EEmotion recentFeeling;
 
     @Builder
-    public UserRecommendationElements(String username, String abvLimit, List<ECategory>  preferredCategories, EEmotion recentFeeling) {
+    public UserRecommendationElements(String username, String abvLimit, List<Category.ECategory>  preferredCategories, UserRecommendationDaily.EEmotion recentFeeling) {
         this.username = username;
         this.abvLimit = abvLimit;
         this.preferredCategories = preferredCategories;

@@ -1,12 +1,5 @@
 package com.joolove.core.service;
 
-import com.joolove.core.domain.ERole;
-import com.joolove.core.domain.ETargetCode;
-import com.joolove.core.domain.auth.Password;
-import com.joolove.core.domain.auth.Role;
-import com.joolove.core.domain.auth.SocialLogin;
-import com.joolove.core.domain.member.User;
-import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.repository.UserRoleRepository;
@@ -17,13 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;

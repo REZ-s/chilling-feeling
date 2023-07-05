@@ -1,7 +1,7 @@
 package com.joolove.core.security.service;
 
-import com.joolove.core.domain.ERole;
 import com.joolove.core.domain.auth.Password;
+import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.member.UserRole;
@@ -59,7 +59,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
             List<UserRole> userRoles = new ArrayList<>();
             UserRole userRole = UserRole.builder()
                     .user(user)
-                    .role(roleRepository.findByName(ERole.ROLE_USER)
+                    .role(roleRepository.findByName(Role.ERole.ROLE_USER)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found.")))
                     .build();
             userRoles.add(userRole);

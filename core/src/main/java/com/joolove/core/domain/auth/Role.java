@@ -1,13 +1,10 @@
 package com.joolove.core.domain.auth;
 
-import com.joolove.core.domain.ERole;
 import com.joolove.core.domain.member.UserRole;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.sql.OracleJoinFragment;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,12 @@ public class Role {
 
     public void setUserRoles(List<UserRole> roles) {
         this.roles = roles;
+    }
+
+    public enum ERole {
+        ROLE_USER,
+        ROLE_MANAGER,
+        ROLE_ADMIN
     }
 
 }

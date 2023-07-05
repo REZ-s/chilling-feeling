@@ -1,7 +1,6 @@
 package com.joolove.core.domain.recommendation;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.EEmotion;
 import com.joolove.core.domain.member.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -51,5 +50,13 @@ public class UserRecommendationDaily extends BaseTimeStamp {
 
     public void setFeeling(EEmotion feeling) {
         this.feeling = feeling;
+    }
+
+    public enum EEmotion {
+        SMILE,  // "즐거워요"
+        HAPPY,  // "기뻐요"
+        SAD,    // "슬퍼요"
+        ANGRY,  // "화나요"
+        BLANK   // 그 외
     }
 }

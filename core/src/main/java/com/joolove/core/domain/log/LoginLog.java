@@ -1,16 +1,13 @@
 package com.joolove.core.domain.log;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.EActivityCode;
 import com.joolove.core.domain.member.Device;
-import com.joolove.core.domain.member.Profile;
 import com.joolove.core.domain.member.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -37,7 +34,7 @@ public class LoginLog extends BaseTimeStamp {
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)
-    private EActivityCode activityCode;
+    private UserActivityLog.EActivityCode activityCode;
 
     @NotNull
     private String ip;
@@ -49,7 +46,7 @@ public class LoginLog extends BaseTimeStamp {
     private Short failReason;
 
     @Builder
-    public LoginLog(UUID id, User user, Device device, EActivityCode activityCode, String ip, Short failCount, Short failReason) {
+    public LoginLog(UUID id, User user, Device device, UserActivityLog.EActivityCode activityCode, String ip, Short failCount, Short failReason) {
         this.id = id;
         this.user = user;
         this.device = device;

@@ -1,11 +1,8 @@
 package com.joolove.core.utils.algorithm;
 
-import com.joolove.core.domain.ECategory;
-import com.joolove.core.domain.EEmotion;
-import com.joolove.core.domain.EFigure;
-import com.joolove.core.domain.ETargetCode;
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.domain.member.User;
+import com.joolove.core.domain.product.Category;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
 import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import com.joolove.core.dto.query.IGoodsView;
@@ -19,12 +16,10 @@ import com.joolove.core.service.UserRecommendationService;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,9 +43,9 @@ public class RecommendationComponent {
         List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
         String abvLimit = userRecommendationElements.getAbvLimit();
-        List<ECategory> preferredCategories = userRecommendationElements.getPreferredCategories();
+        List<Category.ECategory> preferredCategories = userRecommendationElements.getPreferredCategories();
         List<String> typeOrLabelList = new ArrayList<>();
-        for (ECategory category : preferredCategories) {
+        for (Category.ECategory category : preferredCategories) {
             String nowTypeOrLabel = getKRTypeOrLabel(category);
             if (Objects.equals(nowTypeOrLabel, "전체")) {
                 continue;
@@ -58,8 +53,8 @@ public class RecommendationComponent {
             typeOrLabelList.add(nowTypeOrLabel);
         }
 
-        EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
-        EFigure feeling = getSweetnessByFeeling(recentFeeling);
+        UserRecommendationDaily.EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
+        UserRecommendationBase.EFigure feeling = getSweetnessByFeeling(recentFeeling);
         List<String> goodsNameList = new ArrayList<>();
         for (UserActivityElements u : userActivityElementsList) {
             goodsNameList.add(u.getTargetName());
@@ -71,7 +66,7 @@ public class RecommendationComponent {
         return userRecommendationGoodsList;
     }
 
-    private String getKRTypeOrLabel(ECategory category) {
+    private String getKRTypeOrLabel(Category.ECategory category) {
         return switch (category) {
             case WINE -> "와인";           // GoodsDetails type
             case NON_ALCOHOL -> "논알콜";  // GoodsDetails type
@@ -86,13 +81,13 @@ public class RecommendationComponent {
         };
     }
 
-    private EFigure getSweetnessByFeeling(EEmotion recentFeeling) {
-        EFigure mySweetness = EFigure.UNKNOWN;
+    private UserRecommendationBase.EFigure getSweetnessByFeeling(UserRecommendationDaily.EEmotion recentFeeling) {
+        UserRecommendationBase.EFigure mySweetness = UserRecommendationBase.EFigure.UNKNOWN;
 
-        if (recentFeeling.equals(EEmotion.HAPPY) || recentFeeling.equals(EEmotion.SMILE)) {
-            mySweetness = EFigure.HIGH;
-        } else if (recentFeeling.equals(EEmotion.SAD) || recentFeeling.equals(EEmotion.ANGRY)) {
-            mySweetness = EFigure.LOW;
+        if (recentFeeling.equals(UserRecommendationDaily.EEmotion.HAPPY) || recentFeeling.equals(UserRecommendationDaily.EEmotion.SMILE)) {
+            mySweetness = UserRecommendationBase.EFigure.HIGH;
+        } else if (recentFeeling.equals(UserRecommendationDaily.EEmotion.SAD) || recentFeeling.equals(UserRecommendationDaily.EEmotion.ANGRY)) {
+            mySweetness = UserRecommendationBase.EFigure.LOW;
         }
 
         return mySweetness;
@@ -174,16 +169,16 @@ public class RecommendationComponent {
         }
 
         String feeling = userRecommendationDailyRequest.getRecentFeeling();
-        EEmotion recentFeeling = EEmotion.BLANK;
+        UserRecommendationDaily.EEmotion recentFeeling = UserRecommendationDaily.EEmotion.BLANK;
 
         if (Objects.equals(feeling, "기뻐요")) {
-            recentFeeling = EEmotion.HAPPY;
+            recentFeeling = UserRecommendationDaily.EEmotion.HAPPY;
         } else if (Objects.equals(feeling, "즐거워요")) {
-            recentFeeling = EEmotion.SMILE;
+            recentFeeling = UserRecommendationDaily.EEmotion.SMILE;
         } else if (Objects.equals(feeling, "슬퍼요")) {
-            recentFeeling = EEmotion.SAD;
+            recentFeeling = UserRecommendationDaily.EEmotion.SAD;
         } else if (Objects.equals(feeling, "화나요")) {
-            recentFeeling = EEmotion.ANGRY;
+            recentFeeling = UserRecommendationDaily.EEmotion.ANGRY;
         }
 
         UserRecommendationDaily userRecommendationDaily = UserRecommendationDaily.builder()
@@ -227,7 +222,7 @@ public class RecommendationComponent {
         }
 
         // 최근 5개를 target 이 goods 인 경우에만 가져온다.
-        return userActivityService.findUserActivityListByUsername(username, ETargetCode.GOODS);
+        return userActivityService.findUserActivityListByUsername(username, UserActivityLog.ETargetCode.GOODS);
     }
 
     // 기존에 저장해두었던 사용자 추천 관련 데이터 (DTO : UserRecommendElements) 를 가져온다.
@@ -241,20 +236,20 @@ public class RecommendationComponent {
 
         UserRecommendationBase userRecommendationBase = userRecommendationService.findUserRecommendationBase(user);
         String abvLimit = "100";
-        String preferredCategories = ECategory.ALL.name();
+        String preferredCategories = Category.ECategory.ALL.name();
         if (userRecommendationBase != null) {
             abvLimit = userRecommendationBase.getAbvLimit();
             preferredCategories = userRecommendationBase.getPreferredCategories();
         }
 
         UserRecommendationDaily userRecommendationDaily = userRecommendationService.findUserRecommendationDaily(user);
-        EEmotion dailyFeeling = EEmotion.BLANK;
+        UserRecommendationDaily.EEmotion dailyFeeling = UserRecommendationDaily.EEmotion.BLANK;
         if (userRecommendationDaily != null) {
             dailyFeeling = userRecommendationDaily.getFeeling();
         }
 
         String[] pcStrings = preferredCategories.split(",");
-        List<ECategory> ePreferredCategories = new ArrayList<>();
+        List<Category.ECategory> ePreferredCategories = new ArrayList<>();
         for (String pcString : pcStrings) {
             ePreferredCategories.add(getECategory(pcString));
         }
@@ -267,27 +262,27 @@ public class RecommendationComponent {
                 .build();
     }
 
-    private ECategory getECategory(String pcString) {
-        ECategory ePreferredCategory = ECategory.ALL;
+    private Category.ECategory getECategory(String pcString) {
+        Category.ECategory ePreferredCategory = Category.ECategory.ALL;
 
-        if (ECategory.valueOf(pcString) == ECategory.NON_ALCOHOL) {
-            ePreferredCategory = ECategory.NON_ALCOHOL;
-        } else if (ECategory.valueOf(pcString) == ECategory.WINE) {
-            ePreferredCategory = ECategory.WINE;
-        } else if (ECategory.valueOf(pcString) == ECategory.WHISKY) {
-            ePreferredCategory = ECategory.WHISKY;
-        } else if (ECategory.valueOf(pcString) == ECategory.TRADITIONAL_LIQUOR) {
-            ePreferredCategory = ECategory.TRADITIONAL_LIQUOR;
-        } else if (ECategory.valueOf(pcString) == ECategory.COCKTAIL) {
-            ePreferredCategory = ECategory.COCKTAIL;
-        } else if (ECategory.valueOf(pcString) == ECategory.MEAT) {
-            ePreferredCategory = ECategory.MEAT;
-        } else if (ECategory.valueOf(pcString) == ECategory.SEAFOOD) {
-            ePreferredCategory = ECategory.SEAFOOD;
-        } else if (ECategory.valueOf(pcString) == ECategory.BRAND_NEW) {
-            ePreferredCategory = ECategory.BRAND_NEW;
-        } else if (ECategory.valueOf(pcString) == ECategory.BEST_SELLER) {
-            ePreferredCategory = ECategory.BEST_SELLER;
+        if (Category.ECategory.valueOf(pcString) == Category.ECategory.NON_ALCOHOL) {
+            ePreferredCategory = Category.ECategory.NON_ALCOHOL;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.WINE) {
+            ePreferredCategory = Category.ECategory.WINE;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.WHISKY) {
+            ePreferredCategory = Category.ECategory.WHISKY;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.TRADITIONAL_LIQUOR) {
+            ePreferredCategory = Category.ECategory.TRADITIONAL_LIQUOR;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.COCKTAIL) {
+            ePreferredCategory = Category.ECategory.COCKTAIL;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.MEAT) {
+            ePreferredCategory = Category.ECategory.MEAT;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.SEAFOOD) {
+            ePreferredCategory = Category.ECategory.SEAFOOD;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.BRAND_NEW) {
+            ePreferredCategory = Category.ECategory.BRAND_NEW;
+        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.BEST_SELLER) {
+            ePreferredCategory = Category.ECategory.BEST_SELLER;
         }
 
         return ePreferredCategory;
