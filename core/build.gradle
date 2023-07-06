@@ -31,6 +31,7 @@ dependencies {
 
 	implementation 'mysql:mysql-connector-java'	// mysql
 	implementation 'net.nurigo:sdk:4.3.0'	// sms
+	implementation 'com.bucket4j:bucket4j-core:8.2.0'	// traffic limit
 
 	// data collect
 	implementation 'org.jsoup:jsoup:1.14.2'
