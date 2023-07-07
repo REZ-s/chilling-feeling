@@ -1,7 +1,15 @@
+# Host
 server:
-  address: localhost
+  address: 14.35.75.216
   port: 8080
 
+  # Data compression setting
+  compression.enabled: true
+  compression:
+    mime-types: application/json, text/html, text/css, text/javascript, text/plain, image/png, image/gif, image/jpeg
+    min-response-size: 2048
+
+# OAuth 2.0 setting (service providers)
 spring:
   security:
     oauth2:
@@ -49,33 +57,25 @@ spring:
             user-info-uri: "https://kapi.kakao.com/v2/user/me"
             user-name-attribute: "id"
 
-
-  #  datasource:
-  #    hikari:
-  #      #jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql'\;runscript from '${MAIN_RESOURCE_PATH}/h2/sample_data.sql';
-  #      jdbc-url: jdbc:h2:tcp://localhost/~/core;INIT=runscript from '${MAIN_RESOURCE_PATH}/h2/schema.sql';
-  #      username: sa
-  #      password:
-  #      driver-class-name: org.h2.Driver
-  #
-  #  h2:
-  #    console:
-  #      enabled: true
-  #      path: /h2-ui
-
+  # DB setting
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://localhost:3306/testdb1?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+      jdbc-url: jdbc:mysql://localhost:3306/cfdb1?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
       username: cf
       password: sxdc5521
       driver-class-name: com.mysql.cj.jdbc.Driver
 
+  sql:
+    init:
+      mode: never
+
+  # JPA setting
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-
     show-sql: true
     generate-ddl: true
+    open-in-view: true
 
     hibernate:
       ddl-auto: update
@@ -87,13 +87,12 @@ spring:
         default_batch_fetch_size: 100
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  # Server template engine setting
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
 
-#  sql.init.mode: always
-#  sql.init.continue-on-error: true
-
+  # Email Service setting
   mail:
     password: ehybxmouszbvqjjp
     username: nestler.jang@gmail.com
@@ -115,7 +114,7 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
 
-
+# SMS setting
 sms:
   coolsms:
     api-key: NCSCMFNPTSKXATB7
@@ -123,16 +122,15 @@ sms:
     host: 01073696639
     domain: https://api.coolsms.co.kr
 
-
+# Log setting
 logging:
   level:
+    #    org.springframework: debug
+    #    org.hibernate.SQL: debug
+    #    org.hibernate.type: trace
     org.hibernate.type.descriptor.sql: trace
-    #org.hibernate.SQL: debug
-    #org.hibernate.type: trace
 
-
-
-# app properties
+# App properties
 app:
   auth:
     tokenSecret: jooloveSecretKeyForMyApplication
@@ -149,6 +147,7 @@ app:
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
 
+# JWT setting
 joolove:
   app:
     jwtCookieName: jooloveJwt
@@ -157,6 +156,6 @@ joolove:
     jwtExpirationMs: 3600000  # 1 hour
     jwtRefreshExpirationMs: 1209600000 # 14 days
 
-# for test
+# For test
 #    jwtExpirationMs: 100000
 #    jwtRefreshExpirationMs: 600000
