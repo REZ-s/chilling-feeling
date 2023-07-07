@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "member")
+@Table(catalog = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class UserPersonal extends BaseTimeStamp {

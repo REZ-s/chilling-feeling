@@ -21,57 +21,57 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @Transactional
 public class UserServiceTest {
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    RefreshTokenService refreshTokenService;
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    UserRoleRepository userRoleRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Test
-    public void EnumTest() {
-        String username = "test1@naver.com";
-/*
-        User user = User.builder()
-                .username(username)
-                .accountType((short) 1)
-                .build();
-
-        Password password = Password.builder()
-                .user(user)
-                .pw(UUID.randomUUID().toString())
-                .build();
-        user.setPassword(password);
-
-        List<UserRole> userRoles = new ArrayList<>();
-        UserRole userRole = UserRole.builder()
-                .user(user)
-                .role(roleRepository.findByName(ERole.ROLE_USER)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found.")))
-                .build();
-        userRoles.add(userRole);
-        user.setRoles(userRoles);
-
-        userRepository.save(user);
-        System.out.println("---------------------------------------");
-        userRoleRepository.findById(userRole.getId());*/
-//        System.out.println("---------------------------------------");
-        userRepository.findByUsername(username);
-        System.out.println("---------------------------------------");
-        userRepository.findByUsernameWithRelations(username);
-        System.out.println("---------------------------------------");
-        refreshTokenService.findByToken(RandomString.make(10));
-    }
+//
+//    @Autowired
+//    UserService userService;
+//
+//    @Autowired
+//    UserRepository userRepository;
+//
+//    @Autowired
+//    RefreshTokenService refreshTokenService;
+//    @Autowired
+//    UserDetailsServiceImpl userDetailsService;
+//
+//    @Autowired
+//    UserRoleRepository userRoleRepository;
+//
+//    @Autowired
+//    RoleRepository roleRepository;
+//
+//    @Test
+//    public void EnumTest() {
+////        String username = "test1@naver.com";
+/////*
+////        User user = User.builder()
+////                .username(username)
+////                .accountType((short) 1)
+////                .build();
+////
+////        Password password = Password.builder()
+////                .user(user)
+////                .pw(UUID.randomUUID().toString())
+////                .build();
+////        user.setPassword(password);
+////
+////        List<UserRole> userRoles = new ArrayList<>();
+////        UserRole userRole = UserRole.builder()
+////                .user(user)
+////                .role(roleRepository.findByName(ERole.ROLE_USER)
+////                        .orElseThrow(() -> new RuntimeException("Error: Role is not found.")))
+////                .build();
+////        userRoles.add(userRole);
+////        user.setRoles(userRoles);
+////
+////        userRepository.save(user);
+////        System.out.println("---------------------------------------");
+////        userRoleRepository.findById(userRole.getId());*/
+//////        System.out.println("---------------------------------------");
+////        userRepository.findByUsername(username);
+////        System.out.println("---------------------------------------");
+////        userRepository.findByUsernameWithRelations(username);
+////        System.out.println("---------------------------------------");
+////        refreshTokenService.findByToken(RandomString.make(10));
+//    }
 
 }

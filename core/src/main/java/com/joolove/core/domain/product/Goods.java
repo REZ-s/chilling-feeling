@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "product")
+@Table(catalog = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Goods extends BaseTimeStamp {

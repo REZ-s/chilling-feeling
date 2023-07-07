@@ -60,12 +60,16 @@ spring:
 # DB setting
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://localhost:3306/cfdb1?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+      jdbc-url: jdbc:mysql://localhost:3306/cfdb1?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
       username: cf
       password: sxdc5521
       driver-class-name: com.mysql.cj.jdbc.Driver
 
-# JPA setting
+  sql:
+    init:
+      mode: never
+
+  # JPA setting
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect

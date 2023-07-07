@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class CoreApplication extends SpringBootServletInitializer {
 
-	private static Class<CoreApplication> applicationClass = CoreApplication.class;
+	private static final Class<CoreApplication> applicationClass = CoreApplication.class;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CoreApplication.class, args);
