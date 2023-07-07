@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Taste (1/2) </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        button.active {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="taste-container">
+    <!-- Header -->
+    <div class="taste-setting-header">
+        <a href="/cf_main">
+            <img class="ic_back_24px" src="/images/ic_back_24px.png">
+        </a>
+        <div class="taste-header-content-text">취향설정 (1/2)</div>
+        <a href="/cf_main">
+            <img class="ic_close_24px" src="/images/ic_close_24px.png">
+        </a>
+    </div>
+
+    <!-- Content -->
+    <div class="taste-setting-content">
+        <div class="taste-setting-title-subtitle">
+            <div class="taste-setting-title">당신의 현재주량은 <br>어디에 가까운가요?</div>
+            <div class="taste-setting-subtitle">취향은 언제든지 변경할 수 있어요:)</div>
+        </div>
+
+        <div class="wrap-btn-taste-setting-capacity">
+            <button class="btn-taste-setting-capacity" id="b1">
+                <img class="ic_face_taste" src="/images/illust_face_taste_green.png">
+                <div class="wrap-capacity-title-caption">
+                    <div class="capacity-title">무알콜러</div>
+                    <div class="capacity-degree">0</div>
+                    <div class="capacity-caption">한 잔도 아니, 한입도 마실 수 없어.. <br>저는 무알콜만 마실게요!</div>
+                </div>
+            </button>
+
+            <button class="btn-taste-setting-capacity" id="b2">
+                <img class="ic_face_taste" src="/images/illust_face_taste_yellow.png">
+                <div class="wrap-capacity-title-caption">
+                    <div class="capacity-title">술린이</div>
+                    <div class="capacity-degree">15</div>
+                    <div class="capacity-caption">술자리는 즐겁지만, <br>소주 반병 이상은 힘들어요!</div>
+                </div>
+            </button>
+
+            <button class="btn-taste-setting-capacity" id="b3">
+                <img class="ic_face_taste" src="/images/illust_face_taste_pink.png">
+                <div class="wrap-capacity-title-caption">
+                    <div class="capacity-title">알콜요정</div>
+                    <div class="capacity-degree">30</div>
+                    <div class="capacity-caption">소주 한병 정도는 괜찮아요! <br>가끔 혼술도 한답니다.</div>
+                </div>
+            </button>
+
+            <button class="btn-taste-setting-capacity" id="b4">
+                <img class="ic_face_taste" src="/images/illust_face_taste_blue.png">
+                <div class="wrap-capacity-title-caption">
+                    <div class="capacity-title">영혼의 술반자</div>
+                    <div class="capacity-degree">100</div>
+                    <div class="capacity-caption">물대신 술을..? <br>인생에서 술을 빼놓을 수 없죠!</div>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <button class="btn-rounded-stroke" id="nextBtn">
+        <div class="btn-rounded-stroke-label">계속하기</div>
+    </button>
+
+</div>
+
+<script th:inline="javascript">
+
+    const buttons = document.querySelectorAll("#b1, #b2, #b3, #b4");
+    const nextBtn = document.getElementById("nextBtn");
+
+    buttons.forEach(function(button) {
+        button.addEventListener("click", function(e) {
+            const targetButton = e.currentTarget;
+
+            buttons.forEach(function(btn) {
+                if (btn !== targetButton) {
+                    btn.classList.remove("active");
+                }
+            });
+
+            targetButton.classList.toggle("active");
+        });
+    });
+
+    nextBtn.addEventListener("click", function() {
+        const activeButton = document.querySelector(".btn-taste-setting-capacity.active");
+        if (activeButton === null) {
+            alert("취향을 선택해주세요!");
+        } else {
+            const abvLimit = activeButton.querySelector(".capacity-degree").innerText;
+            location.href = "/cf_recommendation_base2?abvLimit=" + abvLimit;
+        }
+    });
+
+</script>
+</body>
+</html>

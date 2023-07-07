@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Daily </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div class="taste-container">
+    <!-- Header -->
+    <div class="taste-setting-header">
+        <a href="/cf_recommendation_base">
+            <img class="ic_back_24px" src="/images/ic_back_24px.png">
+        </a>
+        <div class="taste-header-content-text">오늘의 추천</div>
+        <a href="/cf_main">
+            <img class="ic_close_24px" src="/images/ic_close_24px.png">
+        </a>
+    </div>
+
+    <!-- Content -->
+    <div class="recommend-today2-container">
+        <div class="recommend-today2-title-subtitle">
+            <div class="recommend-today2-title">오늘의 추천</div>
+            <div class="recommend-today2-subtitle">오늘의 기분과 딱 맞는 술을 보여드릴게요!</div>
+        </div>
+
+        <div class="wrap-recommend-today-product-card" id="recommendProductList">
+<!--        <div class="recommend-today-product-card">
+                <div class="photo_container_120px">
+                    <div class="photo_container_120px_img">
+                        <img class="image-81" src="/images/item-rep01.png">
+                    </div>
+                    <img src="/images/ic_heart_24px.png" class="ic_heart_recommend_24px">
+                </div>
+
+                <div class="recommend-today-product-info">
+                    <div class="recommend-today-product-name">
+                        <div class="recommend-today-type">와인</div>
+                        <div class="recommend-today-name">레이크 찰리스 네스트 소비뇽 블랑</div>
+                    </div>
+                    <div class="recommend-today-caption">
+                        <div class="star-score-review">
+                            <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                            <div class="star-score-review">
+                                <div class="recommend-star-rating">
+                                    4.7
+                                </div>
+                                <div class="recommend-reviews">
+                                    (74)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recommend-wrap-chip">
+                            <div class="recommend-chip">
+                                <div class="recommend-chip-label">트렌디</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+    <button class="btn-rounded-stroke" id="nextBtn">
+        <div class="btn-rounded-stroke-label">다른 술 추천 받기</div>
+    </button>
+
+</div>
+
+<script th:inline="javascript">
+
+    let goodsViewList;
+    let goodsViewListIndex;
+    let recommendProductList = document.getElementById("recommendProductList");
+    let recommendProductListLength; // 화면에 출력할 상품 개수
+
+    init();
+
+    async function init() {
+        goodsViewListIndex = 0;
+        recommendProductListLength = 3;
+        await getRecommendationDaily();
+        displayRecommendationGoodsList();
+    }
+
+    document.getElementById("nextBtn").addEventListener("click", function() {
+        displayRecommendationGoodsList();
+    });
+
+    function displayRecommendationGoodsList() {
+        recommendProductList.innerHTML = "";
+        for (let i = 0; i < recommendProductListLength; i++) {
+            recommendProductList.appendChild(createFormRecommendProductCard(goodsViewList[goodsViewListIndex]));
+            goodsViewListIndex = (goodsViewListIndex + 1) % goodsViewList.length;
+        }
+    }
+
+    async function getRecommendationDaily() {
+        try {
+            const response = await fetch("/api/v1/recommendation/daily");
+            if (response.ok) {
+                return goodsViewList = await response.json();
+            } else {
+                throw new Error("Error: " + response.status);
+            }
+        } catch (error) {
+            console.log("ERROR: " + error.message);
+        }
+    }
+
+    function createFormRecommendProductCard(goodsView) {
+        const recommendTodayProductCard = document.createElement("div");
+        recommendTodayProductCard.setAttribute("class", "recommend-today-product-card");
+
+        const photoContainer120px = document.createElement("div");
+        photoContainer120px.setAttribute("class", "photo_container_120px");
+
+        const photoContainer120pxImg = document.createElement("div");
+        photoContainer120pxImg.setAttribute("class", "photo_container_120px_img");
+
+        const image81 = document.createElement("img");
+        image81.setAttribute("class", "image-81");
+        image81.setAttribute("src", goodsView.imageUrl);  // GoodsView.imageUrl
+
+        const recommendTodayProductInfo = document.createElement("div");
+        recommendTodayProductInfo.setAttribute("class", "recommend-today-product-info");
+
+        const recommendTodayProductName = document.createElement("div");
+        recommendTodayProductName.setAttribute("class", "recommend-today-product-name");
+
+        const recommendTodayType = document.createElement("div");
+        recommendTodayType.setAttribute("class", "recommend-today-type");
+
+        const recommendTodaySubType = document.createElement("span");
+        recommendTodaySubType.setAttribute("class", "recommend-today-subtype");
+
+        const typeArray = goodsView.type.split(" ");    // GoodsView.type
+        if (typeArray.length < 2) {
+            recommendTodayType.innerText = goodsView.type;
+        } else {
+            recommendTodayType.innerText = typeArray[0] + "  ";
+            recommendTodaySubType.innerText = "( " + typeArray[1] + " )";    // GoodsView.subType
+        }
+
+        const recommendTodayName = document.createElement("div");
+        recommendTodayName.setAttribute("class", "recommend-today-name");
+        recommendTodayName.innerText = goodsView.name;    // GoodsView.name
+
+        const recommendTodayCaption = document.createElement("div");
+        recommendTodayCaption.setAttribute("class", "recommend-today-caption");
+
+        const starScoreReview = document.createElement("div");
+        starScoreReview.setAttribute("class", "star-score-review");
+
+        const starScoreReviewImg = document.createElement("img");
+        starScoreReviewImg.setAttribute("src", "/images/ic_star_10px.png");
+        starScoreReviewImg.setAttribute("class", "ic_star_10px");
+
+        const starScoreReviewDiv = document.createElement("div");
+        starScoreReviewDiv.setAttribute("class", "star-score-review");
+
+        const recommendStarRating = document.createElement("div");
+        recommendStarRating.setAttribute("class", "recommend-star-rating");
+        const score = goodsView.score;      // GoodsView.score
+        if (score === null) {
+            recommendStarRating.innerText = "0.0";
+        } else {
+            recommendStarRating.innerText = score;
+        }
+
+        const recommendReviews = document.createElement("div");
+        recommendReviews.setAttribute("class", "recommend-reviews");
+        const reviewCount = goodsView.reviewCount;      // GoodsView.reviewCount
+        if (reviewCount === null || reviewCount === 0) {
+            recommendReviews.innerText = "(0)";
+        } else if (reviewCount < 100) {
+            recommendReviews.innerText = "(" + reviewCount + ")";
+        } else {
+            recommendReviews.innerText = "(99+)";
+        }
+
+        const recommendWrapChip = document.createElement("div");
+        recommendWrapChip.setAttribute("class", "recommend-wrap-chip");
+
+        const recommendChip = document.createElement("div");
+        recommendChip.setAttribute("class", "recommend-chip");
+
+        const recommendChipLabel = document.createElement("div");
+        recommendChipLabel.setAttribute("class", "recommend-chip-label");
+        const label = goodsView.label;       // GoodsView.label
+        recommendChipLabel.innerText = label || "추천";
+
+        recommendChip.appendChild(recommendChipLabel);
+        recommendWrapChip.appendChild(recommendChip);
+        starScoreReviewDiv.appendChild(recommendStarRating);
+        starScoreReviewDiv.appendChild(recommendReviews);
+        starScoreReview.appendChild(starScoreReviewImg);
+        starScoreReview.appendChild(starScoreReviewDiv);
+        recommendTodayCaption.appendChild(starScoreReview);
+        recommendTodayCaption.appendChild(recommendWrapChip);
+        recommendTodayType.appendChild(recommendTodaySubType);
+        recommendTodayProductName.appendChild(recommendTodayType);
+        recommendTodayProductName.appendChild(recommendTodayName);
+        recommendTodayProductInfo.appendChild(recommendTodayProductName);
+        recommendTodayProductInfo.appendChild(recommendTodayCaption);
+        photoContainer120pxImg.appendChild(image81);
+        photoContainer120px.appendChild(photoContainer120pxImg);
+        recommendTodayProductCard.appendChild(photoContainer120px);
+        recommendTodayProductCard.appendChild(recommendTodayProductInfo);
+
+        return recommendTodayProductCard;
+    }
+</script>
+</body>
+</html>

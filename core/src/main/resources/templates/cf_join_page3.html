@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Join (3/3) </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        /* For modal */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+        .modal {
+            position: fixed;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 10px;
+            background-color: #262626;
+        }
+
+        .modal-agree {
+            width: 375px;
+            height: 314px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 30px;
+            padding: 15px 0;
+            background-color: #262626;
+        }
+
+        .Drag-handle-Stroke {
+            width: 48px;
+            height: 4px;
+            flex-grow: 0;
+            background-color: #616161;
+        }
+
+        .modal-agree-container {
+            align-self: stretch;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .modal-agree-container-agree-actions {
+            align-self: stretch;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 20px;
+            padding: 0;
+        }
+
+        .modal-entire-actions {
+            height: 28px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+            padding: 0;
+            border-radius: 3px;
+        }
+
+        .ic_check_24px {
+            width: 24px;
+            height: 24px;
+            flex-grow: 0;
+            object-fit: contain;
+        }
+
+        .ic_chevron_right_24px {
+            width: 24px;
+            height: 24px;
+            flex-grow: 0;
+            object-fit: contain;
+        }
+
+        .korean-B1-bold {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: left;
+            color: #fff;
+        }
+
+        .wrapper-individual-actions {
+            height: 126px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 10px;
+            padding: 0;
+        }
+
+        .individual-action {
+            height: 24px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+            padding: 0;
+        }
+
+        .wrapper-text-chevron {
+            height: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 50px;
+            padding: 0;
+        }
+
+        .korean-B4-medium {
+            height: 22px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.57;
+            letter-spacing: -0.28px;
+            text-align: left;
+            color: #afafaf;
+        }
+
+        .modal-btn-start {
+            height: 50px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 3px;
+            background-color: #004051;
+        }
+
+        .modal-btn-start-label {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .modal-checkbox {
+            /* 체크박스의 기본 스타일을 없애고, 이미지를 배경으로 설정 */
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("/images/ic_checkbox_24px.png");
+            background-size: contain;
+            width: 24px;
+            height: 24px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            /*flex-grow: 0;*/
+            /*object-fit: contain;*/
+        }
+        .modal-checkbox-checked {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("/images/ic_checkbox_checked_24px.png");
+            background-size: contain;
+            width: 24px;
+            height: 24px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            /*flex-grow: 0;*/
+            /*object-fit: contain;*/
+        }
+
+    </style>
+</head>
+<body>
+<div class="join1">
+    <!-- Top frame -->
+    <section class="join1-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="join1-header-content-text">회원가입 (3/3)</div>
+        <div class="ic_close_24px">
+            <a href="/cf_main">
+                <img src="/images/ic_close_24px.png">
+            </a>
+        </div>
+    </section>
+
+    <!-- Content Frame -->
+    <div class="join3-container" id="myContainer">
+
+        <!-- Origin form -->
+        <div id="beforeForm">
+            <div class="join3-container-content">
+                <div class="join3-title">휴대폰번호로<br>본인인증을 해주세요.</div>
+                <div class="join3-subtitle"><br>주류상품 구매를 위해 성인인증이 필요해요!</div>
+            </div>
+            <div class="join3-container-actions">
+                <div class="join3-form-field-phone-number">
+                    <input class="join3-phone-number-input" placeholder="휴대폰 번호 입력" type="tel" id="pNumber">
+                </div>
+
+                <button class="join3-btn-code-number">
+                    <div class="join3-btn-code-number-label" id="sendCodeNumberBtn">인증번호 전송</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- After form -->
+        <div id="afterForm" style="display: none">
+            <div class="join3-container-content">
+                <div class="join3-title">휴대폰번호로<br>본인인증을 해주세요.</div>
+                <div class="join3-subtitle"><br>인증번호를 전송했어요!</div>
+            </div>
+
+            <div class="join1-container-actions">
+                <div class="join1-wrapper-email-btn-code-number-form">
+                    <div class="join1-wrapper-email-btn_code-number">
+                        <div class="join1-form-field-email">
+                            <div class="join1-wrapper-text-check">
+                                <input class="join1-after-input-text" placeholder="01012345678" type="number" id="afterPNumber">
+
+                                <div class="ic_check_14px">
+                                    <img src="/images/ic_check_14px.png">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="join1-btn-resend">
+                            <div class="join1-btn-resend-label" id="resendCodeNumberBtn">인증번호 재전송</div>
+                        </button>
+                    </div>
+
+                    <div class="join1-wrapper-subtext-form-field">
+                        <div class="join1-subtext">인증번호 6자리를 입력해주세요.</div>
+                        <div class="join1-form-field-code-number">
+                            <div class="join1-wrapper-input-icon">
+                                <input class="join1-default-input pw-field" placeholder="인증번호 입력" type="password"
+                                       id="codeNumber">
+
+                                <div class="ic_visibility_off">
+                                    <img class="pw-eye" src="/images/ic_visibility_off.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="join1-btn-next" id="beforeBtn">
+                    <div class="join1-btn-next-label" id="nextBtn">다음</div>
+                </button>
+
+                <button class="join3-btn-join" id="afterBtn" style="display: none">
+                    <div class="join3-btn-join-label" id="joinBtn">회원가입 완료</div>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ToS" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body modal-agree">
+                <div class="Drag-handle-Stroke"></div>
+
+                <div class="modal-agree-container">
+                    <div class="modal-agree-container-agree-actions">
+                        <div class="modal-entire-actions">
+                            <div>
+                                <input type="checkbox" id="checkboxes" class="modal-checkbox">
+                            </div>
+                            <div class="korean-B1-bold">약관 전체동의</div>
+                        </div>
+
+                        <div class="wrapper-individual-actions">
+                            <div class="individual-action">
+                                <div>
+                                    <input type="checkbox" id="checkbox1" class="modal-checkbox">
+                                </div>
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[필수] 개인정보 수집 및 이용 동의</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+
+                            <div class="individual-action">
+                                <div>
+                                    <input type="checkbox" id="checkbox2" class="modal-checkbox">
+                                </div>
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[필수] 위치정보 이용약관</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+
+                            <div class="individual-action">
+                                <div>
+                                    <input type="checkbox" id="checkbox3" class="modal-checkbox">
+                                </div>
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[필수] 서비스 이용약관</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+
+                            <div class="individual-action">
+                                <div>
+                                    <input type="checkbox" id="checkbox4-opt" class="modal-checkbox">
+                                </div>
+                                <div class="wrapper-text-chevron">
+                                    <div class="korean-B4-medium">[선택] 마케팅 정보 야간 수신 동의</div>
+                                    <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="modal-btn-start">
+                        <div class="modal-btn-start-label" id="agreeStartBtn">동의하고 시작하기</div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    const myContainer = document.querySelector('#myContainer');
+    const beforeForm = document.querySelector('#beforeForm');
+    const afterForm = document.querySelector('#afterForm');
+
+    const beforePNumber = document.querySelector('#pNumber');
+    const afterPNumber = document.querySelector('#afterPNumber');
+
+    const beforeBtn = document.querySelector('#beforeBtn');
+    const afterBtn = document.querySelector('#afterBtn');
+
+    const checkboxes = document.querySelector('#checkboxes');
+    const checkbox1 = document.querySelector('#checkbox1');
+    const checkbox2 = document.querySelector('#checkbox2');
+    const checkbox3 = document.querySelector('#checkbox3');
+    const checkbox4 = document.querySelector('#checkbox4-opt');
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+    document.querySelector('#sendCodeNumberBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        myContainer.style.height = '525px';
+        beforeForm.style.display = 'none';
+        afterForm.style.display = 'block';
+        afterPNumber.value = beforePNumber.value;
+        createAuthenticationCode(beforePNumber.value.trim());
+    });
+
+    document.querySelector('#resendCodeNumberBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        createAuthenticationCode(afterPNumber.value.trim());
+    });
+
+    /* verify auth-code for join */
+    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+        const codeInput = document.querySelector('#codeNumber');
+        const authenticationCode = codeInput.value.trim();
+
+        if (checkAuthenticationCode(authenticationCode)) {
+            e.preventDefault();
+            beforeBtn.style.display = 'none';
+            afterBtn.style.display = 'flex';
+        } else {
+            console.log('Incorrect authentication code');
+            // Display modal or show error message...
+        }
+
+        async function checkAuthenticationCode(code) {
+            const data = await sendAuthenticationCode(code);
+            if (data === "valid") {
+                return true;
+            }
+
+            async function sendAuthenticationCode(code) {
+                try {
+                    const response = await fetch('/check_authentication_code/sms', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: code
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            return false;
+        }
+    });
+
+    /* Modal : I agreed to the terms of service when I signed up for this website */
+    document.querySelector('#joinBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        $("#ToS").modal();
+    });
+
+    /* Join completed */
+    document.querySelector('#agreeStartBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (isCheckboxChecked()) {
+            sendJoinForm('/cf_join/complete', afterPNumber.value.trim());
+        } else {
+            alert('필수 체크박스를 모두 체크해주세요.');
+        }
+    });
+
+    document.querySelector('#checkboxes').addEventListener('click', function (e) {
+        e.preventDefault();
+        const checkboxList = document.querySelectorAll('input[type="checkbox"]');
+        if (checkboxList.length > 0) {
+            if (areAllChecked(checkboxList)) {
+                uncheckAllBoxes(checkboxList);
+            } else {
+                checkAllBoxes(checkboxList);
+            }
+        }
+    });
+
+    function areAllChecked(checkboxList) {
+        for (let i = 0; i < checkboxList.length; i++) {
+            if (!checkboxList[i].checked) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function checkAllBoxes(checkboxList) {
+        for (let i = 0; i < checkboxList.length; i++) {
+            checkboxList[i].checked = true;
+            checkboxList[i].class = 'modal-checkbox-checked';
+        }
+        checkboxes.checked = true;
+        checkboxes.class = 'modal-checkbox-checked';
+    }
+
+    function uncheckAllBoxes(checkboxList) {
+        for (let i = 0; i < checkboxList.length; i++) {
+            checkboxList[i].checked = false;
+            checkboxList[i].class = 'modal-checkbox';
+        }
+        checkboxes.checked = false;
+        checkboxes.class = 'modal-checkbox';
+    }
+
+    function isCheckboxChecked() {
+        const checkboxIds = ['checkbox1', 'checkbox2', 'checkbox3'];
+        return checkboxIds.every(id => document.querySelector('#' + id)?.checked);
+    }
+
+    /* create auth-code */
+    function createAuthenticationCode(phoneNumber) {
+        getAuthenticationCode(phoneNumber);
+
+        async function getAuthenticationCode(phoneNumber) {
+            await createCode(phoneNumber);
+
+            async function createCode(phoneNumber) {
+                try {
+                    const response = await fetch('/get_authentication_code/sms', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: phoneNumber
+                    });
+
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                    throw response;
+                } catch (error) {
+                    throw error;
+                }
+            }
+        }
+    }
+
+    /*<![CDATA[*/
+    function sendJoinForm(path, tel) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = path;
+
+        let request = /*[[${request}]]*/ {};
+        request.phoneNumber = tel;
+
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'hidden';
+        usernameInput.name = 'username';
+        usernameInput.value = request.username;
+        form.appendChild(usernameInput);
+
+        const pwInput = document.createElement('input');
+        pwInput.type = 'hidden';
+        pwInput.name = 'password';
+        pwInput.value = request.password;
+        form.appendChild(pwInput);
+
+        const numberInput = document.createElement('input');
+        numberInput.type = 'hidden';
+        numberInput.name = 'phoneNumber';
+        numberInput.value = request.phoneNumber;
+        form.appendChild(numberInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    /*]]>*/
+
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> Chilling Feeling - Login (2/2) </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div class="login2">
+    <!-- Top frame -->
+    <section class="login2-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="login2-content">
+            <span class="login2-headline-text">로그인</span>
+        </div>
+        <div class="ic_close_24px">
+            <a href="/cf_main">
+                <img src="/images/ic_close_24px.png">
+            </a>
+        </div>
+    </section>
+
+    <!-- Content Frame -->
+    <div class="login2-title-area">
+        <div class="login2-title">
+            <span>비밀번호를 입력해주세요.</span>
+        </div>
+        <div class="login2-subtitle">
+            <span>반갑습니다 고객님 :)</span>
+        </div>
+    </div>
+
+    <form sec:authorize="isAnonymous()" th:action="@{/cf_login/complete}" th:method="post" th:object="${request}">
+        <div class="login1-form-field">
+            <!-- username(email) for spring boot form login builder -->
+            <input type="hidden" th:field="${request.username}">
+            <div>
+                <input class="login1-form pw-field" id="myPassword" placeholder="비밀번호 입력" th:field="${request.password}"
+                       type="password">
+
+                <div class="ic_visibility_off">
+                    <img class="pw-eye" src="/images/ic_visibility_off.png">
+                </div>
+            </div>
+        </div>
+
+        <button class="login2-btn-login" id="myBtn">
+            <span class="login2-btn-text">로그인</span>
+        </button>
+    </form>
+
+    <div class="login2-content-area">
+        <div class="login2-content-label">
+            <a href="/cf_pw_find">비밀번호를 잊으셨나요?</a>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
