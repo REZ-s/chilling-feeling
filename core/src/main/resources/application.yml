@@ -28,7 +28,7 @@ spring:
             client-secret: "TA5xI9qbZu"
             client-name: "Naver"
             authorization-grant-type: "authorization_code"
-            redirect-uri: "http://14.35.75.216:8080/login/oauth2/code/naver"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/naver"
             scope:
               - name
               - email
@@ -38,7 +38,7 @@ spring:
             client-secret: "KydBrslwvqdGanJ6H1tNiZWv7lkhdfvt"
             client-name: "Kakao"
             authorization-grant-type: "authorization_code"
-            redirect-uri: "http://14.35.75.216:8080/login/oauth2/code/kakao"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
             client-authentication-method: "POST"
             scope:
               - profile_nickname
@@ -144,8 +144,6 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:8080/oauth2/redirect
-      - myandroidapp://oauth2/redirect
-      - myiosapp://oauth2/redirect
 
 # JWT setting
 joolove:
