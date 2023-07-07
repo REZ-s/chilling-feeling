@@ -65,7 +65,11 @@ spring:
       password: sxdc5521
       driver-class-name: com.mysql.cj.jdbc.Driver
 
-# JPA setting
+  sql:
+    init:
+      mode: never
+
+  # JPA setting
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
