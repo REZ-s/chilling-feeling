@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "auth")
+@Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class SocialLogin extends BaseTimeStamp {

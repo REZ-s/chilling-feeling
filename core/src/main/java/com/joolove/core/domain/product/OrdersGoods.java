@@ -11,11 +11,10 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "product")
+@Table(catalog = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-@ToString(exclude = {"order", "goods"})
 public class OrdersGoods extends BaseTimeStamp {
 
     @Id

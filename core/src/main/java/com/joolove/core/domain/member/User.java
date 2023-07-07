@@ -1,4 +1,4 @@
-    package com.joolove.core.domain.member;
+package com.joolove.core.domain.member;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.auth.*;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "member")
+@Table(catalog = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends BaseTimeStamp {

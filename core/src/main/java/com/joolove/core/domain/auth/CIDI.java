@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "auth")
+@Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CIDI extends BaseTimeStamp {
@@ -37,16 +37,6 @@ public class CIDI extends BaseTimeStamp {
         this.user = user;
         this.ci = ci;
         this.di = di;
-    }
-
-    @Override
-    public String toString() {
-        return "CIDI{" +
-                "id=" + id +
-                ", user=" + user +
-                ", ci='" + ci + '\'' +
-                ", di='" + di + '\'' +
-                '}';
     }
 
 }
