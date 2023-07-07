@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "billing")
+@Table(catalog = "billing")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Refund {

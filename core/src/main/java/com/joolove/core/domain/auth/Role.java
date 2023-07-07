@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "auth")
+@Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Role {

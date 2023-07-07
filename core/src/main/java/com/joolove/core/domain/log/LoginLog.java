@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "log")
+@Table(catalog = "log")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class LoginLog extends BaseTimeStamp {

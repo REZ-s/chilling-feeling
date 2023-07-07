@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "product")
+@Table(catalog = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class GoodsDetails extends BaseTimeStamp {

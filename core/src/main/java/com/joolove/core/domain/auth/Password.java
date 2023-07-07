@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "auth")
+@Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Password extends BaseTimeStamp {

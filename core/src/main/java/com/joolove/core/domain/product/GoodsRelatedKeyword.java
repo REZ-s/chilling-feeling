@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "product")
+@Table(catalog = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class GoodsRelatedKeyword extends BaseTimeStamp {

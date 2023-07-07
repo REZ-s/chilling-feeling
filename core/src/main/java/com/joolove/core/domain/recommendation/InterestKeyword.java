@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "recommendation")
+@Table(catalog = "recommendation")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class InterestKeyword extends BaseTimeStamp {
