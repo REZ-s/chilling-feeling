@@ -9,7 +9,9 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 jar {
-	enabled = false
+	manifest {
+		attributes 'Main-Class': 'com.joolove.core.CoreApplication'
+	}
 }
 
 configurations {
