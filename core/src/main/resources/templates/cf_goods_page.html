@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Goods </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div class="product-details-container">
+    <!-- Header -->
+    <section class="top-bar-details-frame">
+        <div class="wrap-back-home">
+            <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
+            <img src="/images/ic_home_black_24px.png" class="ic_home_de_24px">
+        </div>
+
+        <div class="wrap-share-cart">
+            <img src="/images/ic_share_24px.png" class="ic_share_24px">
+            <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="product-details-frame">
+        <div class="product-details-product-card">
+            <div class="product-details-photo-container-wrap-img" id="pImageUrl">
+                <img src="/images/product_sample.png">
+            </div>
+
+            <div class="product-details-product-info">
+                <div class="product-details-product-name">
+                    <div class="product-details-product-name-type-category">
+                        <div class="product-details-product-name-type" id="pType1">와인</div>
+
+                        <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
+
+                        <div class="product-details-product-name-category" id="pType2">화이트와인</div>
+                    </div>
+
+                    <div class="wrap-product-name-english">
+                        <div class="product-name" id="pName">레이크 찰리스 네스트 소비뇽 블랑</div>
+                        <div class="product-name-english" id="pEngName">Lake Chalice Nest Sauvignon Blanc</div>
+                    </div>
+
+                </div>
+
+                <div class="product-details-caption">
+                    <div class="wrap-star-review">
+                        <div class="wrap-star-group-score">
+                            <div class="star-group" id="pScoreImages">
+                                <!--<img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_half_star_10px.png" class="ic_star_10px">
+                                <img src="/images/ic_star_off_10px.png" class="ic_star_10px">-->
+                            </div>
+
+                            <div class="product-details-star-score" id="pScore">3.5</div>
+                        </div>
+
+                        <button class="product-details-btn-review">
+                            <div class="product-details-btn-review-label">
+                                <span id="pReviewCount">-</span>개 리뷰 보기
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="wrap-chip-wh">
+                        <div class="product-chip">
+                            <div class="chip-label-wh" id="pLabel"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-details-tab-bar">
+            <div class="wrap-tab-bar-label-ac">
+                <div class="tab-bar-label-ac">상품정보</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">리뷰</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">문의</div>
+            </div>
+            <div class="wrap-tab-bar-label">
+                <div class="tab-bar-label">교환/반품</div>
+            </div>
+        </div>
+
+        <button class="product-details-banner">
+            <img src="/images/product_details_banner.png">
+        </button>
+
+        <div class="wrap-product-info-list">
+            <div class="wrap-product-details-product-info">
+
+                <div class="product-details-product-basic-info">
+                    <div class="product-details-title">기본 정보</div>
+                    <div class="product-details-product-info">
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">스타일</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style" id="pType">화이트 와인</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">도수</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style" id="pDegree">13%</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">국가/지역</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style" id="pCountry">뉴질랜드</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">제조사</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style" id="pCompany">콰리사</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">공급사</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style" id="pSupplier">퍼미넌트</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-product-point">
+                    <div class="product-details-title">상품 특징</div>
+                    <div class="product-details-product-info">
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">색상</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="ic_color_chip" id="pColorImageUrl"></div>
+                            <div class="product-details-style" id="pColor">Light Olive</div>
+                        </div>
+
+                        <div class="wrap-product-info">
+                            <div class="wrap-subtitle-divider">
+                                <div class="product-details-subtitle">향</div>
+                                <img src="/images/ic_divider.png" class="ic_divider">
+                            </div>
+                            <div class="product-details-style" id="pAroma">Red fruit, Herb</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-product-style-info" id="paletteContainer">
+                    <div class="product-details-title">팔레트</div>
+                    <div class="wine-style-list" id="pPaletteList">
+                         <!--<div class="wrap-wine-style">
+                            <div class="wine-style-label">바디</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <div class="wine-style-graphy" id="pBody">
+                                    <!<img src="/images/wine_style_graphy_level1.png">
+                                </div>
+
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">가벼움</div>
+                                    <div class="wine-style-details-label">묵직함</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">탄닌</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <div class="wine-style-graphy" id="pTannin">
+                                    &lt;!&ndash;<img src="/images/wine_style_graphy_level1.png">&ndash;&gt;
+                                </div>
+
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">매끈함</div>
+                                    <div class="wine-style-details-label-reverse">떫음</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">당도</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <div class="wine-style-graphy" id="pSweetness">
+                                    &lt;!&ndash;<img src="/images/wine_style_graphy_level1.png">&ndash;&gt;
+                                </div>
+
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">드라이</div>
+                                    <div class="wine-style-details-label">스위트</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">산도</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <div class="wine-style-graphy" id="pAcidity">
+                                    &lt;!&ndash;<img src="/images/wine_style_graphy_level1.png">&ndash;&gt;
+                                </div>
+
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">낮음</div>
+                                    <div class="wine-style-details-label">시큼함</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrap-wine-style">
+                            <div class="wine-style-label">탄산</div>
+                            <div class="wrap-wine-style-graphy-label">
+                                <div class="wine-style-graphy" id="pSoda">
+                                    &lt;!&ndash;<img src="/images/wine_style_graphy_level1.png">&ndash;&gt;
+                                </div>
+
+                                <div class="wrap-wine-style-details-label">
+                                    <div class="wine-style-details-label">없음</div>
+                                    <div class="wine-style-details-label-reverse">강함</div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="product-details-product-episode" id="episodeContainer">
+                    <div class="product-details-title">술 이야기</div>
+                    <div class="product-episode" id="pDescription">
+<!--                        붉은 벽돌 색상을 지니며 레드 체리 향과 붉은 베리 향이 어우러져 있다.
+                        초콜릿과 후추 향이 뒤이어 나타나고,
+                        부드러움과 균형미가 잘 드러나 있으며 목넘김이 부드러워 부담 없이 즐길 수 있는 와인이다.-->
+                    </div>
+                </div>
+
+                <div class="product-details-similar-product-list">
+                    <div class="product-details-title">비슷한 취향의 추천 상품</div>
+                    <div class="home-taste-prod-swiper-wrapper">
+                        <!-- 카테고리 내 추천 상품 리스트 생성 -->
+                    </div>
+                </div>
+
+                <div class="product-details-category-best-list">
+                    <div class="product-details-title">카테고리 인기 상품</div>
+                    <div class="home-taste-prod-swiper-wrapper">
+                        <!-- 카테고리 내 인기 상품 리스트 생성 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="bottom-container">
+        <div class="product-details-bottom">
+            <div class="wrap-product-details-bottom-ic">
+                <div class="wrap-heart-counting">
+                    <img src="/images/ic_heart_black_24px.png" class="ic_heart_bottom_24px">
+                    <div class="heart-counting-label">12</div>
+                </div>
+
+                <div class="ic_divider"></div>
+
+                <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
+            </div>
+
+            <button class="product-details-btn-order">
+                <div class="product-details-btn-order-label">픽업 주문하기</div>
+            </button>
+        </div>
+    </section>
+
+</div>
+</body>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
+    /*]]>*/
+
+    window.onload = function () {
+        initForm();
+    }
+
+    function createScoreImage(score) {
+        let scores = score.split(".");
+        let scoreImages = "";
+        let count = 0;
+
+        const INumber = parseInt(scores[0]);
+        const FNumber = parseInt(scores[1]);
+
+        for (let i = 0; i < INumber; i++) {
+            scoreImages += "<img src=\"/images/ic_star_10px.png\" class=\"ic_star_10px\">";
+            count++;
+        }
+
+        if (FNumber > 7) {
+            scoreImages += "<img src=\"/images/ic_star_10px.png\" class=\"ic_star_10px\">";
+            count++;
+        } else if (FNumber > 2) {
+            scoreImages += "<img src=\"/images/ic_half_star_10px.png\" class=\"ic_half_star_10px\">";
+            count++;
+        }
+
+        for (let i = count; i < 5; i++) {
+            scoreImages += "<img src=\"/images/ic_star_off_10px.png\" class=\"ic_star_off_10px\">";
+        }
+
+        return scoreImages;
+    }
+
+    function createPaletteImage(paletteValue) {
+        let paletteImage = null;
+
+        switch (paletteValue) {
+            case "0":
+                paletteImage = "/images/wine_style_graphy_level1.png";
+                break;
+            case "1":
+                paletteImage = "/images/wine_style_graphy_level2.png";
+                break;
+            case "2":
+                paletteImage = "/images/wine_style_graphy_level3.png";
+                break;
+            case "3":
+                paletteImage = "/images/wine_style_graphy_level4.png";
+                break;
+            case "4":
+                paletteImage = "/images/wine_style_graphy_level5.png";
+                break;
+            default:
+                break;
+        }
+
+        return paletteImage;
+    }
+
+    function fill(value) {
+        if (value !== null && value !== undefined && value !== "") {
+            return value;
+        } else {
+            return "-";
+        }
+    }
+
+    function fillImage(value) {
+        if (value !== null && value !== undefined && value !== "") {
+            return `<img src="${value}">`;
+        } else {
+            return `<img src="/images/nothing.png">`;
+        }
+    }
+
+    function createPaletteLabelFront(paletteName) {
+        switch (paletteName) {
+            case "바디":
+                return "가벼움";
+            case "탄닌":
+                return "매끈함";
+            case "당도":
+                return "드라이";
+            case "산도":
+                return "낮음";
+            case "탄산":
+                return "없음";
+            default:
+                return "";
+        }
+    }
+
+    function getPaletteEngName(paletteName) {
+        switch (paletteName) {
+            case "바디":
+                return "Body";
+            case "탄닌":
+                return "Tannin";
+            case "당도":
+                return "Sweetness";
+            case "산도":
+                return "Acidity";
+            case "탄산":
+                return "Soda";
+            default:
+                return "";
+        }
+    }
+
+    function createPaletteLabelBack(paletteName) {
+        switch (paletteName) {
+            case "바디":
+                return "무거움";
+            case "탄닌":
+                return "떫음";
+            case "당도":
+                return "스위트";
+            case "산도":
+                return "시큼함";
+            case "탄산":
+                return "강함";
+            default:
+                return "";
+        }
+    }
+
+    function createFormPalette(paletteName, paletteValue) {
+        if (createPaletteImage(paletteValue) === null) {
+            return "";
+        }
+
+        const wrapWineStyle = document.createElement("div");
+        wrapWineStyle.className = "wrap-wine-style";
+
+        const wineStyleLabel = document.createElement("div");
+        wineStyleLabel.className = "wine-style-label";
+        wineStyleLabel.textContent = paletteName;
+        wrapWineStyle.appendChild(wineStyleLabel);
+
+        const wrapWineStyleGraphyLabel = document.createElement("div");
+        wrapWineStyleGraphyLabel.className = "wrap-wine-style-graphy-label";
+        wrapWineStyle.appendChild(wrapWineStyleGraphyLabel);
+
+        const wineStyleGraphy = document.createElement("div");
+        wineStyleGraphy.className = "wine-style-graphy";
+        wineStyleGraphy.id = "p" + getPaletteEngName(paletteName);
+
+        wrapWineStyleGraphyLabel.appendChild(wineStyleGraphy);
+
+        const image = document.createElement("img");
+        image.src = createPaletteImage(paletteValue);
+        wineStyleGraphy.appendChild(image);
+
+        const wrapWineStyleDetailsLabel = document.createElement("div");
+        wrapWineStyleDetailsLabel.className = "wrap-wine-style-details-label";
+        wrapWineStyleGraphyLabel.appendChild(wrapWineStyleDetailsLabel);
+
+        const wineStyleDetailsLabel1 = document.createElement("div");
+        wineStyleDetailsLabel1.className = "wine-style-details-label";
+        wineStyleDetailsLabel1.textContent = createPaletteLabelFront(paletteName);
+        wrapWineStyleDetailsLabel.appendChild(wineStyleDetailsLabel1);
+
+        const wineStyleDetailsLabel2 = document.createElement("div");
+        wineStyleDetailsLabel2.className = "wine-style-details-label";
+        wineStyleDetailsLabel2.textContent = createPaletteLabelBack(paletteName);
+        wrapWineStyleDetailsLabel.appendChild(wineStyleDetailsLabel2);
+
+        return wrapWineStyle;
+    }
+
+    function isNullOrWhiteSpace(value) {
+        return value === null || value.trim() === "";
+    }
+
+    function initForm() {
+        let pImageUrl = document.getElementById("pImageUrl");
+        let pName = document.getElementById("pName");
+        let pEngName = document.getElementById("pEngName");
+        let pType = document.getElementById("pType");
+        let pType1 = document.getElementById("pType1");     // primary category
+        let pType2 = document.getElementById("pType2");     // sub category
+        let pLabel = document.getElementById("pLabel");
+        let pScoreImages = document.getElementById("pScoreImages");
+        let pScore = document.getElementById("pScore");
+        let pReviewCount = document.getElementById("pReviewCount");
+
+        let pCountry = document.getElementById("pCountry");
+        let pCompany = document.getElementById("pCompany");
+        let pSupplier = document.getElementById("pSupplier");
+        let pDegree = document.getElementById("pDegree");
+
+        let pColor = document.getElementById("pColor");
+        let pColorImageUrl = document.getElementById("pColorImageUrl");
+
+        let pDescription = document.getElementById("pDescription");
+
+        let pAroma = document.getElementById("pAroma");
+        let pPaletteList = document.getElementById("pPaletteList");
+
+        pImageUrl.src = goodsViewDetails.imageUrl;
+        pName.innerText = fill(goodsViewDetails.name);
+        pEngName.innerText = fill(goodsViewDetails.engName);
+        pType.innerText = fill(goodsViewDetails.type);
+        let types = goodsViewDetails.type.split(",");
+        pType1.innerText = fill(types[0]);
+        pType2.innerText = fill(types[1]);
+        pLabel.innerText = fill(goodsViewDetails.label);
+
+        pScoreImages.innerHTML = createScoreImage(goodsViewDetails.score);
+        pScore.innerText = fill(goodsViewDetails.score);
+        pReviewCount.innerText = fill(goodsViewDetails.reviewCount);
+
+        pCountry.innerText = fill(goodsViewDetails.country);
+        pCompany.innerText = fill(goodsViewDetails.company);
+        pSupplier.innerText = fill(goodsViewDetails.supplier);
+
+        pDegree.innerText = fill(goodsViewDetails.degree);
+
+        pColor.innerText = fill(goodsViewDetails.color);
+        pColorImageUrl.src = goodsViewDetails.colorImageUrl == null ? "" : goodsViewDetails.colorImageUrl;
+
+        if (isNullOrWhiteSpace(goodsViewDetails.descriptionImageUrl)) {
+            pDescription.innerText = goodsViewDetails.description;
+        } else {
+            pDescription.innerHTML = `<img src="${goodsViewDetails.descriptionImageUrl}">` + '\n' + goodsViewDetails.description;
+        }
+
+        if (isNullOrWhiteSpace(pDescription.innerText)) {
+            document.getElementById("episodeContainer").style.display = 'none';
+        }
+
+        pAroma.innerText = fill(goodsViewDetails.opt1Value);
+
+        let pElement;
+        if (!isNullOrWhiteSpace(pElement = createFormPalette("바디", goodsViewDetails.opt3Value))) {
+            pPaletteList.appendChild(pElement);
+        }
+        if (!isNullOrWhiteSpace(pElement = createFormPalette("탄닌", goodsViewDetails.opt4Value))) {
+            pPaletteList.appendChild(pElement);
+        }
+        if (!isNullOrWhiteSpace(pElement = createFormPalette("당도", goodsViewDetails.opt5Value))) {
+            pPaletteList.appendChild(pElement);
+        }
+        if (!isNullOrWhiteSpace(pElement = createFormPalette("산도", goodsViewDetails.opt6Value))) {
+            pPaletteList.appendChild(pElement);
+        }
+        if (!isNullOrWhiteSpace(pElement = createFormPalette("탄산", goodsViewDetails.opt7Value))) {
+            pPaletteList.appendChild(pElement);
+        }
+
+        if (pPaletteList.childElementCount === 0) {
+            document.getElementById("paletteContainer").style.display = 'none';
+        }
+    }
+
+</script>
+</html>

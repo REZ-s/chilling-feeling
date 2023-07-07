@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Search </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    </style>
+
+</head>
+<body>
+<div class="search-container">
+
+    <!-- Header -->
+    <section class="wrap-search-top-bar-best-search-word">
+        <div class="search-top-bar">
+            <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
+            <div class="search-form">
+                <input class="search-label" placeholder="어떤 주류를 찾으시나요?" id="searchInput">
+                <button class="ic_search_24px" id="searchButton">
+                    <img src="/images/ic_search_black_24px.png">
+                </button>
+            </div>
+            <button class="ic_shopping_bag_24px" id="myBag">
+                <img src="/images/ic_shopping_bag_black_24px.png">
+            </button>
+        </div>
+
+        <!-- simply form -->
+        <div class="wrap-best-search" id="simplyBestSearch">
+<!--            <div class="wrap-best-search-tit-keyword">
+                <div class="best-search-title">
+                    <div class="best-search-title-label">인기검색어</div>
+                </div>
+                <div class="best-search-keyword">
+                    <div class="best-search-keyword-num">1</div>
+                    <div class="best-search-keyword-name">-</div>
+                    <div class="best-search-keyword-rank-up">new</div>
+                </div>
+            </div>
+            <button class="ic_chevron_down_14px" id="toggleBtnBefore">
+                <img src="/images/ic_chevron_down_14px.png">
+            </button>-->
+        </div>
+
+        <!-- extended form -->
+        <div class="wrap-best-search-extended" id="extendedBestSearch" style="display: none;">
+            <!--
+            <div class="wrap-best-search-title">
+                <div class="wrap-best-search-title-time">
+                    <div class="best-search-title">
+                        <div class="best-search-title-label">인기검색어</div>
+                    </div>
+                    <div class="best-search-current-time">
+                        <div class="current-time">00.00 00:00</div>
+                        <div class="current-time-text">기준</div>
+                    </div>
+                </div>
+                <button class="ic_chevron_up_14px" id="toggleBtnAfter">
+                    <img src="/images/ic_chevron_down_14px.png">
+                </button>
+            </div>
+
+                       <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">1</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">2</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">3</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">4</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">5</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">6</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">7</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">8</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-up-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">9</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-down-extended">new</div>
+                            </div>
+                        </div>
+                        <div class="best-search-keyword-extended">
+                            <div class="wrap-num-name">
+                                <div class="num-extended">10</div>
+                                <div class="name-extended">-</div>
+                            </div>
+                            <div class="wrap-rank-extended">
+                                <div class="rank-down-extended">new</div>
+                            </div>
+                        </div>-->
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="wrap-search-contents">
+        <div class="wrap-search-contents-recent">
+            <div class="wrap-recent-title-delete">
+                <div class="recent-title-label">최근검색어</div>
+                <div class="recent-delete-label">전체삭제</div>
+            </div>
+            <!-- (1) 최근 검색어가 없는 경우 -->
+            <!--<div class="recent-no-data-text">최근 검색어가 없습니다.</div>-->
+            <!-- (2) 최근 검색어가 있는 경우 -->
+            <div class="btn-search-history">
+                <div class="btn-search-history-label">혼술와인</div>
+                <img src="/images/bar.png" class="btn-search-history-bar">
+                <img src="/images/ic_close_14px.png" class="ic_close_14px">
+            </div>
+        </div>
+
+        <div class="wrap-search-contents-best-seller">
+            <div class="wrap-best-title-plus">
+                <div class="best-title-label">오늘의 칠링필링 인기 상품</div>
+            </div>
+
+            <div class="home-taste-prod-swiper-wrapper" id="productCards">
+                <!-- Items 기본 2개 이상 노출하고 옆으로 넘기도록 (swipe) -->
+                <div class="product-cards-inner">
+
+                    <div class="wrap-product-card01">
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
+                                </div>
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">4.9</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wrap-product-card01">
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 블랙</div>
+                                </div>
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">5.0</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wrap-product-card01">
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 옐로우</div>
+                                </div>
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">4.5</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="bottom-container">
+        <div class="bottom-home">
+            <div class="bottom-home-action">
+                <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">홈</div>
+            </div>
+            <div class="bottom-home-action">
+                <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">카테고리</div>
+            </div>
+            <div class="bottom-home-action">
+                <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">피드</div>
+            </div>
+            <div class="bottom-home-action">
+                <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
+                <div class="bottom-label">마이</div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</body>
+<script th:inline="javascript">
+
+    let searchInput = document.getElementById('searchInput');
+    let searchButton = document.getElementById('searchButton');
+    let productsFrame = document.querySelector("#productCards");
+    let innerSlider = document.querySelector(".product-cards-inner")
+    let pressed = false;
+    let startX, nowX;
+
+    let beforeContent = document.getElementById('simplyBestSearch');
+    let afterContent = document.getElementById('extendedBestSearch');
+
+    /* 함수 호출 순서
+    * (1) 서버에서 인기 상품 리스트를 가져와 폼을 동적으로 만든다.
+    * (2) 슬라이더의 크기를 동적으로 조정한다.
+    * (3) 인기검색어 리스트를 가져와 폼을 동적으로 만든다.
+    * */
+    searchPageInit();
+    function searchPageInit() {
+        getPopularProducts().forEach((product) => {
+            createFormProductCard01(innerSlider, product);
+        });
+
+        updateGridTemplateColumns();
+
+        createFormBestSearchedKeywordHead(beforeContent, getBestSearchedKeyWord());
+        createFormBestSearchedKeywordList(afterContent, getBestSearchedKeyWordList());
+    }
+
+    document.getElementById('toggleBtnBefore').addEventListener('click', function(e) {
+        e.preventDefault();
+        beforeContent.style.display = 'none';
+        afterContent.style.display = 'flex';
+    });
+    document.getElementById('toggleBtnAfter').addEventListener('click', function(e) {
+        e.preventDefault();
+        afterContent.style.display = 'none';
+        beforeContent.style.display = 'flex';
+    });
+
+    function getPopularProducts() {
+        let collectedProducts = [];
+
+        let product1 = {
+            productType: "위스키",
+            productName: "짐빔 화이트",
+            productScore: "4.9",
+            productReviews: "237",
+            productChip: "가성비",
+            productImage: "/images/item-rep01.png"
+        };
+        let product2 = {
+            productType: "위스키",
+            productName: "짐빔 블랙",
+            productScore: "5.0",
+            productReviews: "237",
+            productChip: "가성비",
+            productImage: "/images/item-rep01.png"
+        };
+        let product3 = {
+            productType: "위스키",
+            productName: "짐빔 옐로우",
+            productScore: "4.5",
+            productReviews: "237",
+            productChip: "가성비",
+            productImage: "/images/item-rep01.png"
+        };
+        collectedProducts.push(product1);
+        collectedProducts.push(product2);
+        collectedProducts.push(product3);
+
+        return collectedProducts;
+    }
+
+    function updateGridTemplateColumns() {
+        const innerElement = document.querySelector(".product-cards-inner");
+        const childCount = innerElement.childElementCount;
+        innerElement.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
+    }
+
+    /* PC Drag */
+    productsFrame.addEventListener("mousedown", (e) => {
+        pressed = true;
+        startX = e.offsetX - innerSlider.offsetLeft;
+        productsFrame.style.cursor = "grabbing";
+    });
+    productsFrame.addEventListener("mouseenter", () => {
+        productsFrame.style.cursor = "grab";
+    });
+    productsFrame.addEventListener("mouseup", (e) => {
+        productsFrame.style.cursor = "grab";
+    });
+    productsFrame.addEventListener("mousemove", (e) => {
+        if (!pressed) {
+            return;
+        }
+
+        e.preventDefault();
+        nowX = e.offsetX;
+
+        innerSlider.style.left = `${nowX - startX}px`;
+        checkBoundary();
+    });
+    window.addEventListener("mouseup", () => {
+        pressed = false;
+    });
+
+    /* Mobile Swipe */
+    productsFrame.addEventListener("touchstart", (e) => {
+        pressed = true;
+        startX = e.touches[0].clientX - innerSlider.offsetLeft;
+    });
+    productsFrame.addEventListener("touchend", () => {
+        pressed = false;
+    });
+    productsFrame.addEventListener("touchmove", (e) => {
+        if (!pressed) {
+            return;
+        }
+
+        e.preventDefault();
+        nowX = e.touches[0].clientX;
+
+        innerSlider.style.left = `${nowX - startX}px`;
+        checkBoundary();
+    });
+
+    function checkBoundary() {
+        let outer = productsFrame.getBoundingClientRect();
+        let inner = innerSlider.getBoundingClientRect();
+
+        if (parseInt(innerSlider.style.left) > 0) {
+            innerSlider.style.left = "0px";
+        } else if (inner.right < outer.right) {
+            innerSlider.style.left = `-${inner.width - outer.width}px`;
+        }
+    }
+
+    function createFormProductCard01(parentElement, product) {
+        if (parentElement == null) {
+            console.log('parentElement is null')
+            return;
+        }
+
+        const wrapProductCard01 = document.createElement('div');
+        wrapProductCard01.className = 'wrap-product-card01';
+
+        const productCard01 = document.createElement('div');
+        productCard01.className = 'product-card01';
+
+        const productPhotoContainer = document.createElement('div');
+        productPhotoContainer.className = 'product-list01-photo-container';
+
+        const photoContainerWrapImg = document.createElement('div');
+        photoContainerWrapImg.className = 'photo-container-wrap-img';
+
+        const image = document.createElement('img');
+        image.src = product.productImage;   // (1) input item image
+        image.className = 'recommend-image01';
+
+        const buttonHeart = document.createElement('button');
+        buttonHeart.className = 'ic_heart_24px btn-heart';
+
+        const imageHeart = document.createElement('img');
+        imageHeart.src = '/images/ic_heart_24px.png';
+
+        buttonHeart.appendChild(imageHeart);
+
+        photoContainerWrapImg.appendChild(image);
+
+        productPhotoContainer.appendChild(photoContainerWrapImg);
+        productPhotoContainer.appendChild(buttonHeart);
+
+        const productInfo = document.createElement('div');
+        productInfo.className = 'product-list01-product-info';
+
+        const productName = document.createElement('div');
+        productName.className = 'product-list01-product-name';
+
+        const productNameType = document.createElement('div');
+        productNameType.className = 'product-list01-product-name-type';
+        productNameType.textContent = product.productType;   // (2) input item type
+
+        const productNameName = document.createElement('div');
+        productNameName.className = 'product-list01-product-name-name';
+        productNameName.textContent = product.productName;  // (3) input item name
+
+        productName.appendChild(productNameType);
+        productName.appendChild(productNameName);
+
+        const caption = document.createElement('div');
+        caption.className = 'product-list01-caption';
+
+        const starScoreReview = document.createElement('div');
+        starScoreReview.className = 'star-score-review';
+
+        const imageStar = document.createElement('img');
+        imageStar.src = '/images/ic_star_10px.png';
+        imageStar.className = 'ic_star_10px';
+
+        const score = document.createElement('div');
+        score.className = 'score';
+
+        const starRating = document.createElement('div');
+        starRating.className = 'star-rating';
+        starRating.textContent = product.productScore;  // (4) input item rating
+
+        const reviews = document.createElement('div');
+        reviews.className = 'reviews';
+        reviews.textContent = '(' + product.productReviews + ')'    // (5) input item reviews
+
+        starScoreReview.appendChild(imageStar);
+
+        score.appendChild(starRating);
+        score.appendChild(reviews);
+
+        starScoreReview.appendChild(score);
+
+        caption.appendChild(starScoreReview);
+
+        const wrapChip = document.createElement('div');
+        wrapChip.className = 'wrap-chip';
+
+        const productChip = document.createElement('div');
+        productChip.className = 'product-chip';
+
+        const chipLabel = document.createElement('div');
+        chipLabel.className = 'chip-label';
+        chipLabel.textContent = product.productChip;  // (6) input item chip label
+
+        productChip.appendChild(chipLabel);
+
+        wrapChip.appendChild(productChip);
+
+        caption.appendChild(wrapChip);
+
+        productInfo.appendChild(productName);
+        productInfo.appendChild(caption);
+
+        productCard01.appendChild(productPhotoContainer);
+        productCard01.appendChild(productInfo);
+
+        wrapProductCard01.appendChild(productCard01);
+
+        parentElement.appendChild(wrapProductCard01);
+    }
+
+    function getBestSearchedKeyWord() {
+        const bestSearchedKeyword =
+            {
+                rank: 1,
+                name: '여름휴가',
+                searchCount: 1000,
+                previousRank: 11
+            };
+        return bestSearchedKeyword;
+    }
+
+    function getBestSearchedKeyWordList() {
+        const bestSearchedKeywordList = [
+            {
+                rank: 1,
+                name: '여름휴가',
+                searchCount: 1000,
+                previousRank: 11
+            },
+            {
+                rank: 2,
+                name: '피서',
+                searchCount: 900,
+                previousRank: 3
+            },
+            {
+                rank: 3,
+                name: '혼술',
+                searchCount: 800,
+                previousRank: 20
+            },
+            {
+                rank: 4,
+                name: '하이볼',
+                searchCount: 700,
+                previousRank: 23
+            },
+            {
+                rank: 5,
+                name: '발베니 15년산',
+                searchCount: 600,
+                previousRank: 5
+            },
+            {
+                rank: 6,
+                name: '파티',
+                searchCount: 500,
+                previousRank: 50
+            },
+            {
+                rank: 7,
+                name: '샴페인',
+                searchCount: 400,
+                previousRank: 7
+            },
+            {
+                rank: 8,
+                name: '피노누아',
+                searchCount: 300,
+                previousRank: 71
+            },
+            {
+                rank: 9,
+                name: '혼술 와인',
+                searchCount: 200,
+                previousRank: 8
+            },
+            {
+                rank: 10,
+                name: '와인 선물',
+                searchCount: 100,
+                previousRank: 19
+            }
+        ];
+
+        return bestSearchedKeywordList;
+    }
+
+    function createFormBestSearchedKeywordHead(parentElement, keyword) {
+        if (parentElement == null) {
+            console.log('parentElement is null');
+            return;
+        }
+
+        const wrapDiv = document.createElement('div');
+        wrapDiv.className = 'wrap-best-search-tit-keyword';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'best-search-title';
+
+        const titleLabelDiv = document.createElement('div');
+        titleLabelDiv.className = 'best-search-title-label';
+        titleLabelDiv.textContent = '인기검색어';
+
+        titleDiv.appendChild(titleLabelDiv);
+        wrapDiv.appendChild(titleDiv);
+
+        const keywordDiv = document.createElement('div');
+        keywordDiv.className = 'best-search-keyword';
+
+        const keywordNumDiv = document.createElement('div');
+        keywordNumDiv.className = 'best-search-keyword-num';
+        keywordNumDiv.textContent = keyword.rank;
+
+        const keywordNameDiv = document.createElement('div');
+        keywordNameDiv.className = 'best-search-keyword-name';
+        keywordNameDiv.textContent = keyword.name;
+
+        let keywordRankUpElement;
+
+        if (keyword.previousRank > 10) {
+            // 텍스트의 경우 (예: new)
+            keywordRankUpElement = document.createElement('div');
+            keywordRankUpElement.className = 'best-search-keyword-rank-up';
+            keywordRankUpElement.textContent = 'new';
+        }
+        else {
+            // 이미지의 경우 (예: up arrow, down arrow, line)
+            keywordRankUpElement = document.createElement('img');
+            if (keyword.rank === keyword.previousRank) {
+                keywordRankUpElement.src = '/images/ic_rank_line_10px.png';
+                keywordRankUpElement.className = 'ic_rank_line_10px';
+            } else if (keyword.rank < keyword.previousRank) {
+                keywordRankUpElement.src = '/images/ic_arrow_drop_up_10px.png';
+                keywordRankUpElement.className = 'ic_arrow_drop_up_10px';
+            } else {
+                keywordRankUpElement.src = '/images/ic_arrow_drop_down_10px.png';
+                keywordRankUpElement.className = 'ic_arrow_drop_down_10px';
+            }
+        }
+
+        keywordDiv.appendChild(keywordNumDiv);
+        keywordDiv.appendChild(keywordNameDiv);
+        keywordDiv.appendChild(keywordRankUpElement);
+        wrapDiv.appendChild(keywordDiv);
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'ic_chevron_down_14px';
+        toggleBtn.id = 'toggleBtnBefore';
+
+        const toggleBtnImg = document.createElement('img');
+        toggleBtnImg.src = '/images/ic_chevron_down_14px.png';
+
+        toggleBtn.appendChild(toggleBtnImg);
+
+        document.body.appendChild(wrapDiv);
+        document.body.appendChild(toggleBtn);
+
+        parentElement.appendChild(wrapDiv);
+        parentElement.appendChild(toggleBtn);
+    }
+
+    function createFormBestSearchedKeyword(parentElement, keyword) {
+        const bestSearchKeywordExtended = document.createElement('div');
+        bestSearchKeywordExtended.className = 'best-search-keyword-extended';
+
+        const wrapNumName = document.createElement('div');
+        wrapNumName.className = 'wrap-num-name';
+
+        const numExtended = document.createElement('div');
+        numExtended.className = 'num-extended';
+        numExtended.textContent = keyword.rank;
+
+        const nameExtended = document.createElement('div');
+        nameExtended.className = 'name-extended';
+        nameExtended.textContent = keyword.name;
+
+        wrapNumName.appendChild(numExtended);
+        wrapNumName.appendChild(nameExtended);
+
+        const wrapRankExtended = document.createElement('div');
+        wrapRankExtended.className = 'wrap-rank-extended';
+
+        let rankUpExtended;
+
+        if (keyword.previousRank > 10) {
+            // 텍스트의 경우 (예: new)
+            rankUpExtended = document.createElement('div');
+            rankUpExtended.className = 'rank-up-extended';
+            rankUpExtended.textContent = 'new';
+        }
+        else {
+            // 이미지의 경우 (예: up arrow, down arrow, line)
+            rankUpExtended = document.createElement('img');
+            if (keyword.rank === keyword.previousRank) {
+                rankUpExtended.src = '/images/ic_rank_line_10px.png';
+                rankUpExtended.className = 'ic_rank_line_10px';
+            } else if (keyword.rank > keyword.previousRank) {
+                rankUpExtended.src = '/images/ic_arrow_drop_up_10px.png';
+                rankUpExtended.className = 'ic_arrow_drop_up_10px';
+            } else {
+                rankUpExtended.src = '/images/ic_arrow_drop_down_10px.png';
+                rankUpExtended.className = 'ic_arrow_drop_down_10px';
+            }
+        }
+
+        wrapRankExtended.appendChild(rankUpExtended);
+
+        bestSearchKeywordExtended.appendChild(wrapNumName);
+        bestSearchKeywordExtended.appendChild(wrapRankExtended);
+
+        parentElement.appendChild(bestSearchKeywordExtended);
+    }
+
+    function createFormBestSearchedKeywordList(parentElement, keywords) {
+        if (parentElement == null) {
+            console.log('parentElement is null');
+            return;
+        }
+
+        const wrapBestSearchTitle = document.createElement('div');
+        wrapBestSearchTitle.className = 'wrap-best-search-title';
+
+        const wrapBestSearchTitleTime = document.createElement('div');
+        wrapBestSearchTitleTime.className = 'wrap-best-search-title-time';
+
+        const bestSearchTitle = document.createElement('div');
+        bestSearchTitle.className = 'best-search-title';
+
+        const bestSearchTitleLabel = document.createElement('div');
+
+        bestSearchTitleLabel.className = 'best-search-title-label';
+        bestSearchTitleLabel.textContent = '인기검색어';
+
+        bestSearchTitle.appendChild(bestSearchTitleLabel);
+
+        const bestSearchCurrentTime = document.createElement('div');
+        bestSearchCurrentTime.className = 'best-search-current-time';
+
+        const currentTime = document.createElement('div');
+        currentTime.className = 'current-time';
+
+        let nowDate = new Date();
+        let month = nowDate.getMonth() + 1;    // because it returns value 0 ~ 11
+        let date = nowDate.getDate();
+        let hours = nowDate.getHours();
+        let minutes = nowDate.getMinutes();
+        currentTime.textContent = (month > 9 ? month : '0' + month)
+            + '.' + (date > 9 ? date : '0' + date)
+            + ' ' + (hours > 9 ? hours : '0' + hours)
+            + ':' + (minutes > 9 ? minutes : '0' + minutes);
+
+        const currentTimeText = document.createElement('div');
+        currentTimeText.className = 'current-time-text';
+        currentTimeText.textContent = '기준';
+
+        bestSearchCurrentTime.appendChild(currentTime);
+        bestSearchCurrentTime.appendChild(currentTimeText);
+
+        wrapBestSearchTitleTime.appendChild(bestSearchTitle);
+        wrapBestSearchTitleTime.appendChild(bestSearchCurrentTime);
+
+        const icChevronUp14px = document.createElement('button');
+        icChevronUp14px.className = 'ic_chevron_up_14px';
+        icChevronUp14px.id = 'toggleBtnAfter';
+
+        const icChevronUp14pxImg = document.createElement('img');
+        icChevronUp14pxImg.src = '/images/ic_chevron_down_14px.png';
+
+        icChevronUp14px.appendChild(icChevronUp14pxImg);
+
+        wrapBestSearchTitle.appendChild(wrapBestSearchTitleTime);
+        wrapBestSearchTitle.appendChild(icChevronUp14px);
+
+        parentElement.appendChild(wrapBestSearchTitle);
+
+        for (let i = 0; i < keywords.length; i++) {
+            createFormBestSearchedKeyword(parentElement, keywords[i]);
+        }
+    }
+
+    function findSearchWord() {
+        const searchValue = searchInput.value.trim();
+        if (searchValue === '') {
+            alert('검색어를 입력해주세요.');
+            return;
+        }
+
+        location.href = '/cf_search/result?query=' + searchValue;
+    }
+
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            findSearchWord();
+        }
+    });
+    searchButton.addEventListener('click', function() {
+        findSearchWord();
+    });
+
+</script>
+</html>

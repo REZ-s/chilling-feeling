@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Join (1/3) </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="join1">
+    <!-- Top frame -->
+    <section class="join1-header">
+        <div class="ic_back_24px">
+            <a href="/cf_login">
+                <img src="/images/ic_back_24px.png">
+            </a>
+        </div>
+        <div class="join1-header-content-text">회원가입 (2/3)</div>
+        <div class="ic_close_24px">
+            <a href="/cf_main">
+                <img src="/images/ic_close_24px.png">
+            </a>
+        </div>
+    </section>
+
+    <!-- Content Frame -->
+    <div class="join2-container">
+        <div class="join2-container-content">
+            <div class="join2-title">비밀번호를 입력해주세요.</div>
+            <div class="join2-subtitle"><br>비밀번호는 8자~20자 조합으로<br>영문, 숫자, 특수기호를 포함해 주세요.</div>
+        </div>
+
+        <div class="join2-container-actions">
+            <div class="join2-container-actions-form-field">
+                <div class="join2-form-field-password">
+                    <div class="join2-wrapper-input-icon" id="pwInputField">
+                        <input class="join2-input-text pw-field" placeholder="비밀번호 입력" type="password" id="pwInput">
+                        <div class="ic_visibility_off">
+                            <img class="pw-eye" src="/images/ic_visibility_off.png">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="join2-form-field-password" id="pwCheckField">
+                    <div class="join2-wrapper-input-icon">
+                        <input class="join2-input-text pw-field" placeholder="비밀번호 확인" type="password" id="pwCheck">
+                        <div class="ic_visibility_off">
+                            <img class="pw-eye" src="/images/ic_visibility_off.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="join2-btn-next">
+                <div class="join2-btn-next-label" id="nextBtn">다음</div>
+            </button>
+        </div>
+    </div>
+
+</div>
+<script th:inline="javascript">
+
+    /* Password eye on/off */
+    const pwShowHide = document.querySelectorAll(".pw-eye");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.src = "/images/ic_visibility_on.png";
+                    return;
+                }
+
+                password.type = "password";
+                eyeIcon.src = "/images/ic_visibility_off.png";
+            });
+        });
+    });
+
+    /* verify password for nextPage */
+    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        const pwInput = document.querySelector('#pwInput').value.trim();
+        const pwCheck = document.querySelector('#pwCheck').value.trim();
+
+        if (pwInput !== pwCheck) {
+            console.log('Password does not match');
+            /*
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = '비밀번호가 일치하지 않습니다.';
+            errorMessage.style.display = 'block';
+            */
+            return;
+        }
+
+        sendJoinForm('/cf_join3', pwInput);
+    });
+
+    /*<![CDATA[*/
+    function sendJoinForm(path, pw) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = path;
+
+        let request = /*[[${request}]]*/ {};
+        request.password = pw;
+
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'hidden';
+        usernameInput.name = 'username';
+        usernameInput.value = request.username;
+        form.appendChild(usernameInput);
+
+        const pwInput = document.createElement('input');
+        pwInput.type = 'hidden';
+        pwInput.name = 'password';
+        pwInput.value = request.password;
+        form.appendChild(pwInput);
+
+        const numberInput = document.createElement('input');
+        numberInput.type = 'hidden';
+        numberInput.name = 'phoneNumber';
+        numberInput.value = request.phoneNumber;
+        form.appendChild(numberInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    /*]]>*/
+
+</script>
+</body>
+</html>

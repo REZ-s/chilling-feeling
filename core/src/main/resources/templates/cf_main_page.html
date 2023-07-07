@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title> Chilling Feeling - Main </title>
+
+    <link rel="shortcut icon" href="/images/favicon_16px.png">
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /* For modal */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 10px;
+            background-color: #262626;
+        }
+
+        .Drag-handle-Stroke {
+            width: 48px;
+            height: 4px;
+            flex-grow: 0;
+            background-color: #616161;
+        }
+
+        .modal-food {
+            width: 375px;
+            height: 296px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 30px;
+            padding: 15px 0;
+            background-color: #fff;
+        }
+
+        .modal-check {
+            width: 375px;
+            height: 296px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 30px;
+            padding: 15px 0;
+            background-color: #fff;
+        }
+
+        .modal-best-seller-period-container {
+            height: 232px;
+            align-self: stretch;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 0 20px 15px;
+        }
+
+        .modal-best-seller-period-title-icon {
+            width: 335px;
+            height: 27px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0;
+        }
+
+        .modal-best-seller-period-title {
+            width: 69px;
+            height: 27px;
+            flex-grow: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: -0.36px;
+            text-align: left;
+            color: #000;
+        }
+
+        .modal-best-seller-period-btn {
+            width: 333px;
+            height: 160px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 5px;
+            padding: 0;
+        }
+
+        .modal-frame-btn {
+            width: 333px;
+            height: 50px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 5px;
+            padding: 0;
+        }
+
+        .modal-btn-wide-active {
+            width: 335px;
+            height: 50px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 3px;
+            background-color: #004051;
+        }
+
+        .modal-btn-wide-label-active {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .modal-btn-wide {
+            width: 335px;
+            height: 50px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 3px;
+            border: solid 1px #dadada;
+            background-color: #fff;
+        }
+
+        .modal-btn-wide-label {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: center;
+            color: #000;
+        }
+
+        .modal-btn-active {
+            width: 164px;
+            height: 50px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 3px;
+            border: solid 1px #dadada;
+            background-color: #004051;
+        }
+
+        .modal-btn-label-active {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .modal-btn {
+            width: 164px;
+            height: 50px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 3px;
+            border: solid 1px #dadada;
+            background-color: #fff;
+        }
+
+        .modal-btn-label {
+            height: 28px;
+            flex-grow: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: -0.32px;
+            text-align: center;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="home">
+
+        <!-- Header & Content -->
+        <section class="wrap-top-bar-top-banner">
+            <section class="top-bar">
+                <div class="logo">
+                    <div class="wrap-logo-text">
+                        <div class="CHILLING-FEELING">CHILLING FEELING</div>
+                    </div>
+                </div>
+                <div class="btn-menu">
+                    <button class="ic_search_main_24px" id="search">
+                        <img src="/images/ic_search_24px.png" >
+                    </button>
+                    <button class="ic_shopping_bag_main_24px" id="myBag">
+                        <img src="/images/ic_shopping_bag_24px.png" >
+                    </button>
+                </div>
+            </section>
+            <section class="home-container-today">
+                <div class="wrapper-illustration-title">
+                    <img src="/images/illustration_container.png" class="illustration-container">
+                    <div class="today-recommend-title">오늘 당신의 기분과<br>딱 맞는 술을 추천해드릴게요!</div>
+                </div>
+                <div class="btn-rounded-recommend">
+                    <div class="btn-rounded-recommend-label">추천 받기</div>
+                </div>
+            </section>
+        </section>
+
+        <section class="home-contents">
+            <div class="home-taste-prod">
+                <div class="home-taste-title-box">
+                    <!-- 사용자의 닉네임이 들어가야한다. (닉네임 미정이면 기본값으로 이메일주소) -->
+                    <div class="home-taste-title">지은님을 위한 취향저격</div>
+                    <div class="home-taste-subtitle">요즘 이런 스타일 좋아하시더라구요😊</div>
+                </div>
+                <div class="home-taste-prod-swiper-wrapper">
+                    <!-- Items -->
+                    <div class="wrap-product-card01">
+                        <!-- 2개까지 노출하고 옆에 살짝 보이도록 (swipe 가능) -->
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
+                                </div>
+<!--                                <div class="product-list01-price">
+                                    <div class="product-list01-price-original-price">40,680</div>
+                                    <div class="product-list01-price-sale">
+                                        <div class="discount-rate">21%</div>
+                                        <div class="discounted-price">32,000원</div>
+                                    </div>
+                                </div>-->
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">4.9</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-food-prod">
+                <div class="home-food-title-box">
+                    <div class="home-food-title">오늘의 안주 단짝을 찾아드릴게요</div>
+                    <div class="home-food-subtitle-group">
+                        <div class="wrap-drop-down-food">
+                            <!-- 클릭하면 옵션을 고를 수 있는 모달창 실행 -->
+                            <div class="drop-down-food" id="dropDownFood">
+                                <div class="food-type" id="food">떡볶이</div>
+                                <img src="/images/ic_arrow_drop_down_10px.png" class="arrow-drop-down-10px">
+                            </div>
+                        </div>
+                        <div class="home-food-subtitle">와 단짝은</div>
+                    </div>
+                </div>
+                <div class="home-food-prod-swiper-wrapper">
+                    <div class="product-card02">
+                        <div class="product-list02-photo-container">
+                            <img src="/images/item-rep02.png" class="recommend-image02">
+                        </div>
+                        <div class="product-list02-product-info">
+                            <div class="product-list02-name-star">
+                                <div class="product-list02-name">비에띠 모스카토 다스티</div>
+                                <div class="star-group">
+                                    <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                    <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                    <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                    <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                    <img src="/images/ic_star_off_10px.png" class="ic_star_off_10px">
+                                </div>
+                            </div>
+                            <div class="product-list02-caption-price">
+                                <div class="product-list02-caption">
+                                    매운 맛을 달래줄 쿨피스 같은 와인에는 모스카토 다스티!
+                                    <br>향긋한 복숭아 향이 나며 기포가 부드럽고
+                                    <br>도수도 낮아 부담없이 먹고 마실 수 있어요.
+                                </div>
+<!--                                <div class="product-list02-price">26,900원</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-best-seller">
+                <div class="home-best-seller-title-box">
+                    <div class="wrap-drop-down-date">
+                        <!-- 클릭하면 옵션을 고를 수 있는 모달창 실행 -->
+                        <div class="drop-down-date" id="dropDownDate">
+                            <div class="date" id="date">오늘</div>
+                            <img src="/images/ic_arrow_drop_down_10px.png" class="arrow-drop-down-10px">
+                        </div>
+                    </div>
+                    <div class="home-best-seller-title">제일 잘 나갔어요</div>
+                </div>
+                <div class="home-best-seller-wrap-product-card01">
+                    <!-- 3개까지 노출 (위에 2개, 아래 1개와 인기검색어) -->
+                    <!-- 아래 wrap-horizontal 태그 안에 2개씩 -->
+                    <div class="wrap-horizontal">
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
+                                </div>
+<!--                                <div class="product-list01-price">
+                                    <div class="product-list01-price-original-price">40,680</div>
+                                    <div class="product-list01-price-sale">
+                                        <div class="discount-rate">21%</div>
+                                        <div class="discounted-price">32,000원</div>
+                                    </div>
+                                </div>-->
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">4.9</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
+                                </div>
+<!--                                <div class="product-list01-price">
+                                    <div class="product-list01-price-original-price">40,680</div>
+                                    <div class="product-list01-price-sale">
+                                        <div class="discount-rate">21%</div>
+                                        <div class="discounted-price">32,000원</div>
+                                    </div>
+                                </div>-->
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">4.9</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wrap-horizontal">
+                        <div class="product-card01">
+                            <div class="product-list01-photo-container">
+                                <div class="photo-container-wrap-img">
+                                    <img src="/images/item-rep01.png" class="recommend-image01">
+                                </div>
+                                <button class="ic_heart_24px btn-heart">
+                                    <img src="/images/ic_heart_24px.png">
+                                </button>
+                            </div>
+                            <div class="product-list01-product-info">
+                                <div class="product-list01-product-name">
+                                    <div class="product-list01-product-name-type">위스키</div>
+                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
+                                </div>
+<!--                                <div class="product-list01-price">
+                                    <div class="product-list01-price-original-price">40,680</div>
+                                    <div class="product-list01-price-sale">
+                                        <div class="discount-rate">21%</div>
+                                        <div class="discounted-price">32,000원</div>
+                                    </div>
+                                </div>-->
+                                <div class="product-list01-caption">
+                                    <div class="star-score-review">
+                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
+                                        <div class="score">
+                                            <div class="star-rating">4.9</div>
+                                            <div class="reviews">(237)</div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-chip">
+                                        <div class="product-chip">
+                                            <div class="chip-label">가성비</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="banner-keyword">
+                            <div class="banner-keyword-title">인기 검색어</div>
+                            <div class="keyword-list">
+                                <!-- 최상위 5개 노출 -->
+                                <li>
+                                    <div class="rank-no">1</div>
+                                    <div class="rank-name">신상 와인</div>
+                                    <div class="rank-up">new</div>
+                                </li>
+                                <li>
+                                    <div class="rank-no">2</div>
+                                    <div class="rank-name">신상 와인</div>
+                                    <div class="rank-up">new</div>
+                                </li>
+                                <li>
+                                    <div class="rank-no">3</div>
+                                    <div class="rank-name">신상 와인</div>
+                                    <div class="rank-up">new</div>
+                                </li>
+                                <li>
+                                    <div class="rank-no">4</div>
+                                    <div class="rank-name">신상 와인</div>
+                                    <div class="rank-up">new</div>
+                                </li>
+                                <li>
+                                    <div class="rank-no">5</div>
+                                    <div class="rank-name">신상 와인</div>
+                                    <div class="rank-up">new</div>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-feed-prod">
+                <div class="home-title-box">
+                    <div class="home-title">다른 사람들의 혼술라이프는?</div>
+                    <div class="home-subtitle">시원한 여름 분위기 느끼기<span class="text-style-1">🌴</span>
+                    </div>
+                </div>
+                <div class="home-feed-prod-swiper-wrapper">
+                    <div class="wrap-product-card03">
+                        <img src="/images/feed-prod-img.png" class="prod-img">
+                        <!--                       <div class="prod-img">
+                            <div class="product-card03">
+                                <div class="wrap-product-card03-img">
+                                </div>
+                                <div class="wrap-product-card03-texts">
+                                    <div class="product-card03-type">와인</div>
+                                    <div class="product-card03-name">브레드 앤 버터 나파 피노누아 2019</div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="feed-prodTit">
+                            <div class="feed-prod-title">피노누아 처음 먹어봤는데 너무 맛있네요😆</div>
+                            <div class="feed-prod-tag">#피노누아 #레드와인</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination-progressbar">
+                    <!-- index + 1 따라 오른쪽으로 한 칸 이동 -->
+                    <div class="progressbar-active">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section class="bottom-container">
+            <div class="bottom-home">
+                <button class="bottom-home-action" id="goToHome">
+                    <img src="/images/ic_home_ac.png" class="ic_bottom_icon">
+                    <div class="bottom-label">홈</div>
+                </button>
+                <button class="bottom-home-action" id="goToCategory">
+                    <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
+                    <div class="bottom-label">카테고리</div>
+                </button>
+                <button class="bottom-home-action">
+                    <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
+                    <div class="bottom-label">피드</div>
+                </button>
+                <button class="bottom-home-action">
+                    <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
+                    <div class="bottom-label">마이</div>
+                </button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="snacks" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-food">
+                <div class="Drag-handle-Stroke"></div>
+                <div class="modal-best-seller-period-container">
+                    <div class="modal-best-seller-period-title-icon">
+                        <div class="modal-best-seller-period-title">안주 선택</div>
+                        <img src="/images/ic_close_24px.png" class="ic_close_24px">
+                    </div>
+                    <div class="modal-best-seller-period-btn">
+                        <div class="modal-frame-btn">
+                            <button class="modal-btn-active" id="f1">
+                                <div class="modal-btn-label-active">떡볶이</div>
+                            </button>
+                            <button class="modal-btn" id="f2">
+                                <div class="modal-btn-label">방어회</div>
+                            </button>
+                        </div>
+                        <div class="modal-frame-btn">
+                            <button class="modal-btn" id="f3">
+                                <div class="modal-btn-label">삼겹살</div>
+                            </button>
+                            <button class="modal-btn" id="f4">
+                                <div class="modal-btn-label">토마토파스타</div>
+                            </button>
+                        </div>
+                        <div class="modal-frame-btn">
+                            <button class="modal-btn" id="f5">
+                                <div class="modal-btn-label">등심 / 안심</div>
+                            </button>
+                            <button class="modal-btn" id="f6">
+                                <div class="modal-btn-label">초콜릿</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="period" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-check">
+                <div class="Drag-handle-Stroke"></div>
+                <div class="modal-best-seller-period-container">
+                    <div class="modal-best-seller-period-title-icon">
+                        <div class="modal-best-seller-period-title">조회기간</div>
+                        <img src="/images/ic_close_24px.png" class="ic_close_24px">
+                    </div>
+                    <div class="modal-best-seller-period-btn">
+                        <button class="modal-btn-wide-active" id="d1">
+                            <div class="modal-btn-wide-label-active">오늘</div>
+                        </button>
+                        <button class="modal-btn-wide" id="d2">
+                            <div class="modal-btn-wide-label">이번 주</div>
+                        </button>
+                        <button class="modal-btn-wide" id="d3">
+                            <div class="modal-btn-wide-label">이번 달</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    const dateDropDown = document.getElementById('dropDownDate');
+    const foodDropDown = document.getElementById('dropDownFood');
+    const periodModal = document.getElementById('period');
+    const snacksModal = document.getElementById('snacks');
+
+    const foodButtons = Array.from({length: 6}, (_, index) => {
+        const button = document.getElementById('f' + (index + 1));
+        const label = button.children[0];
+        return {button, label, index: index + 1};
+    });
+
+    const dateButtons = Array.from({length: 3}, (_, index) => {
+        const button = document.getElementById('d' + (index + 1));
+        const label = button.children[0];
+        return {button, label, index: index + 1};
+    });
+
+    // 카테고리 버튼
+    document.getElementById("goToCategory").addEventListener("click", function () {
+        location.href = "/cf_category";
+    });
+
+    document.getElementById('search').addEventListener('click', function (e) {
+        location.href = '/cf_search';
+    });
+
+    document.querySelectorAll('.btn-heart').forEach(btnHeart => {
+        btnHeart.addEventListener('click', (e) => {
+            e.preventDefault();
+            let img = btnHeart.children[0];
+            if (img.src.includes('ic_heart_24px')) {
+                img.src = '/images/ic_heart_fill_24px.png';
+            } else {
+                img.src = '/images/ic_heart_24px.png';
+            }
+        });
+    });
+
+    foodDropDown.addEventListener('click', function (e) {
+        e.preventDefault();
+        $(snacksModal).modal('show');
+    });
+
+    dateDropDown.addEventListener('click', function (e) {
+        e.preventDefault();
+        $(periodModal).modal('show');
+    });
+
+    foodButtons.forEach(({button, label, index}) => {
+        button.addEventListener('click', function () {
+            handleFoodButtonClick(button, label, index);
+        });
+    });
+
+    dateButtons.forEach(({button, label, index}) => {
+        button.addEventListener('click', function () {
+            handleDateButtonClick(button, label, index);
+        });
+    });
+
+    function handleFoodButtonClick(button, label, index) {
+        if (button.classList.contains('modal-btn-active')) {
+            document.getElementById('food').innerText = label.innerText;
+            $(snacksModal).modal('hide');
+        } else {
+            convertCheckFoodModalBtns(index);
+            button.classList.remove('modal-btn');
+            label.classList.remove('modal-btn-label');
+            button.classList.add('modal-btn-active');
+            label.classList.add('modal-btn-label-active');
+        }
+    }
+
+    function handleDateButtonClick(button, label, index) {
+        if (button.classList.contains('modal-btn-wide-active')) {
+            document.getElementById('date').innerText = label.innerText;
+            $(periodModal).modal('hide');
+        } else {
+            convertCheckDateModalBtns(index);
+            button.classList.remove('modal-btn-wide');
+            label.classList.remove('modal-btn-wide-label');
+            button.classList.add('modal-btn-wide-active');
+            label.classList.add('modal-btn-wide-label-active');
+        }
+    }
+
+    function convertCheckFoodModalBtns(myBtnIndex) {
+        for (let i = 1; i <= 6; i++) {
+            if (myBtnIndex === i) {
+                continue;
+            }
+
+            let btn = document.getElementById('f' + i);
+            let label = btn.children[0];
+
+            btn.classList.remove('modal-btn-active');
+            btn.children[0].classList.remove('modal-btn-label-active');
+            btn.classList.add('modal-btn');
+            btn.children[0].classList.add('modal-btn-label');
+        }
+    }
+
+    function convertCheckDateModalBtns(myBtnIndex) {
+        for (let i = 1; i <= 3; i++) {
+            if (myBtnIndex === i) {
+                continue;
+            }
+
+            let btn = document.getElementById('d' + i);
+            let label = btn.children[0];
+
+            btn.classList.remove('modal-btn-wide-active');
+            btn.children[0].classList.remove('modal-btn-wide-label-active');
+            btn.classList.add('modal-btn-wide');
+            btn.children[0].classList.add('modal-btn-wide-label');
+        }
+    }
+
+</script>
+</body>
+</html>
