@@ -1,5 +1,6 @@
-# Host
 server:
+
+  # Host
   address: ec2-3-38-94-0.ap-northeast-2.compute.amazonaws.com
   port: 8080
 
@@ -9,8 +10,9 @@ server:
     mime-types: application/json, text/html, text/css, text/javascript, text/plain, image/png, image/gif, image/jpeg
     min-response-size: 2048
 
-# OAuth 2.0 setting (service providers)
 spring:
+
+  # OAuth 2.0 setting (service providers)
   security:
     oauth2:
       client:
@@ -57,9 +59,6 @@ spring:
             user-info-uri: "https://kapi.kakao.com/v2/user/me"
             user-name-attribute: "id"
 
-  profiles:
-    include: oauth, real-db
-
   # DB setting
   datasource:
     hikari:
@@ -77,8 +76,6 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: true
-#    show-sql: true
-#    generate-ddl: true
 
     hibernate:
       ddl-auto: none
@@ -87,9 +84,6 @@ spring:
       hibernate:
         default_batch_fetch_size: 100
         dialect: org.hibernate.dialect.MySQL8Dialect
-#        show_sql: true
-#        format_sql: true
-
 
   # Server template engine setting
   thymeleaf:
