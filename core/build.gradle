@@ -8,11 +8,6 @@ group = 'com.joolove'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-jar {
-	enabled = false
-	archiveClassifier=''
-}
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -62,3 +57,4 @@ tasks.named('test') {
 tasks.named('jar') {
 	enabled = false
 }
+
