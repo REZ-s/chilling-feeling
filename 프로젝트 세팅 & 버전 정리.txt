@@ -1,3 +1,0 @@
-Java 17 
-Spring Boot 2.7.5 (Spring 5.3.23)
-- 사용한 라이브러리 : 
