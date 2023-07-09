@@ -1,0 +1,24 @@
+develop 브랜치에서 우선 진행
+(위에서부터 최신 커밋)
+
+Remove dataSource class
+Remove test files
+Shift application-live.yml
+Modify application.yml, application-live.yml
+Modify application-live.yml
+Update application.yml
+Remove yml file
+Modify test application.yml
+...
+-> *.yml 파일들
+
+
+
+실행법 : 
+git filter-branch -f --index-filter "git rm --cached --ignore-unmatch *.yml" --prune-empty --tag-name-filter cat -- --all
+git push origin master --force
+
+
+
+예상법 :
+.gitignore 파일에 작성하여 커밋에 영향 받지 않도록 한다.
