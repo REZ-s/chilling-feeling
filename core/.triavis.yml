@@ -1,0 +1,23 @@
+language: java
+
+jdk: 
+  - openjdk17
+
+branches:
+  only:
+    - master
+
+before_install:
+  - chmod +x gradlew
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
+
+notifications:
+  email:
+    recipients:
+      - althea_@naver.com
