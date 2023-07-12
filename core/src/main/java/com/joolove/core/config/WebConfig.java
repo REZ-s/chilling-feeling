@@ -94,7 +94,6 @@ public class WebConfig implements WebMvcConfigurer {
                         matchers.mvcMatchers("/css/**")
                                 .mvcMatchers("/images/**")
                                 .mvcMatchers("/js/**")
-                                .mvcMatchers("/environment/**")
                 )
                 .authorizeHttpRequests((authorize) ->
                         authorize.anyRequest().permitAll())
@@ -128,6 +127,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .mvcMatchers(HttpMethod.GET, "/cf_main").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/cf_login").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/environment/*").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
