@@ -6,15 +6,15 @@ plugins {
 
 group = 'com.joolove'
 sourceCompatibility = '17'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
-tasks.register('incrementVersion') {
+tasks.register('version-up') {
 	doLast {
-		String minor = version.substring(version.lastIndexOf('.') + 1)
+		String minor = version.substring(version.lastIndexOf('.') + 1, version.indexOf('-'))
 		int m = minor.toInteger() + 1
-		String major = version.substring(0, version.length() - 1)
-		String s = file('build.gradle').getText().replaceFirst("version='$version'", "version='" + major + m + "'")
-		file('build.gradle').setText(s)
+		String major = version.substring(0, version.lastIndexOf('.'))
+		String s = file('build.gradle').getText().replaceFirst("version = '$version'", "version = '" + major + "." + m + "-SNAPSHOT'")
+		file('build.gradle').write(s)
 	}
 }
 
