@@ -16,6 +16,8 @@ before_install:
   - cd ./core
   - chmod +x ./gradlew
 
+before_script: "./gradlew version-up"
+
 script: "./gradlew clean build"
 
 before_deploy:
