@@ -95,6 +95,7 @@ public class WebConfig implements WebMvcConfigurer {
                         matchers.mvcMatchers("/css/**")
                                 .mvcMatchers("/images/**")
                                 .mvcMatchers("/js/**")
+                                .mvcMatchers("/environment/**")
                 )
                 .authorizeHttpRequests((authorize) ->
                         authorize.anyRequest().permitAll())
