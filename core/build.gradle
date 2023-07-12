@@ -8,7 +8,7 @@ group = 'com.joolove'
 sourceCompatibility = '17'
 version = '0.0.1-SNAPSHOT'
 
-task incrementVersion {
+tasks.register('incrementVersion') {
 	doLast {
 		String minor = version.substring(version.lastIndexOf('.') + 1)
 		int m = minor.toInteger() + 1
