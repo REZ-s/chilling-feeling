@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@RedisHash(value = "RefreshToken", timeToLive = 3600)
+@RedisHash(value = "refreshToken", timeToLive = 3600)
 public class RefreshToken extends BaseTimeStamp {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -37,7 +36,6 @@ public class RefreshToken extends BaseTimeStamp {
     private String token;
 
     @NotNull
-    @TimeToLive
     private LocalDateTime expiryDate;
 
     @Builder

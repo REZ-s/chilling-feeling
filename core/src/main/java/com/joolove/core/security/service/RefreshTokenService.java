@@ -9,9 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,11 +28,13 @@ public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
+    @Cacheable(value = "refreshToken", key = "#token", unless = "#token == null or #result == null")
     public RefreshToken findByToken(String token) {
         RefreshToken tokenCache = refreshTokenRedisRepository.findByToken(token);
         return tokenCache == null ? refreshTokenRepository.findByToken(token) : tokenCache;
     }
 
+    @Cacheable(value = "refreshToken", key = "#username", unless = "#username == null or #result == null")
     public RefreshToken findByUsername(String username) {
         RefreshToken tokenCache = refreshTokenRedisRepository.findByUsername(username);
         return tokenCache == null ? refreshTokenRepository.findByUsername(username) : tokenCache;
@@ -70,11 +75,16 @@ public class RefreshTokenService {
         return true;
     }
 
+    @CacheEvict(value = "refreshToken", key = "#username", condition = "#username != null")
     public int deleteByUsername(String username) {
+        refreshTokenRedisRepository.deleteByUsername(username);
         return refreshTokenRepository.deleteByUsername(username);
     }
 
+    @CacheEvict(value = "refreshToken", key = "#token", condition = "#token != null")
     public int deleteByToken(String token) {
+        refreshTokenRedisRepository.deleteByToken(token);
         return refreshTokenRepository.deleteByToken(token);
     }
+
 }

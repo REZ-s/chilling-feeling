@@ -11,16 +11,12 @@ import java.util.UUID;
 @Repository
 public interface RefreshTokenRedisRepository extends CrudRepository<RefreshToken, UUID> {
 
-    @Cacheable(value = "refreshToken", key = "#token", unless = "#result == null")
     RefreshToken findByToken(String token);
 
-    @Cacheable(value = "refreshToken", key = "#username", unless = "#result == null")
     RefreshToken findByUsername(String username);
 
-    @CacheEvict(value = "refreshToken", key = "#username")
     void deleteByUsername(String username);
 
-    @CacheEvict(value = "refreshToken", key = "#token")
     void deleteByToken(String token);
 
     @CacheEvict(value = "refreshToken", allEntries = true)

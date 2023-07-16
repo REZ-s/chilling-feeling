@@ -37,9 +37,15 @@ public class RedisRepositoryConfig extends CachingConfigurerSupport {
 
     @Bean
     public RedisTemplate<?, ?> redisTemplate() {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
-        return redisTemplate;
+        RedisTemplate<?, ?> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory());
+        template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+
+        return template;
     }
 
     @Bean
@@ -48,20 +54,15 @@ public class RedisRepositoryConfig extends CachingConfigurerSupport {
         RedisCacheConfiguration configuration = RedisCacheConfiguration
                 .defaultCacheConfig()
                 .disableCachingNullValues()
-                .entryTtl(ttl)
+                .entryTtl(Duration.ofSeconds(ttl.toSeconds()))
                 .computePrefixWith(CacheKeyPrefix.simple())
-                .serializeKeysWith(
-                        RedisSerializationContext
-                                .SerializationPair
-                                .fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(
-                        RedisSerializationContext
-                                .SerializationPair
-                                .fromSerializer(new GenericJackson2JsonRedisSerializer()));
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())
                 .cacheDefaults(configuration)
+                .transactionAware() // 트랜잭션이 성공해야만 캐시에 저장하도록 상호작용 설정
                 .build();
     }
 

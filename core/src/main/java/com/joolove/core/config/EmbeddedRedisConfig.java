@@ -2,7 +2,6 @@ package com.joolove.core.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import redis.embedded.RedisServer;
@@ -14,22 +13,23 @@ import javax.annotation.PreDestroy;
 @Configuration
 public class EmbeddedRedisConfig {
     private static final Logger logger = LoggerFactory.getLogger(EmbeddedRedisConfig.class);
-
-    @Value("${spring.redis.port}")
-    private int redisPort;
-
-    private RedisServer redisServer;
+    private static RedisServer redisServer = null;
 
     @PostConstruct
-    public void redisServer() {
-        redisServer = RedisServer.builder()
-                .port(redisPort)
-                .setting("maxmemory 128M")
-                .build();
-        try {
-            redisServer.start();
-        } catch (Exception e) {
-            logger.error("embedded redis server start error", e);
+    public void startRedis() {
+        int embeddedRedisPort = 6378;
+
+        if (redisServer == null || !redisServer.isActive()) {
+            redisServer = RedisServer.builder()
+                    .port(embeddedRedisPort)
+                    .setting("maxmemory 128M")
+                    .build();
+
+            try {
+                redisServer.start();
+            } catch (Exception e) {
+                logger.error("embedded redis start failed ", e);
+            }
         }
     }
 
