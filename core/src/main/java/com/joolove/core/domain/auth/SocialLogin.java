@@ -34,16 +34,12 @@ public class SocialLogin extends BaseTimeStamp {
     @Column(unique = true)
     private String providerId;  // Authorization Server ID
 
-    @Column(unique = true)
-    private String accessToken; // oauth 2.0 jwt
-
     @Builder
-    public SocialLogin(UUID id, User user, Short providerCode, String providerId, String accessToken) {
+    public SocialLogin(UUID id, User user, Short providerCode, String providerId) {
         this.id = id;
         this.user = user;
         this.providerCode = providerCode;
         this.providerId = providerId;
-        this.accessToken = accessToken;
     }
 
     @Override
@@ -53,7 +49,6 @@ public class SocialLogin extends BaseTimeStamp {
                 ", user=" + user +
                 ", providerCode=" + providerCode +
                 ", providerId='" + providerId + '\'' +
-                ", accessToken='" + accessToken + '\'' +
                 '}';
     }
 

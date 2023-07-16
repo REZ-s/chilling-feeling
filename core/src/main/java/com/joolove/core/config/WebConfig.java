@@ -1,7 +1,7 @@
 package com.joolove.core.config;
 
-import com.joolove.core.repository.RoleRepository;
-import com.joolove.core.repository.UserRepository;
+import com.joolove.core.repository.jpa.RoleRepository;
+import com.joolove.core.repository.jpa.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
 import com.joolove.core.security.jwt.utils.JwtAuthFilter;
@@ -155,7 +155,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .logoutUrl("/cf_logout")
                 .logoutSuccessUrl("/cf_main")
                 .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
-                .deleteCookies("JSESSIONID", "jooloveJwt", "jooloveJwtRefresh");
+                .deleteCookies("JSESSIONID", "remember-me", "jooloveJwt", "jooloveJwtRefresh");
 
         http.rememberMe()
                 .key("uniqueAndSecret") // remember-me cookie key

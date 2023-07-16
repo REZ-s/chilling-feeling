@@ -1,16 +1,8 @@
 package com.joolove.core.security.jwt.utils;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Optional;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.joolove.core.domain.member.User;
 import com.joolove.core.security.service.UserPrincipal;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +11,25 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.util.SerializationUtils;
 import org.springframework.web.util.WebUtils;
-import io.jsonwebtoken.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Base64;
+import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
     @Value("${joolove.app.jwtSecret}")
     private String jwtSecret;
-    @Value("${joolove.app.jwtExpirationMs}")
-    private long jwtExpirationMs;
-    @Value("${joolove.app.jwtRefreshExpirationMs}")
-    private long jwtRefreshExpirationMs;
+    @Value("${joolove.app.jwtExpirationSecond}")
+    private long jwtExpirationSecond;
+    @Value("${joolove.app.jwtRefreshExpirationSecond}")
+    private long jwtRefreshExpirationSecond;
     @Value("${joolove.app.jwtCookieName}")
     private String jwtCookie;
     @Value("${joolove.app.jwtRefreshCookieName}")
@@ -46,18 +46,29 @@ public class JwtUtils {
     }
 
     public void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
+        String cookieValue = name + "=" + value + "; Path=/; HttpOnly; Max-Age=" + maxAge;
+        response.setHeader("Set-Cookie", cookieValue);
     }
 
     public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length > 0) {
+        if (cookies != null) {
             for (Cookie cookie: cookies) {
                 if (cookie.getName().equals(name)) {
+                    cookie.setValue("");
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+    }
+
+    public void deleteJwtCookies(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie: cookies) {
+                if (cookie.getName().equals(jwtCookie) || cookie.getName().equals(jwtRefreshCookie)) {
                     cookie.setValue("");
                     cookie.setPath("/");
                     cookie.setMaxAge(0);
@@ -91,16 +102,16 @@ public class JwtUtils {
 
     public ResponseCookie generateJwtCookie(UserPrincipal userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUser().getUsername());
-        return generateCookie(jwtCookie, jwt, "/", jwtExpirationMs);
+        return generateCookie(jwtCookie, jwt, "/", jwtExpirationSecond);
     }
 
     public ResponseCookie generateJwtCookie(User user) {
         String jwt = generateTokenFromUsername(user.getUsername());
-        return generateCookie(jwtCookie, jwt, "/", jwtExpirationMs);
+        return generateCookie(jwtCookie, jwt, "/", jwtExpirationSecond);
     }
 
     public ResponseCookie generateRefreshJwtCookie(String refreshToken) {
-        return generateCookie(jwtRefreshCookie, refreshToken, "/", jwtRefreshExpirationMs);
+        return generateCookie(jwtRefreshCookie, refreshToken, "/", jwtRefreshExpirationSecond);
     }
 
     public Optional<Cookie> getCookieByName(HttpServletRequest request, String name) {
@@ -127,7 +138,7 @@ public class JwtUtils {
         return getCookieValueByName(request, jwtRefreshCookie);
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getUsernameFromJwtToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(jwtSecret.getBytes())
                 .build()
@@ -138,7 +149,7 @@ public class JwtUtils {
 
     public String generateTokenFromUsername(String username) {
         long startTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
-        long endTime = startTime + jwtExpirationMs;
+        long endTime = startTime + jwtExpirationSecond;
 
         return Jwts.builder()
                 .setSubject(username)

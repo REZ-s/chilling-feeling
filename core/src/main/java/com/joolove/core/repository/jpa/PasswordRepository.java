@@ -1,4 +1,4 @@
-package com.joolove.core.security.jwt.repository;
+package com.joolove.core.repository.jpa;
 
 import com.joolove.core.domain.auth.Password;
 import org.springframework.data.jpa.repository.JpaRepository;

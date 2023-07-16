@@ -1,8 +1,7 @@
-package com.joolove.core.repository;
+package com.joolove.core.repository.jpa;
 
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
-import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

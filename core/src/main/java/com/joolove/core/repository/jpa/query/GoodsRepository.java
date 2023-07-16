@@ -1,4 +1,4 @@
-package com.joolove.core.repository.query;
+package com.joolove.core.repository.jpa.query;
 
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.GoodsViewDetails;
@@ -20,7 +20,7 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
     // 문자열의 길이가 길 때, FTS 가 생각보다 느리다면 기존의 like in 도 고려해본다. (성능 테스트 필요)
     // 와인 > 레드와인 의 경우처럼, type 외에 sub_type 을 만들어줄까 생각중..
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
-            "from goods_details gd inner join goods_stats gs " +
+            "from product.goods_details gd inner join product.goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
             "and (gd.type in (?2) or gs.label = ?2) " +
             "and gd.degree <= ?1 " +
@@ -28,7 +28,7 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
     List<IGoodsView> findRecommendationGoodsListByGoodsNameList(String abvLimit, String typeOrLabels, String goodsNames, Pageable pagingInfo);
 
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
-            "from goods_details gd inner join goods_stats gs " +
+            "from product.goods_details gd inner join product.goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
             "and gd.degree <= ?1 " +
             "and match(gd.name) against (concat('*', ?2, '*') in boolean mode) ", nativeQuery = true)
@@ -69,13 +69,13 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
     List<IGoodsView> findGoodsListByType(String type, Pageable pageable);
 
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
-            "from goods_details gd inner join goods_stats gs " +
+            "from product.goods_details gd inner join product.goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
             "and match(gd.name) against (concat('*', ?1, '*') in boolean mode) ", nativeQuery = true)
     List<IGoodsView> findGoodsListByName(String name, Pageable pageable);
 
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
-            "from goods_details gd inner join goods_stats gs " +
+            "from product.goods_details gd inner join product.goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
             "and gd.type = ?2 " +
             "and match(gd.name) against (concat('*', ?1, '*') in boolean mode) ", nativeQuery = true)

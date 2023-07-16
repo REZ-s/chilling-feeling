@@ -15,7 +15,8 @@ import com.joolove.core.service.UserActivityService;
 import com.joolove.core.service.UserRecommendationService;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RecommendationComponent {
+    private static final Logger logger = LoggerFactory.getLogger(RecommendationComponent.class);
     private final UserService userService;
     private final GoodsService goodsService;
     private final UserRecommendationService userRecommendationService;
@@ -108,7 +109,7 @@ public class RecommendationComponent {
         try {
             updateUserRecommendationBase(userRecommendationBaseRequest);
         } catch (Exception e) {
-            log.error("setUserRecommendationBase error : {}", e.getMessage());
+            logger.error("setUserRecommendationBase error ", e);
             return false;
         }
 
@@ -120,7 +121,7 @@ public class RecommendationComponent {
         try {
             updateUserRecommendationDaily(userRecommendationDailyRequest);
         } catch (Exception e) {
-            log.error("setUserRecommendationDaily error : {}", e.getMessage());
+            logger.error("setUserRecommendationDaily error ", e);
             return false;
         }
 
@@ -132,7 +133,7 @@ public class RecommendationComponent {
         try {
             updateUserActivityElements(userActivityElements);
         } catch (Exception e) {
-            log.error("setUserActivityRecommendation error : {}", e.getMessage());
+            logger.error("setUserActivityRecommendation error ", e);
             return false;
         }
 

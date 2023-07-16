@@ -1,4 +1,4 @@
-package com.joolove.core.repository;
+package com.joolove.core.repository.jpa;
 
 import com.joolove.core.domain.product.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

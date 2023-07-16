@@ -1,6 +1,5 @@
-package com.joolove.core.repository;
+package com.joolove.core.repository.jpa;
 
-import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

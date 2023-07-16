@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class AuthService {
 
         if (!Objects.equals(principle.toString(), "anonymousUser")) {
             User user = ((UserPrincipal) principle).getUser();
-            refreshTokenService.deleteByUser(user);
+            refreshTokenService.deleteByUsername(user.getUsername());
         }
 
         return ResponseEntity.ok()
@@ -34,6 +33,6 @@ public class AuthService {
     }
 
     public void logout(UserPrincipal userPrincipal) {
-        refreshTokenService.deleteByUser(userPrincipal.getUser());
+        refreshTokenService.deleteByUsername(userPrincipal.getUser().getUsername());
     }
 }

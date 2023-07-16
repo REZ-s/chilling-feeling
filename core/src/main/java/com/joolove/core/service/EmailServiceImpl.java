@@ -1,8 +1,6 @@
 package com.joolove.core.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.MailException;
@@ -16,29 +14,20 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class EmailServiceImpl extends MessageService {
-
     private String authCode;
     private JavaMailSender mailSender;
     private MailProperties mailProperties;
     @Value("${spring.mail.username}")
     private String id;
 
-    @Autowired
-    public EmailServiceImpl(JavaMailSender mailSender, MailProperties mailProperties) {
-        this.mailSender = mailSender;
-        this.mailProperties = mailProperties;
-    }
-
     @Override
-    public String sendAuthCode(String to) throws MailException, MessagingException, UnsupportedEncodingException {
+    public String sendAuthCode(String to)
+            throws MailException, MessagingException, UnsupportedEncodingException {
         authCode = createAuthCode();
         MimeMessage message = createMessage(to);
 
-        log.info("보내는 대상 : "+ to);
-        log.info("인증 번호 : " + authCode);
         try {
             mailSender.send(message);
         } catch (MailException ex) {
@@ -49,7 +38,8 @@ public class EmailServiceImpl extends MessageService {
     }
 
     @Override
-    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createMessage(String to)
+            throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, to);
         message.setSubject("칠링필링 회원가입 인증 코드 : 이메일");

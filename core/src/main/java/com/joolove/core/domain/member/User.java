@@ -81,9 +81,6 @@ public class User extends BaseTimeStamp {
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserRecommendationDaily userRecommendationDaily;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private RefreshToken refreshToken;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
 
@@ -136,10 +133,6 @@ public class User extends BaseTimeStamp {
 
     public void setUserRecommendationDaily(UserRecommendationDaily userRecommendationDaily) {
         this.userRecommendationDaily = userRecommendationDaily;
-    }
-
-    public void setRefreshToken(RefreshToken refreshToken) {
-        this.refreshToken = refreshToken;
     }
 
     public void setOrders(List<Orders> orders) {

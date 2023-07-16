@@ -1,22 +1,13 @@
 package com.joolove.core.security.jwt.controller;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import com.joolove.core.domain.auth.RefreshToken;
 import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.dto.response.SignInResponse;
 import com.joolove.core.security.jwt.utils.JwtUtils;
-import com.joolove.core.security.jwt.exception.TokenRefreshException;
 import com.joolove.core.security.service.AuthService;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
@@ -48,7 +44,7 @@ public class AuthController {
 
         String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
 
-        String refreshToken = refreshTokenService.getRefreshToken(userPrincipal).toString();
+        String refreshToken = refreshTokenService.getRefreshTokenCookie(userPrincipal).toString();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessToken)
@@ -76,7 +72,7 @@ public class AuthController {
                 .build();
 
         String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
-        String jwtRefreshCookie = refreshTokenService.getRefreshToken(userPrincipal).toString();
+        String jwtRefreshCookie = refreshTokenService.getRefreshTokenCookie(userPrincipal).toString();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie)
@@ -154,36 +150,36 @@ public class AuthController {
     }
     */
 
-/*    @PostMapping("/signout")
+    @PostMapping("/signout")
     public ResponseEntity<?> signoutUser() {
         return authService.logout(true);
     }
 
-    @PostMapping("/refreshtoken")
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        if (jwtUtils.getJwtFromCookies(request) == null) {  // access token 이 다른 경우
-            return authService.logout(false);
-        }
-
-        String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
-
-        if ((refreshToken != null) && (refreshToken.length() > 0)) {
-            return refreshTokenService.findByToken(refreshToken)
-                    .map(refreshTokenService::verifyExpiration)
-                    .map(RefreshToken::getUser)
-                    .map(user -> {
-                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
-
-                        return ResponseEntity.ok()
-                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                                .body("Token is refreshed successfully!");
-                    })
-                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
-                            "Refresh token is not in database!"));
-        }
-
-        return ResponseEntity.badRequest()
-                .body("Refresh Token is empty!");
-    }*/
+//    @PostMapping("/refreshtoken")
+//    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+//        if (jwtUtils.getJwtFromCookies(request) == null) {  // access token 이 다른 경우
+//            return authService.logout(false);
+//        }
+//
+//        String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
+//
+//        if ((refreshToken != null) && (refreshToken.length() > 0)) {
+//            return refreshTokenService.findByToken(refreshToken)
+//                    .map(refreshTokenService::verifyExpiration)
+//                    .map(RefreshToken::getUser)
+//                    .map(user -> {
+//                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
+//
+//                        return ResponseEntity.ok()
+//                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+//                                .body("Token is refreshed successfully!");
+//                    })
+//                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
+//                            "Refresh token is not in database!"));
+//        }
+//
+//        return ResponseEntity.badRequest()
+//                .body("Refresh Token is empty!");
+//    }
 
 }

@@ -1,11 +1,10 @@
 package com.joolove.core.security.service;
 
-import java.io.Serial;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.joolove.core.domain.member.User;
-import com.joolove.core.security.oauth2.*;
+import com.joolove.core.security.oauth2.GoogleUserInfo;
+import com.joolove.core.security.oauth2.KakaoUserInfo;
+import com.joolove.core.security.oauth2.NaverUserInfo;
+import com.joolove.core.security.oauth2.OAuth2UserInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,17 +14,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserPrincipal implements UserDetails, OAuth2User {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     private User user;
-
     private OAuth2UserInfo oAuth2UserInfo;  // attributes == oAuth2UserInfo.getAttributes();
-
     private Collection<? extends GrantedAuthority> authorities;
 
     @Builder(builderClassName = "UserDetailsBuilder", builderMethodName = "userDetailsBuilder")
@@ -78,7 +77,6 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         return oAuth2UserInfo.getAttributes();
     }
 
-
     @Override
     public String getName() {
         return oAuth2UserInfo.getProviderId();
@@ -128,14 +126,6 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
         UserPrincipal userPrincipal = (UserPrincipal) o;
         return Objects.equals(user.getId(), userPrincipal.getUser().getId());
-    }
-
-    @Override
-    public String toString() {
-        return "UserPrincipal{" +
-                "user=" + user +
-                ", authorities=" + authorities +
-                '}';
     }
 
 }

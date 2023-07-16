@@ -42,8 +42,6 @@ public class SMSServiceImpl extends MessageService {
         authCode = createAuthCode();
         Message message = createMessage(to);
 
-        log.info("보내는 대상 : "+ to);
-        log.info("인증 번호 : " + authCode);
         try {
             messageService.sendOne(new SingleMessageSendingRequest(message));
         } catch (Exception ex) {

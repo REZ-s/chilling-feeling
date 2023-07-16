@@ -3,7 +3,7 @@ package com.joolove.core.security.oauth2;
 import org.springframework.http.HttpHeaders;
 import com.joolove.core.config.AppProperties;
 import com.joolove.core.security.jwt.exception.BadRequestException;
-import com.joolove.core.security.jwt.repository.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.joolove.core.repository.jpa.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
@@ -14,13 +14,12 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
-import static com.joolove.core.security.jwt.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.joolove.core.repository.jpa.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 @RequiredArgsConstructor
@@ -56,7 +55,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         ResponseCookie accessToken = jwtUtils.generateJwtCookie(userPrincipal);
-        ResponseCookie refreshToken = refreshTokenService.getRefreshToken(userPrincipal);
+        ResponseCookie refreshToken = refreshTokenService.getRefreshTokenCookie(userPrincipal);
 
         response.addHeader(HttpHeaders.SET_COOKIE, accessToken.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());

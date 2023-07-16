@@ -13,7 +13,7 @@ public class AppProperties {
 
     public static class Auth {
         private String tokenSecret;
-        private long tokenExpirationMsec;
+        private long tokenExpirationMs;
 
         public String getTokenSecret() {
             return tokenSecret;
@@ -23,12 +23,12 @@ public class AppProperties {
             this.tokenSecret = tokenSecret;
         }
 
-        public long getTokenExpirationMsec() {
-            return tokenExpirationMsec;
+        public long getTokenExpirationMs() {
+            return tokenExpirationMs;
         }
 
-        public void setTokenExpirationMsec(long tokenExpirationMsec) {
-            this.tokenExpirationMsec = tokenExpirationMsec;
+        public void setTokenExpirationMs(long tokenExpirationMs) {
+            this.tokenExpirationMs = tokenExpirationMs;
         }
     }
 

@@ -1,8 +1,8 @@
 //package com.joolove.core.service;
 //
-//import com.joolove.core.repository.RoleRepository;
-//import com.joolove.core.repository.UserRepository;
-//import com.joolove.core.repository.UserRoleRepository;
+//import com.joolove.core.repository.jpa.RoleRepository;
+//import com.joolove.core.repository.jpa.UserRepository;
+//import com.joolove.core.repository.jpa.UserRoleRepository;
 //import com.joolove.core.security.service.RefreshTokenService;
 //import com.joolove.core.security.service.UserDetailsServiceImpl;
 //import net.bytebuddy.utility.RandomString;

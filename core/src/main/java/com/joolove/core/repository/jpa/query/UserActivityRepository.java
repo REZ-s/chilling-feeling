@@ -1,4 +1,4 @@
-package com.joolove.core.repository.query;
+package com.joolove.core.repository.jpa.query;
 
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.dto.query.IGoodsView;

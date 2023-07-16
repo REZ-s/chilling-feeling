@@ -2,47 +2,42 @@ package com.joolove.core.security.service;
 
 import com.joolove.core.domain.auth.LogoutToken;
 import com.joolove.core.domain.auth.RefreshToken;
-import com.joolove.core.domain.member.User;
-import com.joolove.core.repository.UserRepository;
-import com.joolove.core.security.jwt.exception.TokenRefreshException;
-import com.joolove.core.security.jwt.repository.LogoutTokenRepository;
-import com.joolove.core.security.jwt.repository.RefreshTokenRepository;
-import com.joolove.core.security.jwt.utils.JwtUtils;
+import com.joolove.core.repository.jpa.LogoutTokenRepository;
+import com.joolove.core.repository.redis.LogoutTokenRedisRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class LogoutTokenService {
-    private final JwtUtils jwtUtils;
     private final LogoutTokenRepository logoutTokenRepository;
-    private final UserRepository userRepository;
+    private final LogoutTokenRedisRepository logoutTokenRedisRepository;
 
-    public Optional<LogoutToken> findByToken(String token) {
-        return logoutTokenRepository.findByToken(token);
+    public LogoutToken findByToken(String token) {
+        LogoutToken tokenCache = logoutTokenRedisRepository.findByToken(token);
+        return tokenCache == null ? logoutTokenRepository.findByToken(token) : tokenCache;
     }
 
-    public Optional<LogoutToken> findByUser(User user) {
-        return logoutTokenRepository.findByUser(user);
+    public LogoutToken findByUsername(String username) {
+        LogoutToken tokenCache = logoutTokenRedisRepository.findByUsername(username);
+        return tokenCache == null ? logoutTokenRepository.findByUsername(username) : tokenCache;
     }
 
-    public LogoutToken createRefreshToken(UUID userId) {
+    public LogoutToken createLogoutToken(RefreshToken token, String username) {
         LogoutToken logoutToken = LogoutToken.builder()
-                .user(userRepository.findById(userId).get())
+                .username(username)
                 .token(UUID.randomUUID().toString())
+                .expiryDate(LogoutToken.setExpiryDate(token))
                 .build();
+
+        logoutTokenRedisRepository.save(logoutToken);
         return logoutTokenRepository.save(logoutToken);
     }
 
-    public int deleteByUser(User user) {
-        return logoutTokenRepository.deleteByUser(userRepository.findByUsername(user.getUsername()));
+    public int deleteByUsername(String username) {
+        return logoutTokenRepository.deleteByUsername(username);
     }
 
     public int deleteByToken(String token) {
