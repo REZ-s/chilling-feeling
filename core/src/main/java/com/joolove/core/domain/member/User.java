@@ -23,7 +23,6 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends BaseTimeStamp {
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -57,6 +56,9 @@ public class User extends BaseTimeStamp {
     /**
      * mappedBy
      */
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Role role;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private SocialLogin socialLogin;
 
@@ -96,11 +98,8 @@ public class User extends BaseTimeStamp {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Device> devices = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<UserRole> roles = new ArrayList<>();
-
-    public void setRoles(List<UserRole> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void setSocialLogin(SocialLogin socialLogin) {

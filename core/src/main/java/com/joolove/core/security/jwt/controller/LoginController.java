@@ -3,7 +3,6 @@ package com.joolove.core.security.jwt.controller;
 import com.joolove.core.domain.auth.Password;
 import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.member.User;
-import com.joolove.core.domain.member.UserRole;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
@@ -144,32 +143,21 @@ public class LoginController {
         // 여기가 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 검증
 
         // 사용자 접근 권한 생성
-        List<Role> roles = new ArrayList<>();
         Role role = roleRepository.findByName(Role.ERole.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(role);
 
         // 사용자 계정 생성
         User user = User.builder()
                 .username(request.getUsername())
                 .accountType((short) 1)
                 .build();
+        user.setRole(role);
 
         Password password = Password.builder()
                 .user(user)
                 .pw(passwordEncoder.encode(request.getPassword()))
                 .build();
         user.setPassword(password);
-
-        List<UserRole> userRoles = new ArrayList<>();
-        for (Role r : roles) {
-            UserRole userRole = UserRole.builder()
-                    .user(user)
-                    .role(r)
-                    .build();
-            userRoles.add(userRole);
-        }
-        user.setRoles(userRoles);
 
         userRepository.save(user);
 

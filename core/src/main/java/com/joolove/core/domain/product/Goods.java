@@ -16,14 +16,14 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Goods extends BaseTimeStamp {
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "goods_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_name")
     private Category category;
 

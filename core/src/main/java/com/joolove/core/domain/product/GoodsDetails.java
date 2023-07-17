@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class GoodsDetails extends BaseTimeStamp {
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -24,7 +23,7 @@ public class GoodsDetails extends BaseTimeStamp {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "goods_id", unique = true)
+    @JoinColumn(name = "goods_id")
     private Goods goods;
 
     @NotBlank

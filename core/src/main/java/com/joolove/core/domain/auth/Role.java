@@ -1,21 +1,21 @@
 package com.joolove.core.domain.auth;
 
-import com.joolove.core.domain.member.UserRole;
+import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.member.User;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Role {
-
+public class Role extends BaseTimeStamp {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -23,32 +23,24 @@ public class Role {
     private UUID id;
 
     @NotNull
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private ERole name;
+    private ERole name = ERole.ROLE_USER;
 
     @Builder
-    public Role(ERole name) {
+    public Role(UUID id, User user, ERole name) {
+        this.id = id;
+        this.user = user;
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name=" + name +
-                ", roles=" + roles +
-                '}';
-    }
-
-    /**
-     * mappedBy
-     */
-    @OneToMany(mappedBy = "role")
-    private List<UserRole> roles = new ArrayList<>();
-
-    public void setUserRoles(List<UserRole> roles) {
-        this.roles = roles;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public enum ERole {

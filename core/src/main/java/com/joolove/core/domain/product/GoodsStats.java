@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class GoodsStats extends BaseTimeStamp {
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -24,7 +23,7 @@ public class GoodsStats extends BaseTimeStamp {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "goods_id", unique = true)
+    @JoinColumn(name = "goods_id")
     private Goods goods;
 
     private String label = StringUtil.EMPTY_STRING;     // 라벨 (예: 신상품, 베스트, 스테디, 가성비 등)
