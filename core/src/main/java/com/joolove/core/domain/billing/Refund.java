@@ -1,18 +1,21 @@
 package com.joolove.core.domain.billing;
 
-import lombok.*;
+import com.joolove.core.domain.BaseTimeStamp;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(catalog = "billing")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Refund {
+public class Refund extends BaseTimeStamp {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -36,22 +39,14 @@ public class Refund {
     @NotNull
     private Integer refundPoint;
 
-    @NotNull
-    private LocalDateTime created;
-
-    @NotNull
-    private LocalDateTime lastUpdate = LocalDateTime.now();
-
     @Builder
-    public Refund(UUID id, Orders order, Short refundStatus, Boolean isRefundable, Integer refundPrice, Integer refundPoint, LocalDateTime created, LocalDateTime lastUpdate) {
+    public Refund(UUID id, Orders order, Short refundStatus, Boolean isRefundable, Integer refundPrice, Integer refundPoint) {
         this.id = id;
         this.order = order;
         this.refundStatus = refundStatus;
         this.isRefundable = isRefundable;
         this.refundPrice = refundPrice;
         this.refundPoint = refundPoint;
-        this.created = created;
-        this.lastUpdate = lastUpdate;
     }
 
     @Override
@@ -63,8 +58,6 @@ public class Refund {
                 ", isRefundable=" + isRefundable +
                 ", refundPrice=" + refundPrice +
                 ", refundPoint=" + refundPoint +
-                ", created=" + created +
-                ", lastUpdate=" + lastUpdate +
                 '}';
     }
 

@@ -1,5 +1,9 @@
 package com.joolove.core.domain.auth;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.joolove.core.domain.BaseTimeStamp;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -36,6 +40,8 @@ public class RefreshToken extends BaseTimeStamp {
     private String token;
 
     @NotNull
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime expiryDate;
 
     @Builder

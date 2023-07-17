@@ -1,18 +1,15 @@
 package com.joolove.core.domain.member;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.member.User;
-import lombok.*;
-import org.checkerframework.common.aliasing.qual.Unique;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -38,12 +35,12 @@ public class UserPersonal extends BaseTimeStamp {
 
     private String sex;
 
-    private LocalDate birthday;
+    private String birthday;
 
     private String country;
 
     @Builder
-    public UserPersonal(UUID id, User user, Boolean gatherAgree, String phoneNumber, String sex, LocalDate birthday, String country) {
+    public UserPersonal(UUID id, User user, Boolean gatherAgree, String phoneNumber, String sex, String birthday, String country) {
         this.id = id;
         this.user = user;
         this.gatherAgree = gatherAgree;

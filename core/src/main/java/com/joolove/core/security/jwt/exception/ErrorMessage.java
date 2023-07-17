@@ -1,10 +1,7 @@
 package com.joolove.core.security.jwt.exception;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.validation.Errors;
 
 import java.time.LocalDateTime;
 

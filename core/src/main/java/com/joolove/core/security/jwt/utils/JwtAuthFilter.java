@@ -69,9 +69,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     // RTR (Refresh Token Rotation) 방식으로 토큰 재발급
                     if (authentication != null && authentication.getPrincipal() != null) {
                         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+                        RefreshToken oldRefreshToken = refreshTokenService.findByToken(jwtRefresh);
 
                         // 기존 토큰 폐기
                         jwtUtils.deleteJwtCookies(request, response);
+                        logoutTokenService.createLogoutToken(oldRefreshToken, oldRefreshToken.getUsername());
+                        refreshTokenService.deleteByUsername(oldRefreshToken.getUsername());
 
                         // 새 토큰 발급
                         ResponseCookie newAccessToken = jwtUtils.generateJwtCookie(userPrincipal);

@@ -2,14 +2,14 @@ package com.joolove.core.domain.auth;
 
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.member.User;
-import lombok.*;
-import net.bytebuddy.asm.Advice;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
