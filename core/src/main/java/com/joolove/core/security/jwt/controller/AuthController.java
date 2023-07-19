@@ -42,9 +42,9 @@ public class AuthController {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        String accessToken = jwtUtils.generateJwtCookie(userPrincipal).toString();
+        String accessToken = jwtUtils.generateJwtCookie(userPrincipal.getUsername()).toString();
 
-        String refreshToken = refreshTokenService.getRefreshTokenCookie(userPrincipal).toString();
+        String refreshToken = refreshTokenService.getRefreshTokenCookie(userPrincipal.getUsername()).toString();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessToken)
@@ -71,8 +71,8 @@ public class AuthController {
                 .roles(roles)
                 .build();
 
-        String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal).toString();
-        String jwtRefreshCookie = refreshTokenService.getRefreshTokenCookie(userPrincipal).toString();
+        String jwtCookie = jwtUtils.generateJwtCookie(userPrincipal.getUsername()).toString();
+        String jwtRefreshCookie = refreshTokenService.getRefreshTokenCookie(userPrincipal.getUsername()).toString();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie)

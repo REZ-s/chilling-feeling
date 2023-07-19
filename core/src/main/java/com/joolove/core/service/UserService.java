@@ -10,25 +10,24 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    // 회원 가입
+    // 사용자 가입
     @Transactional
     public User join(User user) {
         return userRepository.save(user);
     }
 
-    // 회원 탈퇴
+    // 사용자 탈퇴
     @Transactional
     public User leave(User user) {
         userRepository.delete(user);
         return user;
     }
 
-    // 회원 정보 수정
+    // 사용자 정보 수정
     @Transactional
     public User update(User user) {
         return userRepository.save(user);
@@ -42,6 +41,7 @@ public class UserService {
         return userRepository.getReferenceById(userId);
     }
 
+    // 사용자 정보 조회 (인증용)
     public User findByUsername(String username) {
         return userRepository.findByUsernameWithRelations(username);
     }

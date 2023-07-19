@@ -23,7 +23,7 @@ public class Role extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 

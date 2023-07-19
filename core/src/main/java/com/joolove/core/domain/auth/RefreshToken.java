@@ -11,19 +11,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Entity
 @Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@RedisHash(value = "refreshToken", timeToLive = 3600)
 public class RefreshToken extends BaseTimeStamp {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -31,10 +33,8 @@ public class RefreshToken extends BaseTimeStamp {
     @Column(name = "refresh_token_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Indexed
     private String username;
 
-    @Indexed
     @NotBlank
     @Column(unique = true)
     private String token;

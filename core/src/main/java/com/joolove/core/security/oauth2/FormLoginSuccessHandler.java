@@ -25,8 +25,8 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             throws IOException {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        ResponseCookie accessToken = jwtUtils.generateJwtCookie(userPrincipal);
-        ResponseCookie refreshToken = refreshTokenService.getRefreshTokenCookie(userPrincipal);
+        ResponseCookie accessToken = jwtUtils.generateJwtCookie(userPrincipal.getUsername());
+        ResponseCookie refreshToken = refreshTokenService.getRefreshTokenCookie(userPrincipal.getUsername());
 
         response.addHeader(HttpHeaders.SET_COOKIE, accessToken.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());

@@ -4,7 +4,6 @@ import com.joolove.core.domain.auth.RefreshToken;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.jpa.RefreshTokenRepository;
 import com.joolove.core.repository.jpa.UserRepository;
-import com.joolove.core.repository.redis.RefreshTokenRedisRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,10 +21,6 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 @SpringBootTest
 @Transactional
 public class RedisTest {
-
-    @Autowired
-    private RefreshTokenRedisRepository refreshTokenRedisRepository;
-
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
@@ -36,8 +31,6 @@ public class RedisTest {
 
     @AfterEach
     public void tearDown() {
-        System.out.println("123123");
-        refreshTokenRedisRepository.deleteAll();
         refreshTokenRepository.deleteAll();
         userRepository.delete(userRepository.findByUsername(username));
     }
@@ -63,13 +56,9 @@ public class RedisTest {
 
         // when
         userRepository.save(user);
-        RefreshToken token1 = refreshTokenRedisRepository.save(refreshToken);
         RefreshToken token2 = refreshTokenRepository.save(refreshToken);
 
         //then
-        RefreshToken RedisRefreshToken = refreshTokenRedisRepository.findById(id).get();
-        assertEquals("redis : ", token1.getToken(), token);
-
         RefreshToken JPARefreshToken = refreshTokenRepository.getReferenceById(id);
         assertEquals("jpa : ", token2.getToken(), token);
     }

@@ -1,20 +1,16 @@
 package com.joolove.core.security.service;
 
 import com.joolove.core.domain.auth.RefreshToken;
-import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.jpa.RefreshTokenRepository;
-import com.joolove.core.repository.redis.RefreshTokenRedisRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
+import com.joolove.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,26 +22,24 @@ public class RefreshTokenService {
     private Long refreshTokenExpirationSecond;
     private final JwtUtils jwtUtils;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final RefreshTokenRedisRepository refreshTokenRedisRepository;
+    private final RedisUtils redisUtils;
 
-    @Cacheable(value = "refreshToken", key = "#token", unless = "#token == null or #result == null")
     public RefreshToken findByToken(String token) {
-        RefreshToken tokenCache = refreshTokenRedisRepository.findByToken(token);
-        return tokenCache == null ? refreshTokenRepository.findByToken(token) : tokenCache;
+        Object cachedToken = redisUtils.get(token, RefreshToken.class);
+        return cachedToken == null ? refreshTokenRepository.findByToken(token) : (RefreshToken) cachedToken;
     }
 
-    @Cacheable(value = "refreshToken", key = "#username", unless = "#username == null or #result == null")
     public RefreshToken findByUsername(String username) {
-        RefreshToken tokenCache = refreshTokenRedisRepository.findByUsername(username);
-        return tokenCache == null ? refreshTokenRepository.findByUsername(username) : tokenCache;
+        Object cachedToken = redisUtils.get(username, RefreshToken.class);
+        return cachedToken == null ? refreshTokenRepository.findByUsername(username) : (RefreshToken) cachedToken;
     }
 
-    public ResponseCookie getRefreshTokenCookie(UserPrincipal userPrincipal) {
+    public ResponseCookie getRefreshTokenCookie(String username) {
         ResponseCookie refreshToken = null;
-        RefreshToken token = findByUsername(userPrincipal.getUser().getUsername());
+        RefreshToken token = findByUsername(username);
 
-        if (token == null || !verifyExpiration(token)) {
-            RefreshToken newToken = createRefreshToken(userPrincipal.getUser());
+        if (token == null || !validateJwtRefresh(token.getToken())) {
+            RefreshToken newToken = createRefreshToken(username);
             refreshToken = jwtUtils.generateRefreshJwtCookie(newToken.getToken());
         }
         else {
@@ -55,36 +49,50 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
-    public RefreshToken createRefreshToken(User user) {
+    public RefreshToken createRefreshToken(String username) {
         RefreshToken refreshToken = RefreshToken.builder()
-                .username(user.getUsername())
+                .username(username)
                 .expiryDate(LocalDateTime.now().plusSeconds(refreshTokenExpirationSecond))
                 .token(UUID.randomUUID().toString())
                 .build();
 
-        refreshTokenRedisRepository.save(refreshToken);
-        return refreshTokenRepository.save(refreshToken);
+        RefreshToken savedToken = refreshTokenRepository.save(refreshToken);
+        redisUtils.add(username, savedToken);
+        redisUtils.add(savedToken.getToken(), savedToken);
+        return savedToken;
     }
 
-    public boolean verifyExpiration(RefreshToken token) {
-        if (token.getExpiryDate().isBefore(LocalDateTime.now())) {
-            logger.info(token.getToken(), "Refresh token was expired. Please make a new signin request");
+    public boolean validateJwtRefresh(String jwtRefreshString) {
+        if (jwtRefreshString == null) {
+            return false;
+        }
+
+        RefreshToken refreshToken = findByToken(jwtRefreshString);
+        if (refreshToken == null) {
+            logger.info("Refresh token is null");
+            return false;
+        }
+
+        if (refreshToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            logger.info("Refresh token was expired : {}", refreshToken.getToken());
             return false;
         }
 
         return true;
     }
 
-    @CacheEvict(value = "refreshToken", key = "#username", condition = "#username != null")
-    public int deleteByUsername(String username) {
-        refreshTokenRedisRepository.deleteByUsername(username);
-        return refreshTokenRepository.deleteByUsername(username);
+    public boolean deleteByUsernameAndToken(RefreshToken token) {
+        return deleteByUsername(token.getUsername()) && deleteByToken(token.getToken());
     }
 
-    @CacheEvict(value = "refreshToken", key = "#token", condition = "#token != null")
-    public int deleteByToken(String token) {
-        refreshTokenRedisRepository.deleteByToken(token);
-        return refreshTokenRepository.deleteByToken(token);
+    public boolean deleteByUsername(String username) {
+        refreshTokenRepository.deleteByUsername(username);
+        return redisUtils.remove(username, RefreshToken.class);
+    }
+
+    public boolean deleteByToken(String token) {
+        refreshTokenRepository.deleteByToken(token);
+        return redisUtils.remove(token, RefreshToken.class);
     }
 
 }

@@ -90,23 +90,18 @@ public class JwtUtils {
                 .build();
     }
 
-    private ResponseCookie generateCookie(String name, String value, String path, long millisecond) {
+    private ResponseCookie generateCookie(String name, String value, String path, long second) {
         return ResponseCookie.from(name, value)
                 .path(path)
-                .maxAge(millisecond / 1000)
+                .maxAge(second)
                 .httpOnly(true)
                 .secure(true)
                 .sameSite("Lax")
                 .build();
     }
 
-    public ResponseCookie generateJwtCookie(UserPrincipal userPrincipal) {
-        String jwt = generateTokenFromUsername(userPrincipal.getUser().getUsername());
-        return generateCookie(jwtCookie, jwt, "/", jwtExpirationSecond);
-    }
-
-    public ResponseCookie generateJwtCookie(User user) {
-        String jwt = generateTokenFromUsername(user.getUsername());
+    public ResponseCookie generateJwtCookie(String username) {
+        String jwt = generateTokenFromUsername(username);
         return generateCookie(jwtCookie, jwt, "/", jwtExpirationSecond);
     }
 
@@ -149,7 +144,7 @@ public class JwtUtils {
 
     public String generateTokenFromUsername(String username) {
         long startTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
-        long endTime = startTime + jwtExpirationSecond;
+        long endTime = startTime + (jwtExpirationSecond * 1000);
 
         return Jwts.builder()
                 .setSubject(username)
@@ -159,12 +154,16 @@ public class JwtUtils {
                 .compact();
     }
 
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwt(String jwtString) {
+        if (jwtString == null) {
+            return false;
+        }
+
         try {
             Jwts.parserBuilder()
                     .setSigningKey(jwtSecret.getBytes())
                     .build()
-                    .parseClaimsJws(authToken);
+                    .parseClaimsJws(jwtString);
             return true;
         } catch (SecurityException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());

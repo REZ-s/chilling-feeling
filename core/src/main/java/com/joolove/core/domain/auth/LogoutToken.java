@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 import javax.persistence.*;
@@ -23,7 +24,6 @@ import java.util.UUID;
 @Table(catalog = "auth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@RedisHash(value = "logoutToken", timeToLive = 3600)    // 원래라면 훨씬 길게 지금은 테스트용
 public class LogoutToken extends BaseTimeStamp {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -31,10 +31,8 @@ public class LogoutToken extends BaseTimeStamp {
     @Column(name = "logout_token_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Indexed
     private String username;
 
-    @Indexed
     @NotBlank
     @Column(unique = true)
     private String token;

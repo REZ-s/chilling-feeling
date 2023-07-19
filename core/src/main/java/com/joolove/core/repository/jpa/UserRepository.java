@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    // @OneToOne 관계에 있는 엔티티들을 한꺼번에 가져온다. (Lazy Loading 적용 대상이 아니므로)
+    // @OneToOne 관계에 있는 엔티티들을 한번에 가져온다. (Eager Loading 적용 대상)
     @Query("SELECT u " +
             "FROM User u " +
             "LEFT JOIN FETCH u.role " +
