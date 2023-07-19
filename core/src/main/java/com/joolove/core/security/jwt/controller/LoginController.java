@@ -10,8 +10,7 @@ import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.dto.request.SignUpRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
-import com.joolove.core.repository.jpa.*;
-import com.joolove.core.repository.jpa.PasswordRepository;
+import com.joolove.core.repository.*;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.EmailServiceImpl;
 import com.joolove.core.service.SMSServiceImpl;
@@ -27,7 +26,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

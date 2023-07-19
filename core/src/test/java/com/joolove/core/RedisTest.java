@@ -2,8 +2,8 @@ package com.joolove.core;
 
 import com.joolove.core.domain.auth.RefreshToken;
 import com.joolove.core.domain.member.User;
-import com.joolove.core.repository.jpa.RefreshTokenRepository;
-import com.joolove.core.repository.jpa.UserRepository;
+import com.joolove.core.repository.RefreshTokenRepository;
+import com.joolove.core.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

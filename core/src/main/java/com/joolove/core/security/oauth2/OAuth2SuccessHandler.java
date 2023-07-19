@@ -3,7 +3,7 @@ package com.joolove.core.security.oauth2;
 import org.springframework.http.HttpHeaders;
 import com.joolove.core.config.AppProperties;
 import com.joolove.core.security.jwt.exception.BadRequestException;
-import com.joolove.core.repository.jpa.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.joolove.core.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.security.service.RefreshTokenService;
 import com.joolove.core.security.service.UserPrincipal;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
-import static com.joolove.core.repository.jpa.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.joolove.core.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 @RequiredArgsConstructor

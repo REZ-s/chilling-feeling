@@ -1,7 +1,7 @@
 package com.joolove.core.config;
 
-import com.joolove.core.repository.jpa.RoleRepository;
-import com.joolove.core.repository.jpa.UserRepository;
+import com.joolove.core.repository.RoleRepository;
+import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
 import com.joolove.core.security.jwt.utils.JwtAuthFilter;

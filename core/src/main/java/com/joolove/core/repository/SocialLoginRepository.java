@@ -1,4 +1,4 @@
-package com.joolove.core.repository.jpa;
+package com.joolove.core.repository;
 
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;

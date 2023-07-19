@@ -1,6 +1,6 @@
 package com.joolove.core.security.oauth2;
 
-import com.joolove.core.repository.jpa.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.joolove.core.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.joolove.core.repository.jpa.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.joolove.core.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 @RequiredArgsConstructor

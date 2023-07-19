@@ -1,7 +1,7 @@
 package com.joolove.core.service;
 
 import com.joolove.core.domain.product.GoodsDetails;
-import com.joolove.core.repository.jpa.GoodsDetailsRepository;
+import com.joolove.core.repository.GoodsDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

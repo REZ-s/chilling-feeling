@@ -2,12 +2,10 @@ package com.joolove.core.security.service;
 
 import com.joolove.core.domain.auth.LogoutToken;
 import com.joolove.core.domain.auth.RefreshToken;
-import com.joolove.core.repository.jpa.LogoutTokenRepository;
+import com.joolove.core.repository.LogoutTokenRepository;
 import com.joolove.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

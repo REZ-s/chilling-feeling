@@ -3,7 +3,7 @@ package com.joolove.core.service;
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.query.UserActivityElements;
-import com.joolove.core.repository.jpa.query.UserActivityRepository;
+import com.joolove.core.repository.query.UserActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

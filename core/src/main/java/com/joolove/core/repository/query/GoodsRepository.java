@@ -1,4 +1,4 @@
-package com.joolove.core.repository.jpa.query;
+package com.joolove.core.repository.query;
 
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.GoodsViewDetails;

@@ -4,7 +4,7 @@ import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.repository.jpa.query.GoodsRepository;
+import com.joolove.core.repository.query.GoodsRepository;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

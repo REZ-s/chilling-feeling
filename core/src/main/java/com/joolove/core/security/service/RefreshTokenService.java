@@ -1,7 +1,7 @@
 package com.joolove.core.security.service;
 
 import com.joolove.core.domain.auth.RefreshToken;
-import com.joolove.core.repository.jpa.RefreshTokenRepository;
+import com.joolove.core.repository.RefreshTokenRepository;
 import com.joolove.core.security.jwt.utils.JwtUtils;
 import com.joolove.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
