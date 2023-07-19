@@ -15,7 +15,13 @@ public class LogoutTokenService {
 
     public LogoutToken findByToken(String token) {
         Object cachedToken = redisUtils.get(token, LogoutToken.class);
-        return cachedToken == null ? logoutTokenRepository.findByToken(token) : (LogoutToken) cachedToken;
+        if (cachedToken == null) {
+            LogoutToken logoutToken = logoutTokenRepository.findByToken(token);
+            redisUtils.add(token, logoutToken);
+            return logoutToken;
+        }
+
+        return (LogoutToken) cachedToken;
     }
 
     public LogoutToken createLogoutToken(RefreshToken token) {

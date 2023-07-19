@@ -54,10 +54,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (jwtUtils.validateJwt(jwt)) {    // access token 이 유효한 경우
             username = jwtUtils.getUsernameFromJwtToken(jwt);
         } else if (refreshTokenService.validateJwtRefresh(jwtRefresh)) {    // refresh token 이 유효한 경우, 재발급
-            username = refreshTokenService.findByToken(jwtRefresh).getUsername();
-
             // RTR (Refresh Token Rotation) 방식으로 토큰 재발급
             RefreshToken oldRefreshToken = refreshTokenService.findByToken(jwtRefresh);
+            username = oldRefreshToken.getUsername();
 
             // 기존 토큰 폐기
             jwtUtils.deleteJwtCookies(request, response);

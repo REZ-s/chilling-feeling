@@ -26,12 +26,24 @@ public class RefreshTokenService {
 
     public RefreshToken findByToken(String token) {
         Object cachedToken = redisUtils.get(token, RefreshToken.class);
-        return cachedToken == null ? refreshTokenRepository.findByToken(token) : (RefreshToken) cachedToken;
+        if (cachedToken == null) {
+            RefreshToken refreshToken = refreshTokenRepository.findByToken(token);
+            redisUtils.add(token, refreshToken);
+            return refreshToken;
+        }
+
+        return (RefreshToken) cachedToken;
     }
 
     public RefreshToken findByUsername(String username) {
         Object cachedToken = redisUtils.get(username, RefreshToken.class);
-        return cachedToken == null ? refreshTokenRepository.findByUsername(username) : (RefreshToken) cachedToken;
+        if (cachedToken == null) {
+            RefreshToken refreshToken = refreshTokenRepository.findByUsername(username);
+            redisUtils.add(username, refreshToken);
+            return refreshToken;
+        }
+
+        return (RefreshToken) cachedToken;
     }
 
     public ResponseCookie getRefreshTokenCookie(String username) {
