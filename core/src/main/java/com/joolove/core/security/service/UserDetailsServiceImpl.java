@@ -1,8 +1,9 @@
 package com.joolove.core.security.service;
 
-import com.joolove.core.domain.member.User;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,16 +12,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
+    private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+        if (userService.findByUsernameSimple(username) == null) {
+            logger.info("User not found with username: " + username);
+            return null;
         }
 
-        return UserPrincipal.buildUserDetails(user);
+        return UserPrincipal.buildUserDetails(username);
     }
 
 }

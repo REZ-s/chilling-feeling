@@ -1,6 +1,5 @@
 package com.joolove.core.config;
 
-import com.joolove.core.repository.RoleRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
 import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
@@ -40,7 +39,6 @@ import java.time.Duration;
 public class WebConfig implements WebMvcConfigurer {
     private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsService;
-    private final RoleRepository roleRepository;
     private final AuthEntryPointJwt authEntryPointJwt;
     private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
@@ -50,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public OAuth2UserServiceImpl oAuth2UserService() {
-        return new OAuth2UserServiceImpl(userRepository, passwordEncoder(), roleRepository);
+        return new OAuth2UserServiceImpl(userRepository, passwordEncoder());
     }
 
     @Bean

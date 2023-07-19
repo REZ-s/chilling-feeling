@@ -22,8 +22,8 @@ public class AuthService {
         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!Objects.equals(principle.toString(), "anonymousUser")) {
-            User user = ((UserPrincipal) principle).getUser();
-            refreshTokenService.deleteByUsername(user.getUsername());
+            String username = ((UserPrincipal) principle).getUsername();
+            refreshTokenService.deleteByUsername(username);
         }
 
         return ResponseEntity.ok()
@@ -33,6 +33,6 @@ public class AuthService {
     }
 
     public void logout(UserPrincipal userPrincipal) {
-        refreshTokenService.deleteByUsername(userPrincipal.getUser().getUsername());
+        refreshTokenService.deleteByUsername(userPrincipal.getUsername());
     }
 }

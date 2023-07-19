@@ -23,9 +23,13 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "LEFT JOIN FETCH u.userPersonal " +
             "LEFT JOIN FETCH u.userRecommendationBase " +
             "LEFT JOIN FETCH u.userRecommendationDaily " +
-            "WHERE u.username = :username")
-    User findByUsernameWithRelations(@Param("username") String username);
+            "WHERE u.username = ?1")
+    User findByUsernameWithRelations(String username);
+
+    @Query("SELECT u.username " +
+            "FROM User u " +
+            "WHERE u.username = ?1")
+    String findByUsernameSimple(String username);
 
     User findByUsername(String username);
-
 }

@@ -2,6 +2,7 @@ package com.joolove.core.service;
 
 import com.joolove.core.domain.member.User;
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final RedisUtils redisUtils;
 
     // 사용자 가입
     @Transactional
@@ -42,7 +44,18 @@ public class UserService {
     }
 
     // 사용자 정보 조회 (인증용)
+    public String findByUsernameSimple(String username) {
+        Object cachedUsername = redisUtils.get(username, String.class);
+        if (cachedUsername == null) {
+            String simpleUsername = userRepository.findByUsernameSimple(username);
+            redisUtils.add(simpleUsername, simpleUsername);
+            return simpleUsername;
+        }
+
+        return (String) cachedUsername;
+    }
+
     public User findByUsername(String username) {
-        return userRepository.findByUsernameWithRelations(username);
+        return userRepository.findByUsername(username);
     }
 }

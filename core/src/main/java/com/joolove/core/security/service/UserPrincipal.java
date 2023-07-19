@@ -1,5 +1,6 @@
 package com.joolove.core.security.service;
 
+import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.security.oauth2.GoogleUserInfo;
 import com.joolove.core.security.oauth2.KakaoUserInfo;
@@ -20,35 +21,35 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserPrincipal implements UserDetails, OAuth2User {
-    private User user;
+    private String username;
     private OAuth2UserInfo oAuth2UserInfo;  // attributes == oAuth2UserInfo.getAttributes();
     private Collection<? extends GrantedAuthority> authorities;
 
     @Builder(builderClassName = "UserDetailsBuilder", builderMethodName = "userDetailsBuilder")
-    public UserPrincipal(User user, Collection<? extends GrantedAuthority> authorities) {
-        this.user = user;
+    public UserPrincipal(String username, Collection<? extends GrantedAuthority> authorities) {
+        this.username = username;
         this.authorities = authorities;
     }
 
     @Builder(builderClassName = "OAuth2UserBuilder", builderMethodName = "oAuth2UserBuilder")
-    public UserPrincipal(User user, OAuth2UserInfo oAuth2UserInfo) {
-        this.user = user;
+    public UserPrincipal(String username, OAuth2UserInfo oAuth2UserInfo) {
+        this.username = username;
         this.oAuth2UserInfo = oAuth2UserInfo;
     }
 
-    public static UserPrincipal buildUserDetails(User user) {
+    public static UserPrincipal buildUserDetails(String username) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(user.getRole().getName().toString()));
+                authorities.add(new SimpleGrantedAuthority(Role.ERole.ROLE_USER.name()));
 
         return UserPrincipal.userDetailsBuilder()
-                .user(user)
+                .username(username)
                 .authorities(authorities)
                 .build();
     }
 
-    public static UserPrincipal buildOAuth2User(User user, OAuth2UserInfo oAuth2UserInfo) {
+    public static UserPrincipal buildOAuth2User(String username, OAuth2UserInfo oAuth2UserInfo) {
         return UserPrincipal.oAuth2UserBuilder()
-                .user(user)
+                .username(username)
                 .oAuth2UserInfo(oAuth2UserInfo)
                 .build();
     }
@@ -68,6 +69,11 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     }
 
     @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
     public Map<String, Object> getAttributes() {
         return oAuth2UserInfo.getAttributes();
     }
@@ -78,13 +84,8 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword().getPw();
-    }
-
-    @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     // 계정 만료 여부 (true : 만료되지 않음)
@@ -109,18 +110,6 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        UserPrincipal userPrincipal = (UserPrincipal) o;
-        return Objects.equals(user.getId(), userPrincipal.getUser().getId());
     }
 
 }

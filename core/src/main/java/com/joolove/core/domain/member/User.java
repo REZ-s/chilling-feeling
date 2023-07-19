@@ -1,5 +1,6 @@
 package com.joolove.core.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.auth.*;
 import com.joolove.core.domain.billing.Orders;

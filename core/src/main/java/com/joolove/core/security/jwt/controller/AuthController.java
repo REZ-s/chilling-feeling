@@ -52,7 +52,7 @@ public class AuthController {
                 .body(Collections.emptyList());
     }
 
-    @PostMapping("/signin")
+/*    @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@Valid @RequestBody SignInRequest request) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -66,7 +66,7 @@ public class AuthController {
                 .collect(Collectors.toList());
 
         SignInResponse response = SignInResponse.builder()
-                .id(userPrincipal.getUser().getId())
+                .id(userPrincipal.getUsername())
                 .username(userPrincipal.getUsername())
                 .roles(roles)
                 .build();
@@ -78,7 +78,7 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, jwtCookie)
                 .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie)
                 .body(response);
-    }
+    }*/
 
 /*
     @PostMapping("/signup")
@@ -150,36 +150,36 @@ public class AuthController {
     }
     */
 
-    @PostMapping("/signout")
+/*    @PostMapping("/signout")
     public ResponseEntity<?> signoutUser() {
         return authService.logout(true);
     }
 
-//    @PostMapping("/refreshtoken")
-//    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-//        if (jwtUtils.getJwtFromCookies(request) == null) {  // access token 이 다른 경우
-//            return authService.logout(false);
-//        }
-//
-//        String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
-//
-//        if ((refreshToken != null) && (refreshToken.length() > 0)) {
-//            return refreshTokenService.findByToken(refreshToken)
-//                    .map(refreshTokenService::verifyExpiration)
-//                    .map(RefreshToken::getUser)
-//                    .map(user -> {
-//                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
-//
-//                        return ResponseEntity.ok()
-//                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-//                                .body("Token is refreshed successfully!");
-//                    })
-//                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
-//                            "Refresh token is not in database!"));
-//        }
-//
-//        return ResponseEntity.badRequest()
-//                .body("Refresh Token is empty!");
-//    }
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+        if (jwtUtils.getJwtFromCookies(request) == null) {  // access token 이 다른 경우
+            return authService.logout(false);
+        }
+
+        String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
+
+        if ((refreshToken != null) && (refreshToken.length() > 0)) {
+            return refreshTokenService.findByToken(refreshToken)
+                    .map(refreshTokenService::verifyExpiration)
+                    .map(RefreshToken::getUser)
+                    .map(user -> {
+                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(user);
+
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                                .body("Token is refreshed successfully!");
+                    })
+                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
+                            "Refresh token is not in database!"));
+        }
+
+        return ResponseEntity.badRequest()
+                .body("Refresh Token is empty!");
+    }*/
 
 }
