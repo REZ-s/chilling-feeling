@@ -17,7 +17,10 @@ public class LogoutTokenService {
         Object cachedToken = redisUtils.get(token, LogoutToken.class);
         if (cachedToken == null) {
             LogoutToken logoutToken = logoutTokenRepository.findByToken(token);
-            redisUtils.add(token, logoutToken);
+            if (logoutToken != null) {
+                redisUtils.add(token, logoutToken);
+            }
+
             return logoutToken;
         }
 

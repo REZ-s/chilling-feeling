@@ -32,10 +32,8 @@ import java.util.Objects;
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @Controller
 @RequiredArgsConstructor
-public class LoginController {
+public class WebController {
     private final UserService userService;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final SocialLoginRepository socialLoginRepository;
     private final GoodsService goodsService;
@@ -138,18 +136,13 @@ public class LoginController {
 
     @PostMapping(value = "/cf_join/complete")
     public String cfJoin4(@Valid @ModelAttribute("request") SignUpRequest request) {
-        // 여기가 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 검증
-
-        // 사용자 접근 권한 생성
-        Role role = roleRepository.findByName(Role.ERole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        // 회원가입 최종 관문이니 넘어온 데이터를 @Valid 사용해서 한 번 더 검증
 
         // 사용자 계정 생성
         User user = User.builder()
                 .username(request.getUsername())
                 .accountType((short) 1)
                 .build();
-        user.setRole(role);
 
         Password password = Password.builder()
                 .user(user)
@@ -157,7 +150,14 @@ public class LoginController {
                 .build();
         user.setPassword(password);
 
-        userRepository.save(user);
+        // 접근 권한 생성
+        Role role = Role.builder()
+                .user(user)
+                .name(Role.ERole.ROLE_USER)
+                .build();
+        user.setRole(role);
+
+        userService.join(user);
 
         return "redirect:/cf_main_page";
     }
@@ -170,7 +170,7 @@ public class LoginController {
         return "cf_main_page";
     }
 
-    // 상품 검색 처음
+    // 상품 검색 첫 페이지
     @GetMapping("/cf_search")
     public String searchPage(Model model) {
         return "cf_search_page";
@@ -219,7 +219,7 @@ public class LoginController {
     @GetMapping("/test/goods")
     @ResponseBody
     public ResponseEntity<?> addGoodsTest() {
-
+        // 아래는 양식
         Goods goods = Goods.builder()
                 .name("짐빔 화이트")
                 .salesStatus((short)1)
@@ -289,7 +289,6 @@ public class LoginController {
                         .recentFeeling(feeling)
                         .build()
         );
-
         return "cf_recommendation_daily_page2";
     }
 
@@ -299,39 +298,6 @@ public class LoginController {
 
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_cart_page";
-    }
-
-
-    // 사용자 계정 테스트
-    @GetMapping("/")
-    public String getMainPage(Model model) {
-        model.addAttribute("allUserList", userService.findAll());
-        return "all_user_list";
-    }
-
-    // 접근 권한 테스트
-    @GetMapping("/all")
-    @ResponseBody
-    public String allAccess() {
-        return "Public Content.";
-    }
-
-    @GetMapping("/user")
-    @ResponseBody
-    public String userAccess() {
-        return "User Content.";
-    }
-
-    @GetMapping("/manager")
-    @ResponseBody
-    public String managerAccess() {
-        return "Manager Board.";
-    }
-
-    @GetMapping("/admin")
-    @ResponseBody
-    public String adminAccess() {
-        return "Admin Board.";
     }
 
 }

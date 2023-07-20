@@ -16,13 +16,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final RedisUtils redisUtils;
 
-    // 사용자 가입
+    // 사용자 회원 가입
     @Transactional
     public User join(User user) {
         return userRepository.save(user);
     }
 
-    // 사용자 탈퇴
+    // 사용자 회원 탈퇴
     @Transactional
     public User leave(User user) {
         userRepository.delete(user);

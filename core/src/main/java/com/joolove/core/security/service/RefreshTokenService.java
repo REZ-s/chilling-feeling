@@ -28,7 +28,10 @@ public class RefreshTokenService {
         Object cachedToken = redisUtils.get(token, RefreshToken.class);
         if (cachedToken == null) {
             RefreshToken refreshToken = refreshTokenRepository.findByToken(token);
-            redisUtils.add(token, refreshToken);
+            if (refreshToken != null) {
+                redisUtils.add(token, refreshToken);
+            }
+
             return refreshToken;
         }
 
@@ -39,7 +42,10 @@ public class RefreshTokenService {
         Object cachedToken = redisUtils.get(username, RefreshToken.class);
         if (cachedToken == null) {
             RefreshToken refreshToken = refreshTokenRepository.findByUsername(username);
-            redisUtils.add(username, refreshToken);
+            if (refreshToken != null) {
+                redisUtils.add(username, refreshToken);
+            }
+
             return refreshToken;
         }
 
