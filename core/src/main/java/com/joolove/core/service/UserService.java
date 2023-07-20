@@ -48,7 +48,10 @@ public class UserService {
         Object cachedUsername = redisUtils.get(username, String.class);
         if (cachedUsername == null) {
             String simpleUsername = userRepository.findByUsernameSimple(username);
-            redisUtils.add(simpleUsername, simpleUsername);
+            if (simpleUsername != null) {
+                redisUtils.add(simpleUsername, simpleUsername);
+            }
+
             return simpleUsername;
         }
 

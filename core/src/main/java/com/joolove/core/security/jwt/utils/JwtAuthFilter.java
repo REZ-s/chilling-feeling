@@ -91,7 +91,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    private void buildAuthenticationUserDetails(@NotNull UserDetails userDetails) {
+    private void buildAuthenticationUserDetails(UserDetails userDetails) {
+        if (userDetails == null) {
+            return;
+        }
+
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(),
