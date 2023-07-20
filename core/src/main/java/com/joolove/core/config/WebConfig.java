@@ -153,7 +153,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .logoutUrl("/cf_logout")
                 .logoutSuccessUrl("/cf_main")
                 .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
-                .deleteCookies("JSESSIONID", "remember-me", "jooloveJwt", "jooloveJwtRefresh");
+                .deleteCookies("remember-me", "jooloveJwt", "jooloveJwtRefresh");
 
         http.rememberMe()
                 .key("uniqueAndSecret") // remember-me cookie key

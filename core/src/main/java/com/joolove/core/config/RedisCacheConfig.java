@@ -37,22 +37,4 @@ public class RedisCacheConfig {
         return template;
     }
 
-/*    @Bean
-    @Override
-    public CacheManager cacheManager() {
-        RedisCacheConfiguration configuration = RedisCacheConfiguration
-                .defaultCacheConfig()
-                .disableCachingNullValues()
-                .entryTtl(Duration.ofSeconds(ttl.toSeconds()))
-                .computePrefixWith(CacheKeyPrefix.simple())
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-
-        return RedisCacheManager.RedisCacheManagerBuilder
-                .fromConnectionFactory(redisConnectionFactory())
-                .cacheDefaults(configuration)
-                .transactionAware() // 트랜잭션이 성공해야만 캐시에 저장하도록 상호작용 설정
-                .build();
-    }*/
-
 }

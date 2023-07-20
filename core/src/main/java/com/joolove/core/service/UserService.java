@@ -35,15 +35,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public User findById(UUID userId) {
-        return userRepository.getReferenceById(userId);
-    }
-
-    // 사용자 정보 조회 (인증용)
+    // 사용자 이름 조회 (인증용)
     public String findByUsernameSimple(String username) {
         Object cachedUsername = redisUtils.get(username, String.class);
         if (cachedUsername == null) {
@@ -58,7 +50,12 @@ public class UserService {
         return (String) cachedUsername;
     }
 
+    // 사용자 조회
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
