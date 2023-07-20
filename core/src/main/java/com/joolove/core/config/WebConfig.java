@@ -1,15 +1,15 @@
 package com.joolove.core.config;
 
 import com.joolove.core.repository.UserRepository;
-import com.joolove.core.security.jwt.utils.AccessDeniedHandlerJwt;
-import com.joolove.core.security.jwt.utils.AuthEntryPointJwt;
-import com.joolove.core.security.jwt.utils.JwtAuthFilter;
-import com.joolove.core.security.oauth2.CommonLogoutSuccessHandler;
-import com.joolove.core.security.oauth2.FormLoginSuccessHandler;
-import com.joolove.core.security.oauth2.OAuth2FailureHandler;
-import com.joolove.core.security.oauth2.OAuth2SuccessHandler;
-import com.joolove.core.security.service.OAuth2UserServiceImpl;
-import com.joolove.core.security.service.UserDetailsServiceImpl;
+import com.joolove.core.utils.handler.CustomAccessDeniedHandler;
+import com.joolove.core.utils.handler.CustomAuthenticationEntryPoint;
+import com.joolove.core.utils.filter.JwtAuthFilter;
+import com.joolove.core.utils.handler.CommonLogoutSuccessHandler;
+import com.joolove.core.utils.handler.FormLoginSuccessHandler;
+import com.joolove.core.utils.handler.OAuth2FailureHandler;
+import com.joolove.core.utils.handler.OAuth2SuccessHandler;
+import com.joolove.core.service.OAuth2UserServiceImpl;
+import com.joolove.core.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,8 +39,8 @@ import java.time.Duration;
 public class WebConfig implements WebMvcConfigurer {
     private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsService;
-    private final AuthEntryPointJwt authEntryPointJwt;
-    private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final OAuth2FailureHandler oAuth2FailureHandler;
     private final FormLoginSuccessHandler formLoginSuccessHandler;
@@ -131,8 +131,8 @@ public class WebConfig implements WebMvcConfigurer {
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling()    // 아래 번호 순서대로 필터링
-                    .authenticationEntryPoint(authEntryPointJwt)  // (1) 401 Unauthorized 인증이 안된 경우
-                    .accessDeniedHandler(accessDeniedHandlerJwt);   // (2) 403 Forbidden 접근권한이 없는 경우
+                    .authenticationEntryPoint(customAuthenticationEntryPoint)  // (1) 401 Unauthorized 인증이 안된 경우
+                    .accessDeniedHandler(customAccessDeniedHandler);   // (2) 403 Forbidden 접근권한이 없는 경우
 
         http.formLogin()
                 .loginPage("/cf_login2")

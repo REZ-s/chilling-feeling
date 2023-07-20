@@ -1,7 +1,7 @@
 package com.joolove.core.repository;
 
 
-import com.joolove.core.security.jwt.utils.JwtUtils;
+import com.joolove.core.utils.JwtUtils;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
