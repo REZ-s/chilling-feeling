@@ -1,9 +1,10 @@
 package com.joolove.core.config;
 
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.utils.filter.ValidationFilter;
 import com.joolove.core.utils.handler.CustomAccessDeniedHandler;
 import com.joolove.core.utils.handler.CustomAuthenticationEntryPoint;
-import com.joolove.core.utils.filter.JwtAuthFilter;
+import com.joolove.core.utils.filter.JwtAuthenticationFilter;
 import com.joolove.core.utils.handler.CommonLogoutSuccessHandler;
 import com.joolove.core.utils.handler.FormLoginSuccessHandler;
 import com.joolove.core.utils.handler.OAuth2FailureHandler;
@@ -47,24 +48,27 @@ public class WebConfig implements WebMvcConfigurer {
     private final CommonLogoutSuccessHandler commonLogoutSuccessHandler;
 
     @Bean
-    public OAuth2UserServiceImpl oAuth2UserService() {
+    protected OAuth2UserServiceImpl oAuth2UserService() {
         return new OAuth2UserServiceImpl(userRepository, passwordEncoder());
     }
 
     @Bean
-    public JwtAuthFilter jwtAuthenticationFilter() {
-        return new JwtAuthFilter();
+    protected JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+    protected ValidationFilter validationFilter() { return new ValidationFilter(); }
+
+    @Bean
+    protected AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     // hashing method (password + salt)
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -129,6 +133,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(validationFilter(), JwtAuthenticationFilter.class);
 
         http.exceptionHandling()    // 아래 번호 순서대로 필터링
                     .authenticationEntryPoint(customAuthenticationEntryPoint)  // (1) 401 Unauthorized 인증이 안된 경우
