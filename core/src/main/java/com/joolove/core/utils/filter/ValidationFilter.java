@@ -1,14 +1,11 @@
 package com.joolove.core.utils.filter;
 
 import com.joolove.core.utils.RedisUtils;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -23,16 +20,16 @@ import java.util.concurrent.TimeUnit;
  * (1) 1분에 60번 이내로 호출 제한 -> 레디스 캐시 소멸시간을 60초로 설정하고, count 를 올려가면서 판단
  * (2) TOO_MANY_REQUESTS(429) 이면, 10분 동안 해당 요청 lock
 */
+@Component
+@RequiredArgsConstructor
 public class ValidationFilter extends OncePerRequestFilter {
-    @Autowired
-    private RedisUtils redisUtils;
+    private final RedisUtils redisUtils;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-        String clientIP = getRealClientIP(request);
-        String key = clientIP;
+        String key = getRealClientIP(request);
         ClientRequestInformation clientRequestInformation = null;
 
         Object o = redisUtils.get(key, ClientRequestInformation.class);

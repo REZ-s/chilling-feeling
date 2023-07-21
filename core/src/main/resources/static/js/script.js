@@ -1,3 +1,4 @@
+// Js function test
 function sendEmailByForm(path, email) {
     const form = document.createElement('form');
     form.method = 'POST';

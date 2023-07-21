@@ -5,6 +5,7 @@ import com.joolove.core.service.LogoutTokenService;
 import com.joolove.core.service.RefreshTokenService;
 import com.joolove.core.service.UserDetailsServiceImpl;
 import com.joolove.core.utils.JwtUtils;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,15 +24,13 @@ import java.io.IOException;
 
 import static com.joolove.core.utils.StaticResourceUtils.isStaticResource;
 
+@Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private RefreshTokenService refreshTokenService;
-    @Autowired
-    private LogoutTokenService logoutTokenService;
+    private final JwtUtils jwtUtils;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final RefreshTokenService refreshTokenService;
+    private final LogoutTokenService logoutTokenService;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,

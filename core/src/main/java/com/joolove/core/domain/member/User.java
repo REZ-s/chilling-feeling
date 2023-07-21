@@ -36,7 +36,7 @@ public class User extends BaseTimeStamp {
     private String username;    // email
 
     @NotNull
-    private Short accountType;
+    private Short accountType;  // 계정 유형 (1 : 일반 사용자)
 
     @Builder
     public User(UUID id, String username, Short accountType) {
@@ -52,6 +52,24 @@ public class User extends BaseTimeStamp {
                 ", username='" + username + '\'' +
                 ", accountType=" + accountType +
                 '}';
+    }
+
+    public void updateAll(User user) {
+        this.accountType = user.getAccountType();
+        setPassword(user.getPassword());
+        setRole(user.getRole());
+        setSocialLogin(user.getSocialLogin());
+        setCidi(user.getCidi());
+        setAddresses(user.getAddresses());
+        setDevices(user.getDevices());
+        setFavorite(user.getFavorite());
+        setProfile(user.getProfile());
+        setOrders(user.getOrders());
+        setLoginLogs(user.getLoginLogs());
+        setUserActivityLogs(user.getUserActivityLogs());
+        setUserPersonal(user.getUserPersonal());
+        setUserRecommendationBase(user.getUserRecommendationBase());
+        setUserRecommendationDaily(user.getUserRecommendationDaily());
     }
 
     /**

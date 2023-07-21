@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -704,11 +703,11 @@
 
     // 카테고리 버튼
     document.getElementById("goToCategory").addEventListener("click", function () {
-        location.href = "/cf_category";
+        location.href = "/category";
     });
 
     document.getElementById('search').addEventListener('click', function (e) {
-        location.href = '/cf_search';
+        location.href = '/search';
     });
 
     document.querySelectorAll('.btn-heart').forEach(btnHeart => {
@@ -778,7 +777,6 @@
             }
 
             let btn = document.getElementById('f' + i);
-            let label = btn.children[0];
 
             btn.classList.remove('modal-btn-active');
             btn.children[0].classList.remove('modal-btn-label-active');
@@ -794,7 +792,6 @@
             }
 
             let btn = document.getElementById('d' + i);
-            let label = btn.children[0];
 
             btn.classList.remove('modal-btn-wide-active');
             btn.children[0].classList.remove('modal-btn-wide-label-active');

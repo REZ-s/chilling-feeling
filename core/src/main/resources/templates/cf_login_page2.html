@@ -23,7 +23,7 @@
     <!-- Top frame -->
     <section class="login2-header">
         <div class="ic_back_24px">
-            <a href="/cf_login">
+            <a href="/login">
                 <img src="/images/ic_back_24px.png">
             </a>
         </div>
@@ -31,7 +31,7 @@
             <span class="login2-headline-text">로그인</span>
         </div>
         <div class="ic_close_24px">
-            <a href="/cf_main">
+            <a href="/">
                 <img src="/images/ic_close_24px.png">
             </a>
         </div>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <form sec:authorize="isAnonymous()" th:action="@{/cf_login/complete}" th:method="post" th:object="${request}">
+    <form sec:authorize="isAnonymous()" th:action="@{/login/success}" th:method="post" th:object="${request}">
         <div class="login1-form-field">
             <!-- username(email) for spring boot form login builder -->
             <input type="hidden" th:field="${request.username}">

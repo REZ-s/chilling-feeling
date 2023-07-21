@@ -1,6 +1,8 @@
 package com.joolove.core.config;
 
+import com.joolove.core.domain.auth.Role;
 import com.joolove.core.repository.UserRepository;
+import com.joolove.core.utils.PasswordUtils;
 import com.joolove.core.utils.filter.ValidationFilter;
 import com.joolove.core.utils.handler.CustomAccessDeniedHandler;
 import com.joolove.core.utils.handler.CustomAuthenticationEntryPoint;
@@ -38,38 +40,21 @@ import java.time.Duration;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-    private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsService;
+    private final OAuth2UserServiceImpl oAuth2UserService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final OAuth2FailureHandler oAuth2FailureHandler;
     private final FormLoginSuccessHandler formLoginSuccessHandler;
     private final CommonLogoutSuccessHandler commonLogoutSuccessHandler;
-
-    @Bean
-    protected OAuth2UserServiceImpl oAuth2UserService() {
-        return new OAuth2UserServiceImpl(userRepository, passwordEncoder());
-    }
-
-    @Bean
-    protected JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
-
-    @Bean
-    protected ValidationFilter validationFilter() { return new ValidationFilter(); }
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final ValidationFilter validationFilter;
 
     @Bean
     protected AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    // hashing method (password + salt)
-    @Bean
-    protected PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     // 정적리소스 관련 설정 (경로 설정 및 캐시)
@@ -126,47 +111,44 @@ public class WebConfig implements WebMvcConfigurer {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // don't need for using jwt
 
         http.authorizeHttpRequests()
-                .mvcMatchers(HttpMethod.GET, "/cf_main").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/cf_login").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/environment/*").permitAll()
-                .anyRequest().authenticated();
+                .mvcMatchers(HttpMethod.GET, "/environment/*").hasRole(Role.ERole.ROLE_ADMIN.name())
+                .anyRequest().permitAll();
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(validationFilter(), JwtAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(validationFilter, JwtAuthenticationFilter.class);
 
         http.exceptionHandling()    // 아래 번호 순서대로 필터링
                     .authenticationEntryPoint(customAuthenticationEntryPoint)  // (1) 401 Unauthorized 인증이 안된 경우
                     .accessDeniedHandler(customAccessDeniedHandler);   // (2) 403 Forbidden 접근권한이 없는 경우
 
-        http.formLogin()
-                .loginPage("/cf_login2")
-                .loginProcessingUrl("/cf_login/complete")
-                .defaultSuccessUrl("/cf_main")
-                .failureUrl("/cf_login?error=true")
-                .successHandler(formLoginSuccessHandler);
-
-        http.oauth2Login()
-                .loginPage("/cf_login")
-                .defaultSuccessUrl("/cf_main")
-                .failureUrl("/cf_login?error=true")
-                .successHandler(oAuth2SuccessHandler)
-                .failureHandler(oAuth2FailureHandler)
-                .userInfoEndpoint().userService(oAuth2UserService());
-
-        http.logout()
-                .logoutUrl("/cf_logout")
-                .logoutSuccessUrl("/cf_main")
-                .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
-                .deleteCookies("remember-me", "jooloveJwt", "jooloveJwtRefresh");
-
         http.rememberMe()
                 .key("uniqueAndSecret") // remember-me cookie key
                 .rememberMeParameter("remember-me")     // checkbox name
                 .rememberMeCookieName("remember-me")    // real cookie name
-                .tokenValiditySeconds(60 * 60 * 24 * 30)  // 30 days
+                .tokenValiditySeconds(60 * 60 * 24 * 365)  // 365 days
                 .alwaysRemember(false)
                 .userDetailsService(userDetailsService);
+
+        http.formLogin()
+                .loginPage("/login/submit")
+                .loginProcessingUrl("/login/success")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
+                .successHandler(formLoginSuccessHandler);
+
+        http.oauth2Login()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
+                .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler)
+                .userInfoEndpoint().userService(oAuth2UserService);
+
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .addLogoutHandler(commonLogoutSuccessHandler)   // refreshToken 삭제, logoutToken 생성 (블랙리스트)
+                .deleteCookies("remember-me", "jooloveJwt", "jooloveJwtRefresh");
 
         return http.build();
     }

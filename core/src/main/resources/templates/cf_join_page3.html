@@ -246,13 +246,13 @@
     <!-- Top frame -->
     <section class="join1-header">
         <div class="ic_back_24px">
-            <a href="/cf_login">
+            <a href="/login">
                 <img src="/images/ic_back_24px.png">
             </a>
         </div>
         <div class="join1-header-content-text">회원가입 (3/3)</div>
         <div class="ic_close_24px">
-            <a href="/cf_main">
+            <a href="/">
                 <img src="/images/ic_close_24px.png">
             </a>
         </div>
@@ -477,7 +477,7 @@
 
             async function sendAuthenticationCode(code) {
                 try {
-                    const response = await fetch('/check_authentication_code/sms', {
+                    const response = await fetch('/api/v1/authentication-code/sms/check', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -508,7 +508,7 @@
     document.querySelector('#agreeStartBtn').addEventListener('click', function (e) {
         e.preventDefault();
         if (isCheckboxChecked()) {
-            sendJoinForm('/cf_join/complete', afterPNumber.value.trim());
+            sendJoinForm('/join/submit', afterPNumber.value.trim());
         } else {
             alert('필수 체크박스를 모두 체크해주세요.');
         }
@@ -567,7 +567,7 @@
 
             async function createCode(phoneNumber) {
                 try {
-                    const response = await fetch('/get_authentication_code/sms', {
+                    const response = await fetch('/api/v1/authentication-code/sms', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

@@ -19,13 +19,13 @@
     <!-- Top frame -->
     <section class="join1-header">
         <div class="ic_back_24px">
-            <a href="/cf_login">
+            <a href="/login">
                 <img src="/images/ic_back_24px.png">
             </a>
         </div>
         <div class="join1-header-content-text">회원가입 (1/3)</div>
         <div class="ic_close_24px">
-            <a href="/cf_main">
+            <a href="/">
                 <img src="/images/ic_close_24px.png">
             </a>
         </div>
@@ -149,7 +149,7 @@
         if (checkAuthenticationCode(authenticationCode)) {
             const emailInput = document.querySelector('#afterEmail');
             const afterEmail = emailInput.value.trim();
-            sendJoinForm('/cf_join2', afterEmail);
+            sendJoinForm('/join/password', afterEmail);
         } else {
             console.log('Incorrect authentication code');
             // Display modal or show error message...
@@ -163,7 +163,7 @@
 
             async function sendAuthenticationCode(code) {
                 try {
-                    const response = await fetch('/check_authentication_code/email', {
+                    const response = await fetch('/api/v1/authentication-code/email/check', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -193,7 +193,7 @@
 
             async function createCode(email) {
                 try {
-                    const response = await fetch('/get_authentication_code/email', {
+                    const response = await fetch('/api/v1/authentication-code/email', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
