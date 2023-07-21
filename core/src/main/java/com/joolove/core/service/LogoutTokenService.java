@@ -7,6 +7,8 @@ import com.joolove.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 @RequiredArgsConstructor
 public class LogoutTokenService {
@@ -18,7 +20,7 @@ public class LogoutTokenService {
         if (cachedToken == null) {
             LogoutToken logoutToken = logoutTokenRepository.findByToken(token);
             if (logoutToken != null) {
-                redisUtils.add(token, logoutToken);
+                redisUtils.add(token, logoutToken, 14, TimeUnit.DAYS);
             }
 
             return logoutToken;
@@ -35,7 +37,7 @@ public class LogoutTokenService {
                 .build();
 
         LogoutToken savedToken = logoutTokenRepository.save(logoutToken);
-        redisUtils.add(savedToken.getToken(), savedToken);
+        redisUtils.add(savedToken.getToken(), savedToken, 14, TimeUnit.DAYS);
         return savedToken;
     }
 

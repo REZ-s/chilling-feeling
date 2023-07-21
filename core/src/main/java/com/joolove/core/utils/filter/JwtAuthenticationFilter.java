@@ -12,7 +12,6 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -20,7 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
+
+import static com.joolove.core.utils.StaticResourceUtils.isStaticResource;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -36,13 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-
-        // 정적 리소스 필터링
-        String[] staticResourcePatterns = {"/css/**", "/js/**", "/images/**"};
-        boolean isStaticResource = Arrays.stream(staticResourcePatterns)
-                .anyMatch(pattern -> new AntPathMatcher().match(pattern, request.getServletPath()));
-
-        if (isStaticResource) {
+        if (isStaticResource(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -80,7 +74,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -88,7 +82,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             buildAuthenticationUserDetails(userDetailsService.loadUserByUsername(username));
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     private void buildAuthenticationUserDetails(UserDetails userDetails) {

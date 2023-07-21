@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class RefreshTokenService {
         if (cachedToken == null) {
             RefreshToken refreshToken = refreshTokenRepository.findByToken(token);
             if (refreshToken != null) {
-                redisUtils.add(token, refreshToken);
+                redisUtils.add(token, refreshToken, 14, TimeUnit.DAYS);
             }
 
             return refreshToken;
@@ -43,7 +44,7 @@ public class RefreshTokenService {
         if (cachedToken == null) {
             RefreshToken refreshToken = refreshTokenRepository.findByUsername(username);
             if (refreshToken != null) {
-                redisUtils.add(username, refreshToken);
+                redisUtils.add(username, refreshToken, 14, TimeUnit.DAYS);
             }
 
             return refreshToken;
@@ -75,8 +76,8 @@ public class RefreshTokenService {
                 .build();
 
         RefreshToken savedToken = refreshTokenRepository.save(refreshToken);
-        redisUtils.add(username, savedToken);
-        redisUtils.add(savedToken.getToken(), savedToken);
+        redisUtils.add(username, savedToken, 14, TimeUnit.DAYS);
+        redisUtils.add(savedToken.getToken(), savedToken, 14, TimeUnit.DAYS);
         return savedToken;
     }
 

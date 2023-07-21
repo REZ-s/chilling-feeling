@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class UserService {
         if (cachedUsername == null) {
             String simpleUsername = userRepository.findByUsernameSimple(username);
             if (simpleUsername != null) {
-                redisUtils.add(simpleUsername, simpleUsername);
+                redisUtils.add(simpleUsername, simpleUsername, 14, TimeUnit.DAYS);
             }
 
             return simpleUsername;
