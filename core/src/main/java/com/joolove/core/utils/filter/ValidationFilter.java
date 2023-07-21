@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,20 +32,20 @@ public class ValidationFilter extends OncePerRequestFilter {
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
         String clientIP = getRealClientIP(request);
-        String key = clientIP + request.getRequestURI();
+        String key = clientIP;
         ClientRequestInformation clientRequestInformation = null;
 
         Object o = redisUtils.get(key, ClientRequestInformation.class);
         if (o != null) {
             clientRequestInformation = (ClientRequestInformation) o;
 
-            if (!clientRequestInformation.isFreeOnRequest()) {
+            if (!clientRequestInformation._IsFreeOnRequest()) {
                 response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(),
                         "Too many requests from this client (Locked on previous request).");
                 return;
             }
 
-            if (!clientRequestInformation.isValidRequest()) {
+            if (!clientRequestInformation._IsValidRequest()) {
                 clientRequestInformation.lockRequest();
                 redisUtils.add(key, clientRequestInformation, 600, TimeUnit.SECONDS);
                 response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(),
@@ -106,8 +107,12 @@ public class ValidationFilter extends OncePerRequestFilter {
             this.captureTimeMs = 0;
         }
 
-        public boolean isValidRequest() {
+        public boolean _IsValidRequest() {      // 메소드명에 접두사가 is 를 붙이면, 메소드도 캐시에 직렬화되는 현상때문에 수정
             return count < 60;
+        }
+
+        public boolean _IsFreeOnRequest() {     // 메소드명에 접두사가 is 를 붙이면, 메소드도 캐시에 직렬화되는 현상때문에 수정
+            return System.currentTimeMillis() > captureTimeMs;
         }
 
         public void incrementCount() {
@@ -120,10 +125,6 @@ public class ValidationFilter extends OncePerRequestFilter {
 
         public void lockRequest() {
             captureTimeMs = System.currentTimeMillis() + HOLD_TIME_MILLI_SECOND;
-        }
-
-        public boolean isFreeOnRequest() {
-            return System.currentTimeMillis() > captureTimeMs;
         }
     }
 }
