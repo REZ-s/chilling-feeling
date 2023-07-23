@@ -82,7 +82,7 @@
     </section>
 
     <!-- Footer -->
-    <section class="bottom-container">
+    <section class="bottom">
         <div class="bottom-home">
             <button class="bottom-home-action" id="goToHome">
                 <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
@@ -125,10 +125,15 @@
 
     // 홈 버튼
     document.getElementById("goToHome").addEventListener("click", function () {
-        location.href = "/cf_main";
+        location.href = "/";
     });
 
-    // 카테고리 탭 버튼 클릭 시
+    // 카테고리 버튼
+    document.getElementById("goToCategory").addEventListener("click", function () {
+        location.href = "/category";
+    });
+
+    // 카테고리 목록 탭 버튼 클릭 시
     tabLabels.forEach(function (label) {
         label.addEventListener("click", function () {
             if (label.classList.contains("wrap-tab-bar-label-ac")) {
@@ -371,7 +376,7 @@
             return;
         }
 
-        location.href = '/cf_search/result?query=' + searchValue;
+        location.href = '/search/result?query=' + searchValue;
     }
 
     searchInput.addEventListener('keyup', function (e) {

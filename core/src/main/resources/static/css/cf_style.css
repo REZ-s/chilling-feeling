@@ -6,9 +6,55 @@
 /* 기본 세팅 */
 @media (min-width: 375px) {
     body {
-        display: flex;
-        justify-content: center;
+        width: 375px;
+        height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
+        margin: 0 auto !important;
+        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
+        0 1px 6px rgba(0, 23, 80, .015),
+        0 8px 8px rgba(0, 23, 80, .012),
+        0 16px 16px rgba(0, 23, 80, .012),
+        8px 32px 32px rgba(0, 23, 80, .018),
+        8px 64px 64px rgba(0, 23, 80, .018);
+    }
+}
+
+@media (min-width: 500px) {
+    body {
+        width: 500px;
+        height: 100vh;
+        padding-bottom: env(safe-area-inset-bottom);
+        margin: 0 auto !important;
+        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
+        0 1px 6px rgba(0, 23, 80, .015),
+        0 8px 8px rgba(0, 23, 80, .012),
+        0 16px 16px rgba(0, 23, 80, .012),
+        8px 32px 32px rgba(0, 23, 80, .018),
+        8px 64px 64px rgba(0, 23, 80, .018);
+    }
+}
+
+@media (min-width: 375px) {
+    .bottom {
+        width: 375px;
+        align-self: stretch;
+        position: fixed;
+        bottom: 0;
+        height: calc(66px + env(safe-area-inset-bottom));
+        padding-bottom: env(safe-area-inset-bottom);
+        background-color: #FFFFFF;
+    }
+}
+
+@media (min-width: 500px) {
+    .bottom {
+        width: 500px;
+        align-self: stretch;
+        position: fixed;
+        bottom: 0;
+        height: calc(66px + env(safe-area-inset-bottom));
+        padding-bottom: env(safe-area-inset-bottom);
+        background-color: #FFFFFF;
     }
 }
 
@@ -21,33 +67,12 @@
 }
 
 
-
 /* 메인화면 */
-@media (min-width: 375px) {
-    .main-container {
-        width: 375px;
-        min-height: 100vh;
-        background-color: #000;
-        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-        0 1px 6px rgba(0, 23, 80, .015),
-        0 8px 8px rgba(0, 23, 80, .012),
-        0 16px 16px rgba(0, 23, 80, .012),
-        8px 32px 32px rgba(0, 23, 80, .018),
-        8px 64px 64px rgba(0, 23, 80, .018);
-    }
-}
-
-.bottom-container {
-    position: fixed;
-    bottom: 0;
-    height: calc(66px + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
-    background-color: #FFFFFF;
+.main-container {
+    background-color: #000;
 }
 
 .home {
-    width: 375px;
-    height: 2815px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -134,6 +159,7 @@
     border: 0;
     background-color: #f6f6f6;
 }
+
 .ic_search_main_24px {
     flex-grow: 0;
     object-fit: contain;
@@ -153,6 +179,7 @@
     border: 0;
     background-color: white;
 }
+
 .ic_shopping_bag_main_24px {
     /* width: 24px; */
     /* height: 24px; */
@@ -180,7 +207,7 @@
 }
 
 .btn-rounded-recommend {
-    width: 86px;
+    /*width: 86px;*/
     height: 32px;
     flex-grow: 0;
     display: flex;
@@ -190,6 +217,7 @@
     padding: 5px 16px;
     border-radius: 20px;
     background-color: #004051;
+    border: solid 1px;
 }
 
 .today-recommend-title {
@@ -245,7 +273,7 @@
 }
 
 .bottom-home {
-    width: 375px;
+    /*width: 375px;*/
     height: 66px;
     flex-grow: 0;
     display: flex;
@@ -253,34 +281,36 @@
     justify-content: flex-start;
     align-items: center;
     padding: 10px 0;
-    border-top: solid 1px #e6e6e6;
+    border: solid 1px #e6e6e6;
 }
 
 .home-contents {
-    width: 375px;
-    height: 2265px;
+    /*width: 375px;*/
+    /*height: 2265px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    align-self: stretch;
     padding: 0;
 }
 
 .home-taste-prod {
-    width: 375px;
+    /*width: 375px;*/
     height: 464px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
+    align-self: stretch;
     gap: 30px;
     padding: 40px 20px 20px;
 }
 
 .home-taste-title-box {
-    width: 335px;
+    /*width: 335px;*/
     height: 70px;
     flex-grow: 0;
     display: flex;
@@ -292,7 +322,7 @@
 }
 
 .home-taste-title {
-    width: 335px;
+    /*width: 335px;*/
     height: 32px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -322,7 +352,7 @@
 }
 
 .home-taste-prod-swiper-wrapper {
-    width: 355px;
+    /*width: 355px;*/
     height: 264px;
     flex-grow: 0;
     display: flex;
@@ -339,14 +369,14 @@
 }
 
 .product-cards-inner {
-/*
-    top: 0;
-    left: 0;
-    gap: 5px;
-*/
+    /*
+        top: 0;
+        left: 0;
+        gap: 5px;
+    */
     position: absolute;
     height: 100%;
-/*    width: 200%;*/
+    /*    width: 200%;*/
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     pointer-events: none;
@@ -599,7 +629,7 @@
 }
 
 .wrap-chip {
-/*    width: 36px;*/
+    /*    width: 36px;*/
     height: 20px;
     flex-grow: 0;
     display: flex;
@@ -621,8 +651,8 @@
 }
 
 .chip-label {
-/*    width: 28px;
-    height: 20px;*/
+    /*    width: 28px;
+        height: 20px;*/
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 10px;
@@ -636,19 +666,20 @@
 }
 
 .home-food-prod {
-    width: 375px;
+    /*width: 375px;*/
     height: 539px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    align-self: stretch;
     gap: 30px;
     padding: 20px;
 }
 
 .home-food-title-box {
-    width: 335px;
+    /*width: 335px;*/
     height: 70px;
     flex-grow: 0;
     display: flex;
@@ -675,7 +706,8 @@
 }
 
 .home-food-subtitle-group {
-    width: 335px;
+    /*width: 335px;*/
+    align-self: stretch;
     flex-grow: 1;
     display: flex;
     flex-direction: row;
@@ -746,7 +778,7 @@
 }
 
 .home-food-prod-swiper-wrapper {
-    width: 335px;
+    /*width: 335px;*/
     height: 426px;
     flex-grow: 0;
     display: flex;
@@ -758,13 +790,14 @@
 }
 
 .product-card02 {
-    width: 335px;
+    /*width: 335px;*/
     height: 426px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
+    align-self: stretch;
     gap: 19px;
     padding: 0;
 }
@@ -889,19 +922,20 @@
 }
 
 .home-best-seller {
-    width: 375px;
+    /*width: 375px;*/
     height: 698px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    align-self: center;
     gap: 30px;
     padding: 20px;
 }
 
 .home-best-seller-title-box {
-    width: 335px;
+    /*width: 335px;*/
     height: 70px;
     flex-grow: 0;
     display: flex;
@@ -952,7 +986,7 @@
 }
 
 .home-best-seller-title {
-    width: 355px;
+    /*width: 355px;*/
     height: 32px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -967,7 +1001,7 @@
 }
 
 .home-best-seller-wrap-product-card01 {
-    width: 335px;
+    /*width: 335px;*/
     height: 642px;
     flex-grow: 0;
     display: flex;
@@ -1102,18 +1136,6 @@ li {
     object-fit: contain;
 }
 
-.bottom-home {
-    width: 375px;
-    height: 66px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px 0;
-    border: solid 1px #e6e6e6;
-}
-
 .bottom-home-action {
     height: 46px;
     flex-grow: 1;
@@ -1128,7 +1150,7 @@ li {
 }
 
 .bottom-label {
-/*    width: 37px;*/
+    /*    width: 37px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -1150,8 +1172,8 @@ li {
 }
 
 .ic_heart_24px {
-/*    width: 22px;
-    height: 20px;*/
+    /*    width: 22px;
+        height: 20px;*/
     flex-grow: 0;
     object-fit: contain;
     position: absolute;
@@ -1159,20 +1181,22 @@ li {
     border: 0;
     background-color: #f6f6f6;
 }
+
 .btn-heart {
     /* for js code */
 }
 
 .home-feed-prod {
-    width: 375px;
-    height: 564px;
+    /*width: 375px;*/
+    height: 664px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
+    align-self: stretch;
     gap: 30px;
-    padding: 20px 0 20px 20px;
+    padding: 20px;
 }
 
 .home-title-box {
@@ -1216,6 +1240,7 @@ li {
     text-align: left;
     color: #606060;
 }
+
 .home-subtitle .text-style-1 {
     font-weight: normal;
 }
@@ -1240,7 +1265,6 @@ li {
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
-    padding: 0 8px 0 0;
 }
 
 .prod-img {
@@ -1372,6 +1396,7 @@ li {
     padding: 0;
     background-color: #f6f6f6;
 }
+
 .progressbar-active {
     width: 60px;
     height: 2px;
@@ -1384,8 +1409,6 @@ li {
 /* 상품 검색 결과 페이지 */
 
 .search-result-container {
-    width: 375px;
-    min-height: 100vh;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -1393,12 +1416,6 @@ li {
     align-items: center;
     padding: 40px 0;
     background-color: #fff;
-    box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-    0 1px 6px rgba(0, 23, 80, .015),
-    0 8px 8px rgba(0, 23, 80, .012),
-    0 16px 16px rgba(0, 23, 80, .012),
-    8px 32px 32px rgba(0, 23, 80, .018),
-    8px 64px 64px rgba(0, 23, 80, .018);
 }
 
 .wrap-search-top-bar-result {
@@ -1453,12 +1470,13 @@ li {
     padding: 0;
     margin: 0;
 }
+
 .search-form-input-result::placeholder {
     color: #afafaf;
 }
 
 .wrap-ic-search-form-result {
-    width: 45px;
+    /*width: 45px;*/
     height: 24px;
     flex-grow: 0;
     display: flex;
@@ -1471,7 +1489,7 @@ li {
 
 .ic_form_close_16px {
     width: 16px;
-/*    height: 16px;*/
+    /*    height: 16px;*/
     flex-grow: 0;
     object-fit: contain;
     padding: 0;
@@ -1501,7 +1519,7 @@ li {
 }
 
 .category-tab-bar {
-    width: 375px;
+    /*width: 375px;*/
     height: 55px;
     flex-grow: 0;
     display: flex;
@@ -1523,6 +1541,7 @@ li {
     background-color: white;
     border-bottom: solid 2px #000;
 }
+
 .wrap-tab-bar-label {
     align-self: stretch;
     flex-grow: 1;
@@ -1549,6 +1568,7 @@ li {
     text-align: center;
     color: #000;
 }
+
 .tab-bar-label {
     align-self: stretch;
     flex-grow: 0;
@@ -1564,7 +1584,6 @@ li {
 }
 
 .search-data-container {
-    width: 375px;
     height: 680px;
     flex-grow: 0;
     display: flex;
@@ -1581,13 +1600,13 @@ li {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: stretch;
+    align-items: center;
     gap: 24px;
     padding: 15px 20px;
 }
 
 .wrap-category-product-list {
-/*    height: 553px;*/
+    /*    height: 553px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -1599,7 +1618,7 @@ li {
 }
 
 .wrap-horizontality {
-/*    height: 264px;*/
+    /*    height: 264px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -1671,8 +1690,6 @@ li {
 }
 
 
-
-
 .wrap-illustration-text-search-no-data {
     height: 106px;
     align-self: stretch;
@@ -1706,6 +1723,7 @@ li {
     text-align: center;
     color: #afafaf;
 }
+
 .text-search-no-data .text-style-1 {
     color: #004051;
 }
@@ -1713,7 +1731,6 @@ li {
 /* 인기 검색어 */
 
 .search-best-container {
-    width: 375px;
     height: 1153px;
     flex-grow: 0;
     display: flex;
@@ -1774,7 +1791,7 @@ li {
 }
 
 .best-search-current-time {
-    width: 73px;
+    /*width: 73px;*/
     height: 20px;
     flex-grow: 0;
     display: flex;
@@ -1786,7 +1803,7 @@ li {
 }
 
 .current-time {
-    width: 51px;
+    /*width: 51px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -1801,7 +1818,7 @@ li {
 }
 
 .current-time-text {
-    width: 19px;
+    /*width: 19px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -1828,7 +1845,7 @@ li {
 }
 
 .wrap-num-name {
-    width: 108px;
+    /*width: 108px;*/
     height: 22px;
     flex-grow: 0;
     display: flex;
@@ -1840,7 +1857,7 @@ li {
 }
 
 .num-extended {
-    width: 20px;
+    /*width: 20px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -1855,7 +1872,7 @@ li {
 }
 
 .name-extended {
-    width: 79px;
+    /*width: 79px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -1870,7 +1887,7 @@ li {
 }
 
 .wrap-rank-extended {
-    width: 26px;
+    /*width: 26px;*/
     height: 24px;
     flex-grow: 0;
     display: flex;
@@ -1948,13 +1965,13 @@ li {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 15px;
     padding: 0;
 }
 
 .btn-tag {
-/*    width: 90px;*/
+    /*    width: 90px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -1981,7 +1998,7 @@ li {
 }
 
 .btn-tag-chip {
-/*    width: 68px;*/
+    /*    width: 68px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -2053,7 +2070,6 @@ li {
     flex-grow: 0;
     object-fit: contain;
 }
-
 
 
 /* 로그인1 */
@@ -3485,26 +3501,15 @@ input.login1-form::placeholder {
 }
 
 /* 상품 검색 페이지 */
-
-@media (min-width: 375px) {
-    .search-container {
-        width: 375px;
-        min-height: 100vh;
-        flex-grow: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        gap: 32px;
-        padding: 40px 0;
-        background-color: #fff;
-        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-        0 1px 6px rgba(0, 23, 80, .015),
-        0 8px 8px rgba(0, 23, 80, .012),
-        0 16px 16px rgba(0, 23, 80, .012),
-        8px 32px 32px rgba(0, 23, 80, .018),
-        8px 64px 64px rgba(0, 23, 80, .018);
-    }
+.search-container {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 32px;
+    padding: 40px 0;
+    background-color: #fff;
 }
 
 .wrap-search-top-bar-best-search-word {
@@ -3562,6 +3567,7 @@ input.login1-form::placeholder {
     padding: 0;
     margin: 0;
 }
+
 .search-label::placeholder {
     color: #afafaf;
 }
@@ -3621,7 +3627,7 @@ input.login1-form::placeholder {
 }
 
 .wrap-best-search-tit-keyword {
-    width: 218px;
+    /*width: 218px;*/
     height: 42px;
     flex-grow: 0;
     display: flex;
@@ -3633,7 +3639,7 @@ input.login1-form::placeholder {
 }
 
 .best-search-title {
-    width: 79px;
+    /*width: 79px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -3646,7 +3652,7 @@ input.login1-form::placeholder {
 }
 
 .best-search-title-label {
-    width: 55px;
+    /*width: 55px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -3661,7 +3667,7 @@ input.login1-form::placeholder {
 }
 
 .best-search-keyword {
-    width: 130px;
+    /*width: 130px;*/
     height: 42px;
     flex-grow: 0;
     display: flex;
@@ -3673,7 +3679,7 @@ input.login1-form::placeholder {
 }
 
 .best-search-keyword-num {
-    width: 15px;
+    /*width: 15px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -3688,7 +3694,7 @@ input.login1-form::placeholder {
 }
 
 .best-search-keyword-name {
-    width: 79px;
+    /*width: 79px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -3703,7 +3709,7 @@ input.login1-form::placeholder {
 }
 
 .best-search-keyword-rank-up {
-    height: 20px;
+    /*height: 20px;*/
     flex-grow: 1;
     font-family: 'Noto Sans KR', serif;
     font-size: 10px;
@@ -3724,6 +3730,7 @@ input.login1-form::placeholder {
     border: 0;
     background-color: white;
 }
+
 .ic_chevron_up_14px {
     /* width: 14px; */
     /* height: 14px; */
@@ -3867,18 +3874,13 @@ input.login1-form::placeholder {
 }
 
 /* 오늘의 추천 */
-@media (min-width: 375px) {
-    .recommend-container {
-        width: 375px;
-        min-height: 100vh;
-        flex-grow: 0;
-        padding: 40px 0 48px;
-        background-color: #000;
-    }
+.recommend-container {
+    flex-grow: 0;
+    padding: 40px 0 48px;
+    background-color: #000;
 }
 
 .recommend-top-container {
-    width: 375px;
     height: 45px;
     flex-grow: 0;
     margin: 0 0 44px;
@@ -3933,24 +3935,14 @@ input.login1-form::placeholder {
 }
 
 /* 상품 상세 페이지 */
-@media (min-width: 375px) {
-    .product-details-container {
-        width: 375px;
-        min-height: 100vh;
-        flex-grow: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        padding: 40px 0 0;
-        background-color: #fff;
-        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-        0 1px 6px rgba(0, 23, 80, .015),
-        0 8px 8px rgba(0, 23, 80, .012),
-        0 16px 16px rgba(0, 23, 80, .012),
-        8px 32px 32px rgba(0, 23, 80, .018),
-        8px 64px 64px rgba(0, 23, 80, .018);
-    }
+.product-details-container {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 40px 0 0;
+    background-color: #fff;
 }
 
 .top-bar-details-frame {
@@ -3961,7 +3953,7 @@ input.login1-form::placeholder {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-/*    padding: 0 20px;*/
+    /*    padding: 0 20px;*/
     padding: 0px 20px 10px 20px;
     border-bottom: solid 1px #eeeeee;
 }
@@ -4037,7 +4029,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-info {
-/*    height: 118px;*/
+    /*    height: 118px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -4049,7 +4041,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-name {
-/*    height: 55px;*/
+    /*    height: 55px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -4115,7 +4107,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-name-type {
-/*    width: 26px;*/
+    /*    width: 26px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -4152,7 +4144,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-caption {
-/*    height: 50px;*/
+    /*    height: 50px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -4222,7 +4214,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-btn-review {
-/*    width: 76px;*/
+    /*    width: 76px;*/
     height: 20px;
     flex-grow: 0;
     display: flex;
@@ -4236,7 +4228,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-btn-review-label {
-/*    width: 76px;*/
+    /*    width: 76px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Open Sans', sans-serif;
@@ -4292,7 +4284,7 @@ input.login1-form::placeholder {
     width: 335px;
     height: 78px;
     flex-grow: 0;
-/*    margin: 22px 20px;*/
+    /*    margin: 22px 20px;*/
     border-radius: 10px;
     background-color: #004051;
     border: 0;
@@ -4573,6 +4565,7 @@ input.login1-form::placeholder {
     text-align: left;
     color: #5c6668;
 }
+
 .wine-style-details-label-reverse {
     width: 27px;
     height: 12px;
@@ -4589,7 +4582,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-product-episode {
-/*    height: 136px;*/
+    /*    height: 136px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -4601,7 +4594,7 @@ input.login1-form::placeholder {
 }
 
 .product-episode {
-/*    height: 88px;*/
+    /*    height: 88px;*/
     align-self: stretch;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -4734,11 +4727,7 @@ input.login1-form::placeholder {
 }
 
 /* 취향 설정 */
-
 .taste-container {
-    width: 375px;
-    height: 812px;
-    flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -4903,7 +4892,7 @@ input.login1-form::placeholder {
 }
 
 .btn-rounded-stroke {
-/*    width: 83px;*/
+    /*    width: 83px;*/
     height: 32px;
     flex-grow: 0;
     display: flex;
@@ -4917,7 +4906,7 @@ input.login1-form::placeholder {
 }
 
 .btn-rounded-stroke-label {
-/*    width: 51px;*/
+    /*    width: 51px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -4987,7 +4976,7 @@ input.login1-form::placeholder {
 }
 
 .keyword-label {
-/*    width: 29px;*/
+    /*    width: 29px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5284,6 +5273,7 @@ input.login1-form::placeholder {
     text-align: left;
     color: #fff;
 }
+
 .recommend-today-subtype {
     height: 22px;
     align-self: stretch;
@@ -5413,24 +5403,14 @@ input.login1-form::placeholder {
 }
 
 /* 장바구니 */
-@media (min-width: 375px) {
-    .cart-container {
-        width: 375px;
-        min-height: 100vh;
-        flex-grow: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 40px 0 35px;
-        background-color: #fff;
-        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-        0 1px 6px rgba(0, 23, 80, .015),
-        0 8px 8px rgba(0, 23, 80, .012),
-        0 16px 16px rgba(0, 23, 80, .012),
-        8px 32px 32px rgba(0, 23, 80, .018),
-        8px 64px 64px rgba(0, 23, 80, .018);
-    }
+.cart-container {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 40px 0 35px;
+    background-color: #fff;
 }
 
 .cart-header {
@@ -5613,6 +5593,7 @@ input.login1-form::placeholder {
     border-radius: 3px;
     background-color: #afafaf;
 }
+
 .cart-btn-active {
     width: 335px;
     height: 50px;
@@ -5762,7 +5743,7 @@ input.login1-form::placeholder {
 }
 
 .cart-product-name-type {
-/*    width: 22px;*/
+    /*    width: 22px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5777,7 +5758,7 @@ input.login1-form::placeholder {
 }
 
 .cart-product-name-subtype {
-/*    width: 55px;*/
+    /*    width: 55px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5873,26 +5854,16 @@ input.login1-form::placeholder {
 .cart-total-count {
     /* for js code */
 }
+
 .cart-one-count {
     /* for js code */
 }
+
 .cart-choice-count {
     /* for js code */
 }
 
 /* 마이페이지 */
-@media (min-width: 375px) {
-    .my-page-container {
-        width: 375px;
-        min-height: 100vh;
-        position: relative;
-        background-color: #fff;
-        box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
-        0 1px 6px rgba(0, 23, 80, .015),
-        0 8px 8px rgba(0, 23, 80, .012),
-        0 16px 16px rgba(0, 23, 80, .012),
-        8px 32px 32px rgba(0, 23, 80, .018),
-        8px 64px 64px rgba(0, 23, 80, .018);
-    }
+.my-page-container {
+    background-color: #fff;
 }
-

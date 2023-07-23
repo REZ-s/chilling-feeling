@@ -145,27 +145,29 @@
             </div>
         </div>-->
     </section>
+
     <!-- Footer -->
-    <section class="bottom-container">
+    <section class="bottom">
         <div class="bottom-home">
-            <div class="bottom-home-action">
+            <button class="bottom-home-action" id="goToHome">
                 <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">홈</div>
-            </div>
-            <div class="bottom-home-action">
-                <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
+            </button>
+            <button class="bottom-home-action" id="goToCategory">
+                <img src="/images/ic_category_ac_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">카테고리</div>
-            </div>
-            <div class="bottom-home-action">
+            </button>
+            <button class="bottom-home-action">
                 <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">피드</div>
-            </div>
-            <div class="bottom-home-action">
+            </button>
+            <button class="bottom-home-action">
                 <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">마이</div>
-            </div>
+            </button>
         </div>
     </section>
+
 </div>
 </body>
 <script th:inline="javascript">
@@ -207,7 +209,17 @@
         }
     });
 
-    // 카테고리 탭 버튼 클릭 시
+    // 홈 버튼
+    document.getElementById("goToHome").addEventListener("click", function () {
+        location.href = "/";
+    });
+
+    // 카테고리 버튼
+    document.getElementById("goToCategory").addEventListener("click", function () {
+        location.href = "/category";
+    });
+
+    // 카테고리 목록 탭 버튼 클릭 시
     tabLabels.forEach(function(label) {
         label.addEventListener("click", function() {
             if (label.classList.contains("wrap-tab-bar-label-ac")) {
@@ -493,7 +505,7 @@
             return;
         }
 
-        location.href = '/cf_search/result?query=' + searchValue;
+        location.href = '/search/result?query=' + searchValue;
     }
 
     searchInput.addEventListener('keyup', function (e) {

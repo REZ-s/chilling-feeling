@@ -283,9 +283,9 @@
                     <img src="/images/illustration_container.png" class="illustration-container">
                     <div class="today-recommend-title">오늘 당신의 기분과<br>딱 맞는 술을 추천해드릴게요!</div>
                 </div>
-                <div class="btn-rounded-recommend">
+                <button class="btn-rounded-recommend" id="recommendationBtn">
                     <div class="btn-rounded-recommend-label">추천 받기</div>
-                </div>
+                </button>
             </section>
         </section>
 
@@ -584,7 +584,7 @@
         </section>
 
         <!-- Footer -->
-        <section class="bottom-container">
+        <section class="bottom">
             <div class="bottom-home">
                 <button class="bottom-home-action" id="goToHome">
                     <img src="/images/ic_home_ac.png" class="ic_bottom_icon">
@@ -699,6 +699,11 @@
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
+    });
+
+    // 추천 받기 버튼
+    document.getElementById("recommendationBtn").addEventListener("click", function () {
+        location.href = "/recommendation/daily";
     });
 
     // 카테고리 버튼

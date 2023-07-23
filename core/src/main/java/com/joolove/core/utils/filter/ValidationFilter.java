@@ -56,9 +56,8 @@ public class ValidationFilter extends OncePerRequestFilter {
             clientRequestInformation = ClientRequestInformation.builder()
                     .requestURI(request.getRequestURI())
                     .build();
+            redisUtils.add(key, clientRequestInformation, 60, TimeUnit.SECONDS);
         }
-
-        redisUtils.add(key, clientRequestInformation, 60, TimeUnit.SECONDS);
 
         filterChain.doFilter(request, response);
     }
