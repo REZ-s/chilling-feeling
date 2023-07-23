@@ -6,12 +6,15 @@ import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.utils.RecommendationUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.http.HttpHeaders;
 import java.util.List;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
@@ -24,8 +27,11 @@ public class RecommendationController {
     @ResponseBody
     public ResponseEntity<Object> setRecommendationBase(@AuthenticationPrincipal String username,
                                                         @Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
-        userRecommendationBaseRequest.setUsername(username);
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+        }
 
+        userRecommendationBaseRequest.setUsername(username);
         if (recommendationUtils.setUserRecommendationBase(userRecommendationBaseRequest)) {
             return ResponseEntity.ok().build();
         }
@@ -37,8 +43,11 @@ public class RecommendationController {
     @ResponseBody
     public ResponseEntity<Object> setRecommendationDaily(@AuthenticationPrincipal String username,
                                                          @Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
-        userRecommendationDailyRequest.setUsername(username);
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+        }
 
+        userRecommendationDailyRequest.setUsername(username);
         if (recommendationUtils.setUserRecommendationDaily(userRecommendationDailyRequest)) {
             return ResponseEntity.ok().build();
         }
@@ -49,6 +58,10 @@ public class RecommendationController {
     @GetMapping("/api/v1/recommendation/daily")
     @ResponseBody
     public ResponseEntity<Object> getRecommendationDaily(@AuthenticationPrincipal String username) {
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+        }
+
         List<IGoodsView> goodsViews = recommendationUtils.getUserRecommendationGoodsList(username);
         return ResponseEntity.ok().body(goodsViews);
     }
@@ -56,6 +69,10 @@ public class RecommendationController {
     @GetMapping("/api/v1/recommendation")
     @ResponseBody
     public ResponseEntity<Object> getRecommendation(@AuthenticationPrincipal String username) {
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+        }
+
         List<IGoodsView> goodsViews = recommendationUtils.getUserRecommendationGoodsList(username);
         return ResponseEntity.ok().body(goodsViews);
     }
@@ -65,8 +82,11 @@ public class RecommendationController {
     @ResponseBody
     public ResponseEntity<Object> setRecommendationActivity(@AuthenticationPrincipal String username,
                                                             @Valid @RequestBody UserActivityElements userActivityElements) {
-        userActivityElements.setUsername(username);
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+        }
 
+        userActivityElements.setUsername(username);
         if (recommendationUtils.setUserActivityRecommendation(userActivityElements)) {
             return ResponseEntity.ok().build();
         }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -25,11 +24,11 @@
 <div class="taste-container">
     <!-- Header -->
     <div class="taste-setting-header">
-        <a href="/cf_main">
+        <a href="/">
             <img class="ic_back_24px" src="/images/ic_back_24px.png">
         </a>
         <div class="taste-header-content-text">취향설정 (1/2)</div>
-        <a href="/cf_main">
+        <a href="/">
             <img class="ic_close_24px" src="/images/ic_close_24px.png">
         </a>
     </div>
@@ -105,14 +104,16 @@
         });
     });
 
+    // 취향 선택
     nextBtn.addEventListener("click", function() {
         const activeButton = document.querySelector(".btn-taste-setting-capacity.active");
         if (activeButton === null) {
-            alert("취향을 선택해주세요!");
-        } else {
-            const abvLimit = activeButton.querySelector(".capacity-degree").innerText;
-            location.href = "/cf_recommendation_base2?abvLimit=" + abvLimit;
+            alert("취향을 선택해주세요.");
+            return;
         }
+
+        const abvLimit = activeButton.querySelector(".capacity-degree").innerText;
+        location.href = "/recommendation/base/submit?abvLimit=" + abvLimit;
     });
 
 </script>

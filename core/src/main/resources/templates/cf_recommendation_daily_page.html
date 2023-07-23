@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -313,7 +312,14 @@
 
     // 추천받기 버튼
     document.getElementById("nextBtn").addEventListener("click", function () {
+        const activeBtn = document.querySelector('.btn-feeling-illust-label-ac');
+        if (activeBtn == null) {
+            alert("기분을 알려주시면 최대한 반영해볼게요.");
+            return;
+        }
 
+        const feeling = activeBtn.querySelector('.feeling-label').textContent;
+        location.href = '/recommendation/daily/submit?feeling=' + feeling;
     });
 
 </script>
