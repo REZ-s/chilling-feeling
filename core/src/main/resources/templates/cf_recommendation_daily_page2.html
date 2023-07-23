@@ -20,11 +20,11 @@
 <div class="taste-container">
     <!-- Header -->
     <div class="taste-setting-header">
-        <a href="/cf_recommendation_base">
+        <a href="/recommendation/daily">
             <img class="ic_back_24px" src="/images/ic_back_24px.png">
         </a>
         <div class="taste-header-content-text">오늘의 추천</div>
-        <a href="/cf_main">
+        <a href="/">
             <img class="ic_close_24px" src="/images/ic_close_24px.png">
         </a>
     </div>
@@ -88,7 +88,6 @@
     let recommendProductListLength; // 화면에 출력할 상품 개수
 
     init();
-
     async function init() {
         goodsViewListIndex = 0;
         recommendProductListLength = 3;

@@ -189,11 +189,11 @@
 <div class="taste-container">
     <!-- Header -->
     <div class="taste-setting-header">
-        <a href="/cf_recommendation_base">
+        <a href="/">
             <img class="ic_back_24px" src="/images/ic_back_24px.png">
         </a>
         <div class="taste-header-content-text">오늘의 추천</div>
-        <a href="/cf_main">
+        <a href="/">
             <img class="ic_close_24px" src="/images/ic_close_24px.png">
         </a>
     </div>
@@ -214,34 +214,34 @@
             <div class="horizontal-wrap-feeling-btn">
                 <button class="btn-feeling-illust-label">
                     <img src="/images/illust_face_feeling_fun_green.png" class="ic_illust_face_feeling">
-                    <div class="feeling-label">즐거워요</div>
+                    <div class="feeling-label" id="funny">즐거워요</div>
                 </button>
 
                 <button class="btn-feeling-illust-label">
                     <img src="/images/illust_face_feeling_happy_orange.png" class="ic_illust_face_feeling">
-                    <div class="feeling-label">기뻐요</div>
+                    <div class="feeling-label" id="happy">기뻐요</div>
                 </button>
 
                 <button class="btn-feeling-illust-label">
                     <img src="/images/illust_face_feeling_normal_green.png" class="ic_illust_face_feeling">
-                    <div class="feeling-label">그냥 그래요</div>
+                    <div class="feeling-label" id="normal">그냥 그래요</div>
                 </button>
             </div>
 
             <div class="horizontal-wrap-feeling-btn">
                 <button class="btn-feeling-illust-label">
                     <img src="/images/illust_face_feeling_sad_blue.png" class="ic_illust_face_feeling">
-                    <div class="feeling-label">슬퍼요</div>
+                    <div class="feeling-label" id="sad">슬퍼요</div>
                 </button>
 
                 <button class="btn-feeling-illust-label">
                     <img src="/images/illust_face_feeling_angry_red.png" class="ic_illust_face_feeling">
-                    <div class="feeling-label">화나요</div>
+                    <div class="feeling-label" id="angry">화나요</div>
                 </button>
 
                 <button class="btn-feeling-illust-label">
                     <img src="/images/illust_face_feeling_tired_purple.png" class="ic_illust_face_feeling">
-                    <div class="feeling-label">피곤해요</div>
+                    <div class="feeling-label" id="tired">피곤해요</div>
                 </button>
             </div>
         </div>
@@ -287,8 +287,33 @@
 
 <script th:inline="javascript">
 
-    $('#info').click(function() {
+    // 감정 아이콘 선택시
+    document.querySelectorAll('.btn-feeling-illust-label').forEach((button) => {
+        button.addEventListener('click', function () {
+            const isNotActiveClass = button.classList.contains('btn-feeling-illust-label');
+
+            if (isNotActiveClass) {
+                button.classList.add('btn-feeling-illust-label-ac');
+                button.classList.remove('btn-feeling-illust-label');
+
+                document.querySelectorAll('.btn-feeling-illust-label-ac').forEach((otherButton) => {
+                    if (otherButton !== button) {
+                        otherButton.classList.add('btn-feeling-illust-label');
+                        otherButton.classList.remove('btn-feeling-illust-label-ac');
+                    }
+                });
+            }
+        });
+    });
+
+    // 정보 아이콘
+    document.getElementById("info").addEventListener("click", function() {
         $('#modal-feeling-info').modal('show');
+    });
+
+    // 추천받기 버튼
+    document.getElementById("nextBtn").addEventListener("click", function () {
+
     });
 
 </script>

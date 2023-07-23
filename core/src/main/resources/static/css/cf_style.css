@@ -4728,6 +4728,7 @@ input.login1-form::placeholder {
 
 /* 취향 설정 */
 .taste-container {
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -5092,7 +5093,6 @@ input.login1-form::placeholder {
 }
 
 .btn-feeling-illust-label {
-    height: 132px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -5102,6 +5102,18 @@ input.login1-form::placeholder {
     padding: 0;
     background-color: black;
     border: 0;
+}
+.btn-feeling-illust-label-ac {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0;
+    background-color: black;
+    border-radius: 20px;
+    border: dotted green;
 }
 
 .ic_illust_face_feeling {
