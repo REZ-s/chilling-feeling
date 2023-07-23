@@ -35,7 +35,7 @@ public class WebController {
     @GetMapping("/login")
     public String login(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
+        if (authentication == null || !authentication.getPrincipal().equals("anonymousUser")) {
             return "redirect:/";
         }
 

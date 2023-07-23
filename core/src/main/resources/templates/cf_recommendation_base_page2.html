@@ -145,7 +145,11 @@
                     });
 
                     if (response.ok) {
-                        return await response.text();
+                        if (response.redirected) {
+                            location.href = "/login";
+                        } else {
+                            return await response.text();
+                        }
                     }
                     throw response;
                 } catch (error) {
