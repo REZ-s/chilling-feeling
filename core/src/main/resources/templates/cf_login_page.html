@@ -146,14 +146,14 @@
     <!-- Content Frame -->
     <div class="login1-title-area">
         <div class="login1-title">
-            <span>내 취향이 가득 담긴 술을 확인 해볼까요?</span>
+            <div>내 취향이 가득 담긴 술을 <br> 확인 해볼까요?</div>
         </div>
         <div class="login1-subtitle">
             <span>먼저 로그인이 필요해요:)</span>
         </div>
     </div>
 
-    <form>
+    <div class="login1-email-form">
         <div class="login1-form-field">
             <input class="login1-form" type="email" placeholder="이메일 주소 입력" id="myEmail">
         </div>
@@ -161,22 +161,20 @@
         <button class="login1-play" type="button" id="myBtn">
             <div class="login2-btn-text">계속하기</div>
         </button>
-    </form>
+    </div>
 
     <div class="login1-sub-content-area">
-        <div class="login1-email-join-text" >
+        <button class="login1-email-join-text" id="join">
             이메일 가입
-        </div>
-        <div class="login1-tiny-line">
-        </div>
-        <div class="login1-email-join-text">
+        </button>
+        <div class="login1-tiny-line"></div>
+        <button class="login1-email-join-text" id="findEmail">
             이메일 찾기
-        </div>
-        <div class="login1-tiny-line">
-        </div>
-        <div class="login1-pw-find-text" >
+        </button>
+        <div class="login1-tiny-line"></div>
+        <button class="login1-pw-find-text" id="findPassword">
             비밀번호 찾기
-        </div>
+        </button>
     </div>
 
     <div class="login1-simple-login">
@@ -246,6 +244,18 @@
 
 <script th:inline="javascript">
 
+    document.getElementById("join").addEventListener("click", function () {
+        location.href = "/join";
+    });
+
+    document.getElementById("findEmail").addEventListener("click", function () {
+        location.href = "/find/email";
+    });
+
+    document.getElementById("findPassword").addEventListener("click", function () {
+        location.href = "/find/password";
+    });
+
     document.addEventListener("DOMContentLoaded", function() {
         const myBtn = document.querySelector("#myBtn");
 
@@ -260,10 +270,10 @@
 
             async function checkEmailExists(email) {
                 try {
-                    const response = await fetch('/api/v1/email/check', {
-                        method: 'POST',
+                    const response = await fetch("/api/v1/email/check", {
+                        method: "POST",
                         headers: {
-                            'Content-Type': 'application/json'
+                            "Content-Type": "application/json"
                         },
                         body: email
                     });
@@ -279,21 +289,21 @@
 
             async function validateAndSend(email) {
                 if (!validateEmail(email)) {
-                    console.log('Invalid email format');
+                    console.log("Invalid email format");
                     return;
                 }
 
                 try {
                     const data = await checkEmailExists(email);
                     if (data === "valid-correct") {
-                        sendLoginForm('/login/submit', email);
+                        sendLoginForm("/login/submit", email);
                     } else if (data === "valid-incorrect") {
                         $("#incorrect").modal();
                     } else {
                         $("#invalid").modal();
                     }
                 } catch (error) {
-                    console.log('Error checking email exists:', error);
+                    console.log("Error checking email exists:", error);
                 }
             }
 
@@ -302,22 +312,22 @@
 
     /*<![CDATA[*/
     function sendLoginForm(path, email) {
-        const form = document.createElement('form');
-        form.method = 'POST';
+        const form = document.createElement("form");
+        form.method = "POST";
         form.action = path;
 
         let request = /*[[${request}]]*/ {};
         request.username = email;
 
-        const usernameInput = document.createElement('input');
-        usernameInput.type = 'hidden';
-        usernameInput.name = 'username';
+        const usernameInput = document.createElement("input");
+        usernameInput.type = "hidden";
+        usernameInput.name = "username";
         usernameInput.value = request.username;
         form.appendChild(usernameInput);
 
-        const pwInput = document.createElement('input');
-        pwInput.type = 'hidden';
-        pwInput.name = 'password';
+        const pwInput = document.createElement("input");
+        pwInput.type = "hidden";
+        pwInput.name = "password";
         pwInput.value = request.password;
         form.appendChild(pwInput);
 

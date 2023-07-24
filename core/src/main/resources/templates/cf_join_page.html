@@ -58,7 +58,7 @@
         <!-- After form checked -->
         <div class="join1-container-actions" id="afterForm" style="display: none">
             <div class="join1-wrapper-email-btn-code-number-form">
-                <div class="join1-wrapper-email-btn_code-number">
+                <div class="join1-wrapper-email-btn-code-number">
                     <div class="join1-form-field-email">
                         <div class="join1-wrapper-text-check">
                             <input class="join1-after-input-text" placeholder="cflove@chillingfeeling.com" type="email" id="afterEmail">
@@ -126,22 +126,22 @@
         });
     });
 
-    document.querySelector('#sendCodeNumber').addEventListener('click', function (e) {
+    document.querySelector('#sendCodeNumber').addEventListener("click", function (e) {
         e.preventDefault();
-        myContainer.style.height = '525px';
-        beforeForm.style.display = 'none';
-        afterForm.style.display = 'flex';
+        myContainer.style.height = "525px";
+        beforeForm.style.display = "none";
+        afterForm.style.display = "flex";
         afterEmail.value = beforeEmail.value;
         createAuthenticationCode(beforeEmail.value.trim());
     });
 
-    document.querySelector('#resendCodeNumber').addEventListener('click', function (e) {
+    document.querySelector('#resendCodeNumber').addEventListener("click", function (e) {
         e.preventDefault();
         createAuthenticationCode(afterEmail.value.trim());
     });
 
     /* verify auth-code for nextPage */
-    document.querySelector('#nextBtn').addEventListener('click', function (e) {
+    document.querySelector('#nextBtn').addEventListener("click", function (e) {
 
         const codeInput = document.querySelector('#codeNumber');
         const authenticationCode = codeInput.value.trim();
@@ -149,9 +149,9 @@
         if (checkAuthenticationCode(authenticationCode)) {
             const emailInput = document.querySelector('#afterEmail');
             const afterEmail = emailInput.value.trim();
-            sendJoinForm('/join/password', afterEmail);
+            sendJoinForm("/join/password", afterEmail);
         } else {
-            console.log('Incorrect authentication code');
+            console.log("Incorrect authentication code");
             // Display modal or show error message...
         }
 
@@ -163,10 +163,10 @@
 
             async function sendAuthenticationCode(code) {
                 try {
-                    const response = await fetch('/api/v1/authentication-code/email/check', {
-                        method: 'POST',
+                    const response = await fetch("/api/v1/authentication-code/email/check", {
+                        method: "POST",
                         headers: {
-                            'Content-Type': 'application/json',
+                            "Content-Type": "application/json",
                         },
                         body: code
                     });
@@ -193,10 +193,10 @@
 
             async function createCode(email) {
                 try {
-                    const response = await fetch('/api/v1/authentication-code/email', {
-                        method: 'POST',
+                    const response = await fetch("/api/v1/authentication-code/email", {
+                        method: "POST",
                         headers: {
-                            'Content-Type': 'application/json',
+                            "Content-Type": "application/json",
                         },
                         body: email
                     });
@@ -214,28 +214,28 @@
 
     /*<![CDATA[*/
     function sendJoinForm(path, email) {
-        const form = document.createElement('form');
-        form.method = 'POST';
+        const form = document.createElement("form");
+        form.method = "POST";
         form.action = path;
 
         let request = /*[[${request}]]*/ {};
         request.username = email;
 
-        const usernameInput = document.createElement('input');
-        usernameInput.type = 'hidden';
-        usernameInput.name = 'username';
+        const usernameInput = document.createElement("input");
+        usernameInput.type = "hidden";
+        usernameInput.name = "username";
         usernameInput.value = request.username;
         form.appendChild(usernameInput);
 
-        const pwInput = document.createElement('input');
-        pwInput.type = 'hidden';
-        pwInput.name = 'password';
+        const pwInput = document.createElement("input");
+        pwInput.type = "hidden";
+        pwInput.name = "password";
         pwInput.value = request.password;
         form.appendChild(pwInput);
 
-        const numberInput = document.createElement('input');
-        numberInput.type = 'hidden';
-        numberInput.name = 'phoneNumber';
+        const numberInput = document.createElement("input");
+        numberInput.type = "hidden";
+        numberInput.name = "phoneNumber";
         numberInput.value = request.phoneNumber;
         form.appendChild(numberInput);
 

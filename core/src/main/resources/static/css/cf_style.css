@@ -7,7 +7,7 @@
 @media (min-width: 375px) {
     body {
         width: 375px;
-        height: 100vh;
+        min-height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
         margin: 0 auto !important;
         box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
@@ -22,7 +22,7 @@
 @media (min-width: 500px) {
     body {
         width: 500px;
-        height: 100vh;
+        min-height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
         margin: 0 auto !important;
         box-shadow: 0 4px 4px rgba(0, 23, 80, .01),
@@ -2074,13 +2074,13 @@ li {
 
 /* 로그인1 */
 .login1 {
-    height: 100vh;
+    min-height: 100vh;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    padding: 40px 0 132px;
+    padding: 40px 0 20%;
     background-color: #000;
 }
 
@@ -2089,17 +2089,17 @@ li {
     height: 101px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: stretch;
     align-self: stretch;
     gap: 15px;
-    margin: 36px 176px 60px 20px;
+    margin: 40px 20px 60px 20px;
     padding: 0;
     object-fit: contain;
 }
 
 .login1-title {
-    height: 64px;
+    /*height: 64px;*/
     flex-grow: 1;
     object-fit: contain;
     font-family: 'Noto Sans KR', serif;
@@ -2114,7 +2114,7 @@ li {
 }
 
 .login1-subtitle {
-    height: 22px;
+    /*height: 22px;*/
     align-self: stretch;
     flex-grow: 0;
     object-fit: contain;
@@ -2129,6 +2129,11 @@ li {
     color: #fff;
 }
 
+.login1-email-form {
+    display: flex;
+    object-fit: contain;
+    flex-direction: column;
+}
 
 .login1-headline-text {
     width: 175px;
@@ -2192,6 +2197,7 @@ input.login1-form {
     line-height: 1.56;
     letter-spacing: -0.36px;
     text-align: left;
+    align-self: stretch;
     background-color: black;
     color: #4a4a4a !important;
     border: 0 !important;
@@ -2206,10 +2212,10 @@ input.login1-form::placeholder {
     height: 38px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: flex-start;
     gap: 10px;
-    margin: 59px 22px 83px 18px;
+    margin: 20px 20px 0 20px;
     padding: 0;
     border-bottom: solid 1px #4a4a4a;
 }
@@ -2249,7 +2255,7 @@ input.login1-form::placeholder {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin: 20px 0 100px;
+    margin: 20px 0 80px;
     padding: 0 20px;
     object-fit: contain;
 }
@@ -2266,6 +2272,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.24px;
     text-align: center;
     color: #afafaf;
+    border: 0;
+    background-color: black;
 }
 
 .login1-pw-find-text {
@@ -2280,6 +2288,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.24px;
     text-align: center;
     color: #afafaf;
+    border: 0;
+    background-color: black;
 }
 
 .login1-tiny-line {
@@ -2297,7 +2307,7 @@ input.login1-form::placeholder {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin: 100px 20px 20px;
+    margin: 0 20px 20px;
     padding: 0;
 }
 
@@ -2324,13 +2334,13 @@ input.login1-form::placeholder {
 
 .logo-btn-area {
     /*width: 375px;*/
-    height: 50px;
+    /*height: 50px;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px 0 0;
-    padding: 0;
+    margin: 0;
+    padding: 0 0 50px 0;
 }
 
 .logo-btn-group {
@@ -2399,7 +2409,7 @@ input.login1-form::placeholder {
     justify-content: flex-start;
     align-items: center;
     gap: 94px;
-    margin: 0 20px 36px;
+    margin: 0 20px 0;
     padding: 0;
 }
 
@@ -2581,19 +2591,16 @@ input.login1-form::placeholder {
 }
 
 /* 회원가입1 */
-@media (min-width: 375px) {
-    .join1 {
-        width: 375px;
-        min-height: 100vh;
-        flex-grow: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        gap: 40px;
-        padding: 40px 0 0;
-        background-color: #000;
-    }
+.join1 {
+    min-height: 100vh;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 40px;
+    padding: 40px 0 0;
+    background-color: #000;
 }
 
 .join1-header {
@@ -2659,25 +2666,27 @@ input.login1-form::placeholder {
 }
 
 .join1-wrapper-email-btn-code-number-form {
-    width: 335px;
+    /*width: 335px;*/
     height: 234px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    align-self: stretch;
     gap: 50px;
     padding: 0;
 }
 
-.join1-wrapper-email-btn_code-number {
-    width: 335px;
+.join1-wrapper-email-btn-code-number {
+    /*width: 335px;*/
     height: 108px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+    align-self: stretch;
     gap: 40px;
     padding: 0;
 }
@@ -2764,13 +2773,14 @@ input.login1-form::placeholder {
 }
 
 .join1-wrapper-subtext-form-field {
-    width: 335px;
+    /*width: 335px;*/
     height: 76px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: stretch;
+    align-self: stretch;
     gap: 16px;
     padding: 0;
 }
@@ -2791,7 +2801,7 @@ input.login1-form::placeholder {
 }
 
 .join1-form-field-code-number {
-    width: 335px;
+    /*width: 335px;*/
     height: 38px;
     flex-grow: 0;
     display: flex;
