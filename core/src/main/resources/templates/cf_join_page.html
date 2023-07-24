@@ -46,6 +46,10 @@
         <form class="join1-form-container" id="beforeForm">
             <div class="join1-form-input-field">
                 <input class="join1-input-text" placeholder="이메일 입력" type="email" id="beforeEmail">
+
+                <div class="ic_check_14px" id="isCheckedBefore">
+                    <img src="/images/ic_check_14px.png">
+                </div>
             </div>
 
             <button class="join1-btn-code-number">
@@ -61,10 +65,10 @@
                 <div class="join1-wrapper-email-btn-code-number">
                     <div class="join1-form-field-email">
                         <div class="join1-wrapper-text-check">
-                            <input class="join1-after-input-text" placeholder="cflove@chillingfeeling.com" type="email" id="afterEmail">
+                            <input class="join1-after-input-text" placeholder="이메일 입력" type="email" id="afterEmail">
 
-                            <div class="ic_check_14px">
-                                <img src="/images/ic_check_14px.png">
+                            <div class="ic_check_14px" id="isCheckedAfter">
+                                <img src="/images/ic_checked_14px.png">
                             </div>
                         </div>
                     </div>
@@ -97,8 +101,7 @@
 
 </div>
 <script th:inline="javascript">
-
-    /* Form transformation */
+    // form transformation
     const myContainer = document.querySelector('#myContainer');
     const beforeForm = document.querySelector('#beforeForm');
     const afterForm = document.querySelector('#afterForm');
@@ -106,9 +109,34 @@
     const beforeEmail = document.querySelector('#beforeEmail');
     const afterEmail = document.querySelector('#afterEmail');
 
-    /* Password eye on/off */
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
+    const emailInputBefore = document.getElementById('beforeEmail');
+    const emailInputAfter = document.getElementById('afterEmail');
+    const isCheckedBefore = document.getElementById('isCheckedBefore');
+    const isCheckedAfter = document.getElementById('isCheckedAfter');
+    const validEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // email pattern check
+    emailInputBefore.addEventListener('input', function () {
+        const emailString = emailInputBefore.value;
+        if (validEmailPattern.test(emailString)) {
+            isCheckedBefore.innerHTML = '<img src="/images/ic_checked_14px.png">';
+        } else {
+            isCheckedBefore.innerHTML = '<img src="/images/ic_check_14px.png">';
+        }
+    });
+
+    emailInputAfter.addEventListener('input', function () {
+        const emailString = emailInputAfter.value;
+        if (validEmailPattern.test(emailString)) {
+            isCheckedAfter.innerHTML = '<img src="/images/ic_checked_14px.png">';
+        } else {
+            isCheckedAfter.innerHTML = '<img src="/images/ic_check_14px.png">';
+        }
+    });
+
+    // password eye on/off
     pwShowHide.forEach(eyeIcon => {
         eyeIcon.addEventListener("click", () => {
             let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
@@ -140,7 +168,7 @@
         createAuthenticationCode(afterEmail.value.trim());
     });
 
-    /* verify auth-code for nextPage */
+    // verify auth-code for next page
     document.querySelector('#nextBtn').addEventListener("click", function (e) {
 
         const codeInput = document.querySelector('#codeNumber');
@@ -152,7 +180,7 @@
             sendJoinForm("/join/password", afterEmail);
         } else {
             console.log("Incorrect authentication code");
-            // Display modal or show error message...
+            // display modal or show error message...
         }
 
         async function checkAuthenticationCode(code) {
@@ -184,7 +212,7 @@
         }
     });
 
-    /* create auth-code */
+    // create auth-code
     function createAuthenticationCode(email) {
         getAuthenticationCode(email);
 

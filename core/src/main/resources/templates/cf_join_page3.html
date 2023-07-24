@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -8,20 +7,18 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <title> Chilling Feeling - Join (3/3) </title>
-
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <style>
         /* For modal */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
         .modal {
             position: fixed;
-            top: 100%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
@@ -211,8 +208,8 @@
             color: #fff;
         }
 
+        /* 체크박스의 기본 스타일을 없애고, 이미지를 배경으로 설정 */
         .modal-checkbox {
-            /* 체크박스의 기본 스타일을 없애고, 이미지를 배경으로 설정 */
             appearance: none;
             -webkit-appearance: none;
             background-image: url("/images/ic_checkbox_24px.png");
@@ -220,11 +217,10 @@
             width: 24px;
             height: 24px;
             border: none;
-            outline: none;
             cursor: pointer;
-            /*flex-grow: 0;*/
-            /*object-fit: contain;*/
+            outline: none !important;
         }
+
         .modal-checkbox-checked {
             appearance: none;
             -webkit-appearance: none;
@@ -233,12 +229,9 @@
             width: 24px;
             height: 24px;
             border: none;
-            outline: none;
             cursor: pointer;
-            /*flex-grow: 0;*/
-            /*object-fit: contain;*/
+            outline: none !important;
         }
-
     </style>
 </head>
 <body>
@@ -246,7 +239,7 @@
     <!-- Top frame -->
     <section class="join1-header">
         <div class="ic_back_24px">
-            <a href="/login">
+            <a href="/join/password">
                 <img src="/images/ic_back_24px.png">
             </a>
         </div>
@@ -257,10 +250,8 @@
             </a>
         </div>
     </section>
-
     <!-- Content Frame -->
     <div class="join3-container" id="myContainer">
-
         <!-- Origin form -->
         <div id="beforeForm">
             <div class="join3-container-content">
@@ -269,47 +260,44 @@
             </div>
             <div class="join3-container-actions">
                 <div class="join3-form-field-phone-number">
-                    <input class="join3-phone-number-input" placeholder="휴대폰 번호 입력" type="tel" id="pNumber">
+                    <input class="join3-phone-number-input" placeholder="휴대폰 번호 입력" type="tel" id="beforePNumber">
+                    <div class="ic_check_14px" id="isCheckedBefore">
+                        <img src="/images/ic_check_14px.png">
+                    </div>
                 </div>
-
                 <button class="join3-btn-code-number">
                     <div class="join3-btn-code-number-label" id="sendCodeNumberBtn">인증번호 전송</div>
                 </button>
             </div>
         </div>
-
         <!-- After form -->
         <div id="afterForm" style="display: none">
             <div class="join3-container-content">
                 <div class="join3-title">휴대폰번호로<br>본인인증을 해주세요.</div>
                 <div class="join3-subtitle"><br>인증번호를 전송했어요!</div>
             </div>
-
             <div class="join1-container-actions">
                 <div class="join1-wrapper-email-btn-code-number-form">
-                    <div class="join1-wrapper-email-btn_code-number">
+                    <div class="join1-wrapper-email-btn-code-number">
                         <div class="join1-form-field-email">
                             <div class="join1-wrapper-text-check">
-                                <input class="join1-after-input-text" placeholder="01012345678" type="number" id="afterPNumber">
-
-                                <div class="ic_check_14px">
-                                    <img src="/images/ic_check_14px.png">
+                                <input class="join1-after-input-text" placeholder="휴대폰 번호 입력" type="tel"
+                                       id="afterPNumber">
+                                <div class="ic_check_14px" id="isCheckedAfter">
+                                    <img src="/images/ic_checked_14px.png">
                                 </div>
                             </div>
                         </div>
-
                         <button class="join1-btn-resend">
                             <div class="join1-btn-resend-label" id="resendCodeNumberBtn">인증번호 재전송</div>
                         </button>
                     </div>
-
                     <div class="join1-wrapper-subtext-form-field">
                         <div class="join1-subtext">인증번호 6자리를 입력해주세요.</div>
                         <div class="join1-form-field-code-number">
                             <div class="join1-wrapper-input-icon">
                                 <input class="join1-default-input pw-field" placeholder="인증번호 입력" type="password"
                                        id="codeNumber">
-
                                 <div class="ic_visibility_off">
                                     <img class="pw-eye" src="/images/ic_visibility_off.png">
                                 </div>
@@ -317,39 +305,31 @@
                         </div>
                     </div>
                 </div>
-
                 <button class="join1-btn-next" id="beforeBtn">
                     <div class="join1-btn-next-label" id="nextBtn">다음</div>
                 </button>
-
                 <button class="join3-btn-join" id="afterBtn" style="display: none">
                     <div class="join3-btn-join-label" id="joinBtn">회원가입 완료</div>
                 </button>
             </div>
         </div>
-
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="ToS" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
-
             <div class="modal-body modal-agree">
                 <div class="Drag-handle-Stroke"></div>
-
                 <div class="modal-agree-container">
                     <div class="modal-agree-container-agree-actions">
                         <div class="modal-entire-actions">
                             <div>
-                                <input type="checkbox" id="checkboxes" class="modal-checkbox">
+                                <input type="checkbox" id="totalCheckbox" class="modal-checkbox">
                             </div>
                             <div class="korean-B1-bold">약관 전체동의</div>
                         </div>
-
                         <div class="wrapper-individual-actions">
                             <div class="individual-action">
                                 <div>
@@ -360,7 +340,6 @@
                                     <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
                                 </div>
                             </div>
-
                             <div class="individual-action">
                                 <div>
                                     <input type="checkbox" id="checkbox2" class="modal-checkbox">
@@ -370,7 +349,6 @@
                                     <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
                                 </div>
                             </div>
-
                             <div class="individual-action">
                                 <div>
                                     <input type="checkbox" id="checkbox3" class="modal-checkbox">
@@ -380,7 +358,6 @@
                                     <img src="/images/ic_chevron_right_24px.png" class="ic_chevron_right_24px">
                                 </div>
                             </div>
-
                             <div class="individual-action">
                                 <div>
                                     <input type="checkbox" id="checkbox4-opt" class="modal-checkbox">
@@ -392,38 +369,59 @@
                             </div>
                         </div>
                     </div>
-
                     <button class="modal-btn-start">
                         <div class="modal-btn-start-label" id="agreeStartBtn">동의하고 시작하기</div>
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
 <script th:inline="javascript">
-
     const myContainer = document.querySelector('#myContainer');
     const beforeForm = document.querySelector('#beforeForm');
     const afterForm = document.querySelector('#afterForm');
 
-    const beforePNumber = document.querySelector('#pNumber');
+    const beforePNumber = document.querySelector('#beforePNumber');
     const afterPNumber = document.querySelector('#afterPNumber');
 
     const beforeBtn = document.querySelector('#beforeBtn');
     const afterBtn = document.querySelector('#afterBtn');
 
-    const checkboxes = document.querySelector('#checkboxes');
-    const checkbox1 = document.querySelector('#checkbox1');
-    const checkbox2 = document.querySelector('#checkbox2');
-    const checkbox3 = document.querySelector('#checkbox3');
-    const checkbox4 = document.querySelector('#checkbox4-opt');
+    const totalCheckbox = document.querySelector('#totalCheckbox');
+    const checkboxList = [
+        document.getElementById('checkbox1'),
+        document.getElementById('checkbox2'),
+        document.getElementById('checkbox3'),
+        document.getElementById('checkbox4-opt')
+    ];
 
-    /* Password eye on/off */
+    const isCheckedBefore = document.getElementById('isCheckedBefore');
+    const isCheckedAfter = document.getElementById('isCheckedAfter');
+    const validPhoneNumberPattern = /^\d{3}-\d{4}-\d{4}$|^\d{3}\d{4}\d{4}$/;
+
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
+    // phone number pattern check
+    beforePNumber.addEventListener('input', function () {
+        const phoneNumber = beforePNumber.value;
+        if (validPhoneNumberPattern.test(phoneNumber)) {
+            isCheckedBefore.innerHTML = '<img src="/images/ic_checked_14px.png">';
+        } else {
+            isCheckedBefore.innerHTML = '<img src="/images/ic_check_14px.png">';
+        }
+    });
+
+    afterPNumber.addEventListener('input', function () {
+        const phoneNumber = afterPNumber.value;
+        if (validPhoneNumberPattern.test(phoneNumber)) {
+            isCheckedAfter.innerHTML = '<img src="/images/ic_checked_14px.png">';
+        } else {
+            isCheckedAfter.innerHTML = '<img src="/images/ic_check_14px.png">';
+        }
+    });
+
+    // password eye on/off
     pwShowHide.forEach(eyeIcon => {
         eyeIcon.addEventListener("click", () => {
             let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
@@ -455,7 +453,7 @@
         createAuthenticationCode(afterPNumber.value.trim());
     });
 
-    /* verify auth-code for join */
+    // verify auth-code for join
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
         const codeInput = document.querySelector('#codeNumber');
         const authenticationCode = codeInput.value.trim();
@@ -498,13 +496,13 @@
         }
     });
 
-    /* Modal : I agreed to the terms of service when I signed up for this website */
+    // modal : I agreed to the terms of service when I signed up for this website
     document.querySelector('#joinBtn').addEventListener('click', function (e) {
         e.preventDefault();
         $("#ToS").modal();
     });
 
-    /* Join completed */
+    // join completed
     document.querySelector('#agreeStartBtn').addEventListener('click', function (e) {
         e.preventDefault();
         if (isCheckboxChecked()) {
@@ -514,43 +512,46 @@
         }
     });
 
-    document.querySelector('#checkboxes').addEventListener('click', function (e) {
-        e.preventDefault();
-        const checkboxList = document.querySelectorAll('input[type="checkbox"]');
-        if (checkboxList.length > 0) {
-            if (areAllChecked(checkboxList)) {
-                uncheckAllBoxes(checkboxList);
-            } else {
-                checkAllBoxes(checkboxList);
-            }
+    totalCheckbox.addEventListener('click', function () {
+        if (totalCheckbox.checked) {
+            checkAllBoxes();
+        } else {
+            uncheckAllBoxes();
         }
     });
 
-    function areAllChecked(checkboxList) {
-        for (let i = 0; i < checkboxList.length; i++) {
-            if (!checkboxList[i].checked) {
-                return false;
+    for (let i = 0; i < checkboxList.length; ++i) {
+        checkboxList[i].addEventListener('click', function () {
+            if (checkboxList[i].checked) {
+                checkboxList[i].classList.add('modal-checkbox-checked');
+                checkboxList[i].classList.remove('modal-checkbox');
+            } else {
+                checkboxList[i].classList.add('modal-checkbox');
+                checkboxList[i].classList.remove('modal-checkbox-checked');
             }
-        }
-        return true;
+        });
     }
 
-    function checkAllBoxes(checkboxList) {
+    function checkAllBoxes() {
         for (let i = 0; i < checkboxList.length; i++) {
             checkboxList[i].checked = true;
-            checkboxList[i].class = 'modal-checkbox-checked';
+            checkboxList[i].classList.add('modal-checkbox-checked');
+            checkboxList[i].classList.remove('modal-checkbox');
         }
-        checkboxes.checked = true;
-        checkboxes.class = 'modal-checkbox-checked';
+        totalCheckbox.checked = true;
+        totalCheckbox.classList.add('modal-checkbox-checked');
+        totalCheckbox.classList.remove('modal-checkbox');
     }
 
-    function uncheckAllBoxes(checkboxList) {
+    function uncheckAllBoxes() {
         for (let i = 0; i < checkboxList.length; i++) {
             checkboxList[i].checked = false;
-            checkboxList[i].class = 'modal-checkbox';
+            checkboxList[i].classList.add('modal-checkbox');
+            checkboxList[i].classList.remove('modal-checkbox-checked');
         }
-        checkboxes.checked = false;
-        checkboxes.class = 'modal-checkbox';
+        totalCheckbox.checked = false;
+        totalCheckbox.classList.add('modal-checkbox');
+        totalCheckbox.classList.remove('modal-checkbox-checked');
     }
 
     function isCheckboxChecked() {
@@ -558,7 +559,7 @@
         return checkboxIds.every(id => document.querySelector('#' + id)?.checked);
     }
 
-    /* create auth-code */
+    // create auth-code
     function createAuthenticationCode(phoneNumber) {
         getAuthenticationCode(phoneNumber);
 
@@ -616,8 +617,8 @@
         document.body.appendChild(form);
         form.submit();
     }
-    /*]]>*/
 
+    /*]]>*/
 </script>
 </body>
 </html>

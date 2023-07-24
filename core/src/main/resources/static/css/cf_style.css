@@ -2715,7 +2715,7 @@ input.login1-form::placeholder {
 }
 
 .join1-after-input-text {
-    width: 311px;
+    /*width: 311px;*/
     height: 28px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -2727,8 +2727,7 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #f6f6f6;
-    background-color: black;
-!important;
+    background-color: black !important;
     border: 0;
 }
 
@@ -2819,14 +2818,13 @@ input.login1-form::placeholder {
     flex-grow: 0;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding: 0;
 }
 
 .join1-default-input {
     height: 28px;
-    flex-grow: 1;
     font-family: 'Noto Sans KR', serif;
     font-size: 18px;
     font-weight: 500;
@@ -2836,8 +2834,7 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #4a4a4a;
-    background-color: black;
-!important;
+    background-color: black !important;
     border: 0;
 }
 
@@ -2950,13 +2947,12 @@ input.login1-form::placeholder {
     align-self: stretch;
     flex-grow: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: stretch;
     gap: 10px;
     padding: 0;
-    border-bottom: solid 1px #f6f6f6;
-!important;
+    border-bottom: solid 1px #f6f6f6 !important;
 }
 
 .join1-after-form-input-field {
@@ -2985,8 +2981,7 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     color: #f6f6f6;
-    background-color: black;
-!important;
+    background-color: black !important;
     border: 0;
 }
 
@@ -3292,7 +3287,7 @@ input.login1-form::placeholder {
 }
 
 .join2-input-text {
-    width: 126px;
+    /*width: 126px;*/
     height: 28px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -3430,8 +3425,8 @@ input.login1-form::placeholder {
     align-self: stretch;
     flex-grow: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: stretch;
     gap: 10px;
     padding: 0;

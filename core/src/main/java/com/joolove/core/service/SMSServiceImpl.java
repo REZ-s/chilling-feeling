@@ -1,7 +1,6 @@
 package com.joolove.core.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.model.MessageType;
@@ -12,11 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SMSServiceImpl extends MessageService {
-
     private String authCode;
     private DefaultMessageService messageService;
 

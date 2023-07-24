@@ -24,12 +24,12 @@ public class Role extends BaseTimeStamp {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private ERole name = ERole.ROLE_USER;
 
     @Builder

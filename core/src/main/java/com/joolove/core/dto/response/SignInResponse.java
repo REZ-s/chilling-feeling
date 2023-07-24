@@ -13,12 +13,12 @@ import java.util.UUID;
 public class SignInResponse {
     private UUID id;
     private String username;
-    private List<String> roles;
+    private String role;
 
     @Builder
-    public SignInResponse(UUID id, String username, List<String> roles) {
+    public SignInResponse(UUID id, String username, String role) {
         this.id = id;
         this.username = username;
-        this.roles = roles;
+        this.role = role;
     }
 }

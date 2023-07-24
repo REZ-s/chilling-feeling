@@ -1,5 +1,6 @@
 package com.joolove.core.dto.request;
 
+import com.joolove.core.domain.auth.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -22,18 +23,13 @@ public class SignUpRequest {
     private String password;
 
     @NotBlank
-    @Size(min = 10, max = 20)
     private String phoneNumber;
 
-    @NotNull
-    private List<String> roles;
-
     @Builder
-    public SignUpRequest(String username, String password, String phoneNumber, List<String> roles) {
+    public SignUpRequest(String username, String password, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.roles = roles;
     }
 
     public static SignUpRequest buildEmpty() {

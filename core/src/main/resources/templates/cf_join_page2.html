@@ -18,7 +18,7 @@
     <!-- Top frame -->
     <section class="join1-header">
         <div class="ic_back_24px">
-            <a href="/login">
+            <a href="/join">
                 <img src="/images/ic_back_24px.png">
             </a>
         </div>
@@ -67,9 +67,9 @@
 </div>
 <script th:inline="javascript">
 
-    /* Password eye on/off */
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
+    // password eye on/off
     pwShowHide.forEach(eyeIcon => {
         eyeIcon.addEventListener("click", () => {
             let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".pw-field");
@@ -87,7 +87,7 @@
         });
     });
 
-    /* verify password for nextPage */
+    // verify password for next page
     document.querySelector('#nextBtn').addEventListener('click', function (e) {
         e.preventDefault();
         const pwInput = document.querySelector('#pwInput').value.trim();
