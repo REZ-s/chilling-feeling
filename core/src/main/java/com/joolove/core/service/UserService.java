@@ -26,7 +26,7 @@ public class UserService {
     public User join(SignUpRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
-                .accountType((short) 1)
+                .accountType((short) 2)
                 .build();
 
         Password password = Password.builder()

@@ -36,7 +36,7 @@ public class User extends BaseTimeStamp {
     private String username;    // email
 
     @NotNull
-    private Short accountType;  // 계정 유형 (1 : 일반 사용자)
+    private Short accountType;  // 계정 유형 (1 : 소셜 로그인, 2 : 폼 로그인 - 회원가입, 3 : 특수 계정)
 
     @Builder
     public User(UUID id, String username, Short accountType) {
