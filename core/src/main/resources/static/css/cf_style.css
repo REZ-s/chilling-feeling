@@ -137,6 +137,22 @@
     color: #fff;
 }
 
+.CHILLING-FEELING-2 {
+    /*width: 238px;*/
+    height: 31px;
+    margin: 0 48px 29px;
+    padding: 0;
+    font-family: 'Jost', serif;
+    font-size: 30px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: -0.91px;
+    text-align: center;
+    color: #000;
+}
+
 .btn-menu {
     width: 62px;
     height: 28px;
@@ -5891,4 +5907,81 @@ input.login1-form::placeholder {
 /* 마이페이지 */
 .my-page-container {
     background-color: #fff;
+}
+
+/* 준비중 페이지 */
+.ready-container {
+    min-height: 100vh;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 40px 0 35px;
+    background-color: #fff;
+}
+
+.ready-header {
+    height: 44px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.ready-wrap-contents {
+    /*height: 337.4px;*/
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding: 115px 20px 80px;
+}
+
+.ready-wrap-text {
+    height: 82px;
+    align-self: stretch;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+}
+
+.ready-title {
+    height: 28px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: -0.32px;
+    text-align: center;
+    color: #00232d;
+}
+
+.ready-subtitle {
+    width: 327px;
+    height: 44px;
+    flex-grow: 0;
+    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: #606060;
 }

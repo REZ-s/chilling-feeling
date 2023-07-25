@@ -42,19 +42,11 @@ public class WebController {
         model.addAttribute("request", SignInRequest.buildEmpty());
         return "cf_login_page";
     }
-
     @PostMapping("/login/password")
     public String loginToPassword(Model model, @ModelAttribute("request") SignInRequest request) {
         model.addAttribute("request", request);
         return "cf_login_page2";
     }
-
-//    @PostMapping("/login/success")
-//    public String loginToSuccess(@Valid @ModelAttribute("request") SignInRequest request) {
-//        return "/";
-//    }
-
-    // 회원가입 페이지
     @GetMapping("/join")
     public String join(Model model) {
         model.addAttribute("request", SignUpRequest.buildEmpty());
@@ -161,4 +153,15 @@ public class WebController {
         return "cf_my_page";
     }
 
+    // 준비중 페이지
+    @GetMapping("/ready")
+    public String ready() {
+        return "/cf_ready_page";
+    }
+
+    // 에러 페이지
+    @GetMapping("/error")
+    public String error() {
+        return "/cf_error_page";
+    }
 }
