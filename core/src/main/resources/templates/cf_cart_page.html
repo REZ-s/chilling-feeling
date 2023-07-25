@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -21,9 +20,15 @@
 <div class="cart-container">
     <!-- Header -->
     <div class="cart-header">
-        <img class="ic_back_24px" src="/images/ic_back_black_24px.png">
+        <a href="javascript:history.back()">
+            <img class="ic_back_24px" src="/images/ic_back_black_24px.png">
+        </a>
+
         <div class="cart-header-text">장바구니</div>
-        <img class="ic_close_24px" src="/images/ic_close_24px.png" >
+
+        <a href="/">
+            <img class="ic_close_24px" src="/images/ic_close_24px.png">
+        </a>
     </div>
 
     <!-- Content -->
