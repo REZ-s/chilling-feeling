@@ -159,9 +159,4 @@ public class WebController {
         return "/cf_ready_page";
     }
 
-    // 에러 페이지
-    @GetMapping("/error/404")
-    public String error() {
-        return "/cf_error_page";
-    }
 }
