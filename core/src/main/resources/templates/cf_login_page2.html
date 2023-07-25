@@ -50,9 +50,8 @@
         <div class="login1-form-field">
             <!-- username(email) for spring boot form login builder -->
             <input type="hidden" th:field="${request.username}">
-            <div>
-                <input class="login1-form pw-field" id="myPassword" placeholder="비밀번호 입력" th:field="${request.password}"
-                       type="password">
+            <div class="login2-wrap-form">
+                <input class="login1-form pw-field" id="userPassword" placeholder="비밀번호 입력" th:field="${request.password}" type="password">
 
                 <div class="ic_visibility_off">
                     <img class="pw-eye" src="/images/ic_visibility_off.png">
@@ -60,14 +59,17 @@
             </div>
         </div>
 
-        <button class="login2-btn-login" id="myBtn">
-            <span class="login2-btn-text">로그인</span>
-        </button>
+        <div class="login2-wrap-btn-login">
+            <button class="login2-btn-login" id="loginBtn">
+                <div class="login2-btn-text">로그인</div>
+            </button>
+        </div>
+
     </form>
 
     <div class="login2-content-area">
         <div class="login2-content-label">
-            <a href="/cf_pw_find">비밀번호를 잊으셨나요?</a>
+            <a href="/password/find">비밀번호를 잊으셨나요?</a>
         </div>
     </div>
 </div>

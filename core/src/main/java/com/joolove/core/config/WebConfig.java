@@ -130,7 +130,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .userDetailsService(userDetailsService);
 
         http.formLogin()
-                .loginPage("/login/submit")
+                .loginPage("/login/password")
                 .loginProcessingUrl("/login/success")
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")

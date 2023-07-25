@@ -31,6 +31,6 @@ public class FormLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         response.addHeader(HttpHeaders.SET_COOKIE, accessToken.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, refreshToken.toString());
 
-        response.sendRedirect("/cf_main");
+        response.sendRedirect("/");
     }
 }

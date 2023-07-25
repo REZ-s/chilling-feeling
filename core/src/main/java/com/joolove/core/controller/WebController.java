@@ -43,11 +43,16 @@ public class WebController {
         return "cf_login_page";
     }
 
-    @PostMapping("/login/submit")
-    public String loginToSubmit(Model model, @Valid @ModelAttribute("request") SignInRequest request) {
+    @PostMapping("/login/password")
+    public String loginToPassword(Model model, @ModelAttribute("request") SignInRequest request) {
         model.addAttribute("request", request);
         return "cf_login_page2";
     }
+
+//    @PostMapping("/login/success")
+//    public String loginToSuccess(@Valid @ModelAttribute("request") SignInRequest request) {
+//        return "/";
+//    }
 
     // 회원가입 페이지
     @GetMapping("/join")

@@ -11,7 +11,6 @@ import com.joolove.core.service.UserService;
 import com.joolove.core.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -68,10 +67,10 @@ public class APIController {
         }
 
         if (socialLoginRepository.existsByUser(user)) {
-            return ResponseEntity.ok().body("valid-correct");
+            return ResponseEntity.ok().body("valid-incorrect");
         }
 
-        return ResponseEntity.ok().body("valid-incorrect");
+        return ResponseEntity.ok().body("valid-correct");
     }
 
     @PostMapping("/api/v1/password/check")

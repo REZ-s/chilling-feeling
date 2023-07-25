@@ -158,7 +158,7 @@
             <input class="login1-form" type="email" placeholder="이메일 주소 입력" id="myEmail">
         </div>
 
-        <button class="login1-play" type="button" id="myBtn">
+        <button class="login1-play" type="button" id="formLogin">
             <div class="login2-btn-text">계속하기</div>
         </button>
     </div>
@@ -249,23 +249,23 @@
     });
 
     document.getElementById("findEmail").addEventListener("click", function () {
-        location.href = "/find/email";
+        location.href = "/email/find";
     });
 
     document.getElementById("findPassword").addEventListener("click", function () {
-        location.href = "/find/password";
+        location.href = "/password/find";
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-        const myBtn = document.querySelector("#myBtn");
+        const formLoginBtn = document.querySelector("#formLogin");
 
-        myBtn.addEventListener("click", function() {
+        formLoginBtn.addEventListener("click", function() {
             const email = document.querySelector("#myEmail").value;
             validateAndSend(email);
 
             function validateEmail(email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(email);
+                const validEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return validEmailPattern.test(email);
             }
 
             async function checkEmailExists(email) {
@@ -289,14 +289,14 @@
 
             async function validateAndSend(email) {
                 if (!validateEmail(email)) {
-                    console.log("Invalid email format");
+                    alert("유효하지 않은 이메일 형식입니다.");
                     return;
                 }
 
                 try {
                     const data = await checkEmailExists(email);
                     if (data === "valid-correct") {
-                        sendLoginForm("/login/submit", email);
+                        sendLoginForm("/login/password", email);
                     } else if (data === "valid-incorrect") {
                         $("#incorrect").modal();
                     } else {

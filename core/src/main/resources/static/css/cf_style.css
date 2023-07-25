@@ -2212,8 +2212,7 @@ input.login1-form::placeholder {
     height: 38px;
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
-    align-items: flex-start;
+    align-items: stretch;
     gap: 10px;
     margin: 20px 20px 0 20px;
     padding: 0;
@@ -2391,14 +2390,11 @@ input.login1-form::placeholder {
 }
 
 /* 로그인 2 */
-@media (min-width: 375px) {
-    .login2 {
-        width: 375px;
-        min-height: 100vh;
-        flex-grow: 0;
-        padding: 40px 0 355px;
-        background-color: #000;
-    }
+.login2 {
+    min-height: 100vh;
+    flex-grow: 0;
+    padding: 40px 0 355px;
+    background-color: #000;
 }
 
 .login2-header {
@@ -2538,8 +2534,14 @@ input.login1-form::placeholder {
     color: #4a4a4a;
 }
 
+.login2-wrap-btn-login {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 .login2-btn-login {
-    width: 335px;
+    /*width: 335px;*/
     height: 50px;
     display: flex;
     flex-direction: row;
@@ -2565,7 +2567,7 @@ input.login1-form::placeholder {
 }
 
 .login2-content-area {
-    width: 375px;
+    /*width: 375px;*/
     height: 20px;
     display: flex;
     flex-direction: row;
@@ -2576,7 +2578,7 @@ input.login1-form::placeholder {
 }
 
 .login2-content-label {
-    width: 375px;
+    /*width: 375px;*/
     height: 20px;
     flex-grow: 1;
     font-family: 'Noto Sans KR', serif;
@@ -2588,6 +2590,12 @@ input.login1-form::placeholder {
     letter-spacing: -0.24px;
     text-align: center;
     color: #afafaf;
+}
+
+.login2-wrap-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* 회원가입1 */
