@@ -160,7 +160,7 @@ public class WebController {
     }
 
     // 에러 페이지
-    @GetMapping("/error")
+    @GetMapping("/error/404")
     public String error() {
         return "/cf_error_page";
     }
