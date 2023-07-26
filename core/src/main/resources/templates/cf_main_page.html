@@ -6,13 +6,17 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
     <title> Chilling Feeling - Main </title>
 
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/script.js"></script>
+
     <style>
         /* For modal */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
@@ -272,10 +276,10 @@
                     </div>
                 </div>
                 <div class="btn-menu">
-                    <button class="ic_search_main_24px" id="search">
+                    <button class="ic_search_main_24px" onclick="location.href='/search'">
                         <img src="/images/ic_search_24px.png" >
                     </button>
-                    <button class="ic_shopping_bag_main_24px" id="myBag">
+                    <button class="ic_shopping_bag_main_24px" onclick="location.href='/cart'" >
                         <img src="/images/ic_shopping_bag_24px.png" >
                     </button>
                 </div>
@@ -285,7 +289,7 @@
                     <img src="/images/illustration_container.png" class="illustration-container">
                     <div class="today-recommend-title">오늘 당신의 기분과<br>딱 맞는 술을 추천해드릴게요!</div>
                 </div>
-                <button class="btn-rounded-recommend" id="recommendationBtn">
+                <button class="btn-rounded-recommend" onclick="location.href='/recommendation/daily'">
                     <div class="btn-rounded-recommend-label">추천 받기</div>
                 </button>
             </section>
@@ -586,25 +590,7 @@
         </section>
 
         <!-- Footer -->
-        <section class="bottom">
-            <div class="bottom-home">
-                <button class="bottom-home-action" id="goToHome">
-                    <img src="/images/ic_home_ac_24px.png" class="ic_bottom_icon">
-                    <div class="bottom-label">홈</div>
-                </button>
-                <button class="bottom-home-action" id="goToCategory">
-                    <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
-                    <div class="bottom-label">카테고리</div>
-                </button>
-                <button class="bottom-home-action">
-                    <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
-                    <div class="bottom-label">피드</div>
-                </button>
-                <button class="bottom-home-action">
-                    <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
-                    <div class="bottom-label">마이</div>
-                </button>
-            </div>
+        <section class="bottom" id="footer">
         </section>
 
     </div>
@@ -686,6 +672,8 @@
 
 <script th:inline="javascript">
 
+    createFooter('/');
+
     const dateDropDown = document.getElementById('dropDownDate');
     const foodDropDown = document.getElementById('dropDownFood');
     const periodModal = document.getElementById('period');
@@ -701,21 +689,6 @@
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
-    });
-
-    // 추천받기 버튼
-    document.getElementById("recommendationBtn").addEventListener("click", function () {
-        location.href = "/recommendation/daily";
-    });
-
-    // 카테고리 버튼
-    document.getElementById("goToCategory").addEventListener("click", function () {
-        location.href = "/category";
-    });
-
-    // 검색 버튼
-    document.getElementById('search').addEventListener('click', function (e) {
-        location.href = '/search';
     });
 
     document.querySelectorAll('.btn-heart').forEach(btnHeart => {

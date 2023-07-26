@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/script.js"></script>
 </head>
 <body>
 <div class="my-container">
@@ -135,27 +136,14 @@
     </div>
 
     <!-- Footer -->
-    <section class="bottom">
-        <div class="bottom-home">
-            <button class="bottom-home-action" id="goToHome">
-                <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">홈</div>
-            </button>
-            <button class="bottom-home-action" id="goToCategory">
-                <img src="/images/ic_category_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">카테고리</div>
-            </button>
-            <button class="bottom-home-action">
-                <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">피드</div>
-            </button>
-            <button class="bottom-home-action">
-                <img src="/images/ic_mypage_ac_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">마이</div>
-            </button>
-        </div>
+    <section class="bottom" id="footer">
     </section>
 
 </div>
 </body>
+<script>
+
+    createFooter('/me');
+
+</script>
 </html>

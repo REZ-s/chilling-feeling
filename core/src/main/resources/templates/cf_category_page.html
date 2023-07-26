@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/script.js"></script>
     <style>
     </style>
 </head>
+
 <body>
 <div class="search-result-container">
     <!-- Header -->
@@ -83,19 +85,19 @@
     <!-- Footer -->
     <section class="bottom">
         <div class="bottom-home">
-            <button class="bottom-home-action" id="goToHome">
+            <button class="bottom-home-action" onclick="location.href='/'">
                 <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">홈</div>
             </button>
-            <button class="bottom-home-action" id="goToCategory">
+            <button class="bottom-home-action" onclick="location.href='/category'">
                 <img src="/images/ic_category_ac_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">카테고리</div>
             </button>
-            <button class="bottom-home-action">
+            <button class="bottom-home-action" onclick="location.href='/ready'">
                 <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">피드</div>
             </button>
-            <button class="bottom-home-action">
+            <button class="bottom-home-action" onclick="location.href='/me'">
                 <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
                 <div class="bottom-label">마이</div>
             </button>
@@ -121,16 +123,6 @@
         searchClear.style.display = "none";
         displayProductList("전체");
     }
-
-    // 홈 버튼
-    document.getElementById("goToHome").addEventListener("click", function () {
-        location.href = "/";
-    });
-
-    // 카테고리 버튼
-    document.getElementById("goToCategory").addEventListener("click", function () {
-        location.href = "/category";
-    });
 
     // 카테고리 목록 탭 버튼 클릭 시
     tabLabels.forEach(function (label) {

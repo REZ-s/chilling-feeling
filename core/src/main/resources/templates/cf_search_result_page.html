@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
     <title> Chilling Feeling - Search </title>
 
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-    </style>
+    <script src="/js/script.js"></script>
 </head>
 <body>
 <div class="search-result-container">
@@ -36,11 +36,12 @@
                     </button>
                 </div>
             </div>
-            <button class="ic_shopping_bag_24px" id="myBag">
+            <button class="ic_shopping_bag_24px" onclick="location.href='/cart'">
                 <img src="/images/ic_shopping_bag_black_24px.png">
             </button>
         </div>
     </section>
+
     <!-- Content -->
     <section class="search-result-contents-frame" id="contentFrame">
         <div class="category-tab-bar">
@@ -149,30 +150,13 @@
     </section>
 
     <!-- Footer -->
-    <section class="bottom">
-        <div class="bottom-home">
-            <button class="bottom-home-action" id="goToHome">
-                <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">홈</div>
-            </button>
-            <button class="bottom-home-action" id="goToCategory">
-                <img src="/images/ic_category_ac_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">카테고리</div>
-            </button>
-            <button class="bottom-home-action">
-                <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">피드</div>
-            </button>
-            <button class="bottom-home-action">
-                <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">마이</div>
-            </button>
-        </div>
+    <section class="bottom" id="footer">
     </section>
 
 </div>
 </body>
 <script th:inline="javascript">
+    createFooter();
 
     const categoryTabBar = document.querySelector(".category-tab-bar");
     const tabLabels = categoryTabBar.querySelectorAll(".wrap-tab-bar-label, .wrap-tab-bar-label-ac");
@@ -209,16 +193,6 @@
         if (searchInput.value !== "") {
             searchClear.style.display = "flex";
         }
-    });
-
-    // 홈 버튼
-    document.getElementById("goToHome").addEventListener("click", function () {
-        location.href = "/";
-    });
-
-    // 카테고리 버튼
-    document.getElementById("goToCategory").addEventListener("click", function () {
-        location.href = "/category";
     });
 
     // 카테고리 목록 탭 버튼 클릭 시
