@@ -1,6 +1,8 @@
 package com.joolove.core.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.auth.*;
 import com.joolove.core.domain.billing.Orders;
@@ -75,45 +77,60 @@ public class User extends BaseTimeStamp {
     /**
      * mappedBy
      */
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Role role;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private SocialLogin socialLogin;
 
+    //@JsonIgnore
+    @JsonManagedReference
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Password password;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private CIDI cidi;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Profile profile;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Favorite favorite;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserPersonal userPersonal;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserRecommendationBase userRecommendationBase;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserRecommendationDaily userRecommendationDaily;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Orders> orders = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<LoginLog> loginLogs = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<UserActivityLog> userActivityLogs = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Address> addresses = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Device> devices = new ArrayList<>();
 

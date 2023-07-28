@@ -283,8 +283,9 @@
                     });
 
                     if (response.ok) {
-                        return await response.text();
+                        return response.text();
                     }
+
                     throw response;
                 } catch (error) {
                     throw error;
@@ -298,10 +299,10 @@
                 }
 
                 try {
-                    const data = await checkEmailExists(email);
-                    if (data === "valid-correct") {
+                    const response = await checkEmailExists(email);
+                    if (response === "valid-correct") {
                         sendLoginForm("/login/password", email);
-                    } else if (data === "valid-incorrect") {
+                    } else if (response === "valid-incorrect") {
                         $("#incorrect").modal();
                     } else {
                         $("#invalid").modal();

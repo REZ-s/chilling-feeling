@@ -1,5 +1,7 @@
 package com.joolove.core.domain.auth;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.member.User;
 import lombok.AccessLevel;
@@ -23,6 +25,7 @@ public class Password extends BaseTimeStamp {
     @Column(name = "password_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;

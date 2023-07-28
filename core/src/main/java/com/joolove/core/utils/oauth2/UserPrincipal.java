@@ -1,6 +1,7 @@
 package com.joolove.core.utils.oauth2;
 
 import com.joolove.core.domain.auth.Role;
+import com.joolove.core.domain.member.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,34 +17,39 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserPrincipal implements UserDetails, OAuth2User {
     private String username;
+    private String password;
     private OAuth2UserInfo oAuth2UserInfo;  // attributes == oAuth2UserInfo.getAttributes();
     private Collection<? extends GrantedAuthority> authorities;
 
     @Builder(builderClassName = "UserDetailsBuilder", builderMethodName = "userDetailsBuilder")
-    public UserPrincipal(String username, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
+        this.password = password;
         this.authorities = authorities;
     }
 
     @Builder(builderClassName = "OAuth2UserBuilder", builderMethodName = "oAuth2UserBuilder")
-    public UserPrincipal(String username, OAuth2UserInfo oAuth2UserInfo) {
+    public UserPrincipal(String username, String password, OAuth2UserInfo oAuth2UserInfo) {
         this.username = username;
+        this.password = password;
         this.oAuth2UserInfo = oAuth2UserInfo;
     }
 
-    public static UserPrincipal buildUserDetails(String username) {
+    public static UserPrincipal buildUserDetails(String username, String password) {
         List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority(Role.ERole.ROLE_USER.name()));
 
         return UserPrincipal.userDetailsBuilder()
                 .username(username)
+                .password(password)
                 .authorities(authorities)
                 .build();
     }
 
-    public static UserPrincipal buildOAuth2User(String username, OAuth2UserInfo oAuth2UserInfo) {
+    public static UserPrincipal buildOAuth2User(String username, String password, OAuth2UserInfo oAuth2UserInfo) {
         return UserPrincipal.oAuth2UserBuilder()
                 .username(username)
+                .password(password)
                 .oAuth2UserInfo(oAuth2UserInfo)
                 .build();
     }
@@ -64,7 +70,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override

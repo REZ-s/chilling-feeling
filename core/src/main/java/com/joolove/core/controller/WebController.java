@@ -47,6 +47,7 @@ public class WebController {
         model.addAttribute("request", request);
         return "cf_login_page2";
     }
+
     @GetMapping("/join")
     public String join(Model model) {
         model.addAttribute("request", SignUpRequest.buildEmpty());
@@ -65,7 +66,7 @@ public class WebController {
 
     @PostMapping("/join/submit")
     public String joinToSubmit(@Valid @ModelAttribute("request") SignUpRequest request) {
-        userService.join(request);
+        userService.joinByForm(request);
         return "redirect:/";
     }
 

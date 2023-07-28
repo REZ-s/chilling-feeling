@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -17,12 +19,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (userService.findByUsernameSimple(username) == null) {
+        Map<String, String> userInfo = userService.getUsernamePasswordByUsernameForSecurityFilter(username);
+        if (userInfo == null) {
             logger.info("User not found with username: " + username);
             return null;
         }
 
-        return UserPrincipal.buildUserDetails(username);
+        return UserPrincipal.buildUserDetails(userInfo.get("username"), userInfo.get("password"));
     }
 
 }

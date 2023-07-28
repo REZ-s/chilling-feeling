@@ -7,7 +7,6 @@ import com.joolove.core.service.UserDetailsServiceImpl;
 import com.joolove.core.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -78,10 +77,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {   // 이전 과정에서 설정한 정보가 있으면 다시 설정하지 않는다.
-            buildAuthenticationUserDetails(userDetailsService.loadUserByUsername(username));
-        }
-
+        buildAuthenticationUserDetails(userDetailsService.loadUserByUsername(username));
         filterChain.doFilter(request, response);
     }
 
@@ -93,7 +89,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(),
-                        null,
+                        userDetails.getPassword(),
                         userDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
@@ -45,16 +44,14 @@
             <span>비밀번호를 입력해주세요.</span>
         </div>
         <div class="login2-subtitle">
-            <span>반갑습니다 고객님 :)</span>
+            <span>언제나 환영합니다. :)</span>
         </div>
     </div>
 
-    <form sec:authorize="isAnonymous()" th:action="@{/login/success}" th:method="post" th:object="${request}">
+    <form>
         <div class="login1-form-field">
-            <!-- username(email) for spring boot form login builder -->
-            <input type="hidden" th:field="${request.username}">
             <div class="login2-wrap-form">
-                <input class="login1-form pw-field" id="userPassword" placeholder="비밀번호 입력" th:field="${request.password}" type="password">
+                <input class="login1-form pw-field" id="userPassword" placeholder="비밀번호 입력" type="password">
 
                 <div class="ic_visibility_off">
                     <img class="pw-eye" src="/images/ic_visibility_off.png">
@@ -63,7 +60,7 @@
         </div>
 
         <div class="login2-wrap-btn-login">
-            <button class="login2-btn-login" id="loginBtn">
+            <button class="login2-btn-login" id="loginBtn" onclick="submitUserInfo()">
                 <div class="login2-btn-text">로그인</div>
             </button>
         </div>
@@ -72,13 +69,12 @@
 
     <div class="login2-content-area">
         <div class="login2-content-label">
-            <a href="/password/find">비밀번호를 잊으셨나요?</a>
+            <a href="/find/password">비밀번호를 잊으셨나요?</a>
         </div>
     </div>
 </div>
 
 <script th:inline="javascript">
-
     /* Password eye on/off */
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
@@ -98,6 +94,68 @@
             });
         });
     });
+
+    async function submitUserInfo() {
+        const password = document.getElementById("userPassword").value.trim();
+
+        try {
+            if (await checkPassword(password)) {
+                sendLoginForm("/login/success", password)
+            } else {
+                alert("비밀번호가 유효하지 않습니다.");
+            }
+        } catch (error) {
+            console.log("Error checking email exists:", error);
+            alert("Internal Error : 비밀번호 체크에 실패했습니다.");
+        }
+    }
+
+    async function checkPassword(password) {
+        try {
+            const response = await fetch("/api/v1/password/check", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: password
+            });
+
+            if (response.ok) {
+                const data = await response.text();
+                return data === "valid";
+            }
+
+            return false;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /*<![CDATA[*/
+    function sendLoginForm(path, password) {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = path;
+
+        let request = /*[[${request}]]*/ {};
+        request.password = password;
+
+        const usernameInput = document.createElement("input");
+        usernameInput.type = "hidden";
+        usernameInput.name = "username";
+        usernameInput.value = request.username;
+        form.appendChild(usernameInput);
+
+        const pwInput = document.createElement("input");
+        pwInput.type = "hidden";
+        pwInput.name = "password";
+        pwInput.value = request.password;
+        form.appendChild(pwInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    /*]]>*/
 
 </script>
 </body>

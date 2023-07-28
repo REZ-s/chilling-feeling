@@ -3,7 +3,6 @@ package com.joolove.core.utils.filter;
 import com.joolove.core.utils.RedisUtils;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 */
 @Component
 @RequiredArgsConstructor
-public class ValidationFilter extends OncePerRequestFilter {
+public class ClientURIValidationFilter extends OncePerRequestFilter {
     private final RedisUtils redisUtils;
 
     @Override

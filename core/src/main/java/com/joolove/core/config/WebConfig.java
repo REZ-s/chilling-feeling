@@ -1,9 +1,7 @@
 package com.joolove.core.config;
 
 import com.joolove.core.domain.auth.Role;
-import com.joolove.core.repository.UserRepository;
-import com.joolove.core.utils.PasswordUtils;
-import com.joolove.core.utils.filter.ValidationFilter;
+import com.joolove.core.utils.filter.ClientURIValidationFilter;
 import com.joolove.core.utils.handler.CustomAccessDeniedHandler;
 import com.joolove.core.utils.handler.CustomAuthenticationEntryPoint;
 import com.joolove.core.utils.filter.JwtAuthenticationFilter;
@@ -14,7 +12,6 @@ import com.joolove.core.utils.handler.OAuth2SuccessHandler;
 import com.joolove.core.service.OAuth2UserServiceImpl;
 import com.joolove.core.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -26,14 +23,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.NullRequestCache;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.Duration;
@@ -52,7 +45,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final FormLoginSuccessHandler formLoginSuccessHandler;
     private final CommonLogoutSuccessHandler commonLogoutSuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final ValidationFilter validationFilter;
+    private final ClientURIValidationFilter clientURIValidationFilter;
 
     @Bean
     protected AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
@@ -118,7 +111,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .anyRequest().permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(validationFilter, JwtAuthenticationFilter.class);
+        http.addFilterBefore(clientURIValidationFilter, JwtAuthenticationFilter.class);
 
         http.exceptionHandling()    // 아래 번호 순서대로 필터링
                     .authenticationEntryPoint(customAuthenticationEntryPoint)  // (1) 401 Unauthorized 인증이 안된 경우
@@ -136,8 +129,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .loginPage("/login/password")
                 .loginProcessingUrl("/login/success")
                 .defaultSuccessUrl("/")
-                .failureUrl("/login?error=true")
-                .successHandler(formLoginSuccessHandler);
+                .failureUrl("/login/password?error=true")
+                .successHandler(formLoginSuccessHandler)
+                .failureHandler(null);
 
         http.oauth2Login()
                 .loginPage("/login")
