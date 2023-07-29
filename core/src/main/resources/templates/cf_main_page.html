@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -289,7 +289,7 @@
                     <img src="/images/illustration_container.png" class="illustration-container">
                     <div class="today-recommend-title">오늘 당신의 기분과<br>딱 맞는 술을 추천해드릴게요!</div>
                 </div>
-                <button class="btn-rounded-recommend" onclick="location.href='/recommendation/daily'">
+                <button sec:authorize="hasRole('USER')" class="btn-rounded-recommend" onclick="location.href='/recommendation/daily'">
                     <div class="btn-rounded-recommend-label">추천 받기</div>
                 </button>
             </section>

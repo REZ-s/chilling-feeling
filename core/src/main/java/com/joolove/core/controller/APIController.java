@@ -85,8 +85,8 @@ public class APIController {
         return ResponseEntity.ok().body("invalid");
     }
 
-    // 실시간 API 호출 (예: 검색하거나 카테고리를 선택했을 때)
-    @GetMapping("/goods")
+    // 상품 검색 : 직접 검색하거나 카테고리를 선택할 때
+    @GetMapping("/api/v1/goods")
     public ResponseEntity<List<IGoodsView>> getGoodsList(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) String type,

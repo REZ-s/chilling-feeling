@@ -6,10 +6,10 @@ import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserService;
 import com.joolove.core.utils.RecommendationUtils;
+import com.joolove.core.utils.aop.LoginState;
+import com.joolove.core.utils.aop.LogoutState;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -25,46 +25,47 @@ public class WebController {
     private final GoodsService goodsService;
     private final RecommendationUtils recommendationUtils;
 
-    // 메인페이지
+    // 메인 페이지
     @GetMapping("/")
     public String main() {
         return "cf_main_page";
     }
 
     // 로그인 페이지
+    @LogoutState
     @GetMapping("/login")
     public String login(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.getPrincipal().equals("anonymousUser")) {
-            return "redirect:/";
-        }
-
         model.addAttribute("request", SignInRequest.buildEmpty());
         return "cf_login_page";
     }
 
+    @LogoutState
     @PostMapping("/login/password")
     public String loginToPassword(Model model, @ModelAttribute("request") SignInRequest request) {
         model.addAttribute("request", request);
         return "cf_login_page2";
     }
 
+    @LogoutState
     @GetMapping("/join")
     public String join(Model model) {
         model.addAttribute("request", SignUpRequest.buildEmpty());
         return "cf_join_page";
     }
 
+    @LogoutState
     @PostMapping("/join/password")
     public String joinToPassword(@ModelAttribute("request") SignUpRequest request) {
         return "cf_join_page2";
     }
 
+    @LogoutState
     @PostMapping("/join/phone")
     public String joinToPhone(@ModelAttribute("request") SignUpRequest request) {
         return "cf_join_page3";
     }
 
+    @LogoutState
     @PostMapping("/join/submit")
     public String joinToSubmit(@Valid @ModelAttribute("request") SignUpRequest request) {
         userService.joinByForm(request);
@@ -103,34 +104,30 @@ public class WebController {
         return "cf_goods_page";
     }
 
-    // 기본 추천 페이지
+    // 기본 취향 설정 페이지
+    @LoginState
     @GetMapping("/recommendation/base")
-    public String recommendBase() {
+    public String recommendationBase() {
         return "cf_recommendation_base_page";
     }
 
+    @LoginState
     @GetMapping("/recommendation/base/submit")
-    public String recommendBase2(Model model, @AuthenticationPrincipal String username, @RequestParam("abvLimit") String abvLimit) {
-        if (username == null || username.equals("anonymousUser")) {
-            return "redirect:/login";
-        }
-
+    public String recommendationBase2(Model model, @RequestParam("abvLimit") String abvLimit) {
         model.addAttribute("abvLimit", abvLimit);
         return "cf_recommendation_base_page2";
     }
 
     // 오늘의 추천 페이지
+    @LoginState
     @GetMapping("/recommendation/daily")
-    public String recommendDaily() {
+    public String recommendationDaily() {
         return "cf_recommendation_daily_page";
     }
 
+    @LoginState
     @GetMapping("/recommendation/daily/submit")
-    public String recommendDaily2(@AuthenticationPrincipal String username, @RequestParam String feeling) {
-        if (username == null || username.equals("anonymousUser")) {
-            return "redirect:/login";
-        }
-
+    public String recommendationDaily2(String username, @RequestParam String feeling) {
         boolean isPassed = recommendationUtils.setUserRecommendationDaily(
                 UserRecommendationDailyRequest.builder()
                         .username(username)
