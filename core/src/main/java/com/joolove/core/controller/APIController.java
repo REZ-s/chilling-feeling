@@ -2,6 +2,7 @@ package com.joolove.core.controller;
 
 import com.joolove.core.domain.member.User;
 import com.joolove.core.dto.query.IGoodsView;
+import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.repository.PasswordRepository;
 import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.service.EmailServiceImpl;
@@ -26,7 +27,6 @@ public class APIController {
     private final SMSServiceImpl smsService;
     private final GoodsService goodsService;
     private final SocialLoginRepository socialLoginRepository;
-    private final PasswordRepository passwordRepository;
     private final PasswordUtils passwordUtils;
 
     @PostMapping("/api/v1/authentication-code/email")
@@ -74,8 +74,11 @@ public class APIController {
     }
 
     @PostMapping("/api/v1/password/check")
-    public ResponseEntity<?> checkPassword(@Valid @RequestBody String password) {
-        if (passwordRepository.existsByPw(passwordUtils.encode(password))) {
+    public ResponseEntity<?> checkPassword(@Valid @RequestBody SignInRequest request) {
+        User user = userService.findByUsername(request.getUsername());
+        String encodedPassword = user.getPassword().getPw();
+
+        if (passwordUtils.matches(request.getPassword(), encodedPassword)) {
             return ResponseEntity.ok().body("valid");
         }
 

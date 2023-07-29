@@ -14,12 +14,4 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PasswordUtils extends BCryptPasswordEncoder {
 
-    @Override
-    public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        if (encodedPassword == null || encodedPassword.isEmpty()) {
-            return super.matches(rawPassword, encode(rawPassword));
-        }
-
-        return super.matches(rawPassword, encodedPassword);
-    }
 }

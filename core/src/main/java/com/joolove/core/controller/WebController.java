@@ -42,6 +42,7 @@ public class WebController {
         model.addAttribute("request", SignInRequest.buildEmpty());
         return "cf_login_page";
     }
+
     @PostMapping("/login/password")
     public String loginToPassword(Model model, @ModelAttribute("request") SignInRequest request) {
         model.addAttribute("request", request);

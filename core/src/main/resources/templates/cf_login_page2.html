@@ -60,7 +60,7 @@
         </div>
 
         <div class="login2-wrap-btn-login">
-            <button class="login2-btn-login" id="loginBtn" onclick="submitUserInfo()">
+            <button class="login2-btn-login" id="loginBtn">
                 <div class="login2-btn-text">로그인</div>
             </button>
         </div>
@@ -75,7 +75,10 @@
 </div>
 
 <script th:inline="javascript">
-    /* Password eye on/off */
+
+    let request = /*[[${request}]]*/ {};
+
+    // Password eye on/off
     const pwShowHide = document.querySelectorAll(".pw-eye");
 
     pwShowHide.forEach(eyeIcon => {
@@ -95,11 +98,18 @@
         });
     });
 
+    document.getElementById("loginBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        submitUserInfo();
+    });
+
     async function submitUserInfo() {
-        const password = document.getElementById("userPassword").value.trim();
+        const username = request.username;
+        const password = document.getElementById("userPassword").value;
 
         try {
-            if (await checkPassword(password)) {
+            const response = await checkPassword(username, password);
+            if (response === "valid") {
                 sendLoginForm("/login/success", password)
             } else {
                 alert("비밀번호가 유효하지 않습니다.");
@@ -110,19 +120,21 @@
         }
     }
 
-    async function checkPassword(password) {
+    async function checkPassword(username, password) {
         try {
             const response = await fetch("/api/v1/password/check", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: password
+                body: JSON.stringify({
+                    username,
+                    password
+                })
             });
 
             if (response.ok) {
-                const data = await response.text();
-                return data === "valid";
+                return response.text();
             }
 
             return false;
@@ -137,7 +149,6 @@
         form.method = "POST";
         form.action = path;
 
-        let request = /*[[${request}]]*/ {};
         request.password = password;
 
         const usernameInput = document.createElement("input");
