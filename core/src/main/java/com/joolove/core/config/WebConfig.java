@@ -129,7 +129,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .loginPage("/login/password")
                 .loginProcessingUrl("/login/success")
                 .defaultSuccessUrl("/")
-                .failureUrl("/login/password?error=true")
+                .failureUrl("/login?error=true")
                 .successHandler(formLoginSuccessHandler);
 
         http.oauth2Login()
