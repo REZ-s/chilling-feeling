@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AddGoodsRequest {
+public class AdminCreateGoodsRequest {
     private String name;
     private Short salesStatus;
     private String type;

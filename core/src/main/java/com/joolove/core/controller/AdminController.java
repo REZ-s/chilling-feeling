@@ -4,7 +4,7 @@ import com.joolove.core.domain.product.Category;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
-import com.joolove.core.dto.request.AddGoodsRequest;
+import com.joolove.core.dto.request.AdminCreateGoodsRequest;
 import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.GoodsStatsRepository;
 import com.joolove.core.service.GoodsService;
@@ -29,7 +29,7 @@ public class AdminController {
 
     // 상품 추가 페이지
     @GetMapping("/admin/goods")
-    public String addGoodsPage() {
+    public String createGoodsPage() {
         return "cf_admin_goods_page";
     }
 
@@ -37,7 +37,7 @@ public class AdminController {
     @PostMapping("/api/v1/admin/goods")
     @ResponseBody
     @Transactional
-    public ResponseEntity<?> addGoods(@ModelAttribute("request") AddGoodsRequest request) {
+    public ResponseEntity<?> createGoods(@ModelAttribute("request") AdminCreateGoodsRequest request) {
         String type = "와인";
         String categoryName = Category.ECategory.WINE.name();
 
