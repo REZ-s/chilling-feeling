@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page : Create Goods</title>
+    <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h2>Test Page : Create Goods</h2>
+<div>
+    <button class="btn-rounded-recommend" onclick="createRandomGoods()">
+        <div class="btn-rounded-recommend-label">Auto Fill</div>
+    </button>
+
+    <form action="/api/v1/admin/goods" method="post">
+        <input class="btn-rounded-recommend btn-rounded-recommend-label" type="submit" value="Create">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="salesStatus">Sales Status:</label><br>
+        <input type="text" id="salesStatus" name="salesStatus"><br>
+        <label for="engName">English Name:</label><br>
+        <input type="text" id="engName" name="engName"><br>
+        <label for="type">Type:</label><br>
+        <input type="text" id="type" name="type"><br>
+        <label for="imageUrl">Image URL:</label><br>
+        <input type="text" id="imageUrl" name="imageUrl"><br>
+        <label for="color">Color:</label><br>
+        <input type="text" id="color" name="color"><br>
+        <label for="colorImageUrl">Color Image URL:</label><br>
+        <input type="text" id="colorImageUrl" name="colorImageUrl"><br>
+        <label for="descriptionImageUrl">Description Image URL:</label><br>
+        <input type="text" id="descriptionImageUrl" name="descriptionImageUrl"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"></textarea><br>
+        <label for="summary">Summary:</label><br>
+        <textarea id="summary" name="summary"></textarea><br>
+        <label for="country">Country:</label><br>
+        <input type="text" id="country" name="country"><br>
+        <label for="company">Company:</label><br>
+        <input type="text" id="company" name="company"><br>
+        <label for="supplier">Supplier:</label><br>
+        <input type="text" id="supplier" name="supplier"><br>
+        <label for="degree">Degree:</label><br>
+        <input type="text" id="degree" name="degree"><br>
+        <label for="aroma">Aroma:</label><br>
+        <input type="text" id="aroma" name="aroma"><br>
+        <label for="balance">Balance:</label><br>
+        <input type="text" id="balance" name="balance"><br>
+        <label for="body">Body:</label><br>
+        <input type="text" id="body" name="body"><br>
+        <label for="tannin">Tannin:</label><br>
+        <input type="text" id="tannin" name="tannin"><br>
+        <label for="acidity">Acidity:</label><br>
+        <input type="text" id="acidity" name="acidity"><br>
+        <label for="sweetness">Sweetness:</label><br>
+        <input type="text" id="sweetness" name="sweetness"><br>
+        <label for="soda">Soda:</label><br>
+        <input type="text" id="soda" name="soda"><br>
+        <label for="label">Label:</label><br>
+        <input type="text" id="label" name="label"><br>
+        <label for="score">Score:</label><br>
+        <input type="text" id="score" name="score"><br>
+        <label for="reviewCount">Review Count:</label><br>
+        <input type="text" id="reviewCount" name="reviewCount"><br>
+    </form>
+</div>
+</body>
+<script>
+    function createRandomGoods() {
+        // 각 요소들을 랜덤값으로 채우기
+        let name = generateSequenceString("칠링필링 ") + "호";
+        let salesStatus = 1;
+        let type = "위스키";
+        let engName = generateSequenceString("Chilling Feeling No.");
+        let imageUrl = "https://cdn.veluga.kr/files/supplier/undefined/drinks/118._신세계_엘앤비_미안더_핑크_모스카토.png";
+        let color = "red";
+        let colorImageUrl = "https://cdn.veluga.kr/icons/tasting-note/color/brick-red.svg"
+        let descriptionImageUrl = "/images/item-rep01.png";
+        let description = "칠링필링에서 직접 만든 주류 상품에 대한 설명입니다. :)";
+        let summary = "칠링필링에서 직접 만든 주류 요약";
+        let country = "Korea";
+        let company = generateRandomString(5);
+        let supplier = generateRandomString(5);
+        let degree = generateRandomDegree();
+        let aroma = generateRandomLevel();
+        let balance = generateRandomLevel();
+        let body = generateRandomLevel();
+        let tannin = generateRandomLevel();
+        let acidity = generateRandomLevel();
+        let sweetness = generateRandomLevel();
+        let soda = generateRandomLevel();
+        let label = "new";
+        let score = "0.0";
+        let reviewCount = 0;
+
+        // 각 요소들에 실제 값 채우기
+        document.getElementById("name").value = name;
+        document.getElementById("engName").value = engName;
+        document.getElementById("salesStatus").value = salesStatus;
+        document.getElementById("type").value = type;
+        document.getElementById("imageUrl").value = imageUrl;
+        document.getElementById("color").value = color;
+        document.getElementById("colorImageUrl").value = colorImageUrl;
+        document.getElementById("descriptionImageUrl").value = descriptionImageUrl;
+        document.getElementById("description").value = description;
+        document.getElementById("summary").value = summary;
+        document.getElementById("country").value = country;
+        document.getElementById("company").value = company;
+        document.getElementById("supplier").value = supplier;
+        document.getElementById("degree").value = degree;
+        document.getElementById("aroma").value = aroma;
+        document.getElementById("balance").value = balance;
+        document.getElementById("body").value = body;
+        document.getElementById("tannin").value = tannin;
+        document.getElementById("acidity").value = acidity;
+        document.getElementById("sweetness").value = sweetness;
+        document.getElementById("soda").value = soda;
+        document.getElementById("label").value = label;
+        document.getElementById("score").value = score;
+        document.getElementById("reviewCount").value = reviewCount;
+    }
+
+    function generateRandomString(length) {
+        let characters = 'abcdefghijklmnopqrstuvwxyz';
+        let randomString = '';
+
+        for (let i = 0; i < length; i++) {
+            let randomIndex = Math.floor(Math.random() * characters.length);
+            randomString += characters.charAt(randomIndex);
+        }
+
+        return randomString;
+    }
+
+    function generateRandomDegree() {
+        let characters = '123456789';
+        let randomNumber = '';
+        let length = 2;
+
+        for (let i = 0; i < length; i++) {
+            let randomIndex = Math.floor(Math.random() * characters.length);
+            randomNumber += characters.charAt(randomIndex);
+        }
+
+        return randomNumber + ".0";
+    }
+
+    function generateRandomLevel() {
+        let characters = '01234';
+        let randomNumber = '';
+        let randomIndex = Math.floor(Math.random() * characters.length);
+        randomNumber += characters.charAt(randomIndex);
+
+        return randomNumber;
+    }
+
+    function generateSequenceString(targetString) {
+        let lastIndex = targetString.length - 1;
+        let lastChar = targetString.charAt(lastIndex);
+        let num = parseInt(lastChar);
+
+        if (isNaN(num)) {
+            lastChar = lastChar + "1";
+        } else {
+            lastChar = String(num + 1);
+        }
+
+        return targetString.substring(0, lastIndex) + lastChar;
+    }
+</script>
+</html>

@@ -1,8 +1,10 @@
 package com.joolove.core.controller;
 
+import com.joolove.core.domain.product.Category;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDetails;
 import com.joolove.core.domain.product.GoodsStats;
+import com.joolove.core.dto.request.AddGoodsRequest;
 import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.GoodsStatsRepository;
 import com.joolove.core.service.GoodsService;
@@ -11,11 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -27,51 +27,62 @@ public class AdminController {
     private final GoodsDetailsRepository goodsDetailsRepository;
     private final GoodsStatsRepository goodsStatsRepository;
 
+    // 상품 추가 페이지
+    @GetMapping("/admin/goods")
+    public String addGoodsPage() {
+        return "cf_admin_goods_page";
+    }
+
     // 상품 추가
-    @PostMapping("/admin/goods")
+    @PostMapping("/api/v1/admin/goods")
     @ResponseBody
-    public ResponseEntity<?> addGoods() {
+    @Transactional
+    public ResponseEntity<?> addGoods(@ModelAttribute("request") AddGoodsRequest request) {
+        String type = "와인";
+        String categoryName = Category.ECategory.WINE.name();
+
         Goods goods = Goods.builder()
-                .name("짐빔 화이트")
-                .salesStatus((short)1)
+                .name(request.getName())
+                .salesStatus(request.getSalesStatus())
+                .categoryName(categoryName)
                 .build();
 
         GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
                 .goods(goods)
-                .name("짐빔 화이트")
-                .engName("Jim Beam White")
-                .color("white")
-                .colorImageUrl("https://cdn.veluga.kr/icons/tasting-note/color/brick-red.svg")
-                .description("테스트 위스키")
-                .descriptionImageUrl("/images/item-rep01.png")
-                .summary("테스트 위스키")
-                .country("korea")
-                .company("테스트 컴퍼니")
-                .supplier("테스트 컴퍼니")
-                .degree("10.0")
-                .imageUrl("/images/item-rep01.png")
-                .type("위스키")
-                .opt1Value("opt1Value")
-                .opt2Value("opt2Value")
-                .opt3Value("opt3Value")
-                .opt4Value("opt4Value")
-                .opt5Value("opt5Value")
-                .opt6Value("opt6Value")
-                .opt7Value("opt7Value")
+                .name(request.getName())
+                .engName(request.getEngName())
+                .type(type)
+                .imageUrl(request.getImageUrl())
+                .color(request.getColor())
+                .colorImageUrl(request.getColorImageUrl())
+                .descriptionImageUrl(request.getDescriptionImageUrl())
+                .description(request.getDescription())
+                .summary(request.getSummary())
+                .country(request.getCountry())
+                .company(request.getCompany())
+                .supplier(request.getSupplier())
+                .degree(request.getDegree())
+                .opt1Value(request.getAroma())
+                .opt2Value(request.getBalance())
+                .opt3Value(request.getBody())
+                .opt4Value(request.getTannin())
+                .opt5Value(request.getAcidity())
+                .opt6Value(request.getSweetness())
+                .opt7Value(request.getSoda())
                 .build();
 
         GoodsStats goodsStats = GoodsStats.builder()
                 .goods(goods)
-                .label("가성비")
-                .score("4.4")
-                .reviewCount(100)
+                .label(request.getLabel())
+                .score(request.getScore())
+                .reviewCount(request.getReviewCount())
                 .build();
 
         goodsService.addGoods(goods);
         goodsDetailsRepository.save(goodsDetails);
         goodsStatsRepository.save(goodsStats);
 
-        return ResponseEntity.ok().body("valid");
+        return ResponseEntity.ok().body("Success");
     }
 
     // 모든 사용자 계정 가져오기

@@ -208,7 +208,7 @@
 }
 
 .btn-rounded-recommend-label {
-    width: 54px;
+    /*width: 54px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;

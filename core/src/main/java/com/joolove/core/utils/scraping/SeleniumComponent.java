@@ -213,9 +213,7 @@ public class SeleniumComponent {
         Goods goods = Goods.builder()
                 .name(name)
                 .salesStatus((short)1)
-                .category(Category.builder()
-                        .categoryName(type)
-                        .build())
+                .categoryName(type)
                 .build();
 
         GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
@@ -280,11 +278,7 @@ public class SeleniumComponent {
         return Goods.builder()
                 .name(dto.getName())
                 .salesStatus((short)1)
-                .category(
-                        Category.builder()
-                                .categoryName(dto.getType())
-                                .build()
-                )
+                .categoryName(dto.getType())
                 .build();
     }
 

@@ -22,7 +22,6 @@ public class Category extends BaseTimeStamp {
     @Column(name = "category_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "parent_id")
     private Category parent;

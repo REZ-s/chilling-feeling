@@ -22,14 +22,15 @@ public class Goods extends BaseTimeStamp {
     @Column(name = "goods_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_name")
-    private Category category;
-
     @NotBlank
     @Column(unique = true)
     private String name;            // 상품명 (GoodsDetails 테이블의 name 과 동일)
+
+    @NotBlank
+    private String categoryName;
+
+    @NotNull
+    private Short salesStatus;      // 판매 상태 (0: 준비중, 1: 판매중, 2: 판매중지, 3:기타)
 
     private Integer price;
 
@@ -37,16 +38,13 @@ public class Goods extends BaseTimeStamp {
 
     private Long salesFigures;      // 판매량
 
-    @NotNull
-    private Short salesStatus;      // 판매 상태 (0: 판매중지, 1: 판매중, 2: 기타)
-
     private String description;
 
     @Builder
-    public Goods(UUID id, Category category, String name, Integer price, Integer stock, Long salesFigures, Short salesStatus, String description) {
+    public Goods(UUID id, String name, String categoryName, Integer price, Integer stock, Long salesFigures, Short salesStatus, String description) {
         this.id = id;
-        this.category = category;
         this.name = name;
+        this.categoryName = categoryName;
         this.price = price;
         this.stock = stock;
         this.description = description;
