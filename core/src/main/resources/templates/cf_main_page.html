@@ -6,17 +6,13 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-
     <title> Chilling Feeling - Main </title>
-
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
-
     <style>
         /* For modal */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
@@ -264,7 +260,6 @@
 <body>
 <div class="main-container">
     <div class="home">
-
         <!-- Header & Content -->
         <section class="wrap-top-bar-top-banner">
             <section class="top-bar">
@@ -276,11 +271,17 @@
                     </div>
                 </div>
                 <div class="btn-menu">
+                    <div class="login-switch-logo-frame">
+                        <input type="checkbox" id="loginSwitch">
+                        <label for="loginSwitch" class="login-switch-label">
+                            <div class="on-off-btn login-switch-logo-frame-label-off">OFF</div>
+                        </label>
+                    </div>
                     <button class="ic_search_main_24px" onclick="location.href='/search'">
-                        <img src="/images/ic_search_24px.png" >
+                        <img src="/images/ic_search_24px.png">
                     </button>
-                    <button class="ic_shopping_bag_main_24px" onclick="location.href='/cart'" >
-                        <img src="/images/ic_shopping_bag_24px.png" >
+                    <button class="ic_shopping_bag_main_24px" onclick="location.href='/cart'">
+                        <img src="/images/ic_shopping_bag_24px.png">
                     </button>
                 </div>
             </section>
@@ -289,12 +290,12 @@
                     <img src="/images/illustration_container.png" class="illustration-container">
                     <div class="today-recommend-title">오늘 당신의 기분과<br>딱 맞는 술을 추천해드릴게요!</div>
                 </div>
-                <button sec:authorize="hasRole('USER')" class="btn-rounded-recommend" onclick="location.href='/recommendation/daily'">
+                <button sec:authorize="hasRole('USER')" class="btn-rounded-recommend"
+                        onclick="location.href='/recommendation/daily'">
                     <div class="btn-rounded-recommend-label">추천 받기</div>
                 </button>
             </section>
         </section>
-
         <section class="home-contents">
             <div class="home-taste-prod">
                 <div class="home-taste-title-box">
@@ -320,13 +321,13 @@
                                     <div class="product-list01-product-name-type">위스키</div>
                                     <div class="product-list01-product-name-name">짐빔 화이트</div>
                                 </div>
-<!--                                <div class="product-list01-price">
-                                    <div class="product-list01-price-original-price">40,680</div>
-                                    <div class="product-list01-price-sale">
-                                        <div class="discount-rate">21%</div>
-                                        <div class="discounted-price">32,000원</div>
-                                    </div>
-                                </div>-->
+                                <!--                                <div class="product-list01-price">
+                                                                    <div class="product-list01-price-original-price">40,680</div>
+                                                                    <div class="product-list01-price-sale">
+                                                                        <div class="discount-rate">21%</div>
+                                                                        <div class="discounted-price">32,000원</div>
+                                                                    </div>
+                                                                </div>-->
                                 <div class="product-list01-caption">
                                     <div class="star-score-review">
                                         <img src="/images/ic_star_10px.png" class="ic_star_10px">
@@ -346,7 +347,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="home-food-prod">
                 <div class="home-food-title-box">
                     <div class="home-food-title">오늘의 안주 단짝을 찾아드릴게요</div>
@@ -383,13 +383,12 @@
                                     <br>향긋한 복숭아 향이 나며 기포가 부드럽고
                                     <br>도수도 낮아 부담없이 먹고 마실 수 있어요.
                                 </div>
-<!--                                <div class="product-list02-price">26,900원</div>-->
+                                <!--                                <div class="product-list02-price">26,900원</div>-->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="home-best-seller">
                 <div class="home-best-seller-title-box">
                     <div class="wrap-drop-down-date">
@@ -419,13 +418,13 @@
                                     <div class="product-list01-product-name-type">위스키</div>
                                     <div class="product-list01-product-name-name">짐빔 화이트</div>
                                 </div>
-<!--                                <div class="product-list01-price">
-                                    <div class="product-list01-price-original-price">40,680</div>
-                                    <div class="product-list01-price-sale">
-                                        <div class="discount-rate">21%</div>
-                                        <div class="discounted-price">32,000원</div>
-                                    </div>
-                                </div>-->
+                                <!--                                <div class="product-list01-price">
+                                                                    <div class="product-list01-price-original-price">40,680</div>
+                                                                    <div class="product-list01-price-sale">
+                                                                        <div class="discount-rate">21%</div>
+                                                                        <div class="discounted-price">32,000원</div>
+                                                                    </div>
+                                                                </div>-->
                                 <div class="product-list01-caption">
                                     <div class="star-score-review">
                                         <img src="/images/ic_star_10px.png" class="ic_star_10px">
@@ -442,7 +441,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="product-card01">
                             <div class="product-list01-photo-container">
                                 <div class="photo-container-wrap-img">
@@ -457,13 +455,13 @@
                                     <div class="product-list01-product-name-type">위스키</div>
                                     <div class="product-list01-product-name-name">짐빔 화이트</div>
                                 </div>
-<!--                                <div class="product-list01-price">
-                                    <div class="product-list01-price-original-price">40,680</div>
-                                    <div class="product-list01-price-sale">
-                                        <div class="discount-rate">21%</div>
-                                        <div class="discounted-price">32,000원</div>
-                                    </div>
-                                </div>-->
+                                <!--                                <div class="product-list01-price">
+                                                                    <div class="product-list01-price-original-price">40,680</div>
+                                                                    <div class="product-list01-price-sale">
+                                                                        <div class="discount-rate">21%</div>
+                                                                        <div class="discounted-price">32,000원</div>
+                                                                    </div>
+                                                                </div>-->
                                 <div class="product-list01-caption">
                                     <div class="star-score-review">
                                         <img src="/images/ic_star_10px.png" class="ic_star_10px">
@@ -481,7 +479,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="wrap-horizontal">
                         <div class="product-card01">
                             <div class="product-list01-photo-container">
@@ -497,13 +494,13 @@
                                     <div class="product-list01-product-name-type">위스키</div>
                                     <div class="product-list01-product-name-name">짐빔 화이트</div>
                                 </div>
-<!--                                <div class="product-list01-price">
-                                    <div class="product-list01-price-original-price">40,680</div>
-                                    <div class="product-list01-price-sale">
-                                        <div class="discount-rate">21%</div>
-                                        <div class="discounted-price">32,000원</div>
-                                    </div>
-                                </div>-->
+                                <!--                                <div class="product-list01-price">
+                                                                    <div class="product-list01-price-original-price">40,680</div>
+                                                                    <div class="product-list01-price-sale">
+                                                                        <div class="discount-rate">21%</div>
+                                                                        <div class="discounted-price">32,000원</div>
+                                                                    </div>
+                                                                </div>-->
                                 <div class="product-list01-caption">
                                     <div class="star-score-review">
                                         <img src="/images/ic_star_10px.png" class="ic_star_10px">
@@ -520,7 +517,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="banner-keyword">
                             <div class="banner-keyword-title">인기 검색어</div>
                             <div class="keyword-list">
@@ -555,7 +551,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="home-feed-prod">
                 <div class="home-title-box">
                     <div class="home-title">다른 사람들의 혼술라이프는?</div>
@@ -588,18 +583,14 @@
                 </div>
             </div>
         </section>
-
         <!-- Footer -->
         <section class="bottom" id="footer">
         </section>
-
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="snacks" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-food">
@@ -640,10 +631,8 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="period" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-check">
@@ -669,9 +658,13 @@
         </div>
     </div>
 </div>
-
 <script th:inline="javascript">
+
     createFooter('/');
+    displayLoginState();
+
+    const loginSwitchCheckBox = document.getElementById("loginSwitch");
+    const onOffLabel = document.querySelector(".on-off-btn");
 
     const dateDropDown = document.getElementById('dropDownDate');
     const foodDropDown = document.getElementById('dropDownFood');
@@ -688,6 +681,48 @@
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
+    });
+
+    async function displayLoginState() {
+        const userLoginState = await checkUserLoginState();
+
+        if (userLoginState === "true") {
+            loginSwitchCheckBox.checked = true;
+            onOffLabel.textContent = "ON";
+            onOffLabel.classList.remove("login-switch-logo-frame-label-off");
+            onOffLabel.classList.add("login-switch-logo-frame-label-on");
+        } else {
+            loginSwitchCheckBox.checked = false;
+            onOffLabel.textContent = "OFF";
+            onOffLabel.classList.remove("login-switch-logo-frame-label-on");
+            onOffLabel.classList.add("login-switch-logo-frame-label-off");
+        }
+    }
+
+    async function checkUserLoginState() {
+        try {
+            const response = await fetch("/api/v1/user/authentication", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            if (response.ok) {
+                return await response.text();
+            }
+            throw response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    loginSwitchCheckBox.addEventListener("click", function () {
+        if (onOffLabel.textContent === "OFF") {
+            location.href = "/login";
+        } else {
+            location.href = "/logout";
+        }
     });
 
     document.querySelectorAll('.btn-heart').forEach(btnHeart => {
@@ -779,7 +814,6 @@
             btn.children[0].classList.add('modal-btn-wide-label');
         }
     }
-
 </script>
 </body>
 </html>

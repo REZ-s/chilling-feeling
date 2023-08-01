@@ -38,8 +38,15 @@ public class AdminController {
     @ResponseBody
     @Transactional
     public ResponseEntity<?> createGoods(@ModelAttribute("request") AdminCreateGoodsRequest request) {
-        String type = "와인";
-        String categoryName = Category.ECategory.WINE.name();
+        String type = request.getType();
+        String categoryName = switch (type) {
+            case "와인" -> Category.ECategory.WINE.name();
+            case "위스키" -> Category.ECategory.WHISKY.name();
+            case "칵테일" -> Category.ECategory.COCKTAIL.name();
+            case "전통주" -> Category.ECategory.TRADITIONAL_LIQUOR.name();
+            case "논알콜" -> Category.ECategory.NON_ALCOHOL.name();
+            default -> Category.ECategory.ALL.name();
+        };
 
         Goods goods = Goods.builder()
                 .name(request.getName())

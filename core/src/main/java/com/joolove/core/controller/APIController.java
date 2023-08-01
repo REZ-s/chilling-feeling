@@ -11,7 +11,10 @@ import com.joolove.core.service.SMSServiceImpl;
 import com.joolove.core.service.UserService;
 import com.joolove.core.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +31,16 @@ public class APIController {
     private final GoodsService goodsService;
     private final SocialLoginRepository socialLoginRepository;
     private final PasswordUtils passwordUtils;
+
+    @GetMapping("/api/v1/user/authentication")
+    public ResponseEntity<Boolean> checkAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(false, HttpStatus.OK);
+    }
 
     @PostMapping("/api/v1/authentication-code/email")
     public ResponseEntity<?> getAuthenticationCodeEmail(@Valid @RequestBody String email)

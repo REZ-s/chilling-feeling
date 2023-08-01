@@ -154,9 +154,6 @@
 }
 
 .btn-menu {
-    width: 62px;
-    height: 28px;
-    flex-grow: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -6264,4 +6261,77 @@ input.login1-form::placeholder {
     letter-spacing: -0.28px;
     text-align: center;
     color: #606060;
+}
+
+/* 로그인 상태 토글 버튼 */
+.login-switch-logo-frame-label-on {
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: gold;
+}
+
+.login-switch-logo-frame-label-off {
+    font-family: 'Noto Sans KR', serif;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: -0.28px;
+    text-align: center;
+    color: gray;
+}
+
+.login-switch-logo-frame {
+    position: relative;
+    padding-top: 10px;
+}
+
+#loginSwitch {
+    position: absolute;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+#loginSwitch:checked+.login-switch-label {
+    background: white;
+    border: 1px solid #004051;
+}
+#loginSwitch:checked+.login-switch-label:hover {
+    background: white;
+}
+#loginSwitch:checked+.login-switch-label .on-off-btn {
+    left: 10px;
+    background: #004051;
+    box-shadow: 1px 2px 3px #00000020;
+}
+
+.login-switch-label {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background: gray;
+    border: 1px solid gray;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+.login-switch-label:hover {
+    background: gray;
+}
+
+.on-off-btn {
+    position: absolute;
+    width: 30px;
+    /*height: 20px;*/
+    border-radius: 20px;
+    background: white;
+    transition: 0.2s;
 }

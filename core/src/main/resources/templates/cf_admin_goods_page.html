@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Page : Create Goods</title>
+    <title>Admin Page - Create Goods</title>
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h2>Test Page : Create Goods</h2>
+<h2>Admin Page - Create Goods</h2>
 <div>
     <button class="btn-rounded-recommend" onclick="createRandomGoods()">
         <div class="btn-rounded-recommend-label">Auto Fill</div>
@@ -69,7 +69,7 @@
         // 각 요소들을 랜덤값으로 채우기
         let name = generateSequenceString("칠링필링 ") + "호";
         let salesStatus = 1;
-        let type = "위스키";
+        let type = generateRandomType();
         let engName = generateSequenceString("Chilling Feeling No.");
         let imageUrl = "https://cdn.veluga.kr/files/supplier/undefined/drinks/118._신세계_엘앤비_미안더_핑크_모스카토.png";
         let color = "red";
@@ -131,6 +131,13 @@
         return randomString;
     }
 
+    function generateRandomType() {
+        let categoryName = [ '와인', '칵테일', '위스키', '전통주', '논알콜' ];
+        let randomIndex = Math.floor(Math.random() * categoryName.length);
+
+        return categoryName[randomIndex];
+    }
+
     function generateRandomDegree() {
         let characters = '123456789';
         let randomNumber = '';
@@ -146,11 +153,9 @@
 
     function generateRandomLevel() {
         let characters = '01234';
-        let randomNumber = '';
         let randomIndex = Math.floor(Math.random() * characters.length);
-        randomNumber += characters.charAt(randomIndex);
 
-        return randomNumber;
+        return characters.charAt(randomIndex);
     }
 
     function generateSequenceString(targetString) {

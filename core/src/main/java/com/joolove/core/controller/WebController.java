@@ -139,6 +139,7 @@ public class WebController {
     }
 
     // 장바구니 페이지
+    @LoginState
     @GetMapping("/cart")
     public String cart(Model model) {
         // 사용자 이름으로 장바구니에 있는 상품만 조회해야한다.
@@ -147,6 +148,7 @@ public class WebController {
     }
 
     // 마이페이지
+    @LoginState
     @GetMapping("/me")
     public String me() {
         return "cf_my_page";
