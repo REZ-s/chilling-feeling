@@ -6,11 +6,13 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
     <title> Chilling Feeling - Category </title>
 
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
@@ -23,7 +25,11 @@
     <!-- Header -->
     <section class="wrap-search-top-bar-result">
         <div class="search-top-bar-result">
-            <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
+            <div class="ic_back_24px">
+                <a href="javascript:history.back()">
+                    <img src="/images/ic_back_black_24px.png">
+                </a>
+            </div>
             <div class="search-form-result">
                 <input class="search-form-input-result" placeholder="어떤 주류를 찾으시나요?" id="searchInput">
                 <div class="wrap-ic-search-form-result">
@@ -35,7 +41,7 @@
                     </button>
                 </div>
             </div>
-            <button class="ic_shopping_bag_24px" id="myBag">
+            <button class="ic_shopping_bag_24px" onclick="location.href='/cart'">
                 <img src="/images/ic_shopping_bag_black_24px.png">
             </button>
         </div>
@@ -55,6 +61,12 @@
             </button>
             <button class="wrap-tab-bar-label">
                 <div class="tab-bar-label">전통주</div>
+            </button>
+            <button class="wrap-tab-bar-label">
+                <div class="tab-bar-label">칵테일</div>
+            </button>
+            <button class="wrap-tab-bar-label">
+                <div class="tab-bar-label">논알콜</div>
             </button>
         </div>
 
@@ -112,16 +124,30 @@
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
     let searchClear = document.getElementById('searchInputClear');
+    let option1;
+    let option2;
+
 
     /*<![CDATA[*/
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
     /*]]>*/
 
-    let products;                               // 실제 보여줄 상품 리스트
+    let products;                                       // 실제 보여줄 상품 리스트
 
     window.onload = function () {
         searchClear.style.display = "none";
         displayProductList("전체");
+
+        option1 = document.getElementById('option1');
+        option2 = document.getElementById('option2');
+
+        option1.addEventListener('click', function () {
+            changeOption(option1);
+        });
+
+        option2.addEventListener('click', function () {
+            changeOption(option2);
+        });
     }
 
     // 카테고리 목록 탭 버튼 클릭 시
@@ -210,18 +236,59 @@
         countingProductText.innerText = "총 " + products.length + "개";
         wrapCountingRange.appendChild(countingProductText);
 
-        const wrapRangeChevron = document.createElement("div");
-        wrapRangeChevron.setAttribute("class", "wrap-range-chevron");
+        // //
+        // const wrapRangeChevron = document.createElement("div");
+        // wrapRangeChevron.setAttribute("class", "wrap-range-chevron");
+        //
+        // const rangeLabel = document.createElement("div");
+        // rangeLabel.setAttribute("class", "range-label");
+        // rangeLabel.innerText = "신상품순";
+        // wrapRangeChevron.appendChild(rangeLabel);
+        //
+        // const chevronImage = document.createElement("img");
+        // chevronImage.setAttribute("src", "/images/ic_chevron_down_10px.png");
+        // chevronImage.setAttribute("class", "ic_chevron_down_10px");
+        // wrapRangeChevron.appendChild(chevronImage);
+        //
+        // wrapCountingRange.appendChild(wrapRangeChevron);
+        // //
 
-        const rangeLabel = document.createElement("div");
-        rangeLabel.setAttribute("class", "range-label");
-        rangeLabel.innerText = "신상품순";
-        wrapRangeChevron.appendChild(rangeLabel);
+        const wrapRangeChevron = document.createElement('div');
+        wrapRangeChevron.classList.add('wrap-range-chevron');
 
-        const chevronImage = document.createElement("img");
-        chevronImage.setAttribute("src", "/images/ic_chevron_down_10px.png");
-        chevronImage.setAttribute("class", "ic_chevron_down_10px");
-        wrapRangeChevron.appendChild(chevronImage);
+        const button = document.createElement('button');
+        button.classList.add('category-dropdown-btn');
+
+        const currentOption = document.createElement('a');
+        currentOption.id = 'currentOption';
+        currentOption.classList.add('range-label');
+        currentOption.textContent = '신상순';
+
+        const dropdownIcon = document.createElement('img');
+        dropdownIcon.src = '/images/ic_chevron_down_10px.png';
+        dropdownIcon.classList.add('ic_chevron_down_10px');
+
+        button.appendChild(currentOption);
+        button.appendChild(dropdownIcon);
+
+        const dropdownContent = document.createElement('div');
+        dropdownContent.classList.add('category-dropdown-content');
+
+        const option1 = document.createElement('a');
+        option1.id = 'option1';
+        option1.classList.add('range-label');
+        option1.textContent = '오래된순';
+
+        const option2 = document.createElement('a');
+        option2.id = 'option2';
+        option2.classList.add('range-label');
+        option2.textContent = '인기순';
+
+        dropdownContent.appendChild(option1);
+        dropdownContent.appendChild(option2);
+
+        wrapRangeChevron.appendChild(button);
+        wrapRangeChevron.appendChild(dropdownContent);
 
         wrapCountingRange.appendChild(wrapRangeChevron);
         wrapCategoryContainer.appendChild(wrapCountingRange);
@@ -379,5 +446,13 @@
     searchButton.addEventListener('click', function () {
         findSearchWord();
     });
+
+    function changeOption(choiceOption) {
+        let currentOption = document.getElementById('currentOption');
+        let currentOptionValue = currentOption.innerText;
+        currentOption.innerText = choiceOption.innerText;
+        choiceOption.innerText = currentOptionValue;
+    }
+
 </script>
 </html>

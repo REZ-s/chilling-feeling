@@ -1419,8 +1419,8 @@ li {
 }
 
 /* 상품 검색 결과 페이지 */
-
 .search-result-container {
+    min-height: 100vh;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -1618,8 +1618,8 @@ li {
 }
 
 .wrap-category-product-list {
-    /*    height: 553px;*/
-    align-self: stretch;
+    /*height: 553px;*/
+    align-self: center;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -1630,7 +1630,7 @@ li {
 }
 
 .wrap-horizontality {
-    /*    height: 264px;*/
+    /*height: 264px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -1667,21 +1667,37 @@ li {
     color: #a4a4a4;
 }
 
-.wrap-range-chevron {
-    width: 58px;
-    height: 18px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 4px;
+.category-dropdown-btn {
+    border: 0;
     padding: 0;
+    background-color: white;
+    display: flex;
+    align-items: center;
+}
+
+.category-dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+.category-dropdown-content a:hover {
+    color: blue;
+}
+
+.wrap-range-chevron {
+    position: relative;
+    display: inline-block;
+    justify-content: flex-start;
+    padding: 0;
+}
+.wrap-range-chevron:hover .category-dropdown-content {
+    display: block;
 }
 
 .range-label {
     width: 44px;
     height: 18px;
+    display: flex;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 12px;
@@ -1699,8 +1715,8 @@ li {
     height: 10px;
     flex-grow: 0;
     object-fit: contain;
+    padding-left: 4px;
 }
-
 
 .wrap-illustration-text-search-no-data {
     height: 106px;
@@ -1948,7 +1964,7 @@ li {
 /* 카테고리 페이지 */
 
 .wrap-btn-tag-filter {
-    width: 375px;
+    /*width: 375px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -1971,7 +1987,7 @@ li {
 }
 
 .category-container {
-    height: 723px;
+    /*height: 723px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -2774,7 +2790,6 @@ input.login1-form::placeholder {
     border-radius: 3px;
     border: solid 1px #606060;
     background-color: black;
-!important;
 }
 
 .join1-btn-resend-label {
@@ -2985,7 +3000,6 @@ input.login1-form::placeholder {
     align-items: stretch;
     padding: 0;
     border-bottom: solid 1px #4a4a4a;
-!important;
 }
 
 .join1-input-text {
@@ -3004,7 +3018,6 @@ input.login1-form::placeholder {
     background-color: black !important;
     border: 0;
 }
-
 
 .join1-after-wrapper-input-text-btn {
     height: 48px;
@@ -3029,7 +3042,6 @@ input.login1-form::placeholder {
     margin: 59px 22px 83px 18px;
     padding: 0;
     border-bottom: solid 1px #4a4a4a;
-!important;
 }
 
 .join1-form-input {
@@ -3045,9 +3057,7 @@ input.login1-form::placeholder {
     letter-spacing: -0.36px;
     text-align: left;
     background-color: black;
-!important;
     color: #4a4a4a;
-!important;
     border: 0;
 }
 
