@@ -97,7 +97,7 @@ public class WebController {
         return "cf_category_page";
     }
 
-    // 상품 1개에 대한 상세
+    // 상품 1개에 대한 상세 페이지
     @GetMapping(("/goods/{name}"))
     public String goodsName(Model model, @PathVariable("name") String name) {
         model.addAttribute("goodsViewDetails", goodsService.findGoodsDetail(name));
@@ -143,6 +143,7 @@ public class WebController {
     @GetMapping("/cart")
     public String cart(Model model) {
         // 사용자 이름으로 장바구니에 있는 상품만 조회해야한다.
+
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_cart_page";
     }

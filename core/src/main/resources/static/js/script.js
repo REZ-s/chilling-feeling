@@ -144,8 +144,9 @@ function createItemCard01(parentElement, product) {
     const productCard01 = document.createElement('div');
     productCard01.className = 'product-card01';
 
-    const productPhotoContainer = document.createElement('div');
+    const productPhotoContainer = document.createElement('button');
     productPhotoContainer.className = 'product-list01-photo-container';
+    productPhotoContainer.id = product.name;
 
     const photoContainerWrapImg = document.createElement('div');
     photoContainerWrapImg.className = 'photo-container-wrap-img';
@@ -285,7 +286,7 @@ function createEmptyItemList(parentElement) {
 }
 
 /***
- * Display Item List Container
+ * Display Item List Container (main)
  * arguments = { parentElement, goodsViewList, type }
  */
 function displayItemList() {
@@ -307,6 +308,8 @@ function displayItemList() {
             createBaseItemList(parentElement, getProductsByType(goodsViewList, type));
         }
     }
+
+    connectItemDetails();
 }
 
 function getProducts(goodsViewList) {
@@ -330,5 +333,15 @@ function createBaseItemList(parentElement, products) {
         createEmptyItemList(parentElement);
     } else {
         createItemList(parentElement, products);
+    }
+}
+
+function connectItemDetails() {
+    let goodsContainers = document.getElementsByClassName('product-list01-photo-container');
+
+    for (let goodsContainer of goodsContainers) {
+        goodsContainer.addEventListener('click', function () {
+            location.href = '/goods/' + goodsContainer.id.toString();
+        });
     }
 }
