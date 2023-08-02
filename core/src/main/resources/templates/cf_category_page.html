@@ -95,38 +95,20 @@
     </section>
 
     <!-- Footer -->
-    <section class="bottom">
-        <div class="bottom-home">
-            <button class="bottom-home-action" onclick="location.href='/'">
-                <img src="/images/ic_home_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">홈</div>
-            </button>
-            <button class="bottom-home-action" onclick="location.href='/category'">
-                <img src="/images/ic_category_ac_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">카테고리</div>
-            </button>
-            <button class="bottom-home-action" onclick="location.href='/ready'">
-                <img src="/images/ic_community_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">피드</div>
-            </button>
-            <button class="bottom-home-action" onclick="location.href='/me'">
-                <img src="/images/ic_mypage_de_24px.png" class="ic_bottom_icon">
-                <div class="bottom-label">마이</div>
-            </button>
-        </div>
-    </section>
+    <section class="bottom" id="footer"></section>
 
 </div>
 </body>
 <script th:inline="javascript">
+
     const categoryTabBar = document.querySelector(".category-tab-bar");
     const tabLabels = categoryTabBar.querySelectorAll(".wrap-tab-bar-label, .wrap-tab-bar-label-ac");
+
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
     let searchClear = document.getElementById('searchInputClear');
     let option1;
     let option2;
-
 
     /*<![CDATA[*/
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
@@ -136,18 +118,23 @@
 
     window.onload = function () {
         searchClear.style.display = "none";
-        displayProductList("전체");
+        createFooter('/category');
+        displayItemList(document.getElementById('contentFrame'), goodsViewList);
 
         option1 = document.getElementById('option1');
         option2 = document.getElementById('option2');
 
-        option1.addEventListener('click', function () {
-            changeOption(option1);
-        });
+        if (option1 !== null) {
+            option1.addEventListener('click', function () {
+                changeOption(option1);
+            });
+        }
 
-        option2.addEventListener('click', function () {
-            changeOption(option2);
-        });
+        if (option2 !== null) {
+            option2.addEventListener('click', function () {
+                changeOption(option2);
+            });
+        }
     }
 
     // 카테고리 목록 탭 버튼 클릭 시
@@ -185,247 +172,9 @@
 
             // 새로운 상품 리스트 폼 추가
             const productType = label.querySelector(".tab-bar-label-ac").innerText;
-            displayProductList(productType);
+            displayItemList(document.getElementById('contentFrame'), goodsViewList, productType);
         });
     });
-
-    function displayProductList(type) {
-        if (type === "전체") {
-            products = getProducts();
-        } else {
-            products = getProductsToType(type);
-        }
-
-        createFormBase();
-    }
-
-    function getProducts() {
-        return goodsViewList;
-    }
-
-    function getProductsToType(type) {
-        let products = [];
-
-        for (let i = 0; i < goodsViewList.length; i++) {
-            if (goodsViewList[i].type === type) {
-                products.push(goodsViewList[i]);
-            }
-        }
-
-        return products;
-    }
-
-    function createFormBase() {
-        createFormDataList(document.getElementById('contentFrame'));
-    }
-
-    function createFormDataList(parentElement) {
-        if (parentElement == null) {
-            return;
-        }
-
-        const wrapCategoryContainer = document.createElement("div");
-        wrapCategoryContainer.setAttribute("class", "wrap-category-container");
-        wrapCategoryContainer.setAttribute("id", "yesDataFrame");
-
-        const wrapCountingRange = document.createElement("div");
-        wrapCountingRange.setAttribute("class", "wrap-counting-range");
-
-        const countingProductText = document.createElement("div");
-        countingProductText.setAttribute("class", "counting-product-text");
-        countingProductText.innerText = "총 " + products.length + "개";
-        wrapCountingRange.appendChild(countingProductText);
-
-        // //
-        // const wrapRangeChevron = document.createElement("div");
-        // wrapRangeChevron.setAttribute("class", "wrap-range-chevron");
-        //
-        // const rangeLabel = document.createElement("div");
-        // rangeLabel.setAttribute("class", "range-label");
-        // rangeLabel.innerText = "신상품순";
-        // wrapRangeChevron.appendChild(rangeLabel);
-        //
-        // const chevronImage = document.createElement("img");
-        // chevronImage.setAttribute("src", "/images/ic_chevron_down_10px.png");
-        // chevronImage.setAttribute("class", "ic_chevron_down_10px");
-        // wrapRangeChevron.appendChild(chevronImage);
-        //
-        // wrapCountingRange.appendChild(wrapRangeChevron);
-        // //
-
-        const wrapRangeChevron = document.createElement('div');
-        wrapRangeChevron.classList.add('wrap-range-chevron');
-
-        const button = document.createElement('button');
-        button.classList.add('category-dropdown-btn');
-
-        const currentOption = document.createElement('a');
-        currentOption.id = 'currentOption';
-        currentOption.classList.add('range-label');
-        currentOption.textContent = '신상순';
-
-        const dropdownIcon = document.createElement('img');
-        dropdownIcon.src = '/images/ic_chevron_down_10px.png';
-        dropdownIcon.classList.add('ic_chevron_down_10px');
-
-        button.appendChild(currentOption);
-        button.appendChild(dropdownIcon);
-
-        const dropdownContent = document.createElement('div');
-        dropdownContent.classList.add('category-dropdown-content');
-
-        const option1 = document.createElement('a');
-        option1.id = 'option1';
-        option1.classList.add('range-label');
-        option1.textContent = '오래된순';
-
-        const option2 = document.createElement('a');
-        option2.id = 'option2';
-        option2.classList.add('range-label');
-        option2.textContent = '인기순';
-
-        dropdownContent.appendChild(option1);
-        dropdownContent.appendChild(option2);
-
-        wrapRangeChevron.appendChild(button);
-        wrapRangeChevron.appendChild(dropdownContent);
-
-        wrapCountingRange.appendChild(wrapRangeChevron);
-        wrapCategoryContainer.appendChild(wrapCountingRange);
-
-        const wrapCategoryProductList = document.createElement("div");
-        wrapCategoryProductList.setAttribute("class", "wrap-category-product-list");
-
-        for (let i = 0; i < products.length; i += 2) {
-            const wrapHorizontality = document.createElement("div");
-            wrapHorizontality.setAttribute("class", "wrap-horizontality");
-
-            createFormProductCard01(wrapHorizontality, products[i]);
-            if (i + 1 < products.length) {
-                createFormProductCard01(wrapHorizontality, products[i + 1]);
-            }
-
-            wrapCategoryProductList.appendChild(wrapHorizontality);
-        }
-
-        wrapCategoryContainer.appendChild(wrapCategoryProductList);
-
-        parentElement.appendChild(wrapCategoryContainer);
-
-        const wrapCountingRangeEmpty = document.createElement("div");
-        wrapCountingRangeEmpty.className = "wrap-counting-range";
-        wrapCountingRangeEmpty.id = "surplusEmptySpace";
-
-        parentElement.appendChild(wrapCountingRangeEmpty);
-    }
-
-    function createFormProductCard01(parentElement, product) {
-        if (parentElement == null) {
-            return;
-        }
-
-        const wrapProductCard01 = document.createElement('div');
-        wrapProductCard01.className = 'wrap-product-card01';
-
-        const productCard01 = document.createElement('div');
-        productCard01.className = 'product-card01';
-
-        const productPhotoContainer = document.createElement('div');
-        productPhotoContainer.className = 'product-list01-photo-container';
-
-        const photoContainerWrapImg = document.createElement('div');
-        photoContainerWrapImg.className = 'photo-container-wrap-img';
-
-        const image = document.createElement('img');
-        image.src = product.imageUrl;   // (1) input item image
-        image.className = 'recommend-image01';
-
-        const buttonHeart = document.createElement('button');
-        buttonHeart.className = 'ic_heart_24px btn-heart';
-
-        const imageHeart = document.createElement('img');
-        imageHeart.src = '/images/ic_heart_24px.png';
-
-        buttonHeart.appendChild(imageHeart);
-
-        photoContainerWrapImg.appendChild(image);
-
-        productPhotoContainer.appendChild(photoContainerWrapImg);
-        productPhotoContainer.appendChild(buttonHeart);
-
-        const productInfo = document.createElement('div');
-        productInfo.className = 'product-list01-product-info';
-
-        const productName = document.createElement('div');
-        productName.className = 'product-list01-product-name';
-
-        const productNameType = document.createElement('div');
-        productNameType.className = 'product-list01-product-name-type';
-        productNameType.textContent = product.type;   // (2) input item type
-
-        const productNameName = document.createElement('div');
-        productNameName.className = 'product-list01-product-name-name';
-        productNameName.textContent = product.name;  // (3) input item name
-
-        productName.appendChild(productNameType);
-        productName.appendChild(productNameName);
-
-        const caption = document.createElement('div');
-        caption.className = 'product-list01-caption';
-
-        const starScoreReview = document.createElement('div');
-        starScoreReview.className = 'star-score-review';
-
-        const imageStar = document.createElement('img');
-        imageStar.src = '/images/ic_star_10px.png';
-        imageStar.className = 'ic_star_10px';
-
-        const score = document.createElement('div');
-        score.className = 'score';
-
-        const starRating = document.createElement('div');
-        starRating.className = 'star-rating';
-        starRating.textContent = product.score;  // (4) input item rating
-
-        const reviews = document.createElement('div');
-        reviews.className = 'reviews';
-        reviews.textContent = '(' + product.reviewCount + ')'    // (5) input item reviews
-
-        starScoreReview.appendChild(imageStar);
-
-        score.appendChild(starRating);
-        score.appendChild(reviews);
-
-        starScoreReview.appendChild(score);
-
-        caption.appendChild(starScoreReview);
-
-        const wrapChip = document.createElement('div');
-        wrapChip.className = 'wrap-chip';
-
-        const productChip = document.createElement('div');
-        productChip.className = 'product-chip';
-
-        const chipLabel = document.createElement('div');
-        chipLabel.className = 'chip-label';
-        chipLabel.textContent = product.label;  // (6) input item chip label
-
-        productChip.appendChild(chipLabel);
-
-        wrapChip.appendChild(productChip);
-
-        caption.appendChild(wrapChip);
-
-        productInfo.appendChild(productName);
-        productInfo.appendChild(caption);
-
-        productCard01.appendChild(productPhotoContainer);
-        productCard01.appendChild(productInfo);
-
-        wrapProductCard01.appendChild(productCard01);
-
-        parentElement.appendChild(wrapProductCard01);
-    }
 
     function findSearchWord() {
         const searchValue = searchInput.value.trim();

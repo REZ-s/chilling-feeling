@@ -303,7 +303,7 @@
 </div>
 </body>
 <script th:inline="javascript">
-    createFooter();
+    createFooter('/category');
 
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
@@ -323,7 +323,7 @@
     searchPageInit();
     function searchPageInit() {
         getPopularProducts().forEach((product) => {
-            createFormProductCard01(innerSlider, product);
+            createItemCard01(innerSlider, product);
         });
 
         updateGridTemplateColumns();
@@ -441,128 +441,17 @@
         }
     }
 
-    function createFormProductCard01(parentElement, product) {
-        if (parentElement == null) {
-            console.log('parentElement is null')
-            return;
-        }
-
-        const wrapProductCard01 = document.createElement('div');
-        wrapProductCard01.className = 'wrap-product-card01';
-
-        const productCard01 = document.createElement('div');
-        productCard01.className = 'product-card01';
-
-        const productPhotoContainer = document.createElement('div');
-        productPhotoContainer.className = 'product-list01-photo-container';
-
-        const photoContainerWrapImg = document.createElement('div');
-        photoContainerWrapImg.className = 'photo-container-wrap-img';
-
-        const image = document.createElement('img');
-        image.src = product.productImage;   // (1) input item image
-        image.className = 'recommend-image01';
-
-        const buttonHeart = document.createElement('button');
-        buttonHeart.className = 'ic_heart_24px btn-heart';
-
-        const imageHeart = document.createElement('img');
-        imageHeart.src = '/images/ic_heart_24px.png';
-
-        buttonHeart.appendChild(imageHeart);
-
-        photoContainerWrapImg.appendChild(image);
-
-        productPhotoContainer.appendChild(photoContainerWrapImg);
-        productPhotoContainer.appendChild(buttonHeart);
-
-        const productInfo = document.createElement('div');
-        productInfo.className = 'product-list01-product-info';
-
-        const productName = document.createElement('div');
-        productName.className = 'product-list01-product-name';
-
-        const productNameType = document.createElement('div');
-        productNameType.className = 'product-list01-product-name-type';
-        productNameType.textContent = product.productType;   // (2) input item type
-
-        const productNameName = document.createElement('div');
-        productNameName.className = 'product-list01-product-name-name';
-        productNameName.textContent = product.productName;  // (3) input item name
-
-        productName.appendChild(productNameType);
-        productName.appendChild(productNameName);
-
-        const caption = document.createElement('div');
-        caption.className = 'product-list01-caption';
-
-        const starScoreReview = document.createElement('div');
-        starScoreReview.className = 'star-score-review';
-
-        const imageStar = document.createElement('img');
-        imageStar.src = '/images/ic_star_10px.png';
-        imageStar.className = 'ic_star_10px';
-
-        const score = document.createElement('div');
-        score.className = 'score';
-
-        const starRating = document.createElement('div');
-        starRating.className = 'star-rating';
-        starRating.textContent = product.productScore;  // (4) input item rating
-
-        const reviews = document.createElement('div');
-        reviews.className = 'reviews';
-        reviews.textContent = '(' + product.productReviews + ')'    // (5) input item reviews
-
-        starScoreReview.appendChild(imageStar);
-
-        score.appendChild(starRating);
-        score.appendChild(reviews);
-
-        starScoreReview.appendChild(score);
-
-        caption.appendChild(starScoreReview);
-
-        const wrapChip = document.createElement('div');
-        wrapChip.className = 'wrap-chip';
-
-        const productChip = document.createElement('div');
-        productChip.className = 'product-chip';
-
-        const chipLabel = document.createElement('div');
-        chipLabel.className = 'chip-label';
-        chipLabel.textContent = product.productChip;  // (6) input item chip label
-
-        productChip.appendChild(chipLabel);
-
-        wrapChip.appendChild(productChip);
-
-        caption.appendChild(wrapChip);
-
-        productInfo.appendChild(productName);
-        productInfo.appendChild(caption);
-
-        productCard01.appendChild(productPhotoContainer);
-        productCard01.appendChild(productInfo);
-
-        wrapProductCard01.appendChild(productCard01);
-
-        parentElement.appendChild(wrapProductCard01);
-    }
-
     function getBestSearchedKeyWord() {
-        const bestSearchedKeyword =
-            {
-                rank: 1,
-                name: '여름휴가',
-                searchCount: 1000,
-                previousRank: 11
-            };
-        return bestSearchedKeyword;
+        return {
+            rank: 1,
+            name: '여름휴가',
+            searchCount: 1000,
+            previousRank: 11
+        };
     }
 
     function getBestSearchedKeyWordList() {
-        const bestSearchedKeywordList = [
+        return [
             {
                 rank: 1,
                 name: '여름휴가',
@@ -624,8 +513,6 @@
                 previousRank: 19
             }
         ];
-
-        return bestSearchedKeywordList;
     }
 
     function createFormBestSearchedKeywordHead(parentElement, keyword) {
