@@ -1520,7 +1520,7 @@ li {
 }
 
 .search-result-contents-frame-inner {
-    width: 375px;
+    /*width: 375px;*/
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -5451,6 +5451,7 @@ input.login1-form::placeholder {
 
 /* 장바구니 */
 .cart-container {
+    min-height: 100vh;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -5493,7 +5494,7 @@ input.login1-form::placeholder {
     justify-content: flex-start;
     align-items: stretch;
     gap: 13px;
-    padding: 0 20px;
+    padding: 0 20px 10% 20px;
 }
 
 .wrap-cart-total-select-delete {
@@ -5643,7 +5644,7 @@ input.login1-form::placeholder {
 
 .cart-btn-active {
     width: 335px;
-    height: 50px;
+    height: 66px;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -5652,6 +5653,13 @@ input.login1-form::placeholder {
     padding: 0;
     border-radius: 3px;
     background-color: #004051;
+}
+
+.cart-btn-frame {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: solid 1px #e6e6e6;
 }
 
 .cart-btn-default-label {
@@ -5669,7 +5677,7 @@ input.login1-form::placeholder {
 }
 
 .wrap-cart-product-cards-counting {
-    height: 364px;
+    /*height: 364px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -5688,7 +5696,6 @@ input.login1-form::placeholder {
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 213px;
     padding: 0;
 }
 
@@ -5707,7 +5714,6 @@ input.login1-form::placeholder {
 }
 
 .cart-product-total-counting {
-    width: 24px;
     height: 28px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5734,13 +5740,13 @@ input.login1-form::placeholder {
 }
 
 .wrap-check-delete {
-    height: 20px;
+    height: 30px;
     align-self: stretch;
     flex-grow: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    /*align-items: center;*/
     padding: 0;
 }
 
@@ -5835,8 +5841,8 @@ input.login1-form::placeholder {
 }
 
 .photo-container-85px {
-    width: 85px;
-    height: 85px;
+    /*width: 85px;*/
+    /*height: 85px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: row;
