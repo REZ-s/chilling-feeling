@@ -1,8 +1,12 @@
-package com.joolove.core.domain.member;
+package com.joolove.core.domain.billing;
 
-import com.joolove.core.domain.BaseTimeStamp;
+import com.joolove.core.domain.member.User;
+import com.joolove.core.domain.product.CartGoods;
 import com.joolove.core.domain.product.FavoriteGoods;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,14 +16,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "member")
+@Table(catalog = "billing")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Favorite extends BaseTimeStamp {
+public class Cart {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "favorite_id", columnDefinition = "BINARY(16)")
+    @Column(name = "cart_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotNull
@@ -28,17 +32,16 @@ public class Favorite extends BaseTimeStamp {
     private User user;
 
     @Builder
-    public Favorite(UUID id, User user) {
+    public Cart(UUID id, User user) {
         this.id = id;
         this.user = user;
     }
 
     /* mappedBy */
-    @OneToMany(mappedBy = "favorite", cascade = CascadeType.PERSIST)
-    private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.PERSIST)
+    private List<CartGoods> cartGoodsList = new ArrayList<>();
 
-    public void setFavoriteGoodsList(List<FavoriteGoods> favoriteGoodsList) {
-        this.favoriteGoodsList = favoriteGoodsList;
+    public void setCartGoodsList(List<CartGoods> cartGoodsList) {
+        this.cartGoodsList = cartGoodsList;
     }
-
 }

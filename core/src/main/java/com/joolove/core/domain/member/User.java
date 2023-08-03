@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.auth.*;
+import com.joolove.core.domain.billing.Cart;
 import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.log.LoginLog;
 import com.joolove.core.domain.log.UserActivityLog;
@@ -77,6 +78,10 @@ public class User extends BaseTimeStamp {
     /**
      * mappedBy
      */
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Password password;
+
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Role role;
@@ -84,11 +89,6 @@ public class User extends BaseTimeStamp {
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private SocialLogin socialLogin;
-
-    //@JsonIgnore
-    @JsonManagedReference
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private Password password;
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -101,6 +101,10 @@ public class User extends BaseTimeStamp {
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Favorite favorite;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Cart cart;
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -156,6 +160,10 @@ public class User extends BaseTimeStamp {
 
     public void setFavorite(Favorite favorite) {
         this.favorite = favorite;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public void setUserPersonal(UserPersonal userPersonal) {

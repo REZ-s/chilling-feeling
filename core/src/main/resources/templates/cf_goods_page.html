@@ -56,9 +56,9 @@
 <div class="product-details-container">
     <!-- Header -->
     <section class="top-bar-details-frame">
-        <div class="wrap-back-home">
+        <button class="wrap-back-home" onclick="history.back()">
             <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
-        </div>
+        </button>
 
         <div class="wrap-share-cart">
             <img src="/images/ic_share_24px.png" class="ic_share_24px">
@@ -135,7 +135,7 @@
             </div>
         </div>
 
-        <button class="product-details-banner">
+        <button class="product-details-banner" onclick="location.href='/recommendation/daily'">
             <img src="/images/product_details_banner.png">
         </button>
 
@@ -316,10 +316,10 @@
     <section class="bottom">
         <div class="product-details-bottom">
             <div class="wrap-product-details-bottom-ic">
-                <div class="wrap-heart-counting">
+                <button class="wrap-heart-counting" onclick="addWishList()">
                     <img src="/images/ic_heart_black_24px.png" class="ic_heart_bottom_24px">
                     <div class="heart-counting-label" id="heartCount">0</div>
-                </div>
+                </button>
             </div>
 
             <button class="product-details-btn-order" id="orderBtn">
@@ -343,19 +343,19 @@
                         <div class="wrap-btn-counting">
                             <div class="btn-counting">
                                 <img src="/images/ic_minus.png" class="ic_minus">
-                                <div class="btn-counting-label">1</div>
+                                <div class="btn-counting-label" id="goodsCount">1</div>
                                 <img src="/images/ic_plus.png" class="ic_plus">
                             </div>
                         </div>
                     </div>
 
                     <div class="wrap-btn01">
-                        <div class="btn01">
+                        <button class="btn01" onclick="addCartList();">
                             <div class="btn01-label">장바구니 담기</div>
-                        </div>
-                        <div class="btn01-active">
+                        </button>
+                        <button class="btn01-active" onclick="orderGoodsList();">
                             <div class="btn01-label-active">바로 주문하기</div>
-                        </div>
+                        </button>
                     </div>
                 </div>
 
@@ -372,6 +372,8 @@
 
     window.onload = function () {
         initForm();
+        applyPlusBtnElements();
+        applyMinusBtnElements();
     }
 
     function createScoreImage(score) {

@@ -27,7 +27,7 @@ public class GoodsStats extends BaseTimeStamp {
     private Goods goods;
 
     private String label = StringUtil.EMPTY_STRING;     // 라벨 (예: 신상품, 베스트, 스테디, 가성비 등)
-    private String score = StringUtil.EMPTY_STRING;     // 평점 (예: 값이 4.45이면 4.5와 같이 소숫점 1자리까지만 표시. 반올림 반영)
+    private String score = StringUtil.EMPTY_STRING;     // 평점 (예: 값이 4.45이면 4.5와 같이 소숫점 1자리까지만 표시. 반올림)
     private Integer reviewCount = 0;                    // 리뷰 숫자
     private Integer heartCount = 0;                     // 좋아요 (찜) 숫자
 
@@ -44,6 +44,5 @@ public class GoodsStats extends BaseTimeStamp {
         this.label = label;
         this.heartCount = heartCount;
     }
-
 
 }

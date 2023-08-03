@@ -184,8 +184,8 @@
 
         updateCbBtnElements();
         updateCardCloseBtnElements();
-        updatePlusBtnElements();
-        updateMinusBtnElements();
+        applyPlusBtnElements();
+        applyMinusBtnElements();
     }
 
     function updateCbBtnElements() {
@@ -194,14 +194,6 @@
 
     function updateCardCloseBtnElements() {
         return cardCloseBtnElements = document.querySelectorAll('[id*="close"]');
-    }
-
-    function updatePlusBtnElements() {
-        return plusBtnElements = document.querySelectorAll('[class*="plus"]');
-    }
-
-    function updateMinusBtnElements() {
-        return minusBtnElements = document.querySelectorAll('[class*="minus"]');
     }
 
     function getCheckedBoxCount() {
@@ -226,28 +218,6 @@
     function updateChoiceCountElement() {
         choiceCountElement.innerText = getCheckedBoxCount().toString();
     }
-
-    plusBtnElements.forEach(function(plusBtn) {
-        plusBtn.addEventListener('click', function() {
-            let parentElement = plusBtn.parentElement;
-            let goodsCountElement = parentElement.querySelector('[id*="Count"]');
-            let goodsCount = parseInt(goodsCountElement.innerText);
-
-            goodsCountElement.innerText = (goodsCount + 1).toString();
-        });
-    });
-
-    minusBtnElements.forEach(function(minusBtn) {
-        minusBtn.addEventListener('click', function() {
-            let parentElement = minusBtn.parentElement;
-            let goodsCountElement = parentElement.querySelector('[id*="Count"]');
-            let goodsCount = parseInt(goodsCountElement.innerText);
-
-            if (goodsCount > 1) {
-                goodsCountElement.innerText = (goodsCount - 1).toString();
-            }
-        });
-    });
 
     cardCloseBtnElements.forEach(function(card) {
         card.addEventListener("click", function() {

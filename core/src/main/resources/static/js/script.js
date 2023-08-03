@@ -345,3 +345,53 @@ function connectItemDetails() {
         });
     }
 }
+
+function applyPlusBtnElements() {
+    plusBtnElements = document.querySelectorAll('[class*="ic_plus"]');
+    plusBtnElements.forEach(function(plusBtn) {
+        plusBtn.addEventListener('click', function() {
+            let parentElement = plusBtn.parentElement;
+            let goodsCountElement = parentElement.querySelector('[id*="goodsCount"]');
+            let goodsCount = parseInt(goodsCountElement.innerText);
+
+            goodsCountElement.innerText = (goodsCount + 1).toString();
+        });
+    });
+}
+
+function applyMinusBtnElements() {
+    minusBtnElements = document.querySelectorAll('[class*="ic_minus"]');
+    minusBtnElements.forEach(function(minusBtn) {
+        minusBtn.addEventListener('click', function() {
+            let parentElement = minusBtn.parentElement;
+            let goodsCountElement = parentElement.querySelector('[id*="goodsCount"]');
+            let goodsCount = parseInt(goodsCountElement.innerText);
+
+            if (goodsCount > 1) {
+                goodsCountElement.innerText = (goodsCount - 1).toString();
+            }
+        });
+    });
+}
+
+/***
+ * 상품을 위시리스트(좋아요)에 넣는다.
+ */
+function addWishList() {
+
+}
+
+/***
+ * 상품을 장바구니에 넣는다.
+ */
+function addCartList() {
+
+}
+
+/**
+ * 주문하기
+ */
+function orderGoodsList() {
+    // 결제 과정은 생략되어 있으므로, 재고가 있으면 주문이 완료 되었다로 간략화
+    // 0원 이라고 생각하자.
+}

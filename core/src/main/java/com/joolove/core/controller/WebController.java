@@ -148,6 +148,13 @@ public class WebController {
         return "cf_cart_page";
     }
 
+    // 위시리스트 페이지
+    @LoginState
+    @GetMapping("/wish")
+    public String wish(Model model) {
+        return "cf_wish_page";
+    }
+
     // 마이페이지
     @LoginState
     @GetMapping("/me")

@@ -4006,6 +4006,8 @@ input.login1-form::placeholder {
     align-items: flex-start;
     gap: 6px;
     padding: 2px;
+    border: 0;
+    background-color: white;
 }
 
 .ic_home_de_24px {
@@ -4678,7 +4680,7 @@ input.login1-form::placeholder {
     flex-grow: 0;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     padding: 0 20px 0 0;
     border: solid 1px #e6e6e6;
@@ -4686,7 +4688,6 @@ input.login1-form::placeholder {
 
 .wrap-product-details-bottom-ic {
     height: 24px;
-    flex-grow: 1;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -4696,7 +4697,7 @@ input.login1-form::placeholder {
 }
 
 .wrap-heart-counting {
-    width: 42px;
+    /*width: 42px;*/
     height: 24px;
     flex-grow: 0;
     display: flex;
@@ -4704,11 +4705,13 @@ input.login1-form::placeholder {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 4px;
-    padding: 0;
+    padding: 0px 10px 0px 0px;
+    border: 0;
+    background-color: white;
 }
 
 .heart-counting-label {
-    width: 14px;
+    /*width: 14px;*/
     height: 20px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -4730,7 +4733,7 @@ input.login1-form::placeholder {
 }
 
 .product-details-btn-order {
-    width: 198px;
+    width: 250px;
     height: 50px;
     flex-grow: 0;
     display: flex;

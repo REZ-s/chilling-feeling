@@ -63,10 +63,13 @@ public class Goods extends BaseTimeStamp {
     private List<FavoriteGoods> favoriteGoodsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<GoodsDiscount> goodsDiscounts = new ArrayList<>();
+    private List<CartGoods> cartGoodsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<OrdersGoods> ordersGoodsList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<GoodsDiscount> goodsDiscounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<GoodsRelatedKeyword> goodsRelatedKeywords = new ArrayList<>();
@@ -75,12 +78,16 @@ public class Goods extends BaseTimeStamp {
         this.favoriteGoodsList = favoriteGoodsList;
     }
 
-    public void setGoodsDiscounts(List<GoodsDiscount> goodsDiscounts) {
-        this.goodsDiscounts = goodsDiscounts;
+    public void setCartGoodsList(List<CartGoods> cartGoodsList) {
+        this.cartGoodsList = cartGoodsList;
     }
 
     public void setOrderGoodsList(List<OrdersGoods> ordersGoodsList) {
         this.ordersGoodsList = ordersGoodsList;
+    }
+
+    public void setGoodsDiscounts(List<GoodsDiscount> goodsDiscounts) {
+        this.goodsDiscounts = goodsDiscounts;
     }
 
     public void setGoodsRelatedKeywords(List<GoodsRelatedKeyword> goodsRelatedKeywords) {
