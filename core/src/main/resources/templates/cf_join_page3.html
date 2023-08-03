@@ -21,6 +21,7 @@
         /* For modal */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
+
         .modal {
             position: fixed;
             top: 50%;
@@ -29,13 +30,11 @@
             text-align: center;
         }
 
-        @media screen and (min-width: 768px) {
-            .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-            }
+        .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
         }
 
         .modal-dialog {
@@ -65,13 +64,6 @@
             gap: 30px;
             padding: 15px 0;
             background-color: #262626;
-        }
-
-        .Drag-handle-Stroke {
-            width: 48px;
-            height: 4px;
-            flex-grow: 0;
-            background-color: #616161;
         }
 
         .modal-agree-container {
@@ -107,13 +99,6 @@
             gap: 4px;
             padding: 0;
             border-radius: 3px;
-        }
-
-        .ic_check_24px {
-            width: 24px;
-            height: 24px;
-            flex-grow: 0;
-            object-fit: contain;
         }
 
         .ic_chevron_right_24px {
@@ -320,13 +305,14 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
+<!-- modal -->
 <div class="modal fade" id="ToS" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        <!-- modal content-->
         <div class="modal-content">
             <div class="modal-body modal-agree">
-                <div class="Drag-handle-Stroke"></div>
+                <div class="drag-handle-stroke"></div>
+
                 <div class="modal-agree-container">
                     <div class="modal-agree-container-agree-actions">
                         <div class="modal-entire-actions">
@@ -382,6 +368,8 @@
         </div>
     </div>
 </div>
+</body>
+
 <script th:inline="javascript">
     const myContainer = document.querySelector('#myContainer');
     const beforeForm = document.querySelector('#beforeForm');
@@ -622,8 +610,6 @@
         document.body.appendChild(form);
         form.submit();
     }
-
     /*]]>*/
 </script>
-</body>
 </html>

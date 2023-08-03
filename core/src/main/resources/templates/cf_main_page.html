@@ -6,13 +6,17 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
     <title> Chilling Feeling - Main </title>
+
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
+
     <style>
         /* For modal */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
@@ -25,13 +29,11 @@
             text-align: center;
         }
 
-        @media screen and (min-width: 768px) {
-            .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-            }
+        .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
         }
 
         .modal-dialog {
@@ -48,13 +50,6 @@
             text-align: center;
             border-radius: 10px;
             background-color: #262626;
-        }
-
-        .Drag-handle-Stroke {
-            width: 48px;
-            height: 4px;
-            flex-grow: 0;
-            background-color: #616161;
         }
 
         .modal-food {
@@ -587,13 +582,14 @@
         <section class="bottom" id="footer"></section>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="snacks" role="dialog">
+<!-- modal -->
+<div class="modal  fade" id="snacks" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        <!-- modal content-->
         <div class="modal-content">
             <div class="modal-food">
-                <div class="Drag-handle-Stroke"></div>
+                <div class="drag-handle-stroke"></div>
+
                 <div class="modal-best-seller-period-container">
                     <div class="modal-best-seller-period-title-icon">
                         <div class="modal-best-seller-period-title">안주 선택</div>
@@ -632,7 +628,7 @@
 </div>
 <div class="modal fade" id="period" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        <!-- modal content-->
         <div class="modal-content">
             <div class="modal-check">
                 <div class="Drag-handle-Stroke"></div>
@@ -657,6 +653,7 @@
         </div>
     </div>
 </div>
+</body>
 <script th:inline="javascript">
 
     createFooter('/');
@@ -814,5 +811,4 @@
         }
     }
 </script>
-</body>
 </html>
