@@ -1,8 +1,7 @@
 /***
  * Bottom Menu Container
- * @param path
  */
-function createFooter(path) {
+function createFooter() {
     const footerSection = document.getElementById("footer");
     const bottomHomeButtons = [
         {href: '/', label: '홈', iconSrc: '/images/ic_home_de_24px.png'},
@@ -12,7 +11,7 @@ function createFooter(path) {
     ];
 
     bottomHomeButtons.forEach(function(button) {
-        if (path === button.href) {
+        if (document.location.pathname === button.href || document.location.href === button.href) {
             button.iconSrc = button.iconSrc.replace('de', 'ac');
         }
     });
@@ -394,4 +393,8 @@ function addCartList() {
 function orderGoodsList() {
     // 결제 과정은 생략되어 있으므로, 재고가 있으면 주문이 완료 되었다로 간략화
     // 0원 이라고 생각하자.
+}
+
+function displayUsername(username) {
+    document.getElementById('username').innerText = username;
 }

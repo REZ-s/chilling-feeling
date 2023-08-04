@@ -3997,7 +3997,7 @@ input.login1-form::placeholder {
 }
 
 .wrap-back-home {
-    width: 58px;
+    /*width: 58px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -4018,7 +4018,7 @@ input.login1-form::placeholder {
 }
 
 .wrap-share-cart {
-    width: 58px;
+    /*width: 58px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -4635,7 +4635,7 @@ input.login1-form::placeholder {
 
 .product-episode {
     /*    height: 88px;*/
-    display: contents;
+    display: grid;
     align-self: stretch;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -4647,6 +4647,7 @@ input.login1-form::placeholder {
     letter-spacing: -0.28px;
     text-align: left;
     color: #4a4a4a;
+    padding-bottom: 30%;
 }
 
 .product-details-similar-product-list {
@@ -4676,13 +4677,11 @@ input.login1-form::placeholder {
 .product-details-bottom {
     /*width: 375px;*/
     height: 66px;
-    align-self: stretch;
-    flex-grow: 0;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    padding: 0 20px 0 0;
+    padding: 0;
     border: solid 1px #e6e6e6;
 }
 
@@ -5990,6 +5989,12 @@ input.login1-form::placeholder {
     letter-spacing: -0.44px;
     text-align: left;
     color: #fff;
+}
+
+.name-coloring {
+    font-weight: bold;
+    color: darkgoldenrod;
+
 }
 
 .my-account-setting {

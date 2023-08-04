@@ -295,7 +295,9 @@
             <div class="home-taste-prod">
                 <div class="home-taste-title-box">
                     <!-- 사용자의 닉네임이 들어가야한다. (닉네임 미정이면 기본값으로 이메일주소) -->
-                    <div class="home-taste-title">지은님을 위한 취향저격</div>
+                    <div class="home-taste-title">
+                        <b class="name-coloring" id="username">Guest</b>
+                         님을 위한 취향저격</div>
                     <div class="home-taste-subtitle">요즘 이런 스타일 좋아하시더라구요😊</div>
                 </div>
                 <div class="home-taste-prod-swiper-wrapper">
@@ -655,9 +657,11 @@
 </div>
 </body>
 <script th:inline="javascript">
+    const username = /*[[${username}]]*/ '';
 
-    createFooter('/');
+    createFooter();
     displayLoginState();
+    displayUsername(username);
 
     const loginSwitchCheckBox = document.getElementById("loginSwitch");
     const onOffLabel = document.querySelector(".on-off-btn");

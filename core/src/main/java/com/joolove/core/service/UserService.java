@@ -8,7 +8,10 @@ import com.joolove.core.dto.request.SignUpRequest;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.utils.PasswordUtils;
 import com.joolove.core.utils.RedisUtils;
+import com.joolove.core.utils.oauth2.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -136,5 +139,24 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public String getUsernameByAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return "Guest";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal == null) {
+            return "Guest";
+        }
+
+        String username = (String) principal;
+        if (username.equals("anonymousUser")) {
+            return "Guest";
+        }
+
+        return username;
     }
 }

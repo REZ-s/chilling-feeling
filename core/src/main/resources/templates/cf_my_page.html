@@ -19,22 +19,23 @@
     <!-- Header -->
     <div class="my-wrap-top-bar-keyword-setting">
         <div class="my-top-bar">
-            <a href="/ready">
-                <img src="/images/ic_setting_24px.png" class="ic_setting_24px">
-            </a>
+            <button class="wrap-back-home" style="background-color: #00232d;" onclick="history.back()">
+                <img src="/images/ic_back_24px.png" class="ic_back_24px">
+            </button>
 
             <div class="join1-header-content-text">마이페이지</div>
 
-            <a href="/cart">
-                <img src="/images/ic_shopping_bag_24px.png" class="ic_shopping_bag_main_24px">
-            </a>
+            <button class="ic_shopping_bag_main_24px" onclick="location.href='/cart'">
+                <img src="/images/ic_shopping_bag_24px.png">
+            </button>
         </div>
 
         <div class="my-keyword-setting">
             <div class="my-wrap-nickname">
                 <div class="my-nickname-intro">
-                    <b style="color: darkgoldenrod">익명의사용자</b> 님
-                    <br>반가워요 :)
+                    <b class="name-coloring" id="username">
+                        Guest
+                    </b> 님<br>반가워요 :)
                 </div>
                 <div class="my-account-setting">내 정보 관리</div>
             </div>
@@ -141,9 +142,10 @@
 
 </div>
 </body>
-<script>
+<script th:inline="javascript">
+    const username = /*[[${username}]]*/ '';
 
-    createFooter('/me');
-
+    createFooter();
+    displayUsername(username);
 </script>
 </html>

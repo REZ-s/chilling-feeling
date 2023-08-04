@@ -1,5 +1,6 @@
 package com.joolove.core.utils.aop;
 
+import com.joolove.core.utils.oauth2.UserPrincipal;
 import org.aopalliance.aop.AspectException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

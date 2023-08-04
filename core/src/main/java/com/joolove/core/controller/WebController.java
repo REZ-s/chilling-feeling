@@ -8,8 +8,11 @@ import com.joolove.core.service.UserService;
 import com.joolove.core.utils.RecommendationUtils;
 import com.joolove.core.utils.aop.LoginState;
 import com.joolove.core.utils.aop.LogoutState;
+import com.joolove.core.utils.oauth2.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,7 +30,8 @@ public class WebController {
 
     // 메인 페이지
     @GetMapping("/")
-    public String main() {
+    public String main(Model model) {
+        model.addAttribute("username", userService.getUsernameByAuthentication());
         return "cf_main_page";
     }
 
@@ -158,7 +162,8 @@ public class WebController {
     // 마이페이지
     @LoginState
     @GetMapping("/me")
-    public String me() {
+    public String me(Model model) {
+        model.addAttribute("username", userService.getUsernameByAuthentication());
         return "cf_my_page";
     }
 
