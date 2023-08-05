@@ -288,6 +288,7 @@
 </div>
 
 <script th:inline="javascript">
+    const username = /*[[${username}]]*/ '';
 
     // 감정 아이콘 선택시
     document.querySelectorAll('.btn-feeling-illust-label').forEach((button) => {
@@ -322,7 +323,7 @@
         }
 
         const feeling = activeBtn.querySelector('.feeling-label').textContent;
-        location.href = '/recommendation/daily/submit?feeling=' + feeling;
+        location.href = '/recommendation/daily/submit?username=' + username + '&feeling=' + feeling;
     });
 
 </script>

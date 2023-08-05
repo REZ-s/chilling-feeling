@@ -2,6 +2,7 @@ package com.joolove.core.controller;
 
 import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.dto.request.SignUpRequest;
+import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserService;
@@ -111,13 +112,15 @@ public class WebController {
     // 기본 취향 설정 페이지
     @LoginState
     @GetMapping("/recommendation/base")
-    public String recommendationBase() {
+    public String recommendationBase(Model model) {
+        model.addAttribute("username", userService.getUsernameByAuthentication());
         return "cf_recommendation_base_page";
     }
 
     @LoginState
     @GetMapping("/recommendation/base/submit")
-    public String recommendationBase2(Model model, @RequestParam("abvLimit") String abvLimit) {
+    public String recommendationBase2(Model model, @RequestParam("username") String username, @RequestParam("abvLimit") String abvLimit) {
+        model.addAttribute("username", username);
         model.addAttribute("abvLimit", abvLimit);
         return "cf_recommendation_base_page2";
     }
@@ -125,13 +128,14 @@ public class WebController {
     // 오늘의 추천 페이지
     @LoginState
     @GetMapping("/recommendation/daily")
-    public String recommendationDaily() {
+    public String recommendationDaily(Model model) {
+        model.addAttribute("username", userService.getUsernameByAuthentication());
         return "cf_recommendation_daily_page";
     }
 
     @LoginState
     @GetMapping("/recommendation/daily/submit")
-    public String recommendationDaily2(String username, @RequestParam String feeling) {
+    public String recommendationDaily2(@RequestParam("username") String username, @RequestParam("feeling") String feeling) {
         boolean isPassed = recommendationUtils.setUserRecommendationDaily(
                 UserRecommendationDailyRequest.builder()
                         .username(username)

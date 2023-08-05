@@ -106,11 +106,13 @@
 
 <script th:inline="javascript">
 
+    const username = /*[[${username}]]*/ '';
+    let abvLimit = /*[[${abvLimit}]]*/ 100;
+
     const buttons = document.querySelectorAll("#b1, #b2, #b3, #b4, #b5, #b6, #b7, #b8, #b9");
     const nextBtn = document.getElementById("nextBtn");
 
     let activeLabels = []; // 라벨을 저장할 배열
-    let abvLimit = /*[[${abvLimit}]]*/ 100;
 
     buttons.forEach(function(button) {
         button.addEventListener("click", function(e) {
@@ -118,22 +120,19 @@
         });
     });
 
-    nextBtn.addEventListener("click", function(e) {
-        activeLabels.length = 0;
-
-        buttons.forEach(function(button) {
+    nextBtn.addEventListener("click", async function () {
+        buttons.forEach(function (button) {
             if (button.classList.contains("active")) {
                 const label = button.getElementsByClassName("keyword-label")[0].innerHTML.substring(1);
                 activeLabels.push(label);
             }
         });
 
-        // 3개 이상 선택했는지 확인
         if (activeLabels.length < 3) {
             alert("3개 이상의 키워드를 선택해주세요.");
         } else {
-            // 선택한 취향 목록을 서버로 전송
-            createCode();
+            location.href = await createCode();
+
             async function createCode() {
                 try {
                     const response = await fetch('/api/v1/recommendation/base', {
@@ -142,17 +141,17 @@
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            username: null,
+                            username: username.toString(),
                             abvLimit: abvLimit.toString(),
-                            activeLabels: activeLabels
+                            preferredCategory: Array.from(activeLabels)
                         }),
                     });
 
                     if (response.ok) {
                         if (response.redirected) {
-                            location.href = "/login";
+                            return "/login";
                         } else {
-                            return await response.text();
+                            return "/";
                         }
                     }
                     throw response;

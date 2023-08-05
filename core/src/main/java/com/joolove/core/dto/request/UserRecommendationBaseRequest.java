@@ -20,7 +20,7 @@ public class UserRecommendationBaseRequest {
     private List<String> preferredCategory;
 
     @Builder
-    public UserRecommendationBaseRequest(String username, String abvLimit, List<String>  preferredCategory) {
+    public UserRecommendationBaseRequest(String username, String abvLimit, List<String> preferredCategory) {
         this.username = username;
         this.abvLimit = abvLimit;
         this.preferredCategory = preferredCategory;

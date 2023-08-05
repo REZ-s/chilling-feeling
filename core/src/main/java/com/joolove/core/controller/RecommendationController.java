@@ -25,13 +25,13 @@ public class RecommendationController {
 
     @PostMapping("/api/v1/recommendation/base")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendationBase(@AuthenticationPrincipal String username,
-                                                        @Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
+    public ResponseEntity<Object> setRecommendationBase(@Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
+        String username = userRecommendationBaseRequest.getUsername();
+
         if (username == null || username.equals("anonymousUser")) {
             return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
         }
 
-        userRecommendationBaseRequest.setUsername(username);
         if (recommendationUtils.setUserRecommendationBase(userRecommendationBaseRequest)) {
             return ResponseEntity.ok().build();
         }
@@ -41,13 +41,13 @@ public class RecommendationController {
 
     @PostMapping("/api/v1/recommendation/daily")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendationDaily(@AuthenticationPrincipal String username,
-                                                         @Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
+    public ResponseEntity<Object> setRecommendationDaily(@Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
+        String username = userRecommendationDailyRequest.getUsername();
+
         if (username == null || username.equals("anonymousUser")) {
             return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
         }
 
-        userRecommendationDailyRequest.setUsername(username);
         if (recommendationUtils.setUserRecommendationDaily(userRecommendationDailyRequest)) {
             return ResponseEntity.ok().build();
         }

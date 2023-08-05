@@ -91,6 +91,7 @@
 
 <script th:inline="javascript">
 
+    const username = /*[[${username}]]*/ '';
     const buttons = document.querySelectorAll("#b1, #b2, #b3, #b4");
     const nextBtn = document.getElementById("nextBtn");
 
@@ -117,7 +118,7 @@
         }
 
         const abvLimit = activeButton.querySelector(".capacity-degree").innerText;
-        location.href = "/recommendation/base/submit?abvLimit=" + abvLimit;
+        location.href = "/recommendation/base/submit?username=" + username + "&abvLimit=" + abvLimit;
     });
 
 </script>

@@ -56,16 +56,28 @@ public class Category extends BaseTimeStamp {
         this.children = children;
     }
 
+    @Getter
     public enum ECategory {
-        WINE,               // 와인
-        WHISKY,             // 위스키
-        COCKTAIL,           // 칵테일
-        TRADITIONAL_LIQUOR, // 전통주
-        NON_ALCOHOL,        // 논알콜
-        MEAT,               // 육류
-        SEAFOOD,            // 해산물
-        BRAND_NEW,          // 신상품
-        BEST_SELLER,        // 인기상품
-        ALL
+        WINE("와인"),                 // 와인
+        WHISKY("위스키"),             // 위스키
+        COCKTAIL("칵테일"),           // 칵테일
+        TRADITIONAL_LIQUOR("전통주"), // 전통주
+        NON_ALCOHOL("논알콜"),        // 논알콜
+        MEAT("육류"),                 // 육류
+        SEAFOOD("해산물"),            // 해산물
+        NEW("신상품"),                 // 신상품
+        HOT("인기상품"),                 // 인기상품
+        BEST("최고상품"),               // 많이팔린
+        ALL("전체");                  // 전체
+
+        private String displayName;
+
+        ECategory(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 }

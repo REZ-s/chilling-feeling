@@ -102,7 +102,7 @@
 
     function displayRecommendationGoodsList() {
         recommendProductList.innerHTML = "";
-        for (let i = 0; i < recommendProductListLength; i++) {
+        for (let i = 0; i < Math.min(goodsViewList.length, recommendProductListLength); i++) {
             recommendProductList.appendChild(createFormRecommendProductCard(goodsViewList[goodsViewListIndex]));
             goodsViewListIndex = (goodsViewListIndex + 1) % goodsViewList.length;
         }
@@ -110,12 +110,12 @@
 
     async function getRecommendationDaily() {
         try {
-            const response = await fetch("/api/v1/recommendation/daily");
+            const response = await fetch('/api/v1/recommendation/daily');
+
             if (response.ok) {
                 return goodsViewList = await response.json();
-            } else {
-                throw new Error("Error: " + response.status);
             }
+            throw response;
         } catch (error) {
             console.log("ERROR: " + error.message);
         }

@@ -5182,7 +5182,7 @@ input.login1-form::placeholder {
 }
 
 .recommend-today2-container {
-    height: 505px;
+    /*height: 505px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -5194,7 +5194,7 @@ input.login1-form::placeholder {
 }
 
 .recommend-today2-title-subtitle {
-    height: 65px;
+    /*height: 65px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -5233,7 +5233,7 @@ input.login1-form::placeholder {
 }
 
 .wrap-recommend-today-product-card {
-    height: 400px;
+    /*height: 400px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;

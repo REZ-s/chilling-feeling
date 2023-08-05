@@ -31,7 +31,7 @@ public class UserRecommendationBase extends BaseTimeStamp {
     private String abvLimit;     // 알콜 도수 제한 (0 ~ 100)
 
     @NotNull
-    private String preferredCategories;   // 선호하는 카테고리. List<ECategory> -> List<String> -> String
+    private String preferredCategories;   // 선호하는 카테고리 (comma separated string)
 
     @Builder
     public UserRecommendationBase(UUID id, User user, String abvLimit, String preferredCategories) {

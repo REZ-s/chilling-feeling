@@ -60,42 +60,45 @@ public class GoodsService {
     }
 
     // 사용자별 추천 리스트
-    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabel, UserRecommendationBase.EFigure sweetness, List<String> goodsNameList) {
+    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabels, UserRecommendationBase.EFigure feeling, List<String> goodsNameList) {
         int defaultPage = 0;
         int defaultSize = 10;
         Pageable pagingInfo = PageRequest.of(defaultPage, defaultSize);
 
-        if (sweetness == UserRecommendationBase.EFigure.HIGH) {
+        // opt5Value == sweetness. 예) feeling high -> so sweet
+        if (feeling == UserRecommendationBase.EFigure.HIGH) {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.DESC, "opt5Value"));
-        } else if (sweetness == UserRecommendationBase.EFigure.LOW) {
+        } else if (feeling == UserRecommendationBase.EFigure.LOW) {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.ASC, "opt5Value"));
         }
 
-        List<IGoodsView> iGoodsViewList;
-        String typeOrLabelStr = null;
-        if (typeOrLabel != null && !typeOrLabel.isEmpty()) {
-            typeOrLabelStr = "'" + String.join("','", typeOrLabel) + "'";    // 예) '위스키','와인','베스트'
-        }
+        List<IGoodsView> iGoodsViewList = null;
 
-        /*
-        MySQL 에서는 in like 를 동시에 사용할 수 없다.
-        따라서 아래 예처럼 검색하고 싶으면 FTS 등 다른 방식을 고려해야한다.
-        예) '%위스키%','%와인%','%베스트%'
-        */
-
-        if (goodsNameList == null || goodsNameList.isEmpty()) {
-            if (StringUtils.isBlank(typeOrLabelStr)) {
+        if (goodsNameList == null || goodsNameList.size() == 0) {
+            if (typeOrLabels == null || typeOrLabels.size() == 0) {
                 iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, pagingInfo);
             } else {
-                iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabelStr, pagingInfo);
+                for (String keyword : typeOrLabels) {
+                    if (iGoodsViewList == null) {
+                        iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, keyword, pagingInfo);
+                        continue;
+                    }
+                    iGoodsViewList.addAll(goodsRepository.findRecommendationGoodsList(abvLimit, keyword, pagingInfo));
+                }
             }
         } else {
             String goodsName = String.join(" ", goodsNameList);     // 예) '짐빔 그라몰랑 세이비어'
 
-            if (StringUtils.isBlank(typeOrLabelStr)) {
+            if (typeOrLabels == null || typeOrLabels.size() == 0) {
                 iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, goodsName, pagingInfo);
             } else {
-                iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabelStr, goodsName, pagingInfo);
+                for (String keyword : typeOrLabels) {
+                    if (iGoodsViewList == null) {
+                        iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, keyword, goodsName, pagingInfo);
+                        continue;
+                    }
+                    iGoodsViewList.addAll(goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, keyword, goodsName, pagingInfo));
+                }
             }
         }
 

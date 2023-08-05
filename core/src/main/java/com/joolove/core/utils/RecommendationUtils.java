@@ -73,11 +73,12 @@ public class RecommendationUtils {
             case NON_ALCOHOL -> "논알콜";  // GoodsDetails type
             case WHISKY -> "위스키";       // GoodsDetails type
             case COCKTAIL -> "칵테일";     // GoodsDetails type
-            case TRADITIONAL_LIQUOR -> "전통주";   // GoodsDetails type
-            case MEAT -> "레드와인";                // GoodsDetails type
+            case TRADITIONAL_LIQUOR -> "전통주";    // GoodsDetails type
+            case MEAT -> "레드와인";                 // GoodsDetails type
             case SEAFOOD -> "화이트와인";            // GoodsDetails type
-            case BRAND_NEW -> "신상품";    // GoodsStats label
-            case BEST_SELLER -> "베스트";  // GoodsStats label
+            case NEW -> "NEW";      // GoodsStats label
+            case BEST -> "BEST";    // GoodsStats label
+            case HOT -> "HOT";      // GoodsStats label
             default -> "전체";    // GoodsDetails type
         };
     }
@@ -266,26 +267,27 @@ public class RecommendationUtils {
     private Category.ECategory getECategory(String pcString) {
         Category.ECategory ePreferredCategory = Category.ECategory.ALL;
 
-        if (Category.ECategory.valueOf(pcString) == Category.ECategory.NON_ALCOHOL) {
-            ePreferredCategory = Category.ECategory.NON_ALCOHOL;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.WINE) {
+        if (pcString.equals(Category.ECategory.WINE.getDisplayName())) {
             ePreferredCategory = Category.ECategory.WINE;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.WHISKY) {
+        } else if (pcString.equals(Category.ECategory.WHISKY.getDisplayName())) {
             ePreferredCategory = Category.ECategory.WHISKY;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.TRADITIONAL_LIQUOR) {
+        } else if (pcString.equals(Category.ECategory.TRADITIONAL_LIQUOR.getDisplayName())) {
             ePreferredCategory = Category.ECategory.TRADITIONAL_LIQUOR;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.COCKTAIL) {
+        } else if (pcString.equals(Category.ECategory.COCKTAIL.getDisplayName())) {
             ePreferredCategory = Category.ECategory.COCKTAIL;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.MEAT) {
+        } else if (pcString.equals(Category.ECategory.NON_ALCOHOL.getDisplayName())) {
+            ePreferredCategory = Category.ECategory.NON_ALCOHOL;
+        } else if (pcString.equals(Category.ECategory.MEAT.getDisplayName())) {
             ePreferredCategory = Category.ECategory.MEAT;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.SEAFOOD) {
+        } else if (pcString.equals(Category.ECategory.SEAFOOD.getDisplayName())) {
             ePreferredCategory = Category.ECategory.SEAFOOD;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.BRAND_NEW) {
-            ePreferredCategory = Category.ECategory.BRAND_NEW;
-        } else if (Category.ECategory.valueOf(pcString) == Category.ECategory.BEST_SELLER) {
-            ePreferredCategory = Category.ECategory.BEST_SELLER;
+        } else if (pcString.equals(Category.ECategory.NEW.getDisplayName())) {
+            ePreferredCategory = Category.ECategory.NEW;
+        } else if (pcString.equals(Category.ECategory.BEST.getDisplayName())) {
+            ePreferredCategory = Category.ECategory.BEST;
+        } else if (pcString.equals(Category.ECategory.HOT.getDisplayName())) {
+            ePreferredCategory = Category.ECategory.HOT;
         }
-
         return ePreferredCategory;
     }
 
