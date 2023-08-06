@@ -300,48 +300,50 @@
                          님을 위한 취향저격</div>
                     <div class="home-taste-subtitle">요즘 이런 스타일 좋아하시더라구요😊</div>
                 </div>
-                <div class="home-taste-prod-swiper-wrapper">
+                <div class="home-taste-prod-swiper-wrapper" id="productCards">
+                    <div class="product-cards-inner">
                     <!-- Items -->
-                    <div class="wrap-product-card01">
-                        <!-- 2개까지 노출하고 옆에 살짝 보이도록 (swipe 가능) -->
-                        <div class="product-card01">
-                            <div class="product-list01-photo-container">
-                                <div class="photo-container-wrap-img">
-                                    <img src="/images/item-rep01.png" class="recommend-image01">
-                                </div>
-                                <button class="ic_heart_24px btn-heart">
-                                    <img src="/images/ic_heart_24px.png">
-                                </button>
-                            </div>
-                            <div class="product-list01-product-info">
-                                <div class="product-list01-product-name">
-                                    <div class="product-list01-product-name-type">위스키</div>
-                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
-                                </div>
-                                <!--                                <div class="product-list01-price">
-                                                                    <div class="product-list01-price-original-price">40,680</div>
-                                                                    <div class="product-list01-price-sale">
-                                                                        <div class="discount-rate">21%</div>
-                                                                        <div class="discounted-price">32,000원</div>
-                                                                    </div>
-                                                                </div>-->
-                                <div class="product-list01-caption">
-                                    <div class="star-score-review">
-                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
-                                        <div class="score">
-                                            <div class="star-rating">4.9</div>
-                                            <div class="reviews">(237)</div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap-chip">
-                                        <div class="product-chip">
-                                            <div class="chip-label">가성비</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- 2개까지 노출하고 옆에 살짝 보이도록 (swipe 가능) -->
+<!--                    <div class="wrap-product-card01">-->
+<!--                        <div class="product-card01">-->
+<!--                            <div class="product-list01-photo-container">-->
+<!--                                <div class="photo-container-wrap-img">-->
+<!--                                    <img src="/images/item-rep01.png" class="recommend-image01">-->
+<!--                                </div>-->
+<!--                                <button class="ic_heart_24px btn-heart">-->
+<!--                                    <img src="/images/ic_heart_24px.png">-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                            <div class="product-list01-product-info">-->
+<!--                                <div class="product-list01-product-name">-->
+<!--                                    <div class="product-list01-product-name-type">위스키</div>-->
+<!--                                    <div class="product-list01-product-name-name">짐빔 화이트</div>-->
+<!--                                </div>-->
+<!--                                <div class="product-list01-price">-->
+<!--                                    <div class="product-list01-price-original-price">40,680</div>-->
+<!--                                    <div class="product-list01-price-sale">-->
+<!--                                        <div class="discount-rate">21%</div>-->
+<!--                                        <div class="discounted-price">32,000원</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="product-list01-caption">-->
+<!--                                    <div class="star-score-review">-->
+<!--                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">-->
+<!--                                        <div class="score">-->
+<!--                                            <div class="star-rating">4.9</div>-->
+<!--                                            <div class="reviews">(237)</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="wrap-chip">-->
+<!--                                        <div class="product-chip">-->
+<!--                                            <div class="chip-label">가성비</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                         </div>
-                    </div>
                 </div>
             </div>
             <div class="home-food-prod">
@@ -658,14 +660,15 @@
 </body>
 <script th:inline="javascript">
     const username = /*[[${username}]]*/ '';
+    let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
 
-    createFooter();
-    displayLoginState();
-    displayUsername(username);
+    let productsFrame = document.getElementById("productCards");
+    let innerSlider = document.querySelector(".product-cards-inner")
+    let pressed = false;
+    let startX, nowX;
 
     const loginSwitchCheckBox = document.getElementById("loginSwitch");
     const onOffLabel = document.querySelector(".on-off-btn");
-
     const dateDropDown = document.getElementById('dropDownDate');
     const foodDropDown = document.getElementById('dropDownFood');
     const periodModal = document.getElementById('period');
@@ -682,6 +685,12 @@
         const label = button.children[0];
         return {button, label, index: index + 1};
     });
+
+    createFooter();
+    displayUsername(username);
+    displayLoginState();
+    displayItemList(innerSlider, goodsViewList);
+    setSwiperSlide(productsFrame, innerSlider);
 
     async function displayLoginState() {
         const userLoginState = await checkUserLoginState();

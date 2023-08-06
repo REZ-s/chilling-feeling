@@ -33,6 +33,7 @@ public class WebController {
     @GetMapping("/")
     public String main(Model model) {
         model.addAttribute("username", userService.getUsernameByAuthentication());
+        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_main_page";
     }
 
@@ -150,8 +151,6 @@ public class WebController {
     @LoginState
     @GetMapping("/cart")
     public String cart(Model model) {
-        // 사용자 이름으로 장바구니에 있는 상품만 조회해야한다.
-
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         return "cf_cart_page";
     }
@@ -160,6 +159,7 @@ public class WebController {
     @LoginState
     @GetMapping("/wish")
     public String wish(Model model) {
+
         return "cf_wish_page";
     }
 

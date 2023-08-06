@@ -44,7 +44,7 @@ function createFooter() {
  * Item List Container Using Category, Search
  * @param parentElement
  */
-function createItemList(parentElement, products) {
+function createItemListForCategory(parentElement, products) {
     if (parentElement == null) {
         return;
     }
@@ -101,6 +101,18 @@ function createItemList(parentElement, products) {
     wrapCountingRange.appendChild(wrapRangeChevron);
     wrapCategoryContainer.appendChild(wrapCountingRange);
 
+    createItemList(wrapCategoryContainer, products);
+
+    parentElement.appendChild(wrapCategoryContainer);
+
+    const wrapCountingRangeEmpty = document.createElement("div");
+    wrapCountingRangeEmpty.className = "wrap-counting-range";
+    wrapCountingRangeEmpty.id = "surplusEmptySpace";
+
+    parentElement.appendChild(wrapCountingRangeEmpty);
+}
+
+function createItemList(parentElement, products) {
     const wrapCategoryProductList = document.createElement("div");
     wrapCategoryProductList.setAttribute("class", "wrap-category-product-list");
 
@@ -116,15 +128,7 @@ function createItemList(parentElement, products) {
         wrapCategoryProductList.appendChild(wrapHorizontality);
     }
 
-    wrapCategoryContainer.appendChild(wrapCategoryProductList);
-
-    parentElement.appendChild(wrapCategoryContainer);
-
-    const wrapCountingRangeEmpty = document.createElement("div");
-    wrapCountingRangeEmpty.className = "wrap-counting-range";
-    wrapCountingRangeEmpty.id = "surplusEmptySpace";
-
-    parentElement.appendChild(wrapCountingRangeEmpty);
+    parentElement.appendChild(wrapCategoryProductList);
 }
 
 /***
@@ -245,7 +249,7 @@ function createItemCard01(parentElement, product) {
  * No Item Container Using Category, Search
  * @param parentElement
  */
-function createEmptyItemList(parentElement) {
+function createEmptyItemListForCategory(parentElement) {
     if (parentElement == null) {
         return;
     }
@@ -286,7 +290,7 @@ function createEmptyItemList(parentElement) {
 
 /***
  * Display Item List Container (main)
- * arguments = { parentElement, goodsViewList, type }
+ * arguments = { parentElement, goodsViewList, type : optional }
  */
 function displayItemList() {
     if (arguments.length < 2) {
@@ -296,15 +300,31 @@ function displayItemList() {
     const parentElement = arguments[0];
     const goodsViewList = arguments[1];
 
+    const products = getProducts(goodsViewList);
+    for (let i = 0; i < goodsViewList.length; i++) {
+        createItemCard01(parentElement, products[i]);
+    }
+
+    connectItemDetails();
+}
+
+function displayItemListForCategory() {
+    if (arguments.length < 2) {
+        return;
+    }
+
+    const parentElement = arguments[0];
+    const goodsViewList = arguments[1];
+
     if (arguments.length === 2) {
-        createBaseItemList(parentElement, getProducts(goodsViewList));
+        createBaseItemListForCategory(parentElement, getProducts(goodsViewList));
     } else if (arguments.length === 3) {
         const type = arguments[2];
 
         if (type === "전체" || type === "All" || type === "all" || type === "ALL") {
-            createBaseItemList(parentElement, getProducts(goodsViewList));
+            createBaseItemListForCategory(parentElement, getProducts(goodsViewList));
         } else {
-            createBaseItemList(parentElement, getProductsByType(goodsViewList, type));
+            createBaseItemListForCategory(parentElement, getProductsByType(goodsViewList, type));
         }
     }
 
@@ -327,11 +347,11 @@ function getProductsByType(goodsViewList, type) {
     return products;
 }
 
-function createBaseItemList(parentElement, products) {
+function createBaseItemListForCategory(parentElement, products) {
     if (products == null || products.length === 0) {
-        createEmptyItemList(parentElement);
+        createEmptyItemListForCategory(parentElement);
     } else {
-        createItemList(parentElement, products);
+        createItemListForCategory(parentElement, products);
     }
 }
 
@@ -397,4 +417,211 @@ function orderGoodsList() {
 
 function displayUsername(username) {
     document.getElementById('username').innerText = username;
+}
+
+async function displayUserCategories() {
+    const categories = await getUserCategories();
+    const keywords = categories.split(',');
+    const wrapContainer = document.getElementById('keywords');
+
+    for (let i = 0; i < Math.min(3, keywords.length); i++) {
+        const keywordDiv = document.createElement('div');
+        keywordDiv.classList.add('my-taste-keywords');
+        const illustDiv = document.createElement('div');
+        illustDiv.classList.add('my-taste-keyword-illust');
+        const illustImg = document.createElement('img');
+        illustImg.classList.add('illust_keyword_img');
+        illustImg.src = getKeywordImage(keywords[i]);
+        const labelDiv = document.createElement('div');
+        labelDiv.classList.add('my-taste-keyword-label');
+        labelDiv.innerText = keywords[i];
+
+        illustDiv.appendChild(illustImg);
+        keywordDiv.appendChild(illustDiv);
+        keywordDiv.appendChild(labelDiv);
+
+        wrapContainer.appendChild(keywordDiv);
+    }
+}
+
+async function displayUserFeeling() {
+    const userFeeling = await getUserFeeling();
+    const wrapContainer = document.getElementById('keywords');
+
+    const keywordDiv = document.createElement('div');
+    keywordDiv.classList.add('my-taste-keywords');
+    const illustDiv = document.createElement('div');
+    illustDiv.classList.add('my-taste-keyword-illust');
+    const illustImg = document.createElement('img');
+    illustImg.classList.add('illust_keyword_img');
+    illustImg.src = getKeywordImage(userFeeling);
+    const labelDiv = document.createElement('div');
+    labelDiv.classList.add('my-taste-keyword-label');
+    labelDiv.innerText = getKeywordText(userFeeling);
+
+    illustDiv.appendChild(illustImg);
+    keywordDiv.appendChild(illustDiv);
+    keywordDiv.appendChild(labelDiv);
+
+    wrapContainer.appendChild(keywordDiv);
+}
+
+function getKeywordText(keyword) {
+    let text = '잘모르겠어요';
+
+    if (keyword === 'SMILE') {
+        text = '즐거워요';
+    } else if (keyword === 'HAPPY') {
+        text = '기뻐요';
+    } else if (keyword === 'SAD') {
+        text = '슬퍼요';
+    } else if (keyword === 'ANGRY') {
+        text = '화나요';
+    } else if (keyword === 'BLANK') {
+        text = '잘모르겠어요';
+    }
+
+    return text;
+}
+
+function getKeywordImage(keyword) {
+    let imgUrl = '/images/illust_face_feeling_normal_green.png';
+
+    if (keyword === '와인') {
+        imgUrl = '/images/illust_keyword_wine.png';
+    } else if (keyword === '위스키') {
+        imgUrl = '/images/illust_keyword_whisky.png';
+    } else if (keyword === '칵테일') {
+        imgUrl = '/images/illust_keyword_cocktail.png';
+    } else if (keyword === '전통주') {
+        imgUrl = '/images/illust_keyword_traditional.png';
+    } else if (keyword === '육류') {
+        imgUrl = '/images/illust_keyword_steak.png';
+    } else if (keyword === '해산물') {
+        imgUrl = '/images/illust_keyword_fish.png';
+    } else if (keyword === '디저트') {
+        imgUrl = '/images/illust_keyword_dessert.png';
+    } else if (keyword === '인기상품') {
+        imgUrl = '/images/illust_keyword_heart.png';
+    } else if (keyword === '신상품') {
+        imgUrl = '/images/illust_keyword_new.png';
+    } else if (keyword === '최고상품') {
+        imgUrl = '/images/illust_keyword_best.png';
+    } else if (keyword === 'SMILE') {
+        imgUrl = '/images/illust_face_feeling_fun_green.png';
+    } else if (keyword === 'HAPPY') {
+        imgUrl = '/images/illust_face_feeling_happy_orange.png';
+    } else if (keyword === 'SAD') {
+        imgUrl = '/images/illust_face_feeling_sad_blue.png';
+    } else if (keyword === 'ANGRY') {
+        imgUrl = '/images/illust_face_feeling_angry_red.png';
+    } else if (keyword === 'BLANK') {
+        imgUrl = '/images/illust_face_feeling_normal_green.png';
+    }
+
+    return imgUrl;
+}
+
+async function getUserCategories() {
+    try {
+        const response = await fetch('/api/v1/recommendation/base/keyword');
+        if (response.ok) {
+            return await response.text();
+        }
+        throw response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+async function getUserFeeling() {
+    try {
+        const response = await fetch('/api/v1/recommendation/daily/feeling');
+        if (response.ok) {
+            return await response.text();
+        }
+        throw response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
+ * Swiper Slide (need global variable 'startX', 'nowX', 'pressed')
+ * To use : 'startX', 'nowX', 'pressed' declaration in script
+ * @param productsFrame
+ * @param innerSlider
+ */
+function setSwiperSlide(productsFrame, innerSlider) {
+    updateGridTemplateColumns(innerSlider);
+
+    /* PC Swipe (Mouse Drag) */
+    productsFrame.addEventListener("mousedown", (e) => {
+        pressed = true;
+        startX = e.offsetX - innerSlider.offsetLeft;
+        productsFrame.style.cursor = "grabbing";
+    });
+
+    productsFrame.addEventListener("mouseenter", () => {
+        productsFrame.style.cursor = "grab";
+    });
+
+    productsFrame.addEventListener("mouseup", () => {
+        productsFrame.style.cursor = "grab";
+    });
+
+    productsFrame.addEventListener("mousemove", (e) => {
+        if (!pressed) {
+            return;
+        }
+
+        e.preventDefault();
+        nowX = e.offsetX;
+
+        innerSlider.style.left = `${nowX - startX}px`;
+        checkBoundary();
+    });
+
+    window.addEventListener("mouseup", () => {
+        pressed = false;
+    });
+
+    /* Mobile Swipe */
+    productsFrame.addEventListener("touchstart", (e) => {
+        pressed = true;
+        startX = e.touches[0].clientX - innerSlider.offsetLeft;
+    });
+
+    productsFrame.addEventListener("touchend", () => {
+        pressed = false;
+    });
+
+    productsFrame.addEventListener("touchmove", (e) => {
+        if (!pressed) {
+            return;
+        }
+
+        e.preventDefault();
+        nowX = e.touches[0].clientX;
+
+        innerSlider.style.left = `${nowX - startX}px`;
+        checkBoundary();
+    });
+
+    function checkBoundary() {
+        let outer = productsFrame.getBoundingClientRect();
+        let inner = innerSlider.getBoundingClientRect();
+
+        if (parseInt(innerSlider.style.left) > 0) {
+            innerSlider.style.left = "0px";
+        } else if (inner.right < outer.right) {
+            innerSlider.style.left = `-${inner.width - outer.width}px`;
+        }
+    }
+
+    function updateGridTemplateColumns(innerSlider) {
+        const childCount = innerSlider.childElementCount;
+        innerSlider.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
+    }
 }

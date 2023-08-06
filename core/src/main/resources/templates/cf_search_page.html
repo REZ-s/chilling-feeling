@@ -305,15 +305,14 @@
 <script th:inline="javascript">
     createFooter('/category');
 
+    let beforeContent = document.getElementById('simplyBestSearch');
+    let afterContent = document.getElementById('extendedBestSearch');
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
-    let productsFrame = document.querySelector("#productCards");
+    let productsFrame = document.getElementById("productCards");
     let innerSlider = document.querySelector(".product-cards-inner")
     let pressed = false;
     let startX, nowX;
-
-    let beforeContent = document.getElementById('simplyBestSearch');
-    let afterContent = document.getElementById('extendedBestSearch');
 
     /** 함수 호출 순서
     * (1) 서버에서 인기 상품 리스트를 가져와 폼을 동적으로 만든다.
@@ -326,7 +325,7 @@
             createItemCard01(innerSlider, product);
         });
 
-        updateGridTemplateColumns();
+        setSwiperSlide(productsFrame, innerSlider);
 
         createFormBestSearchedKeywordHead(beforeContent, getBestSearchedKeyWord());
         createFormBestSearchedKeywordList(afterContent, getBestSearchedKeyWordList());
@@ -337,6 +336,7 @@
         beforeContent.style.display = 'none';
         afterContent.style.display = 'flex';
     });
+
     document.getElementById('toggleBtnAfter').addEventListener('click', function(e) {
         e.preventDefault();
         afterContent.style.display = 'none';
@@ -375,70 +375,6 @@
         collectedProducts.push(product3);
 
         return collectedProducts;
-    }
-
-    function updateGridTemplateColumns() {
-        const innerElement = document.querySelector(".product-cards-inner");
-        const childCount = innerElement.childElementCount;
-        innerElement.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
-    }
-
-    /* PC Drag */
-    productsFrame.addEventListener("mousedown", (e) => {
-        pressed = true;
-        startX = e.offsetX - innerSlider.offsetLeft;
-        productsFrame.style.cursor = "grabbing";
-    });
-    productsFrame.addEventListener("mouseenter", () => {
-        productsFrame.style.cursor = "grab";
-    });
-    productsFrame.addEventListener("mouseup", (e) => {
-        productsFrame.style.cursor = "grab";
-    });
-    productsFrame.addEventListener("mousemove", (e) => {
-        if (!pressed) {
-            return;
-        }
-
-        e.preventDefault();
-        nowX = e.offsetX;
-
-        innerSlider.style.left = `${nowX - startX}px`;
-        checkBoundary();
-    });
-    window.addEventListener("mouseup", () => {
-        pressed = false;
-    });
-
-    /* Mobile Swipe */
-    productsFrame.addEventListener("touchstart", (e) => {
-        pressed = true;
-        startX = e.touches[0].clientX - innerSlider.offsetLeft;
-    });
-    productsFrame.addEventListener("touchend", () => {
-        pressed = false;
-    });
-    productsFrame.addEventListener("touchmove", (e) => {
-        if (!pressed) {
-            return;
-        }
-
-        e.preventDefault();
-        nowX = e.touches[0].clientX;
-
-        innerSlider.style.left = `${nowX - startX}px`;
-        checkBoundary();
-    });
-
-    function checkBoundary() {
-        let outer = productsFrame.getBoundingClientRect();
-        let inner = innerSlider.getBoundingClientRect();
-
-        if (parseInt(innerSlider.style.left) > 0) {
-            innerSlider.style.left = "0px";
-        } else if (inner.right < outer.right) {
-            innerSlider.style.left = `-${inner.width - outer.width}px`;
-        }
     }
 
     function getBestSearchedKeyWord() {
@@ -723,6 +659,7 @@
             findSearchWord();
         }
     });
+
     searchButton.addEventListener('click', function() {
         findSearchWord();
     });

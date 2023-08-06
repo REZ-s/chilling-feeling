@@ -51,11 +51,22 @@ public class UserRecommendationDaily extends BaseTimeStamp {
         this.feeling = feeling;
     }
 
+    @Getter
     public enum EEmotion {
-        SMILE,  // "즐거워요"
-        HAPPY,  // "기뻐요"
-        SAD,    // "슬퍼요"
-        ANGRY,  // "화나요"
-        BLANK   // 그 외
+        SMILE("즐거워요"),  // "즐거워요"
+        HAPPY("기뻐요"),  // "기뻐요"
+        SAD("슬퍼요"),    // "슬퍼요"
+        ANGRY("화나요"),  // "화나요"
+        BLANK("모르겠어요");   // 그 외
+
+        private String displayName;
+
+        EEmotion(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 }

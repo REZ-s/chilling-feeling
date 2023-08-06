@@ -48,4 +48,5 @@ public class UserRecommendationService {
     public UserRecommendationDaily findUserRecommendationDaily(User user) {
         return userRecommendationDailyRepository.findByUser(user);
     }
+
 }

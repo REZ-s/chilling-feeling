@@ -43,34 +43,29 @@
             <div class="my-taste-keyword">
                 <div class="my-taste-keyword-title">내 취향 키워드</div>
                 <div class="my-scroll-area">
-                    <div class="my-wrap-taste-keywords">
-                        <div class="my-taste-keywords">
-                            <div class="my-taste-keyword-illust">
+                    <div class="my-wrap-taste-keywords" id="keywords">
+                        <!-- 내 취향 키워드. 설정하지 않았거나 게스트 상태면 별도의 문구 표시 -->
 
-                            </div>
-                            <div class="my-taste-keyword-label">술린이</div>
-                        </div>
-
-                        <div class="my-taste-keywords">
-                            <div class="my-taste-keyword-illust">
-
-                            </div>
-                            <div class="my-taste-keyword-label">술린이</div>
-                        </div>
-
-                        <div class="my-taste-keywords">
-                            <div class="my-taste-keyword-illust">
-
-                            </div>
-                            <div class="my-taste-keyword-label">술린이</div>
-                        </div>
-
-                        <div class="my-taste-keywords">
-                            <div class="my-taste-keyword-illust">
-
-                            </div>
-                            <div class="my-taste-keyword-label">술린이</div>
-                        </div>
+<!--                        <div class="my-taste-keywords">-->
+<!--                            <div class="my-taste-keyword-illust">-->
+<!--                            </div>-->
+<!--                            <div class="my-taste-keyword-label">키워드1</div>-->
+<!--                        </div>-->
+<!--                        <div class="my-taste-keywords">-->
+<!--                            <div class="my-taste-keyword-illust">-->
+<!--                            </div>-->
+<!--                            <div class="my-taste-keyword-label">키워드2</div>-->
+<!--                        </div>-->
+<!--                        <div class="my-taste-keywords">-->
+<!--                            <div class="my-taste-keyword-illust">-->
+<!--                            </div>-->
+<!--                            <div class="my-taste-keyword-label">키워드3</div>-->
+<!--                        </div>-->
+<!--                        <div class="my-taste-keywords">-->
+<!--                            <div class="my-taste-keyword-illust">-->
+<!--                            </div>-->
+<!--                            <div class="my-taste-keyword-label">키워드4</div>-->
+<!--                        </div>-->
                     </div>
                 </div>
 
@@ -147,5 +142,7 @@
 
     createFooter();
     displayUsername(username);
+    displayUserCategories();
+    // displayUserFeeling();
 </script>
 </html>

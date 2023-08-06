@@ -365,7 +365,7 @@
 }
 
 .home-taste-prod-swiper-wrapper {
-    /*width: 355px;*/
+    width: 355px;
     height: 264px;
     flex-grow: 0;
     display: flex;
@@ -403,7 +403,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    /*padding: 0 8px 0 0;*/
+    padding: 0 8px 0 0;
 }
 
 .product-card01 {
@@ -6064,8 +6064,8 @@ input.login1-form::placeholder {
 }
 
 .my-taste-keyword-illust {
-    width: 70px;
-    height: 70px;
+    /*width: 70px;*/
+    /*height: 70px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: row;

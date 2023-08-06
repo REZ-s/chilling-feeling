@@ -310,4 +310,16 @@ public class RecommendationUtils {
         return userRecommendationElementsList;
     }
 
+    public String getPreferredCategories(String username) {
+        User user = userService.findByUsername(username);
+        UserRecommendationBase recommendationBase = userRecommendationService.findUserRecommendationBase(user);
+        return recommendationBase.getPreferredCategories();
+    }
+
+    public String getDailyFeeling(String username) {
+        User user = userService.findByUsername(username);
+        UserRecommendationDaily recommendationDaily = userRecommendationService.findUserRecommendationDaily(user);
+        return recommendationDaily.getFeeling().name();
+    }
+
 }

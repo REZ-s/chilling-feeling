@@ -170,10 +170,8 @@
     let searchButton = document.getElementById('searchButton');
     let searchClear = document.getElementById('searchInputClear');
 
-    /*<![CDATA[*/
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 사용자가 검색한 단어에 대한 상품 리스트
     let query = /*[[${query}]]*/ "";                    // 사용자가 검색한 단어
-    /*]]>*/
 
     let products;                               // 실제 보여줄 상품 리스트
 
@@ -181,7 +179,7 @@
         searchInput.value = query;
         searchClear.style.display = "none";
         createFooter('/category');
-        displayItemList(document.getElementById('contentFrame'), goodsViewList);
+        displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
     }
 
     searchClear.addEventListener("mouseenter", function() {
@@ -237,7 +235,7 @@
 
             // 새로운 상품 리스트 폼 추가
             const productType = label.querySelector(".tab-bar-label-ac").innerText;
-            displayItemList(document.getElementById('contentFrame'), goodsViewList, productType);
+            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, productType);
         });
     });
 

@@ -66,15 +66,26 @@ public class RecommendationController {
         return ResponseEntity.ok().body(goodsViews);
     }
 
-    @GetMapping("/api/v1/recommendation")
+    @GetMapping("/api/v1/recommendation/base/keyword")
     @ResponseBody
-    public ResponseEntity<Object> getRecommendation(@AuthenticationPrincipal String username) {
+    public ResponseEntity<Object> getRecommendationBaseKeyword(@AuthenticationPrincipal String username) {
         if (username == null || username.equals("anonymousUser")) {
             return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
         }
 
-        List<IGoodsView> goodsViews = recommendationUtils.getUserRecommendationGoodsList(username);
-        return ResponseEntity.ok().body(goodsViews);
+        String categories = recommendationUtils.getPreferredCategories(username);
+        return ResponseEntity.ok().body(categories);
+    }
+
+    @GetMapping("/api/v1/recommendation/daily/feeling")
+    @ResponseBody
+    public ResponseEntity<Object> getRecommendationDailyFeeling(@AuthenticationPrincipal String username) {
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+        }
+
+        String feeling = recommendationUtils.getDailyFeeling(username);
+        return ResponseEntity.ok().body(feeling);
     }
 
     // 사용자 행동 데이터에 따른 추천 요소 업데이트
