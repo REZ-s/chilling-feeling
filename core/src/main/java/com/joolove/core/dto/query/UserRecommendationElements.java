@@ -20,7 +20,6 @@ public class UserRecommendationElements {
     private String abvLimit;
     @Enumerated(EnumType.STRING)
     private List<Category.ECategory> preferredCategories;
-
     @Enumerated(EnumType.STRING)
     private UserRecommendationDaily.EEmotion recentFeeling;
 

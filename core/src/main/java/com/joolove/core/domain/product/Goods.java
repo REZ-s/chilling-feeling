@@ -30,12 +30,15 @@ public class Goods extends BaseTimeStamp {
     private String categoryName;
 
     @NotNull
-    private Short salesStatus;      // 판매 상태 (0: 준비중, 1: 판매중, 2: 판매중지, 3:기타)
+    private Short salesStatus;      // 판매 상태 (0: 준비중, 1: 판매중, 2: 판매중지)
 
+    @NotNull
     private Integer price;
 
+    @NotNull
     private Integer stock;          // 재고
 
+    @NotNull
     private Long salesFigures;      // 판매량
 
     private String description;
@@ -82,7 +85,7 @@ public class Goods extends BaseTimeStamp {
         this.cartGoodsList = cartGoodsList;
     }
 
-    public void setOrderGoodsList(List<OrdersGoods> ordersGoodsList) {
+    public void setOrdersGoodsList(List<OrdersGoods> ordersGoodsList) {
         this.ordersGoodsList = ordersGoodsList;
     }
 
@@ -94,11 +97,11 @@ public class Goods extends BaseTimeStamp {
         this.goodsRelatedKeywords = goodsRelatedKeywords;
     }
 
-    public void changeSalesStatus(Short salesStatus) {
+    public void updateSalesStatus(Short salesStatus) {
         this.salesStatus = salesStatus;
     }
 
-    public void changeSalesFigures(Long salesFigures) {
+    public void updateSalesFigures(Long salesFigures) {
         this.salesFigures = salesFigures;
     }
 
@@ -106,7 +109,7 @@ public class Goods extends BaseTimeStamp {
         this.salesFigures++;
     }
 
-    public void changeStock(Integer stock) {
+    public void updateStock(Integer stock) {
         this.stock = stock;
     }
 
@@ -114,7 +117,7 @@ public class Goods extends BaseTimeStamp {
         this.stock++;
     }
 
-    public void changePrice(Integer price) {
+    public void updatePrice(Integer price) {
         this.price = price;
     }
 

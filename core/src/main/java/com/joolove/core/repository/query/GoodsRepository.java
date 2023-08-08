@@ -1,6 +1,7 @@
 package com.joolove.core.repository.query;
 
 import com.joolove.core.domain.product.Goods;
+import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
     Optional<Goods> findOneByName(String name);
 
     // 문자열의 길이가 길 때, FTS 가 생각보다 느리다면 기존의 like in 도 고려해본다. (성능 테스트 필요)
-    // 와인 > 레드와인 의 경우처럼, type 외에 sub_type 을 만들어줄까 생각중..
+    // 와인(type) -> 레드와인(sub_type) 처럼, type 외에 sub_type 을 따로 만들지도 고민해볼만하다.
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +
             "from product.goods_details gd inner join product.goods_stats gs " +
             "on gd.goods_id = gs.goods_id " +
@@ -88,6 +89,14 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "from GoodsDetails gd inner join GoodsStats gs " +
             "on gd.name = ?1 " +
             "and gd.goods.id = gs.goods.id")
-    GoodsViewDetails findGoodsDetailByName(String name);
+    GoodsViewDetails findGoodsDetailsByName(String name);
 
+    @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
+            "gd.name, gd.engName, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
+            "gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
+            "gd.summary, gd.opt1Value, gd.opt2Value, gd.opt3Value, gd.opt4Value, gd.opt5Value, gd.opt6Value, gd.opt7Value)  " +
+            "from GoodsDetails gd inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "order by RAND()")
+    List<GoodsViewDetails> findGoodsDetailsRandom(Pageable pageable);
 }

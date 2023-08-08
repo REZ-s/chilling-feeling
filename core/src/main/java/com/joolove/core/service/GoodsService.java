@@ -1,9 +1,13 @@
 package com.joolove.core.service;
 
 import com.joolove.core.domain.product.Goods;
+import com.joolove.core.domain.product.GoodsDiscount;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
+import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
+import com.joolove.core.repository.GoodsDetailsRepository;
+import com.joolove.core.repository.GoodsDiscountRepository;
 import com.joolove.core.repository.query.GoodsRepository;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +19,42 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class GoodsService {
-
     private final GoodsRepository goodsRepository;
-
-    // 상품 1개 상세 조회
-    public GoodsViewDetails findGoodsDetail(String goodsName) {
-        return goodsRepository.findGoodsDetailByName(goodsName);
+    private final GoodsDetailsRepository goodsDetailsRepository;
+    private final GoodsDiscountRepository goodsDiscountRepository;
+    
+    // 상품(GoodsView) 1개 조회 (ID)
+    public GoodsView findGoodsByGoodsId(UUID goodsId) {
+        return goodsDetailsRepository.findGoodsByGoodsId(goodsId);
     }
 
-    // 상품 n개 조회 (이름, 카테고리 별)
+    // 상품(Goods) 1개 조회 (ID)
+    public Goods findSimpleGoodsByGoodsId(UUID goodsId) {
+        return goodsRepository.findById(goodsId).orElse(null);
+    }
+
+    // 상품(Goods) 1개 조회 (이름)
+    public Goods findSimpleGoodsByGoodsName(String goodsName) {
+        return goodsRepository.findOneByName(goodsName).orElse(null);
+    }
+
+    // 상품(GoodsViewDetails) 1개 조회 (랜덤)
+    public GoodsViewDetails findGoodsDetailsRandom() {
+        return goodsRepository.findGoodsDetailsRandom(PageRequest.of(0, 1)).get(0);
+    }
+
+    // 상품(GoodsViewDetails) 1개 조회 (이름)
+    public GoodsViewDetails findGoodsDetails(String goodsName) {
+        return goodsRepository.findGoodsDetailsByName(goodsName);
+    }
+
+    // 상품(GoodsView) n개 조회 (이름, 카테고리 별)
     public List<IGoodsView> findGoodsList(String goodsName, String type,
                                                   Integer page, Integer size, String sort) {
         int defaultPage = 0;
@@ -109,7 +135,7 @@ public class GoodsService {
         return findNewGoodsList(null, null);
     }
 
-    // 상품 n개 조회 (신상품)
+    // 상품(GoodsView) n개 조회 (신상품)
     public List<IGoodsView> findNewGoodsList(Integer page, Integer size) {
         int defaultPage = 0;
         int defaultSize = 10;
@@ -120,23 +146,40 @@ public class GoodsService {
                 PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
+    // 최종 단일 가격 조회
+    public int getSingleSalePrice(String goodsName) {
+        Optional<Goods> oneByName = goodsRepository.findOneByName(goodsName);
+        if (oneByName.isEmpty()) {
+            return -1;
+        }
+
+        Goods goods = oneByName.get();
+        GoodsDiscount goodsDiscount = goodsDiscountRepository.findByGoods(goods);
+
+        if (goodsDiscount == null) {    // 상품 할인 정보가 없는 경우
+            return goods.getPrice() == null ? 0 : goods.getPrice();
+        }
+
+        return goods.getPrice() * (int) ((double) (100 - goodsDiscount.getDiscountRate()) / 100);
+    }
+
     // 가격 변경
     @Transactional
     public void changePrice(String goodsName, Integer price) {
         Optional<Goods> oneByName = goodsRepository.findOneByName(goodsName);
         if (oneByName.isPresent()) {
             Goods goods = oneByName.get();
-            goods.changePrice(price);
+            goods.updatePrice(price);
         }
     }
 
-    // 재고 변경
+    // 재고 변경 (원하는 수치)
     @Transactional
     public void changeStock(String goodsName, Integer stock) {
         Optional<Goods> oneByName = goodsRepository.findOneByName(goodsName);
         if (oneByName.isPresent()) {
             Goods goods = oneByName.get();
-            goods.changeStock(stock);
+            goods.updateStock(stock);
         }
     }
 
@@ -150,13 +193,21 @@ public class GoodsService {
         }
     }
 
-    // 판매량 변경
+    // 최고 판매량인 상품 조회 (날짜별)
+//    public Goods getBestSalesFigures(short days) {
+//        LocalDateTime nowDate = LocalDateTime.now();
+//        LocalDateTime beforeDate = LocalDateTime.now().minusDays(days);
+//
+//        orderService.
+//    }
+
+    // 판매량 변경 (원하는 수치)
     @Transactional
     public void changeSalesFigures(String goodsName, Long salesFigures) {
         Optional<Goods> oneByName = goodsRepository.findOneByName(goodsName);
         if (oneByName.isPresent()) {
             Goods goods = oneByName.get();
-            goods.changeSalesFigures(salesFigures);
+            goods.updateSalesFigures(salesFigures);
         }
     }
 
@@ -176,7 +227,7 @@ public class GoodsService {
         Optional<Goods> oneByName = goodsRepository.findOneByName(goodsName);
         if (oneByName.isPresent()) {
             Goods goods = oneByName.get();
-            goods.changeSalesStatus(salesStatus);
+            goods.updateSalesStatus(salesStatus);
         }
     }
 

@@ -10,7 +10,7 @@ function createFooter() {
         {href: '/me', label: '마이', iconSrc: '/images/ic_mypage_de_24px.png'}
     ];
 
-    bottomHomeButtons.forEach(function(button) {
+    bottomHomeButtons.forEach(function (button) {
         if (document.location.pathname === button.href || document.location.href === button.href) {
             button.iconSrc = button.iconSrc.replace('de', 'ac');
         }
@@ -245,6 +245,64 @@ function createItemCard01(parentElement, product) {
     parentElement.appendChild(wrapProductCard01);
 }
 
+/**
+ * One Item Container. 02
+ * @param parentElement
+ * @param product
+ */
+function createItemCard02(parentElement, product) {
+    if (parentElement == null) {
+        return;
+    }
+
+    const productCardDiv = document.createElement('div');
+    productCardDiv.classList.add('product-card02');
+
+    const photoContainerDiv = document.createElement('div');
+    photoContainerDiv.classList.add('product-list02-photo-container');
+
+    const image = document.createElement('img');
+    image.src = product.imageUrl;
+    image.classList.add('recommend-image02');
+
+    photoContainerDiv.appendChild(image);
+
+    const productInfoDiv = document.createElement('div');
+    productInfoDiv.classList.add('product-list02-product-info');
+
+    const nameStarDiv = document.createElement('div');
+    nameStarDiv.classList.add('product-list02-name-star');
+
+    const productNameDiv = document.createElement('div');
+    productNameDiv.classList.add('product-list02-name');
+    productNameDiv.innerText = product.name;
+
+
+    const starGroupDiv = document.createElement('div');
+    starGroupDiv.classList.add('star-group');
+    starGroupDiv.innerHTML = createScoreImage(product.score);
+
+    nameStarDiv.appendChild(productNameDiv);
+    nameStarDiv.appendChild(starGroupDiv);
+
+    const captionPriceDiv = document.createElement('div');
+    captionPriceDiv.classList.add('product-list02-caption-price');
+
+    const captionDiv = document.createElement('div');
+    captionDiv.classList.add('product-list02-caption');
+    captionDiv.innerHTML = product.summary;
+
+    captionPriceDiv.appendChild(captionDiv);
+
+    productInfoDiv.appendChild(nameStarDiv);
+    productInfoDiv.appendChild(captionPriceDiv);
+
+    productCardDiv.appendChild(photoContainerDiv);
+    productCardDiv.appendChild(productInfoDiv);
+
+    parentElement.appendChild(productCardDiv);
+}
+
 /***
  * No Item Container Using Category, Search
  * @param parentElement
@@ -367,8 +425,8 @@ function connectItemDetails() {
 
 function applyPlusBtnElements() {
     plusBtnElements = document.querySelectorAll('[class*="ic_plus"]');
-    plusBtnElements.forEach(function(plusBtn) {
-        plusBtn.addEventListener('click', function() {
+    plusBtnElements.forEach(function (plusBtn) {
+        plusBtn.addEventListener('click', function () {
             let parentElement = plusBtn.parentElement;
             let goodsCountElement = parentElement.querySelector('[id*="goodsCount"]');
             let goodsCount = parseInt(goodsCountElement.innerText);
@@ -380,8 +438,8 @@ function applyPlusBtnElements() {
 
 function applyMinusBtnElements() {
     minusBtnElements = document.querySelectorAll('[class*="ic_minus"]');
-    minusBtnElements.forEach(function(minusBtn) {
-        minusBtn.addEventListener('click', function() {
+    minusBtnElements.forEach(function (minusBtn) {
+        minusBtn.addEventListener('click', function () {
             let parentElement = minusBtn.parentElement;
             let goodsCountElement = parentElement.querySelector('[id*="goodsCount"]');
             let goodsCount = parseInt(goodsCountElement.innerText);
@@ -391,28 +449,6 @@ function applyMinusBtnElements() {
             }
         });
     });
-}
-
-/***
- * 상품을 위시리스트(좋아요)에 넣는다.
- */
-function addWishList() {
-
-}
-
-/***
- * 상품을 장바구니에 넣는다.
- */
-function addCartList() {
-
-}
-
-/**
- * 주문하기
- */
-function orderGoodsList() {
-    // 결제 과정은 생략되어 있으므로, 재고가 있으면 주문이 완료 되었다로 간략화
-    // 0원 이라고 생각하자.
 }
 
 function displayUsername(username) {
@@ -623,5 +659,189 @@ function setSwiperSlide(productsFrame, innerSlider) {
     function updateGridTemplateColumns(innerSlider) {
         const childCount = innerSlider.childElementCount;
         innerSlider.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
+    }
+}
+
+function isNullOrWhiteSpace(value) {
+    return value === null || value.trim() === "";
+}
+
+function createScoreImage(score) {
+    let scores = score.split(".");
+    let scoreImages = "";
+    let count = 0;
+
+    const INumber = parseInt(scores[0]);
+    const FNumber = parseInt(scores[1]);
+
+    for (let i = 0; i < INumber; i++) {
+        scoreImages += "<img src=\"/images/ic_star_10px.png\" class=\"ic_star_10px\">";
+        count++;
+    }
+
+    if (FNumber > 7) {
+        scoreImages += "<img src=\"/images/ic_star_10px.png\" class=\"ic_star_10px\">";
+        count++;
+    } else if (FNumber > 2) {
+        scoreImages += "<img src=\"/images/ic_half_star_10px.png\" class=\"ic_half_star_10px\">";
+        count++;
+    }
+
+    for (let i = count; i < 5; i++) {
+        scoreImages += "<img src=\"/images/ic_star_off_10px.png\" class=\"ic_star_off_10px\">";
+    }
+
+    return scoreImages;
+}
+
+function createPaletteImage(paletteValue) {
+    let paletteImage = null;
+
+    switch (paletteValue) {
+        case "0":
+            paletteImage = "/images/wine_style_graphy_level1.png";
+            break;
+        case "1":
+            paletteImage = "/images/wine_style_graphy_level2.png";
+            break;
+        case "2":
+            paletteImage = "/images/wine_style_graphy_level3.png";
+            break;
+        case "3":
+            paletteImage = "/images/wine_style_graphy_level4.png";
+            break;
+        case "4":
+            paletteImage = "/images/wine_style_graphy_level5.png";
+            break;
+        default:
+            break;
+    }
+
+    return paletteImage;
+}
+
+function fill(value) {
+    if (value !== null && value !== undefined && value !== "") {
+        return value;
+    } else {
+        return "-";
+    }
+}
+
+function fillImage(value) {
+    if (value !== null && value !== undefined && value !== "") {
+        return `<img src="${value}">`;
+    } else {
+        return `<img src="/images/nothing.png">`;
+    }
+}
+
+function createPaletteLabelFront(paletteName) {
+    switch (paletteName) {
+        case "바디":
+            return "가벼움";
+        case "탄닌":
+            return "매끈함";
+        case "당도":
+            return "드라이";
+        case "산도":
+            return "낮음";
+        case "탄산":
+            return "없음";
+        default:
+            return "";
+    }
+}
+
+function getPaletteEngName(paletteName) {
+    switch (paletteName) {
+        case "바디":
+            return "Body";
+        case "탄닌":
+            return "Tannin";
+        case "당도":
+            return "Sweetness";
+        case "산도":
+            return "Acidity";
+        case "탄산":
+            return "Soda";
+        default:
+            return "";
+    }
+}
+
+function createPaletteLabelBack(paletteName) {
+    switch (paletteName) {
+        case "바디":
+            return "무거움";
+        case "탄닌":
+            return "떫음";
+        case "당도":
+            return "스위트";
+        case "산도":
+            return "시큼함";
+        case "탄산":
+            return "강함";
+        default:
+            return "";
+    }
+}
+
+/***
+ * 상품을 위시리스트(좋아요)에 넣는다.
+ */
+function addWishList(goodsName) {
+
+}
+
+/***
+ * 상품을 장바구니에 넣는다.
+ */
+function addCartList(goodsName) {
+
+}
+
+/**
+ * 주문하기
+ */
+async function ordersGoodsList(goodsName, goodsCount) {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    try {
+        const response = await fetch('/api/v1/order', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsName,
+                goodsCount
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'success') {
+                alert('주문이 완료되었습니다.');
+                location.href = '/';
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('주문에 실패했습니다.');
     }
 }

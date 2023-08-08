@@ -25,7 +25,7 @@ public class GoodsDiscount extends BaseTimeStamp {
     private Goods goods;
 
     @NotNull
-    private Long discountRate;  // 할인율
+    private Short discountRate;  // 할인율
 
     @NotNull
     private Short saleType;     // 할인 종류 (0: 없음, 1: 일반할인)
@@ -37,7 +37,7 @@ public class GoodsDiscount extends BaseTimeStamp {
     }
 
     @Builder
-    public GoodsDiscount(UUID id, Goods goods, Long discountRate, Short saleType, String description) {
+    public GoodsDiscount(UUID id, Goods goods, Short discountRate, Short saleType, String description) {
         this.id = id;
         this.goods = goods;
         this.discountRate = discountRate;

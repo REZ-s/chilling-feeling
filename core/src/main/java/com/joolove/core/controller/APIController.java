@@ -1,17 +1,15 @@
 package com.joolove.core.controller;
 
+import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.member.User;
+import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.IGoodsView;
+import com.joolove.core.dto.request.OrdersRequest;
 import com.joolove.core.dto.request.SignInRequest;
-import com.joolove.core.repository.PasswordRepository;
 import com.joolove.core.repository.SocialLoginRepository;
-import com.joolove.core.service.EmailServiceImpl;
-import com.joolove.core.service.GoodsService;
-import com.joolove.core.service.SMSServiceImpl;
-import com.joolove.core.service.UserService;
+import com.joolove.core.service.*;
 import com.joolove.core.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,17 +27,18 @@ public class APIController {
     private final EmailServiceImpl emailService;
     private final SMSServiceImpl smsService;
     private final GoodsService goodsService;
+    private final OrdersService ordersService;
     private final SocialLoginRepository socialLoginRepository;
     private final PasswordUtils passwordUtils;
 
     @GetMapping("/api/v1/user/authentication")
-    public ResponseEntity<Boolean> checkAuthenticatedUser() {
+    public ResponseEntity<?> checkAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok().body(authentication.getPrincipal());
         }
 
-        return new ResponseEntity<>(false, HttpStatus.OK);
+        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping("/api/v1/authentication-code/email")
@@ -109,4 +108,21 @@ public class APIController {
         return ResponseEntity.ok().body(goodsService.findGoodsList(name, type, page, size, sort));
     }
 
+    // 주문하기
+    @PostMapping("/api/v1/order")
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrdersRequest request) {
+        User user = userService.findByUsername(request.getUsername());
+        if (user == null) {
+            return ResponseEntity.ok().body("invalid user");
+        }
+
+        Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
+        if (goods == null) {
+            return ResponseEntity.ok().body("invalid goods");
+        }
+
+        Orders order = ordersService.createOrder(user, goods, request.getGoodsCount());
+
+        return ResponseEntity.ok().body("success");
+    }
 }

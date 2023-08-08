@@ -29,7 +29,7 @@ public class Orders extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    private Short orderStatus;
+    private Short orderStatus;      // 주문 상태 (1: 주문중, 2: 주문완료, 3: 주문취소, 4: 주문실패)
 
     @Builder
     public Orders(UUID id, User user, Short orderStatus) {
@@ -52,13 +52,13 @@ public class Orders extends BaseTimeStamp {
     }
 
     /* mappedBy */
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Refund refund;
 
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Delivery delivery;
 
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Payment payment;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -76,8 +76,12 @@ public class Orders extends BaseTimeStamp {
         this.refund = refund;
     }
 
-    public void setOrderGoods(List<OrdersGoods> ordersGoodsList) {
+    public void setOrdersGoods(List<OrdersGoods> ordersGoodsList) {
         this.ordersGoodsList = ordersGoodsList;
+    }
+
+    public void updateOrderStatus(short status) {
+        this.orderStatus = status;
     }
 
 }

@@ -33,10 +33,10 @@ public class OrdersGoods extends BaseTimeStamp {
     private Goods goods;
 
     @NotNull
-    private Integer singleSalePrice;
+    private Integer singleSalePrice;    // 1개 가격
 
     @NotNull
-    private Integer count;
+    private Integer count;              // 개수
 
     public void setGoods(Goods goods) {
         this.goods = goods;

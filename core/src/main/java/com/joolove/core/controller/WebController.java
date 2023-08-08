@@ -34,6 +34,7 @@ public class WebController {
     public String main(Model model) {
         model.addAttribute("username", userService.getUsernameByAuthentication());
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
+        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetailsRandom());
         return "cf_main_page";
     }
 
@@ -106,7 +107,7 @@ public class WebController {
     // 상품 1개에 대한 상세 페이지
     @GetMapping(("/goods/{name}"))
     public String goodsName(Model model, @PathVariable("name") String name) {
-        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetail(name));
+        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetails(name));
         return "cf_goods_page";
     }
 

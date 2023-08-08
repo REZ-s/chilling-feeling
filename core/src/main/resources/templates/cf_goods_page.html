@@ -353,10 +353,10 @@
                     </div>
 
                     <div class="wrap-btn01">
-                        <button class="btn01" onclick="addCartList();">
+                        <button class="btn01" onclick="addCartList(goodsViewDetails.name);">
                             <div class="btn01-label">장바구니 담기</div>
                         </button>
-                        <button class="btn01-active" onclick="orderGoodsList();">
+                        <button class="btn01-active" onclick="ordersGoodsList(goodsViewDetails.name, goodsCount.textContent);">
                             <div class="btn01-label-active">바로 주문하기</div>
                         </button>
                     </div>
@@ -368,136 +368,13 @@
 </div>
 </body>
 <script th:inline="javascript">
-
-    /*<![CDATA[*/
     let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
-    /*]]>*/
+    let goodsCount = document.getElementById('goodsCount');
 
     window.onload = function () {
         initForm();
         applyPlusBtnElements();
         applyMinusBtnElements();
-    }
-
-    function createScoreImage(score) {
-        let scores = score.split(".");
-        let scoreImages = "";
-        let count = 0;
-
-        const INumber = parseInt(scores[0]);
-        const FNumber = parseInt(scores[1]);
-
-        for (let i = 0; i < INumber; i++) {
-            scoreImages += "<img src=\"/images/ic_star_10px.png\" class=\"ic_star_10px\">";
-            count++;
-        }
-
-        if (FNumber > 7) {
-            scoreImages += "<img src=\"/images/ic_star_10px.png\" class=\"ic_star_10px\">";
-            count++;
-        } else if (FNumber > 2) {
-            scoreImages += "<img src=\"/images/ic_half_star_10px.png\" class=\"ic_half_star_10px\">";
-            count++;
-        }
-
-        for (let i = count; i < 5; i++) {
-            scoreImages += "<img src=\"/images/ic_star_off_10px.png\" class=\"ic_star_off_10px\">";
-        }
-
-        return scoreImages;
-    }
-
-    function createPaletteImage(paletteValue) {
-        let paletteImage = null;
-
-        switch (paletteValue) {
-            case "0":
-                paletteImage = "/images/wine_style_graphy_level1.png";
-                break;
-            case "1":
-                paletteImage = "/images/wine_style_graphy_level2.png";
-                break;
-            case "2":
-                paletteImage = "/images/wine_style_graphy_level3.png";
-                break;
-            case "3":
-                paletteImage = "/images/wine_style_graphy_level4.png";
-                break;
-            case "4":
-                paletteImage = "/images/wine_style_graphy_level5.png";
-                break;
-            default:
-                break;
-        }
-
-        return paletteImage;
-    }
-
-    function fill(value) {
-        if (value !== null && value !== undefined && value !== "") {
-            return value;
-        } else {
-            return "-";
-        }
-    }
-
-    function fillImage(value) {
-        if (value !== null && value !== undefined && value !== "") {
-            return `<img src="${value}">`;
-        } else {
-            return `<img src="/images/nothing.png">`;
-        }
-    }
-
-    function createPaletteLabelFront(paletteName) {
-        switch (paletteName) {
-            case "바디":
-                return "가벼움";
-            case "탄닌":
-                return "매끈함";
-            case "당도":
-                return "드라이";
-            case "산도":
-                return "낮음";
-            case "탄산":
-                return "없음";
-            default:
-                return "";
-        }
-    }
-
-    function getPaletteEngName(paletteName) {
-        switch (paletteName) {
-            case "바디":
-                return "Body";
-            case "탄닌":
-                return "Tannin";
-            case "당도":
-                return "Sweetness";
-            case "산도":
-                return "Acidity";
-            case "탄산":
-                return "Soda";
-            default:
-                return "";
-        }
-    }
-
-    function createPaletteLabelBack(paletteName) {
-        switch (paletteName) {
-            case "바디":
-                return "무거움";
-            case "탄닌":
-                return "떫음";
-            case "당도":
-                return "스위트";
-            case "산도":
-                return "시큼함";
-            case "탄산":
-                return "강함";
-            default:
-                return "";
-        }
     }
 
     function createFormPalette(paletteName, paletteValue) {
@@ -542,10 +419,6 @@
         wrapWineStyleDetailsLabel.appendChild(wineStyleDetailsLabel2);
 
         return wrapWineStyle;
-    }
-
-    function isNullOrWhiteSpace(value) {
-        return value === null || value.trim() === "";
     }
 
     function initForm() {

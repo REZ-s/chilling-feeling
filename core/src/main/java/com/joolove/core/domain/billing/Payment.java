@@ -26,22 +26,22 @@ public class Payment extends BaseTimeStamp {
     private Orders order;
 
     @NotNull
-    private Integer rawPrice;
+    private Integer rawPrice;       // 원가
 
     @NotNull
-    private Short discountRate;
+    private Short discountRate;     // 할인율
 
     @NotNull
-    private Integer point;
+    private Integer point;          // 마일리지
 
     @NotNull
-    private Boolean isRefundable;
+    private Boolean isRefundable;   // 환불 가능 여부
 
     @NotNull
-    private Short paymentType;
+    private Short paymentType;      // 결제 타입 (1: Web, 2: IOS, 3: Android)
 
     @NotNull
-    private Short paymentStatus;
+    private Short paymentStatus;    // 결제 상태 (1: 결제중, 2: 결제완료, 3: 결제취소, 4: 결제실패)
 
     @Builder
     public Payment(UUID id, Orders order, Integer rawPrice, Short discountRate, Integer point, Boolean isRefundable, Short paymentType, Short paymentStatus) {
@@ -67,5 +67,13 @@ public class Payment extends BaseTimeStamp {
                 ", paymentType=" + paymentType +
                 ", paymentStatus=" + paymentStatus +
                 '}';
+    }
+
+    public void updatePaymentStatus(short status) {
+        if (status > 4 || status < 0) {
+            return;
+        }
+
+        this.paymentStatus = status;
     }
 }

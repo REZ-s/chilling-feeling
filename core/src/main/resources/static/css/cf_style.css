@@ -311,7 +311,7 @@
 
 .home-taste-prod {
     /*width: 375px;*/
-    height: 464px;
+    height: 550px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -324,7 +324,7 @@
 
 .home-taste-title-box {
     /*width: 335px;*/
-    height: 70px;
+    /*height: 70px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -336,7 +336,7 @@
 
 .home-taste-title {
     /*width: 335px;*/
-    height: 32px;
+    /*height: 32px;*/
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 22px;
@@ -347,6 +347,7 @@
     letter-spacing: -0.44px;
     text-align: left;
     color: #000;
+    white-space: pre-line;
 }
 
 .home-taste-subtitle {
@@ -683,7 +684,7 @@
 
 .home-food-prod {
     /*width: 375px;*/
-    height: 539px;
+    /*height: 500px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -691,7 +692,7 @@
     align-items: center;
     align-self: stretch;
     gap: 30px;
-    padding: 20px;
+    padding: 20px 20px 100px 20px;
 }
 
 .home-food-title-box {
@@ -757,7 +758,7 @@
 }
 
 .food-type {
-    width: 49px;
+    /*width: 49px;*/
     height: 28px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -795,7 +796,7 @@
 
 .home-food-prod-swiper-wrapper {
     /*width: 335px;*/
-    height: 426px;
+    /*height: 426px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -807,7 +808,7 @@
 
 .product-card02 {
     /*width: 335px;*/
-    height: 426px;
+    /*height: 426px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -819,7 +820,7 @@
 }
 
 .product-list02-photo-container {
-    height: 270px;
+    /*height: 270px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -838,7 +839,7 @@
 }
 
 .product-list02-product-info {
-    height: 110px;
+    /*height: 110px;*/
     align-self: stretch;
     flex-grow: 0;
     display: flex;
@@ -897,7 +898,7 @@
 
 .product-list02-caption-price {
     width: 270px;
-    height: 87px;
+    /*height: 87px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -909,7 +910,7 @@
 
 .product-list02-caption {
     width: 270px;
-    height: 60px;
+    /*height: 60px;*/
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 12px;
@@ -939,13 +940,13 @@
 
 .home-best-seller {
     /*width: 375px;*/
-    height: 698px;
+    height: 450px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-self: center;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
     gap: 30px;
     padding: 20px;
 }
@@ -955,7 +956,7 @@
     height: 70px;
     flex-grow: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: flex-start;
     gap: 3px;
@@ -987,7 +988,7 @@
 }
 
 .date {
-    width: 33px;
+    /*width: 33px;*/
     height: 28px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -3865,7 +3866,7 @@ input.login1-form::placeholder {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     gap: 28px;
     padding: 0;
 }

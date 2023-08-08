@@ -67,7 +67,7 @@ public class User extends BaseTimeStamp {
         setDevices(user.getDevices());
         setFavorite(user.getFavorite());
         setProfile(user.getProfile());
-        setOrders(user.getOrders());
+        setOrders(user.getOrdersList());
         setLoginLogs(user.getLoginLogs());
         setUserActivityLogs(user.getUserActivityLogs());
         setUserPersonal(user.getUserPersonal());
@@ -120,7 +120,7 @@ public class User extends BaseTimeStamp {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Orders> orders = new ArrayList<>();
+    private List<Orders> ordersList = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -178,8 +178,8 @@ public class User extends BaseTimeStamp {
         this.userRecommendationDaily = userRecommendationDaily;
     }
 
-    public void setOrders(List<Orders> orders) {
-        this.orders = orders;
+    public void setOrders(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 
     public void setLoginLogs(List<LoginLog> loginLogs) {

@@ -28,7 +28,7 @@ public class Delivery extends BaseTimeStamp {
     private Orders order;
 
     @NotNull
-    private Short deliveryStatus;
+    private Short deliveryStatus;       // 배송 상태 (1: 배송중, 2: 배송완료, 3: 배송취소, 4: 배송실패)
 
     @Builder
     public Delivery(UUID id, Orders order, Short deliveryStatus) {
