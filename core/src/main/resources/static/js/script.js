@@ -258,8 +258,9 @@ function createItemCard02(parentElement, product) {
     const productCardDiv = document.createElement('div');
     productCardDiv.classList.add('product-card02');
 
-    const photoContainerDiv = document.createElement('div');
+    const photoContainerDiv = document.createElement('button');
     photoContainerDiv.classList.add('product-list02-photo-container');
+    photoContainerDiv.id = product.name;
 
     const image = document.createElement('img');
     image.src = product.imageUrl;
@@ -414,9 +415,16 @@ function createBaseItemListForCategory(parentElement, products) {
 }
 
 function connectItemDetails() {
-    let goodsContainers = document.getElementsByClassName('product-list01-photo-container');
+    let goodsContainers01 = document.getElementsByClassName('product-list01-photo-container');
+    let goodsContainers02 = document.getElementsByClassName('product-list02-photo-container');
 
-    for (let goodsContainer of goodsContainers) {
+    for (let goodsContainer of goodsContainers01) {
+        goodsContainer.addEventListener('click', function () {
+            location.href = '/goods/' + goodsContainer.id.toString();
+        });
+    }
+
+    for (let goodsContainer of goodsContainers02) {
         goodsContainer.addEventListener('click', function () {
             location.href = '/goods/' + goodsContainer.id.toString();
         });
@@ -596,15 +604,17 @@ function setSwiperSlide(productsFrame, innerSlider) {
     productsFrame.addEventListener("mousedown", (e) => {
         pressed = true;
         startX = e.offsetX - innerSlider.offsetLeft;
-        productsFrame.style.cursor = "grabbing";
+        //productsFrame.style.cursor = "grabbing";
     });
 
     productsFrame.addEventListener("mouseenter", () => {
-        productsFrame.style.cursor = "grab";
+        pressed = false;
+        //productsFrame.style.cursor = "grab";
     });
 
     productsFrame.addEventListener("mouseup", () => {
-        productsFrame.style.cursor = "grab";
+        pressed = false;
+        //productsFrame.style.cursor = "grab";
     });
 
     productsFrame.addEventListener("mousemove", (e) => {
@@ -788,18 +798,138 @@ function createPaletteLabelBack(paletteName) {
 }
 
 /***
- * 상품을 위시리스트(좋아요)에 넣는다.
+ * 위시리스트(좋아요)에 상품 저장
  */
 function addWishList(goodsName) {
 
 }
 
 /***
- * 상품을 장바구니에 넣는다.
+ * 장바구니에 상품 저장
  */
-function addCartList(goodsName) {
+async function addCart(goodsName, goodsCount) {
+    let username = '';
 
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    try {
+        const response = await fetch('/api/v1/cart', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsName,
+                goodsCount
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'success') {
+                alert('장바구니에 저장되었습니다.');
+                location.href = '/';
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('장바구니 저장에 실패했습니다.');
+    }
 }
+
+/**
+ * 장바구니 불러오기
+ */
+async function getCart() {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    let cartResponseList;
+
+    try {
+        const response = await fetch('/api/v1/cart?username=' + username)
+
+        if (response.ok) {
+            cartResponseList = response.json();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('장바구니를 불러오는데 실패했습니다.');
+    }
+
+    return cartResponseList;
+}
+
+/**
+ * 장바구니에서 상품 제거
+ */
+async function removeCart(goodsName) {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    let goodsCount = 1;
+
+    try {
+        const response = await fetch('/api/v1/cart', {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsName,
+                goodsCount
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'success') {
+                // 상품 제거 성공
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('장바구니에서 상품을 제거하는데 실패했습니다.');
+    }
+}
+
 
 /**
  * 주문하기
@@ -844,4 +974,32 @@ async function ordersGoodsList(goodsName, goodsCount) {
     } catch (error) {
         alert('주문에 실패했습니다.');
     }
+}
+
+async function getBestSellerGoods(days) {
+    let goodsViewDetails;
+    let salesCount;
+
+    await fetch('/api/v1/goods/best-seller/' + days)
+        .then(response => response.json())
+        .then(data => {
+            goodsViewDetails = data.goodsViewDetails;
+            salesCount = data.salesCount;
+        })
+        .catch(error => {
+            console.error('베스트셀러 상품 가져오기 실패 : ', error);
+        });
+
+    return goodsViewDetails;
+}
+
+/***
+ * Display Best Seller Item
+ * arguments = { parentElement, days }
+ */
+async function displayBestSellerGoods(parentElement, days) {
+    let goodsViewDetails = await getBestSellerGoods(days);
+
+    createItemCard02(parentElement, goodsViewDetails);
+    connectItemDetails();
 }

@@ -151,8 +151,7 @@ public class WebController {
     // 장바구니 페이지
     @LoginState
     @GetMapping("/cart")
-    public String cart(Model model) {
-        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
+    public String cart() {
         return "cf_cart_page";
     }
 

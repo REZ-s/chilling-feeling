@@ -6,12 +6,12 @@ import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.OrdersGoods;
 import com.joolove.core.dto.query.BestSeller;
-import com.joolove.core.dto.query.GoodsView;
+import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.repository.OrdersGoodsRepository;
 import com.joolove.core.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,19 +32,18 @@ public class OrdersService {
 
     // 최고 판매량 상품 조회 (날짜별)
     public Map<String, Object> getBestSellerGoodsByDate(short days) {
-        LocalDateTime nowDate = LocalDateTime.now();
         LocalDateTime beforeDate = LocalDateTime.now().minusDays(days);
 
-        List<BestSeller> ordersList = ordersRepository.findBestSeller(nowDate, beforeDate, PageRequest.of(0, 1, Sort.Direction.DESC));
+        List<BestSeller> ordersList = ordersRepository.findBestSeller(beforeDate, (Pageable) PageRequest.of(0, 1));
         BestSeller bestSeller = ordersList.get(0);
 
         UUID goodsId = bestSeller.getGoodsId();
         Long salesCount = bestSeller.getSalesCount();
 
-        GoodsView goodsView = goodsService.findGoodsByGoodsId(goodsId);
+        GoodsViewDetails goodsViewDetails = goodsService.findGoodsByGoodsId(goodsId);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("goodsView", goodsView);
+        result.put("goodsViewDetails", goodsViewDetails);
         result.put("salesCount", salesCount);
         return result;
     }
@@ -74,13 +73,13 @@ public class OrdersService {
         }
         ordersGoodsList.add(ordersGoods);
 
-        order.setOrdersGoods(ordersGoodsList);
+        order.setOrdersGoodsList(ordersGoodsList);
         order.setPayment(payment);
 
         return order;
     }
 
-    // 주문 완료 (결제 및 배송까지 끝난 상황)
+    // 주문 완료 (결제 및 배송까지 끝난 상황. 사용자가 수령확인 버튼을 누르거나 관리자가 처리)
     @Transactional
     public Orders completeOrder(Orders order) {
         order.updateOrderStatus((short) 2);

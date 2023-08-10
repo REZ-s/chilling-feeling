@@ -400,68 +400,68 @@
                 </div>
                 <div class="home-best-seller-wrap-product-card01">
                     <!-- 1개와 인기검색어 -->
-                    <div class="wrap-horizontal">
-                        <div class="product-card01">
-                            <div class="product-list01-photo-container">
-                                <div class="photo-container-wrap-img">
-                                    <img src="/images/item-rep01.png" class="recommend-image01">
-                                </div>
-                                <button class="ic_heart_24px btn-heart">
-                                    <img src="/images/ic_heart_24px.png">
-                                </button>
-                            </div>
-                            <div class="product-list01-product-info">
-                                <div class="product-list01-product-name">
-                                    <div class="product-list01-product-name-type">위스키</div>
-                                    <div class="product-list01-product-name-name">짐빔 화이트</div>
-                                </div>
-                                <div class="product-list01-caption">
-                                    <div class="star-score-review">
-                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">
-                                        <div class="score">
-                                            <div class="star-rating">4.9</div>
-                                            <div class="reviews">(237)</div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap-chip">
-                                        <div class="product-chip">
-                                            <div class="chip-label">가성비</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="banner-keyword">
-                            <div class="banner-keyword-title">인기 검색어</div>
-                            <div class="keyword-list">
-                                <!-- 최상위 5개 노출 -->
-                                <li>
-                                    <div class="rank-no">1</div>
-                                    <div class="rank-name">신상 와인</div>
-                                    <div class="rank-up">new</div>
-                                </li>
-                                <li>
-                                    <div class="rank-no">2</div>
-                                    <div class="rank-name">신상 와인</div>
-                                    <div class="rank-up">new</div>
-                                </li>
-                                <li>
-                                    <div class="rank-no">3</div>
-                                    <div class="rank-name">신상 와인</div>
-                                    <div class="rank-up">new</div>
-                                </li>
-                                <li>
-                                    <div class="rank-no">4</div>
-                                    <div class="rank-name">신상 와인</div>
-                                    <div class="rank-up">new</div>
-                                </li>
-                                <li>
-                                    <div class="rank-no">5</div>
-                                    <div class="rank-name">신상 와인</div>
-                                    <div class="rank-up">new</div>
-                                </li>
-                            </div>
-                        </div>
+                    <div class="wrap-horizontal" id="bestSellerFrame">
+<!--                        <div class="product-card01">-->
+<!--                            <div class="product-list01-photo-container">-->
+<!--                                <div class="photo-container-wrap-img">-->
+<!--                                    <img src="/images/item-rep01.png" class="recommend-image01">-->
+<!--                                </div>-->
+<!--                                <button class="ic_heart_24px btn-heart">-->
+<!--                                    <img src="/images/ic_heart_24px.png">-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                            <div class="product-list01-product-info">-->
+<!--                                <div class="product-list01-product-name">-->
+<!--                                    <div class="product-list01-product-name-type">위스키</div>-->
+<!--                                    <div class="product-list01-product-name-name">짐빔 화이트</div>-->
+<!--                                </div>-->
+<!--                                <div class="product-list01-caption">-->
+<!--                                    <div class="star-score-review">-->
+<!--                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">-->
+<!--                                        <div class="score">-->
+<!--                                            <div class="star-rating">4.9</div>-->
+<!--                                            <div class="reviews">(237)</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="wrap-chip">-->
+<!--                                        <div class="product-chip">-->
+<!--                                            <div class="chip-label">가성비</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="banner-keyword">-->
+<!--                            <div class="banner-keyword-title">인기 검색어</div>-->
+<!--                            <div class="keyword-list">-->
+<!--                                &lt;!&ndash; 최상위 5개 노출 &ndash;&gt;-->
+<!--                                <li>-->
+<!--                                    <div class="rank-no">1</div>-->
+<!--                                    <div class="rank-name">신상 와인</div>-->
+<!--                                    <div class="rank-up">new</div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <div class="rank-no">2</div>-->
+<!--                                    <div class="rank-name">신상 와인</div>-->
+<!--                                    <div class="rank-up">new</div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <div class="rank-no">3</div>-->
+<!--                                    <div class="rank-name">신상 와인</div>-->
+<!--                                    <div class="rank-up">new</div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <div class="rank-no">4</div>-->
+<!--                                    <div class="rank-name">신상 와인</div>-->
+<!--                                    <div class="rank-up">new</div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <div class="rank-no">5</div>-->
+<!--                                    <div class="rank-name">신상 와인</div>-->
+<!--                                    <div class="rank-up">new</div>-->
+<!--                                </li>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -577,9 +577,11 @@
     const username = /*[[${username}]]*/ '';
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
     let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
+    let days = 7;
 
     let productsFrame = document.getElementById("productCards");
     let productCard02 = document.getElementById("productCard02");
+    let bestSellerFrame = document.getElementById('bestSellerFrame');
     let innerSlider = document.querySelector(".product-cards-inner")
     let pressed = false;
     let startX, nowX;
@@ -607,8 +609,10 @@
     displayUsername(username);
     displayLoginState();
     displayItemList(innerSlider, goodsViewList);
+    displayBestSellerGoods(bestSellerFrame, days);
     createItemCard02(productCard02, goodsViewDetails);
     setSwiperSlide(productsFrame, innerSlider);
+    connectItemDetails();
 
     async function displayLoginState() {
         const userLoginState = await checkUserLoginState();

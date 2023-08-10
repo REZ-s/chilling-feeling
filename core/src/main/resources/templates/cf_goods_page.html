@@ -60,9 +60,9 @@
             <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
         </button>
 
-        <div class="wrap-share-cart">
+        <button class="wrap-share-cart"  onclick="location.href='/cart'">
             <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
-        </div>
+        </button>
     </section>
 
     <!-- Content -->
@@ -353,7 +353,7 @@
                     </div>
 
                     <div class="wrap-btn01">
-                        <button class="btn01" onclick="addCartList(goodsViewDetails.name);">
+                        <button class="btn01" onclick="addCart(goodsViewDetails.name, goodsCount.textContent);">
                             <div class="btn01-label">장바구니 담기</div>
                         </button>
                         <button class="btn01-active" onclick="ordersGoodsList(goodsViewDetails.name, goodsCount.textContent);">

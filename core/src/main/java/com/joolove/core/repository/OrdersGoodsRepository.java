@@ -12,6 +12,4 @@ import java.util.UUID;
 @Repository
 public interface OrdersGoodsRepository extends JpaRepository<OrdersGoods, UUID>  {
 
-    public OrdersGoods findByOrderAndGoods(@NotNull Orders order, @NotNull Goods goods);
-
 }

@@ -828,6 +828,8 @@
     justify-content: center;
     align-items: center;
     padding: 0;
+    border: 0;
+    background-color: white;
 }
 
 .recommend-image02 {
@@ -940,7 +942,7 @@
 
 .home-best-seller {
     /*width: 375px;*/
-    height: 450px;
+    height: 500px;
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -1030,8 +1032,8 @@
 }
 
 .wrap-horizontal {
-    width: 335px;
-    height: 264px;
+    /*width: 335px;*/
+    /*height: 264px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -4028,6 +4030,8 @@ input.login1-form::placeholder {
     align-items: center;
     gap: 6px;
     padding: 2px;
+    border: 0;
+    background-color: white;
 }
 
 .ic_share_24px {

@@ -6,13 +6,10 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-
     <title> Chilling Feeling - Cart </title>
-
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
@@ -27,7 +24,6 @@
         <div class="cart-header-text">장바구니</div>
         <img class="ic_close_24px" src="/images/ic_close_24px.png">
     </div>
-
     <!-- Content -->
     <div class="cart-contents">
         <div class="wrap-cart-total-select-delete">
@@ -44,20 +40,17 @@
             </div>
             <div class="cart-delete">선택삭제</div>
         </div>
-
         <!-- 장바구니가 비었을 때 -->
         <div class="wrap-illust-text-cart-no-data" id="emptyCartFrame" style="display: none">
             <img class="illust-no-data" src="/images/ic_x_face.png">
             <div class="text-cart-no-data">장바구니가 비었습니다.</div>
         </div>
-
         <!-- 장바구니에 상품이 있을 때 -->
         <div class="wrap-cart-product-cards-counting" id="containCartFrame">
             <div class="wrap-cart-product-total-counting">
                 <div class="cart-product-total-counting-label">총 주문 상품 수</div>
                 <div class="cart-product-total-counting"><span class="cart-total-count">1</span>개</div>
             </div>
-
             <div class="wrap-cart-product-cards" id="cardsFrame">
                 <!-- 상품 1개 -->
                 <!--
@@ -95,62 +88,59 @@
                         </div>
                     </div>
                 </div>-->
-
                 <!-- 상품 2개 -->
-<!--                <div class="wrap-cart-product-card">
-                    <div class="wrap-check-delete">
-                        <button class="check-box" id="cb2">
-                            <img src="/images/check_box.png">
-                        </button>
-                        <img src="/images/ic_close_14px.png" class="ic_close_14px">
-                    </div>
+                <!--                <div class="wrap-cart-product-card">
+                                    <div class="wrap-check-delete">
+                                        <button class="check-box" id="cb2">
+                                            <img src="/images/check_box.png">
+                                        </button>
+                                        <img src="/images/ic_close_14px.png" class="ic_close_14px">
+                                    </div>
 
-                    <div class="cart-product-card">
-                        <div class="wrap-cart-name-counting">
-                            <div class="wrap-cart-product-name">
-                                <div class="wrap-cart-product-name-type-subtype">
-                                    <div class="cart-product-name-type" id="goodsType2">와인</div>
-                                    <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
-                                    <div class="cart-product-name-subtype" id="goodsSubType2">화이트와인</div>
-                                </div>
+                                    <div class="cart-product-card">
+                                        <div class="wrap-cart-name-counting">
+                                            <div class="wrap-cart-product-name">
+                                                <div class="wrap-cart-product-name-type-subtype">
+                                                    <div class="cart-product-name-type" id="goodsType2">와인</div>
+                                                    <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
+                                                    <div class="cart-product-name-subtype" id="goodsSubType2">화이트와인</div>
+                                                </div>
 
-                                <div class="cart-product-name" id="goodsName2">레이크 찰리스 네스트 소비뇽 블랑</div>
-                            </div>
+                                                <div class="cart-product-name" id="goodsName2">레이크 찰리스 네스트 소비뇽 블랑</div>
+                                            </div>
 
-                            <div class="wrap-btn-counting">
-                                <div class="btn-counting">
-                                    <img src="/images/ic_minus.png" class="ic_minus">
-                                    <div class="btn-counting-label" id="goodsCount2">1</div>
-                                    <img src="/images/ic_plus.png" class="ic_plus">
-                                </div>
-                            </div>
-                        </div>
+                                            <div class="wrap-btn-counting">
+                                                <div class="btn-counting">
+                                                    <img src="/images/ic_minus.png" class="ic_minus">
+                                                    <div class="btn-counting-label" id="goodsCount2">1</div>
+                                                    <img src="/images/ic_plus.png" class="ic_plus">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                        <div class="photo-container-85px">
-                            <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl2">
-                        </div>
-                    </div>
-                </div>-->
+                                        <div class="photo-container-85px">
+                                            <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl2">
+                                        </div>
+                                    </div>
+                                </div>-->
             </div>
         </div>
     </div>
-
     <!-- Footer -->
     <section class="bottom">
         <div class="cart-btn-frame">
-            <button class="cart-btn-active" id="orderBtn">
+            <button class="cart-btn-active" id="orderBtn"
+                    onclick="ordersGoodsList(goodsViewDetails.name, goodsCount.textContent);">
                 <div class="cart-btn-default-label">주문하기</div>
             </button>
+            <div class="cart-btn-default" id="emptyBtn" style="display: none">
+                <div class="cart-btn-default-label">상품을 담아주세요</div>
+            </div>
         </div>
     </section>
-
-    <div class="cart-btn-default" id="emptyBtn" style="display: none">
-        <div class="cart-btn-default-label">상품을 담아주세요</div>
-    </div>
 </div>
-
 <script th:inline="javascript">
-    let goodsViewList = /*[[${goodsViewList}]]*/ [];
+    let cartResponseList;
 
     let cbAllElement = document.getElementById('cbAll');
     let cardsFrameElement = document.getElementById('cardsFrame');
@@ -162,8 +152,11 @@
     let minusBtnElements;
 
     init();
-    function init() {
-        if (goodsViewList.length === 0) {
+
+    async function init() {
+        cartResponseList = await getCart();
+
+        if (cartResponseList.length === 0) {
             document.getElementById('containCartFrame').style.display = 'none';
             document.getElementById('emptyCartFrame').style.display = 'flex';
             document.getElementById('orderBtn').style.display = 'none';
@@ -171,8 +164,8 @@
             return;
         }
 
-        for (let i = 0; i < goodsViewList.length; i++) {
-            cardsFrameElement.appendChild(createCartProductCard(goodsViewList[i], i));
+        for (let i = 0; i < cartResponseList.length; i++) {
+            cardsFrameElement.appendChild(createCartProductCard(cartResponseList[i].goodsView, cartResponseList[i].goodsCount, i));
         }
 
         for (let i = 0; i < totalCountElementList.length; i++) {
@@ -186,11 +179,59 @@
     }
 
     function updateCbBtnElements() {
-        return cbBtnElements = document.querySelectorAll('[id*="cb"]');
+        cbBtnElements = document.querySelectorAll('[id*="cb"]');
+
+        cbBtnElements.forEach(function (cbBtn) {
+            cbBtn.addEventListener('click', function () {
+                if (cbBtn === cbAllElement) {
+                    return;
+                }
+
+                if (cbBtn.className === 'check-box') {
+                    cbBtn.className = 'check-box-pressed';
+                    cbBtn.firstElementChild.src = '/images/check_box_pressed.png';
+                } else {
+                    cbBtn.className = 'check-box';
+                    cbBtn.firstElementChild.src = '/images/check_box.png';
+                }
+
+                updateChoiceCountElement();
+                updateCbAll();
+            });
+        });
     }
 
     function updateCardCloseBtnElements() {
-        return cardCloseBtnElements = document.querySelectorAll('[id*="close"]');
+        cardCloseBtnElements = document.querySelectorAll('[id*="close"]');
+
+        cardCloseBtnElements.forEach(function (card) {
+            card.addEventListener("click", function () {
+                let parentElement = card.parentElement.parentElement;
+
+                if (parentElement != null
+                    && parentElement.className === 'wrap-cart-product-card') {
+
+                    let cartProductName = parentElement.getElementsByClassName('cart-product-name')[0];
+                    let goodsName = cartProductName.textContent;
+
+                    removeCart(goodsName);
+
+                    cardsFrameElement.removeChild(parentElement);
+                    if (cardsFrameElement.childElementCount === 0) {
+                        document.getElementById('containCartFrame').style.display = 'none';
+                        document.getElementById('emptyCartFrame').style.display = 'flex';
+                        document.getElementById('orderBtn').style.display = 'none';
+                        document.getElementById('emptyBtn').style.display = 'flex';
+                    }
+
+                    updateCbBtnElements();
+                    updateCardCloseBtnElements();
+                    updateTotalCountElement();
+                    updateChoiceCountElement();
+                    updateCbAll();
+                }
+            });
+        });
     }
 
     function getCheckedBoxCount() {
@@ -216,56 +257,13 @@
         choiceCountElement.innerText = getCheckedBoxCount().toString();
     }
 
-    cardCloseBtnElements.forEach(function(card) {
-        card.addEventListener("click", function() {
-            let parentElement = card.parentElement.parentElement;
-
-            if (parentElement != null
-                && parentElement.className === 'wrap-cart-product-card') {
-
-                cardsFrameElement.removeChild(parentElement);
-                if (cardsFrameElement.childElementCount === 0) {
-                    document.getElementById('containCartFrame').style.display = 'none';
-                    document.getElementById('emptyCartFrame').style.display = 'flex';
-                    document.getElementById('orderBtn').style.display = 'none';
-                    document.getElementById('emptyBtn').style.display = 'flex';
-                }
-
-                updateCbBtnElements();
-                updateCardCloseBtnElements();
-                updateTotalCountElement();
-                updateChoiceCountElement();
-                updateCbAll();
-            }
-        });
-    });
-
-    cbBtnElements.forEach(function(cbBtn) {
-        cbBtn.addEventListener('click', function() {
-            if (cbBtn === cbAllElement) {
-                return;
-            }
-
-            if (cbBtn.className === 'check-box') {
-                cbBtn.className = 'check-box-pressed';
-                cbBtn.firstElementChild.src = '/images/check_box_pressed.png';
-            } else {
-                cbBtn.className = 'check-box';
-                cbBtn.firstElementChild.src = '/images/check_box.png';
-            }
-
-            updateChoiceCountElement();
-            updateCbAll();
-        });
-    });
-
     cbAllElement.addEventListener('click', function () {
         if (cbAllElement.className === 'check-box') {
             cbAllElement.classList.remove('check-box');
             cbAllElement.classList.add('check-box-pressed');
             cbAllElement.firstElementChild.src = '/images/check_box_pressed.png';
 
-            cbBtnElements.forEach(function(cbBtn) {
+            cbBtnElements.forEach(function (cbBtn) {
                 cbBtn.classList.remove('check-box');
                 cbBtn.classList.add('check-box-pressed');
                 cbBtn.firstElementChild.src = '/images/check_box_pressed.png';
@@ -276,7 +274,7 @@
             cbAllElement.classList.add('check-box');
             cbAllElement.firstElementChild.src = '/images/check_box.png';
 
-            cbBtnElements.forEach(function(cbBtn) {
+            cbBtnElements.forEach(function (cbBtn) {
                 cbBtn.classList.remove('check-box-pressed');
                 cbBtn.classList.add('check-box');
                 cbBtn.firstElementChild.src = '/images/check_box.png';
@@ -288,7 +286,7 @@
     function updateCbAll() {
         let allChecked = true;
 
-        cbBtnElements.forEach(function(cbBtn) {
+        cbBtnElements.forEach(function (cbBtn) {
             if (cbBtn === cbAllElement) {
                 return;
             }
@@ -309,7 +307,7 @@
         }
     }
 
-    function createCartProductCard(goodsView, index) {
+    function createCartProductCard(goodsView, goodsCount, index) {
         const parentElement = document.createElement('div');
         parentElement.id = 'card' + index;
         parentElement.classList.add('wrap-cart-product-card');
@@ -383,7 +381,7 @@
         countingLabelElement.classList.add('btn-counting-label');
         countingLabelElement.id = 'goodsCount' + index;
         countingLabelElement.classList.add('cart-one-count');
-        countingLabelElement.textContent = '1';
+        countingLabelElement.textContent = goodsCount;
         countingElement.appendChild(countingLabelElement);
         const plusImageElement = document.createElement('img');
         plusImageElement.classList.add('ic_plus');
@@ -404,7 +402,6 @@
 
         return parentElement;
     }
-
 </script>
 </body>
 </html>

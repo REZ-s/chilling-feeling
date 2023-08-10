@@ -29,8 +29,8 @@ public class GoodsService {
     private final GoodsDetailsRepository goodsDetailsRepository;
     private final GoodsDiscountRepository goodsDiscountRepository;
     
-    // 상품(GoodsView) 1개 조회 (ID)
-    public GoodsView findGoodsByGoodsId(UUID goodsId) {
+    // 상품(GoodsViewDetails) 1개 조회 (ID)
+    public GoodsViewDetails findGoodsByGoodsId(UUID goodsId) {
         return goodsDetailsRepository.findGoodsByGoodsId(goodsId);
     }
 
@@ -52,6 +52,16 @@ public class GoodsService {
     // 상품(GoodsViewDetails) 1개 조회 (이름)
     public GoodsViewDetails findGoodsDetails(String goodsName) {
         return goodsRepository.findGoodsDetailsByName(goodsName);
+    }
+
+    // 상품(GoodsView) 1개 조회 (이름)
+    public IGoodsView findGoodsByGoodsName(String goodsName) {
+        return goodsRepository.findGoodsByGoodsName(goodsName);
+    }
+
+    // 상품(GoodsView) n개 한 번에 조회 (이름)
+    public List<IGoodsView> findGoodsListByGoodsName(List<String> goodsNameList) {
+        return goodsRepository.findGoodsListByGoodsName(goodsNameList);
     }
 
     // 상품(GoodsView) n개 조회 (이름, 카테고리 별)

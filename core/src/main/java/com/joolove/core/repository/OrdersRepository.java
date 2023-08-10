@@ -22,9 +22,11 @@ public interface OrdersRepository extends JpaRepository<Orders, UUID> {
     @Query("select new com.joolove.core.dto.query.BestSeller(og.goods.id, count(og.goods)) " +
             "from Orders o " +
             "join o.ordersGoodsList og " +
-            "where o.orderStatus = 2 " +
-            "and o.updatedDate between :nowDate and :beforeDate " +
-            "group by og.goods.id")
-    public List<BestSeller> findBestSeller(LocalDateTime nowDate, LocalDateTime beforeDate, Pageable pageable);
+            "on o.id = og.order.id " +
+            "and o.orderStatus = 2 " +
+            "and o.updatedDate > ?1 " +
+            "group by og.goods.id " +
+            "order by count(og.goods) desc ")
+    public List<BestSeller> findBestSeller(LocalDateTime beforeDate, Pageable pageable);
 
 }

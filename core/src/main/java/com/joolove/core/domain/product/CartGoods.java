@@ -33,11 +33,15 @@ public class CartGoods {
     @JoinColumn(name = "goods_id")
     private Goods goods;
 
+    @NotNull
+    private Integer count;              // 개수
+
     @Builder
-    public CartGoods(UUID id, Cart cart, Goods goods) {
+    public CartGoods(UUID id, Cart cart, Goods goods, Integer count) {
         this.id = id;
         this.cart = cart;
         this.goods = goods;
+        this.count = count;
     }
 
     @Override
@@ -46,6 +50,11 @@ public class CartGoods {
                 "id=" + id +
                 ", cart=" + cart +
                 ", goods=" + goods +
+                ", count=" + count +
                 '}';
+    }
+
+    public void updateCount(Integer count) {
+        this.count = count;
     }
 }

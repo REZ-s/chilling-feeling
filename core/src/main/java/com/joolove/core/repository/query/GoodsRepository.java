@@ -18,6 +18,20 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
+    @Query("select new com.joolove.core.dto.query.GoodsView(" +
+            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
+            "from GoodsDetails gd inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "and gd.name = ?1 ")
+    IGoodsView findGoodsByGoodsName(String goodsName);
+
+    @Query("select new com.joolove.core.dto.query.GoodsView(" +
+            "gd.name, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
+            "from GoodsDetails gd inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "and gd.name in ?1 ")
+    List<IGoodsView> findGoodsListByGoodsName(List<String> goodsNameList);
+
     // 문자열의 길이가 길 때, FTS 가 생각보다 느리다면 기존의 like in 도 고려해본다. (성능 테스트 필요)
     // 와인(type) -> 레드와인(sub_type) 처럼, type 외에 sub_type 을 따로 만들지도 고민해볼만하다.
     @Query(value = "select gd.name as name, gd.type as type, gd.image_url as imageUrl, gs.label as label, gs.score as score, gs.review_count as reviewCount " +

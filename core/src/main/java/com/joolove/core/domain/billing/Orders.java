@@ -76,7 +76,7 @@ public class Orders extends BaseTimeStamp {
         this.refund = refund;
     }
 
-    public void setOrdersGoods(List<OrdersGoods> ordersGoodsList) {
+    public void setOrdersGoodsList(List<OrdersGoods> ordersGoodsList) {
         this.ordersGoodsList = ordersGoodsList;
     }
 
