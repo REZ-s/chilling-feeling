@@ -1,17 +1,22 @@
 package com.joolove.core.domain.member;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.auth.*;
+import com.joolove.core.domain.auth.CIDI;
+import com.joolove.core.domain.auth.Password;
+import com.joolove.core.domain.auth.Role;
+import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.billing.Cart;
 import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.log.LoginLog;
 import com.joolove.core.domain.log.UserActivityLog;
-import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
-import lombok.*;
+import com.joolove.core.domain.recommendation.UserRecommendationDaily;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -69,7 +74,6 @@ public class User extends BaseTimeStamp {
         setProfile(user.getProfile());
         setOrders(user.getOrdersList());
         setLoginLogs(user.getLoginLogs());
-        setUserActivityLogs(user.getUserActivityLogs());
         setUserPersonal(user.getUserPersonal());
         setUserRecommendationBase(user.getUserRecommendationBase());
         setUserRecommendationDaily(user.getUserRecommendationDaily());
@@ -128,10 +132,6 @@ public class User extends BaseTimeStamp {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<UserActivityLog> userActivityLogs = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Address> addresses = new ArrayList<>();
 
     @JsonIgnore
@@ -184,10 +184,6 @@ public class User extends BaseTimeStamp {
 
     public void setLoginLogs(List<LoginLog> loginLogs) {
         this.loginLogs = loginLogs;
-    }
-
-    public void setUserActivityLogs(List<UserActivityLog> userActivityLogs) {
-        this.userActivityLogs = userActivityLogs;
     }
 
     public void setAddresses(List<Address> addresses) {

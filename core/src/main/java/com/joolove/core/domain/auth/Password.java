@@ -1,7 +1,6 @@
 package com.joolove.core.domain.auth;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.joolove.core.domain.BaseTimeStamp;
 import com.joolove.core.domain.member.User;
 import lombok.AccessLevel;

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <title> Chilling Feeling - Cart </title>
+    <title> Chilling Feeling - Wish list </title>
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
         <a href="javascript:history.back()">
             <img class="ic_back_24px" src="/images/ic_back_black_24px.png">
         </a>
-        <div class="cart-header-text">장바구니</div>
+        <div class="cart-header-text">위시리스트</div>
         <img class="ic_close_24px" src="/images/ic_close_24px.png">
     </div>
     <!-- Content -->
@@ -40,108 +40,27 @@
             </div>
             <div class="cart-delete">선택삭제</div>
         </div>
-        <!-- 장바구니가 비었을 때 -->
+        <!-- 위시리스트가 비었을 때 -->
         <div class="wrap-illust-text-cart-no-data" id="emptyCartFrame" style="display: none">
             <img class="illust-no-data" src="/images/ic_x_face.png">
-            <div class="text-cart-no-data">장바구니가 비었습니다.</div>
+            <div class="text-cart-no-data">위시리스트가 비었습니다.</div>
         </div>
-        <!-- 장바구니에 상품이 있을 때 -->
+        <!-- 위시리스트에 상품이 있을 때 -->
         <div class="wrap-cart-product-cards-counting" id="containCartFrame">
             <div class="wrap-cart-product-total-counting">
-                <div class="cart-product-total-counting-label">총 주문 상품 수</div>
+                <div class="cart-product-total-counting-label">좋아요 누른 상품 수</div>
                 <div class="cart-product-total-counting"><span class="cart-total-count">1</span>개</div>
             </div>
             <div class="wrap-cart-product-cards" id="cardsFrame">
-                <!-- 상품 1개 -->
-                <!--
-                <div class="wrap-cart-product-card">
-                    <div class="wrap-check-delete">
-                        <button class="check-box" id="cb1">
-                            <img src="/images/check_box.png">
-                        </button>
-                        <img src="/images/ic_close_14px.png" class="ic_close_14px">
-                    </div>
-
-                    <div class="cart-product-card">
-                        <div class="wrap-cart-name-counting">
-                            <div class="wrap-cart-product-name">
-                                <div class="wrap-cart-product-name-type-subtype">
-                                    <div class="cart-product-name-type" id="goodsType1">와인</div>
-                                    <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
-                                    <div class="cart-product-name-subtype" id="goodsSubType1">화이트와인</div>
-                                </div>
-
-                                <div class="cart-product-name" id="goodsName1">레이크 찰리스 네스트 소비뇽 블랑</div>
-                            </div>
-
-                            <div class="wrap-btn-counting">
-                                <div class="btn-counting">
-                                    <img src="/images/ic_minus.png" class="ic_minus">
-                                    <div class="btn-counting-label" id="goodsCount1">1</div>
-                                    <img src="/images/ic_plus.png" class="ic_plus">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="photo-container-85px">
-                            <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl1">
-                        </div>
-                    </div>
-                </div>-->
-                <!-- 상품 2개 -->
-                <!--                <div class="wrap-cart-product-card">
-                                    <div class="wrap-check-delete">
-                                        <button class="check-box" id="cb2">
-                                            <img src="/images/check_box.png">
-                                        </button>
-                                        <img src="/images/ic_close_14px.png" class="ic_close_14px">
-                                    </div>
-
-                                    <div class="cart-product-card">
-                                        <div class="wrap-cart-name-counting">
-                                            <div class="wrap-cart-product-name">
-                                                <div class="wrap-cart-product-name-type-subtype">
-                                                    <div class="cart-product-name-type" id="goodsType2">와인</div>
-                                                    <img src="/images/ic_chevron_right_10px.png" class="ic_chevron_right_10px">
-                                                    <div class="cart-product-name-subtype" id="goodsSubType2">화이트와인</div>
-                                                </div>
-
-                                                <div class="cart-product-name" id="goodsName2">레이크 찰리스 네스트 소비뇽 블랑</div>
-                                            </div>
-
-                                            <div class="wrap-btn-counting">
-                                                <div class="btn-counting">
-                                                    <img src="/images/ic_minus.png" class="ic_minus">
-                                                    <div class="btn-counting-label" id="goodsCount2">1</div>
-                                                    <img src="/images/ic_plus.png" class="ic_plus">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="photo-container-85px">
-                                            <img src="/images/item-rep01.png" class="image-81" id="goodsImageUrl2">
-                                        </div>
-                                    </div>
-                                </div>-->
             </div>
         </div>
     </div>
-
     <!-- Footer -->
-    <section class="bottom">
-        <div class="cart-btn-frame">
-            <button class="cart-btn-active" id="orderBtn"
-                    onclick="ordersGoodsList(goodsViewDetails.name, goodsCount.textContent);">
-                <div class="cart-btn-default-label">주문하기</div>
-            </button>
-            <div class="cart-btn-default" id="emptyBtn" style="display: none">
-                <div class="cart-btn-default-label">상품을 담아주세요</div>
-            </div>
-        </div>
+    <section class="bottom" id="footer">
     </section>
 </div>
 <script th:inline="javascript">
-    let cartResponseList;
+    let wishListResponseList;
 
     let cbAllElement = document.getElementById('cbAll');
     let cardsFrameElement = document.getElementById('cardsFrame');
@@ -155,9 +74,9 @@
     init();
 
     async function init() {
-        cartResponseList = await getCart();
+        wishListResponseList = await getWishList();
 
-        if (cartResponseList.length === 0) {
+        if (wishListResponseList.length === 0) {
             document.getElementById('containCartFrame').style.display = 'none';
             document.getElementById('emptyCartFrame').style.display = 'flex';
             document.getElementById('orderBtn').style.display = 'none';
@@ -165,8 +84,8 @@
             return;
         }
 
-        for (let i = 0; i < cartResponseList.length; i++) {
-            cardsFrameElement.appendChild(createCartProductCard(cartResponseList[i].goodsView, cartResponseList[i].goodsCount, i));
+        for (let i = 0; i < wishListResponseList.length; i++) {
+            cardsFrameElement.appendChild(createWishListProductCard(wishListResponseList[i].goodsView, i));
         }
 
         for (let i = 0; i < totalCountElementList.length; i++) {
@@ -178,6 +97,7 @@
         applyPlusBtnElements();
         applyMinusBtnElements();
 
+        createFooter();
         activeGoodsDetailsURL();
     }
 
@@ -214,10 +134,10 @@
                 if (parentElement != null
                     && parentElement.className === 'wrap-cart-product-card') {
 
-                    let cartProductName = parentElement.getElementsByClassName('cart-product-name')[0];
-                    let goodsName = cartProductName.textContent;
+                    let wishListProductName = parentElement.getElementsByClassName('cart-product-name')[0];
+                    let goodsName = wishListProductName.textContent;
 
-                    removeCart(goodsName);
+                    removeWishList(goodsName);
 
                     cardsFrameElement.removeChild(parentElement);
                     if (cardsFrameElement.childElementCount === 0) {
@@ -310,7 +230,7 @@
         }
     }
 
-    function createCartProductCard(goodsView, goodsCount, index) {
+    function createWishListProductCard(goodsView, index) {
         const parentElement = document.createElement('div');
         parentElement.id = 'card' + index;
         parentElement.classList.add('wrap-cart-product-card');
@@ -372,28 +292,8 @@
         productNameElement2.textContent = goodsView.name;    // GoodsView.name
         productNameElement.appendChild(productNameElement2);
         nameCountingElement.appendChild(productNameElement);
-        const btnCountingElement = document.createElement('div');
-        btnCountingElement.classList.add('wrap-btn-counting');
-        const countingElement = document.createElement('div');
-        countingElement.classList.add('btn-counting');
-        const minusImageElement = document.createElement('img');
-        minusImageElement.classList.add('ic_minus');
-        minusImageElement.src = '/images/ic_minus.png';
-        countingElement.appendChild(minusImageElement);
-        const countingLabelElement = document.createElement('div');
-        countingLabelElement.classList.add('btn-counting-label');
-        countingLabelElement.id = 'goodsCount' + index;
-        countingLabelElement.classList.add('cart-one-count');
-        countingLabelElement.textContent = goodsCount;
-        countingElement.appendChild(countingLabelElement);
-        const plusImageElement = document.createElement('img');
-        plusImageElement.classList.add('ic_plus');
-        plusImageElement.src = '/images/ic_plus.png';
-        countingElement.appendChild(plusImageElement);
-        btnCountingElement.appendChild(countingElement);
-        nameCountingElement.appendChild(btnCountingElement);
         productCardElement.appendChild(nameCountingElement);
-        const photoContainerElement = document.createElement('div');
+        const photoContainerElement = document.createElement('button');
         photoContainerElement.classList.add('photo-container-85px');
         photoContainerElement.id = goodsView.name;
         const imageElement = document.createElement('img');

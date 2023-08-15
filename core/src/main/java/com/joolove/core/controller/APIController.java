@@ -1,16 +1,17 @@
 package com.joolove.core.controller;
 
-import com.joolove.core.domain.billing.Cart;
-import com.joolove.core.domain.billing.Orders;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.product.CartGoods;
+import com.joolove.core.domain.product.FavoriteGoods;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.CartRequest;
 import com.joolove.core.dto.request.OrdersRequest;
 import com.joolove.core.dto.request.SignInRequest;
+import com.joolove.core.dto.request.FavoriteRequest;
 import com.joolove.core.dto.response.CartResponse;
+import com.joolove.core.dto.response.FavoriteResponse;
 import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.service.*;
 import com.joolove.core.utils.PasswordUtils;
@@ -20,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -34,6 +34,7 @@ public class APIController {
     private final GoodsService goodsService;
     private final OrdersService ordersService;
     private final CartService cartService;
+    private final FavoriteService favoriteService;
     private final SocialLoginRepository socialLoginRepository;
     private final PasswordUtils passwordUtils;
 
@@ -127,7 +128,7 @@ public class APIController {
             return ResponseEntity.ok().body("invalid goods");
         }
 
-        Orders order = ordersService.createOrder(user, goods, request.getGoodsCount());
+        ordersService.createOrder(user, goods, request.getGoodsCount());
 
         return ResponseEntity.ok().body("success");
     }
@@ -152,7 +153,7 @@ public class APIController {
             return ResponseEntity.ok().body("invalid goods");
         }
 
-        Cart cart = cartService.addCart(user, goods, request.getGoodsCount());
+        cartService.addCart(user, goods, request.getGoodsCount());
 
         return ResponseEntity.ok().body("success");
     }
@@ -169,18 +170,18 @@ public class APIController {
         List<String> goodsNameList = new ArrayList<>();
         Map<String, Integer> goodsNameWithCount = new HashMap<>();
 
-        for (CartGoods c : cartGoodsList) {
-            goodsNameList.add(c.getGoods().getName());
-            goodsNameWithCount.put(c.getGoods().getName(), c.getCount());
+        for (CartGoods cg : cartGoodsList) {
+            goodsNameList.add(cg.getGoods().getName());
+            goodsNameWithCount.put(cg.getGoods().getName(), cg.getCount());
         }
 
         List<IGoodsView> goodsViewList = goodsService.findGoodsListByGoodsName(goodsNameList);
         List<CartResponse> cartResponseList = new ArrayList<>();
 
-        for (IGoodsView g : goodsViewList) {
+        for (IGoodsView gv : goodsViewList) {
             CartResponse cartResponse = CartResponse.builder()
-                    .goodsView((GoodsView) g)
-                    .goodsCount(goodsNameWithCount.get(g.getName()))
+                    .goodsView((GoodsView) gv)
+                    .goodsCount(goodsNameWithCount.get(gv.getName()))
                     .build();
 
             cartResponseList.add(cartResponse);
@@ -210,4 +211,98 @@ public class APIController {
 
         return ResponseEntity.ok().body("success");
     }
+
+    // 위시리스트에 상품 저장
+    @PostMapping("/api/v1/wishlist")
+    public ResponseEntity<?> createWishList(@Valid @RequestBody FavoriteRequest request) {
+        User user = userService.findByUsername(request.getUsername());
+        if (user == null) {
+            return ResponseEntity.ok().body("invalid user");
+        }
+
+        Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
+        if (goods == null) {
+            return ResponseEntity.ok().body("invalid goods");
+        }
+
+        favoriteService.addWishList(user, goods);
+
+        return ResponseEntity.ok().body("success");
+    }
+
+    // 위시리스트 불러오기
+    @GetMapping("/api/v1/wishlist")
+    public ResponseEntity<?> getWishList(@Valid @RequestParam String username) {
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.ok().body("invalid user");
+        }
+
+        List<FavoriteGoods> favoriteGoodsList = favoriteService.getWishList(user);
+        List<String> goodsNameList = new ArrayList<>();
+
+        for (FavoriteGoods fg : favoriteGoodsList) {
+            goodsNameList.add(fg.getGoods().getName());
+        }
+
+        List<IGoodsView> goodsViewList = goodsService.findGoodsListByGoodsName(goodsNameList);
+        List<FavoriteResponse> favoriteResponseList = new ArrayList<>();
+
+        for (IGoodsView gv : goodsViewList) {
+            FavoriteResponse favoriteResponse = FavoriteResponse.builder()
+                    .goodsView((GoodsView) gv)
+                    .build();
+
+            favoriteResponseList.add(favoriteResponse);
+        }
+
+        if (favoriteResponseList.isEmpty()) {
+            return ResponseEntity.ok().body(new ArrayList<>());
+        }
+
+        return ResponseEntity.ok().body(favoriteResponseList);
+    }
+
+    // 위시리스트에서 상품 제거
+    @DeleteMapping("/api/v1/wishlist")
+    public ResponseEntity<?> removeWishList(@Valid @RequestBody FavoriteRequest request) {
+        User user = userService.findByUsername(request.getUsername());
+        if (user == null) {
+            return ResponseEntity.ok().body("invalid user");
+        }
+
+        Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
+        if (goods == null) {
+            return ResponseEntity.ok().body("invalid goods");
+        }
+
+        favoriteService.removeWishList(user, goods);
+
+        return ResponseEntity.ok().body("success");
+    }
+
+    // 이미 위시리스트에 있는 상품인지 확인
+    @PostMapping("/api/v1/wishlist/checked")
+    public ResponseEntity<?> checkWishListGoods(@Valid @RequestBody FavoriteRequest request) {
+        User user = userService.findByUsername(request.getUsername());
+        if (user == null) {
+            return ResponseEntity.ok().body(false);
+        }
+
+        Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
+        if (goods == null) {
+            return ResponseEntity.ok().body(false);
+        }
+
+        List<FavoriteGoods> favoriteGoodsList = favoriteService.getWishList(user);
+
+        for (FavoriteGoods fg : favoriteGoodsList) {
+            if (fg.getGoods().getName().equals(request.getGoodsName())) {
+                return ResponseEntity.ok().body(true);
+            }
+        }
+
+        return ResponseEntity.ok().body(false);
+    }
+
 }

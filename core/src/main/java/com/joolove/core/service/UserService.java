@@ -5,6 +5,9 @@ import com.joolove.core.domain.auth.Role;
 import com.joolove.core.domain.auth.SocialLogin;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.dto.request.SignUpRequest;
+import com.joolove.core.repository.PasswordRepository;
+import com.joolove.core.repository.RoleRepository;
+import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.repository.UserRepository;
 import com.joolove.core.utils.PasswordUtils;
 import com.joolove.core.utils.RedisUtils;
@@ -115,7 +118,7 @@ public class UserService {
     // 사용자 계정과 비밀번호 조회 (인증용)
     public Map<String, String> getUsernamePasswordByUsernameForSecurityFilter(String username) {
         User user = findByUsername(username);
-        if (user == null) {
+        if (user == null || user.getUsername() == null || user.getPassword() == null) {
             return null;
         }
 
@@ -127,7 +130,7 @@ public class UserService {
         Object cachedUserObject = redisUtils.get(username, User.class);
         if (cachedUserObject == null) {
             User user = userRepository.findByUsernameWithRelations(username);
-            if (user != null) {
+            if (user != null && user.getUsername() != null && user.getPassword() != null) {
                 redisUtils.add(user.getUsername(), user, 14, TimeUnit.DAYS);
             }
 

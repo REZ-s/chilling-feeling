@@ -319,9 +319,9 @@
                     <img src="/images/ic_share_24px.png" class="ic_share_24px">
                 </button>
 
-                <button class="wrap-heart-counting" onclick="addWishList()">
-                    <img src="/images/ic_heart_black_24px.png" class="ic_heart_bottom_24px">
-                    <div class="heart-counting-label" id="heartCount">0</div>
+                <button class="wrap-heart-counting" id="heartBtn">
+                    <img src="/images/ic_heart_black_24px.png" class="ic_heart_24px" id="heartImage">
+<!--                    <div class="heart-counting-label" id="heartCount">0</div>-->
                 </button>
             </div>
 
@@ -373,6 +373,8 @@
 
     window.onload = function () {
         initForm();
+        displayWishGoodsForGoodsPage(document.getElementById('heartImage'), goodsViewDetails.name);
+        applyWishListBtn(goodsViewDetails.name);
         applyPlusBtnElements();
         applyMinusBtnElements();
     }

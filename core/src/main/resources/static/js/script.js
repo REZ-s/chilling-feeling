@@ -159,10 +159,11 @@ function createItemCard01(parentElement, product) {
     image.className = 'recommend-image01';
 
     const buttonHeart = document.createElement('button');
-    buttonHeart.className = 'ic_heart_24px btn-heart';
+    buttonHeart.className = 'btn-heart';
 
     const imageHeart = document.createElement('img');
     imageHeart.src = '/images/ic_heart_24px.png';
+    imageHeart.className = 'ic_heart_24px';
 
     buttonHeart.appendChild(imageHeart);
 
@@ -364,7 +365,7 @@ function displayItemList() {
         createItemCard01(parentElement, products[i]);
     }
 
-    connectItemDetails();
+    activeGoodsDetailsURL();
 }
 
 function displayItemListForCategory() {
@@ -387,7 +388,7 @@ function displayItemListForCategory() {
         }
     }
 
-    connectItemDetails();
+    activeGoodsDetailsURL();
 }
 
 function getProducts(goodsViewList) {
@@ -414,9 +415,10 @@ function createBaseItemListForCategory(parentElement, products) {
     }
 }
 
-function connectItemDetails() {
+function activeGoodsDetailsURL() {
     let goodsContainers01 = document.getElementsByClassName('product-list01-photo-container');
     let goodsContainers02 = document.getElementsByClassName('product-list02-photo-container');
+    let goodsContainers03 = document.getElementsByClassName('photo-container-85px');
 
     for (let goodsContainer of goodsContainers01) {
         goodsContainer.addEventListener('click', function () {
@@ -425,6 +427,12 @@ function connectItemDetails() {
     }
 
     for (let goodsContainer of goodsContainers02) {
+        goodsContainer.addEventListener('click', function () {
+            location.href = '/goods/' + goodsContainer.id.toString();
+        });
+    }
+
+    for (let goodsContainer of goodsContainers03) {
         goodsContainer.addEventListener('click', function () {
             location.href = '/goods/' + goodsContainer.id.toString();
         });
@@ -800,8 +808,223 @@ function createPaletteLabelBack(paletteName) {
 /***
  * 위시리스트(좋아요)에 상품 저장
  */
-function addWishList(goodsName) {
+async function addWishList(goodsName) {
+    let username = '';
 
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    try {
+        const response = await fetch('/api/v1/wishlist', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsName
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'success') {
+                alert('위시리스트에 저장되었습니다.');
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('위시리스트 저장에 실패했습니다.');
+    }
+}
+
+function applyWishListBtn(goodsName) {
+    let heartBtn = document.getElementById('heartBtn');
+    let heartImage = document.getElementById('heartImage');
+
+    heartBtn.addEventListener('click', async function () {
+        if (heartImage.src.toString().includes('/images/ic_heart_fill_24px.png')) {
+            await removeWishList(goodsViewDetails.name);
+        } else {
+            await addWishList(goodsViewDetails.name);
+        }
+
+        await displayWishGoodsForGoodsPage(heartImage, goodsName);
+    });
+}
+
+async function displayWishListGoods(parentElement, goodsViewList) {
+    let elements = parentElement.querySelectorAll('[class*="ic_heart"]');
+
+    let wishList = await getWishList();
+    let wishListSet = new Set();
+    for (let wishGoods of wishList) {
+        wishListSet.add(wishGoods.goodsView.name);
+    }
+
+    let goodsViewSet = new Set();
+    for (let goodsView of goodsViewList) {
+        goodsViewSet.add(goodsView.name);
+    }
+
+    for (let i = 0; i < goodsViewList.length; i++) {
+        if (wishListSet.has(goodsViewList[i].name)) {
+            elements[i].src = '/images/ic_heart_fill_24px.png';
+        } else {
+            elements[i].src = '/images/ic_heart_24px.png';
+        }
+    }
+}
+
+async function displayWishGoods(element, goodsName) {
+    let isWishList = await checkWishListGoods(goodsName);
+    if (isWishList === true) {
+        element.src = '/images/ic_heart_fill_24px.png';
+    } else {
+        element.src = '/images/ic_heart_24px.png';
+    }
+}
+
+async function displayWishGoodsForGoodsPage(element, goodsName) {
+    let isWishList = await checkWishListGoods(goodsName);
+    if (isWishList === true) {
+        element.src = '/images/ic_heart_fill_24px.png';
+    } else {
+        element.src = '/images/ic_heart_black_24px.png';
+    }
+}
+
+/**
+ * 위시리스트에 있는 상품인지 확인
+ */
+async function checkWishListGoods(goodsName) {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        // 유저 정보를 읽을 수 없으니 위시리스트 요청 무시
+        return false;
+    }
+
+    try {
+        const response = await fetch('/api/v1/wishlist/checked', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsName
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'true') {
+                return true;
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        // 위시리스트에 없는 상품. 별다른 조치를 하지 않음
+    }
+
+    return false;
+}
+
+/***
+ * 위시리스트 불러오기
+ */
+async function getWishList() {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    let wishListResponseList;
+
+    try {
+        const response = await fetch('/api/v1/wishlist?username=' + username)
+
+        if (response.ok) {
+            wishListResponseList = response.json();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('위시리스트를 불러오는데 실패했습니다.');
+    }
+
+    return wishListResponseList;
+}
+
+/***
+ * 위시리스트에서 상품 제거
+ */
+async function removeWishList(goodsName) {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+    }
+
+    try {
+        const response = await fetch('/api/v1/wishlist', {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsName
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'success') {
+                alert('위시리스트에서 제외했습니다.');
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('위시리스트에서 상품을 제외하는데 실패했습니다.');
+    }
 }
 
 /***
@@ -1001,5 +1224,14 @@ async function displayBestSellerGoods(parentElement, days) {
     let goodsViewDetails = await getBestSellerGoods(days);
 
     createItemCard02(parentElement, goodsViewDetails);
-    connectItemDetails();
+    activeGoodsDetailsURL();
+}
+
+function getSearchWord(searchKeyword) {
+    if (searchKeyword === '') {
+        alert('검색어를 입력해주세요.');
+        return;
+    }
+
+    location.href = '/search/result?query=' + searchKeyword;
 }

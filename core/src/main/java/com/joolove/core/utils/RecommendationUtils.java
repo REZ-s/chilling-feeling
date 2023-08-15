@@ -6,12 +6,12 @@ import com.joolove.core.domain.product.Category;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
 import com.joolove.core.domain.recommendation.UserRecommendationDaily;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.dto.query.UserActivityElements;
+import com.joolove.core.dto.query.UserActivityLogElements;
 import com.joolove.core.dto.query.UserRecommendationElements;
 import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.service.GoodsService;
-import com.joolove.core.service.UserActivityService;
+import com.joolove.core.service.UserActivityLogService;
 import com.joolove.core.service.UserRecommendationService;
 import com.joolove.core.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class RecommendationUtils {
     private final UserService userService;
     private final GoodsService goodsService;
     private final UserRecommendationService userRecommendationService;
-    private final UserActivityService userActivityService;
+    private final UserActivityLogService userActivityLogService;
 
     // 사용자별 추천 상품 리스트를 가져온다.
     public List<IGoodsView> getUserRecommendationGoodsList(String username) {
@@ -41,7 +41,7 @@ public class RecommendationUtils {
         List<IGoodsView> userRecommendationGoodsList;
 
         UserRecommendationElements userRecommendationElements = getUserRecommendElements(username);   // 개인 추천 관련 데이터 가져오기
-        List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
+        List<UserActivityLogElements> userActivityLogElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
         String abvLimit = userRecommendationElements.getAbvLimit();
         List<Category.ECategory> preferredCategories = userRecommendationElements.getPreferredCategories();
@@ -57,7 +57,7 @@ public class RecommendationUtils {
         UserRecommendationDaily.EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
         UserRecommendationBase.EFigure feeling = getSweetnessByFeeling(recentFeeling);
         List<String> goodsNameList = new ArrayList<>();
-        for (UserActivityElements u : userActivityElementsList) {
+        for (UserActivityLogElements u : userActivityLogElementsList) {
             goodsNameList.add(u.getTargetName());
         }
 
@@ -102,7 +102,7 @@ public class RecommendationUtils {
 
     // 인기 상품 리스트를 가져온다.
     private List<IGoodsView> getPopularGoodsList() {
-        return userActivityService.findBestViewsUserActivityListDefault();
+        return userActivityLogService.findBestViewsUserActivityListDefault();
     }
 
     // 사용자가 '기본 추천' 을 설정한다.
@@ -130,9 +130,9 @@ public class RecommendationUtils {
     }
 
     // 사용자가 어떤 상품을 직접 '클릭' 하거나 '검색' 할 때 호출된다.
-    public boolean setUserActivityRecommendation(UserActivityElements userActivityElements) {
+    public boolean setUserActivityRecommendation(UserActivityLogElements userActivityLogElements) {
         try {
-            updateUserActivityElements(userActivityElements);
+            updateUserActivityElements(userActivityLogElements);
         } catch (Exception e) {
             logger.error("setUserActivityRecommendation error ", e);
             return false;
@@ -195,27 +195,27 @@ public class RecommendationUtils {
         }
     }
 
-    private void updateUserActivityElements(UserActivityElements userActivityElements)
+    private void updateUserActivityElements(UserActivityLogElements userActivityLogElements)
             throws UsernameNotFoundException {
 
-        User user = userService.findByUsername(userActivityElements.getUsername());
+        User user = userService.findByUsername(userActivityLogElements.getUsername());
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username : " + userActivityElements.getUsername());
+            throw new UsernameNotFoundException("User not found with username : " + userActivityLogElements.getUsername());
         }
 
         UserActivityLog userActivityLog = UserActivityLog.builder()
-                .user(user)
-                .targetCode(userActivityElements.getTargetCode())
-                .targetName(userActivityElements.getTargetName())
-                .activityCode(userActivityElements.getActivityCode())
-                .activityDescription(userActivityElements.getActivityDescription())
+                .username(userActivityLogElements.getUsername())
+                .targetCode(userActivityLogElements.getTargetCode())
+                .targetName(userActivityLogElements.getTargetName())
+                .activityCode(userActivityLogElements.getActivityCode())
+                .activityDescription(userActivityLogElements.getActivityDescription())
                 .build();
 
-        userActivityService.addUserActivity(userActivityLog);
+        userActivityLogService.addUserActivityLog(userActivityLog);
     }
 
     // 최근에 수집된 사용자 행동 데이터 (DTO : UserActivityElements) 를 가져온다.
-    private List<UserActivityElements> getUserActivityElements(String username)
+    private List<UserActivityLogElements> getUserActivityElements(String username)
             throws UsernameNotFoundException {
 
         User user = userService.findByUsername(username);
@@ -224,7 +224,7 @@ public class RecommendationUtils {
         }
 
         // 최근 5개를 target 이 goods 인 경우에만 가져온다.
-        return userActivityService.findUserActivityListByUsername(username, UserActivityLog.ETargetCode.GOODS);
+        return userActivityLogService.findUserActivityListByUsername(username, UserActivityLog.ETargetCode.GOODS);
     }
 
     // 기존에 저장해두었던 사용자 추천 관련 데이터 (DTO : UserRecommendElements) 를 가져온다.
@@ -295,7 +295,7 @@ public class RecommendationUtils {
     private List<Object> getAllRecommendationElements(String username) {
         List<Object> userRecommendationElementsList = new ArrayList<>();
         UserRecommendationElements userRecommendationElements = getUserRecommendElements(username);   // 개인 추천 관련 데이터 가져오기
-        List<UserActivityElements> userActivityElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
+        List<UserActivityLogElements> userActivityLogElementsList = getUserActivityElements(username);    // 사용자 행동 데이터 가져오기
 
         // 개인별 추천 요소
         userRecommendationElementsList.add(userRecommendationElements.getAbvLimit());        // 기본 추천
@@ -303,7 +303,7 @@ public class RecommendationUtils {
         userRecommendationElementsList.add(userRecommendationElements.getRecentFeeling());       // 오늘의 추천
 
         // 사용자 행동 데이터 기반 추천 요소
-        for (UserActivityElements e : userActivityElementsList) {
+        for (UserActivityLogElements e : userActivityLogElementsList) {
             userRecommendationElementsList.add(e.getTargetName());
         }
 

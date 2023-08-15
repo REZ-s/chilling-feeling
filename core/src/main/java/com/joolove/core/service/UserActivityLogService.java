@@ -2,8 +2,8 @@ package com.joolove.core.service;
 
 import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.dto.query.IGoodsView;
-import com.joolove.core.dto.query.UserActivityElements;
-import com.joolove.core.repository.query.UserActivityRepository;
+import com.joolove.core.dto.query.UserActivityLogElements;
+import com.joolove.core.repository.query.UserActivityLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,28 +16,28 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserActivityService {
+public class UserActivityLogService {
 
-    private final UserActivityRepository userActivityRepository;
+    private final UserActivityLogRepository userActivityLogRepository;
 
     @Transactional
-    public void addUserActivity(UserActivityLog userActivityLog) {
-        userActivityRepository.save(userActivityLog);
+    public void addUserActivityLog(UserActivityLog userActivityLog) {
+        userActivityLogRepository.save(userActivityLog);
     }
 
-    public List<UserActivityElements> findUserActivityListByUsername(String username, UserActivityLog.ETargetCode target) {
+    public List<UserActivityLogElements> findUserActivityListByUsername(String username, UserActivityLog.ETargetCode target) {
         int page = 0;
         int size = 5;
 
-        return userActivityRepository.findByUsername(username, target,
+        return userActivityLogRepository.findByUsername(username, target,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
-    public List<UserActivityElements> findUserActivityListByGoodsName(String goodsName, UserActivityLog.ETargetCode target) {
+    public List<UserActivityLogElements> findUserActivityListByGoodsName(String goodsName, UserActivityLog.ETargetCode target) {
         int page = 0;
         int size = 5;
 
-        return userActivityRepository.findByGoodsName(goodsName, target,
+        return userActivityLogRepository.findByGoodsName(goodsName, target,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate")));
     }
 
@@ -54,7 +54,7 @@ public class UserActivityService {
         int requestedSize = size != null ? size : defaultSize;
         LocalDateTime requestedDays = days != null ? days : defaultDays;
 
-        return userActivityRepository.findGoodsListBestViews(
+        return userActivityLogRepository.findGoodsListBestViews(
                 UserActivityLog.EActivityCode.SEARCH, UserActivityLog.EActivityCode.CLICK, UserActivityLog.ETargetCode.GOODS, requestedDays,
                 PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "createdDate")));
     }

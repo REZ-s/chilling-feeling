@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserActivityElements {
+public class UserActivityLogElements {
     @NotNull
     private String username;
 
@@ -30,7 +30,7 @@ public class UserActivityElements {
     private String activityDescription;
 
     @Builder
-    public UserActivityElements(String username, UserActivityLog.ETargetCode targetCode, String targetName, UserActivityLog.EActivityCode activityCode, String activityDescription) {
+    public UserActivityLogElements(String username, UserActivityLog.ETargetCode targetCode, String targetName, UserActivityLog.EActivityCode activityCode, String activityDescription) {
         this.username = username;
         this.targetCode = targetCode;
         this.targetName = targetName;

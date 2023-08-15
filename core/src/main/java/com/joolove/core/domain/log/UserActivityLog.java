@@ -21,9 +21,7 @@ public class UserActivityLog extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String username;                // email or anonymousUser
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -33,13 +31,14 @@ public class UserActivityLog extends BaseTimeStamp {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private ETargetCode targetCode;         // 활동 목적 대상 (예: 상품을 클릭했다면, Goods)
+    private ETargetCode targetCode;         // 활동 목적 대상 (예: 상품을 클릭했다면 Goods, 유저가 로그인했다면 User)
 
-    private String targetName;
+    @NotNull
+    private String targetName;              // 목적어 (예: 검색한 상품 이름)
 
     @Builder
-    public UserActivityLog(User user, EActivityCode activityCode, String activityDescription, ETargetCode targetCode, String targetName) {
-        this.user = user;
+    public UserActivityLog(String username, EActivityCode activityCode, String activityDescription, ETargetCode targetCode, String targetName) {
+        this.username = username;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
         this.targetCode = targetCode;
@@ -50,9 +49,10 @@ public class UserActivityLog extends BaseTimeStamp {
     public String toString() {
         return "UserActivityLog{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
                 ", activityCode=" + activityCode +
                 ", activityDescription='" + activityDescription + '\'' +
-                ", targetCode='" + targetCode + '\'' +
+                ", targetCode=" + targetCode +
                 ", targetName='" + targetName + '\'' +
                 '}';
     }

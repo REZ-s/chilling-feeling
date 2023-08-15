@@ -9,6 +9,7 @@ import com.joolove.core.service.UserService;
 import com.joolove.core.utils.RecommendationUtils;
 import com.joolove.core.utils.aop.LoginState;
 import com.joolove.core.utils.aop.LogoutState;
+import com.joolove.core.utils.aop.SearchLog;
 import com.joolove.core.utils.oauth2.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -86,6 +87,7 @@ public class WebController {
     }
 
     // 상품 검색 결과
+    @SearchLog
     @GetMapping("/search/result")
     public String searchResult(Model model, @RequestParam("query") String query) {
         if (!StringUtils.hasText(query)) {
@@ -158,9 +160,8 @@ public class WebController {
     // 위시리스트 페이지
     @LoginState
     @GetMapping("/wish")
-    public String wish(Model model) {
-
-        return "cf_wish_page";
+    public String wish() {
+        return "cf_wishlist_page";
     }
 
     // 마이페이지

@@ -1191,18 +1191,23 @@ li {
 }
 
 .ic_heart_24px {
-    /*    width: 22px;
-        height: 20px;*/
-    flex-grow: 0;
-    object-fit: contain;
+
+}
+
+.ic_heart_recommend_24px {
     position: absolute;
+    object-fit: contain;
     padding: 0;
     border: 0;
-    background-color: #f6f6f6;
+    background-color: #262626;
 }
 
 .btn-heart {
-    /* for js code */
+    position: absolute;
+    object-fit: contain;
+    padding: 0;
+    border: 0;
+    background-color: #f6f6f6;
 }
 
 .home-feed-prod {
@@ -4702,7 +4707,7 @@ input.login1-form::placeholder {
 
 .wrap-heart-counting {
     /*width: 42px;*/
-    height: 24px;
+    /*height: 24px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: row;
@@ -4763,13 +4768,6 @@ input.login1-form::placeholder {
     text-align: left;
     color: #fff;
     background-color: #004051;
-}
-
-.ic_heart_bottom_24px {
-    width: 24px;
-    height: 24px;
-    flex-grow: 0;
-    object-fit: contain;
 }
 
 /* 취향 설정 */
@@ -5442,17 +5440,6 @@ input.login1-form::placeholder {
     color: #afafaf;
 }
 
-.ic_heart_recommend_24px {
-    /*    width: 22px;
-        height: 20px;*/
-    flex-grow: 0;
-    object-fit: contain;
-    position: absolute;
-    padding: 0;
-    border: 0;
-    background-color: #262626;
-}
-
 .image-81 {
     width: 94px;
     height: 111px;
@@ -5626,7 +5613,7 @@ input.login1-form::placeholder {
 }
 
 .text-cart-no-data {
-    width: 134px;
+    /*width: 134px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', sans-serif;
@@ -5860,6 +5847,7 @@ input.login1-form::placeholder {
     justify-content: center;
     align-items: center;
     padding: 0;
+    border: 0;
     background-color: #f6f6f6;
 }
 
@@ -6133,7 +6121,7 @@ input.login1-form::placeholder {
 
 .my-btn-setting-label {
     /*width: 51px;*/
-    height: 12px;
+    /*height: 12px;*/
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 14px;
@@ -6144,6 +6132,8 @@ input.login1-form::placeholder {
     letter-spacing: -0.28px;
     text-align: center;
     color: #e2e3e3;
+    border: 0;
+    background-color: #00232d;
 }
 
 .my-wrap-menu {

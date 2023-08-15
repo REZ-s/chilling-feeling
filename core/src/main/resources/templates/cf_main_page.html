@@ -610,23 +610,24 @@
     displayLoginState();
     displayItemList(innerSlider, goodsViewList);
     displayBestSellerGoods(bestSellerFrame, days);
+    displayWishListGoods(innerSlider, goodsViewList);
     createItemCard02(productCard02, goodsViewDetails);
     setSwiperSlide(productsFrame, innerSlider);
-    connectItemDetails();
+    activeGoodsDetailsURL();
 
     async function displayLoginState() {
         const userLoginState = await checkUserLoginState();
 
-        if (userLoginState !== null) {
-            loginSwitchCheckBox.checked = true;
-            onOffLabel.textContent = "ON";
-            onOffLabel.classList.remove("login-switch-logo-frame-label-off");
-            onOffLabel.classList.add("login-switch-logo-frame-label-on");
-        } else {
+        if (userLoginState === null || userLoginState.length === 0) {
             loginSwitchCheckBox.checked = false;
             onOffLabel.textContent = "OFF";
             onOffLabel.classList.remove("login-switch-logo-frame-label-on");
             onOffLabel.classList.add("login-switch-logo-frame-label-off");
+        } else {
+            loginSwitchCheckBox.checked = true;
+            onOffLabel.textContent = "ON";
+            onOffLabel.classList.remove("login-switch-logo-frame-label-off");
+            onOffLabel.classList.add("login-switch-logo-frame-label-on");
         }
     }
 

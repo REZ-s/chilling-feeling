@@ -25,8 +25,7 @@ public class CartService {
         Cart cart = Cart.builder()
                 .user(user)
                 .build();
-        cartRepository.save(cart);
-        return cart;
+        return cartRepository.save(cart);
     }
 
     // 장바구니에 상품 저장
@@ -80,10 +79,10 @@ public class CartService {
         }
 
         List<CartGoods> cartGoodsList = cart.getCartGoodsList();
-        for (CartGoods c : cartGoodsList) {
-            if (c.getGoods().getId() == goods.getId()) {
-                cartGoodsList.remove(c);
-                cartGoodsRepository.deleteById(c.getId());
+        for (CartGoods cg : cartGoodsList) {
+            if (cg.getGoods().getId() == goods.getId()) {
+                cartGoodsList.remove(cg);
+                cartGoodsRepository.deleteById(cg.getId());
                 break;
             }
         }

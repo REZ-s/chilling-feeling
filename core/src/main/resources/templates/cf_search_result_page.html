@@ -180,25 +180,8 @@
         searchClear.style.display = "none";
         createFooter('/category');
         displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
+        displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
     }
-
-    searchClear.addEventListener("mouseenter", function() {
-        searchClear.addEventListener("click", function() {
-            searchInput.value = "";
-        });
-    });
-
-    searchClear.addEventListener("mouseout", function() {
-        searchInput.addEventListener("focusout", function() {
-            searchClear.style.display = "none";
-        });
-    });
-
-    searchInput.addEventListener("focusin", function() {
-        if (searchInput.value !== "") {
-            searchClear.style.display = "flex";
-        }
-    });
 
     // 카테고리 목록 탭 버튼 클릭 시
     tabLabels.forEach(function(label) {
@@ -236,27 +219,36 @@
             // 새로운 상품 리스트 폼 추가
             const productType = label.querySelector(".tab-bar-label-ac").innerText;
             displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, productType);
+            displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, productType));
         });
     });
 
-    function findSearchWord() {
-        const searchValue = searchInput.value.trim();
-        if (searchValue === '') {
-            alert('검색어를 입력해주세요.');
-            return;
-        }
+    searchClear.addEventListener("mouseenter", function() {
+        searchClear.addEventListener("click", function() {
+            searchInput.value = "";
+        });
+    });
 
-        location.href = '/search/result?query=' + searchValue;
-    }
+    searchClear.addEventListener("mouseout", function() {
+        searchInput.addEventListener("focusout", function() {
+            searchClear.style.display = "none";
+        });
+    });
+
+    searchInput.addEventListener("focusin", function() {
+        if (searchInput.value !== "") {
+            searchClear.style.display = "flex";
+        }
+    });
 
     searchInput.addEventListener('keyup', function (e) {
         if (e.key === 'Enter') {
-            findSearchWord();
+            getSearchWord(searchInput.value.trim());
         }
     });
 
     searchButton.addEventListener('click', function () {
-        findSearchWord();
+        getSearchWord(searchInput.value.trim());
     });
 
 </script>
