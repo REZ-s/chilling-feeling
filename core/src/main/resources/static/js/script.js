@@ -1222,6 +1222,9 @@ async function getBestSellerGoods(days) {
  */
 async function displayBestSellerGoods(parentElement, days) {
     let goodsViewDetails = await getBestSellerGoods(days);
+    if (goodsViewDetails == null || goodsViewDetails.length === 0) {
+        return;
+    }
 
     createItemCard02(parentElement, goodsViewDetails);
     activeGoodsDetailsURL();

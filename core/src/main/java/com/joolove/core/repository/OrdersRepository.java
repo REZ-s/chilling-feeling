@@ -17,7 +17,7 @@ public interface OrdersRepository extends JpaRepository<Orders, UUID> {
     @Query("select o " +
             "from Orders o " +
             "where o.user.id = ?1")
-    public Orders findByUserId(UUID userId);
+    Orders findByUserId(UUID userId);
 
     @Query("select new com.joolove.core.dto.query.BestSeller(og.goods.id, count(og.goods)) " +
             "from Orders o " +
@@ -27,6 +27,6 @@ public interface OrdersRepository extends JpaRepository<Orders, UUID> {
             "and o.updatedDate > ?1 " +
             "group by og.goods.id " +
             "order by count(og.goods) desc ")
-    public List<BestSeller> findBestSeller(LocalDateTime beforeDate, Pageable pageable);
+    List<BestSeller> findBestSeller(LocalDateTime beforeDate, Pageable pageable);
 
 }

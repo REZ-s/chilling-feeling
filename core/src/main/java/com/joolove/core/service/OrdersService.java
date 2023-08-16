@@ -35,6 +35,10 @@ public class OrdersService {
         LocalDateTime beforeDate = LocalDateTime.now().minusDays(days);
 
         List<BestSeller> ordersList = ordersRepository.findBestSeller(beforeDate, (Pageable) PageRequest.of(0, 1));
+        if (ordersList == null || ordersList.size() == 0) {
+            return new HashMap<>();
+        }
+
         BestSeller bestSeller = ordersList.get(0);
 
         UUID goodsId = bestSeller.getGoodsId();
