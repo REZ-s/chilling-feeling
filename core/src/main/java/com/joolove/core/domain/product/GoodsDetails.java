@@ -27,17 +27,18 @@ public class GoodsDetails extends BaseTimeStamp {
     private Goods goods;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
     private String engName;     // 영문 이름이 없는 것이 있어서 @NotBlank 적용하지 않음
     @NotBlank
     private String type;        // 주류 종류 (예: 와인, 위스키, 전통 소주, 칵테일, 논알콜 등)
+    private String subType;     // 주류 세부 분류 (예: 레드와인)
     @Size(max = 1000)
     private String imageUrl;
     @Size(max = 1000)
     private String descriptionImageUrl;
     @Size(max = 1000)
     private String colorImageUrl;
-
     private String degree;      // 도수 (예: "40.0")
     private String country;     // 생산국
     private String company;     // 제조사
@@ -47,8 +48,7 @@ public class GoodsDetails extends BaseTimeStamp {
     private String summary;     // 상품 요약
     private String color;       // 색감 (예: "red")
     private Short priceLevel;   // 가격대
-
-    private String opt1Name;    // aroma : 향 (예: "nuts, cocoa")
+    private String opt1Name;    // aroma : 향 (예: "nuts, cocoa, cheese")
     private String opt1Value;
     private String opt2Name;    // balance : 알코올과 다른 성분의 균형. 높으면 알코올향이 쎄다.
     private String opt2Value;
@@ -70,12 +70,13 @@ public class GoodsDetails extends BaseTimeStamp {
     }
 
     @Builder
-    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String descriptionImageUrl, String summary, String color, String colorImageUrl, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
+    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, String subType, Short priceLevel, String imageUrl, String degree, String country, String company, String supplier, String description, String descriptionImageUrl, String summary, String color, String colorImageUrl, String opt1Name, String opt1Value, String opt2Name, String opt2Value, String opt3Name, String opt3Value, String opt4Name, String opt4Value, String opt5Name, String opt5Value, String opt6Name, String opt6Value, String opt7Name, String opt7Value, String opt8Name, String opt8Value) {
         this.id = id;
         this.goods = goods;
         this.name = name;
         this.engName = engName;
         this.type = type;
+        this.subType = subType;
         this.priceLevel = priceLevel;
         this.imageUrl = imageUrl;
         this.degree = degree;
@@ -106,7 +107,7 @@ public class GoodsDetails extends BaseTimeStamp {
     }
 
     @Builder(builderClassName = "AlcoholBuilder", builderMethodName = "alcoholBuilder")
-    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, String imageUrl,
+    public GoodsDetails(UUID id, Goods goods, String name, String engName, String type, String subType, String imageUrl,
                         String degree, String country, String company, String supplier,
                         String description, String descriptionImageUrl, String summary, String color,
                         String colorImageUrl, String opt1Value, String opt2Value, String opt3Value, String opt4Value,
@@ -116,6 +117,7 @@ public class GoodsDetails extends BaseTimeStamp {
         this.name = name;
         this.engName = engName;
         this.type = type;
+        this.subType = subType;
         this.imageUrl = imageUrl;
         this.degree = degree;
         this.country = country;

@@ -25,6 +25,7 @@
             <a href="javascript:history.back()">
                 <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
             </a>
+
             <div class="search-form-result">
                 <input class="search-form-input-result" placeholder="어떤 주류를 찾으시나요?" id="searchInput">
                 <div class="wrap-ic-search-form-result">
@@ -36,6 +37,7 @@
                     </button>
                 </div>
             </div>
+
             <button class="ic_shopping_bag_24px" onclick="location.href='/cart'">
                 <img src="/images/ic_shopping_bag_black_24px.png">
             </button>
@@ -162,7 +164,6 @@
 </div>
 </body>
 <script th:inline="javascript">
-
     const categoryTabBar = document.querySelector(".category-tab-bar");
     const tabLabels = categoryTabBar.querySelectorAll(".wrap-tab-bar-label, .wrap-tab-bar-label-ac");
 
@@ -243,12 +244,12 @@
 
     searchInput.addEventListener('keyup', function (e) {
         if (e.key === 'Enter') {
-            getSearchWord(searchInput.value.trim());
+            getSearchResult(searchInput.value.trim());
         }
     });
 
     searchButton.addEventListener('click', function () {
-        getSearchWord(searchInput.value.trim());
+        getSearchResult(searchInput.value.trim());
     });
 
 </script>

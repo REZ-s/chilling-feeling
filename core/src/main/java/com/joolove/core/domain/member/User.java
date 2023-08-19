@@ -69,7 +69,6 @@ public class User extends BaseTimeStamp {
         setSocialLogin(user.getSocialLogin());
         setCidi(user.getCidi());
         setAddresses(user.getAddresses());
-        setDevices(user.getDevices());
         setFavorite(user.getFavorite());
         setProfile(user.getProfile());
         setOrders(user.getOrdersList());
@@ -134,10 +133,6 @@ public class User extends BaseTimeStamp {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Address> addresses = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Device> devices = new ArrayList<>();
-
     public void setRole(Role role) {
         this.role = role;
     }
@@ -188,10 +183,6 @@ public class User extends BaseTimeStamp {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
-    }
-
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
     }
 
 }

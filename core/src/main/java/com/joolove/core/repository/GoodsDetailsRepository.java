@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface GoodsDetailsRepository extends JpaRepository<GoodsDetails, UUID> {
 
     @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
-            "gd.name, gd.engName, gd.type, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
+            "gd.name, gd.engName, gd.type, gd.subType, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
             "gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
             "gd.summary, gd.opt1Value, gd.opt2Value, gd.opt3Value, gd.opt4Value, gd.opt5Value, gd.opt6Value, gd.opt7Value) " +
             "from GoodsDetails gd " +

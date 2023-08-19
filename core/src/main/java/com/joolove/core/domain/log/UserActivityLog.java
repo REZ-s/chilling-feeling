@@ -21,13 +21,17 @@ public class UserActivityLog extends BaseTimeStamp {
     private UUID id;
 
     @NotNull
-    private String username;                // email or anonymousUser
+    @Column(name = "device_id", columnDefinition = "BINARY(16)")
+    private UUID deviceId;
+
+    @NotNull
+    private String username;                // email (로그인) or anonymousUser (비로그인)
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private EActivityCode activityCode;     // 활동 코드 (예: 로그인, 로그아웃, 회원가입, 검색, 클릭 등)
 
-    private String activityDescription;
+    private String activityDescription;     // 그 외 추가 정보 (예: url)
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -37,7 +41,9 @@ public class UserActivityLog extends BaseTimeStamp {
     private String targetName;              // 목적어 (예: 검색한 상품 이름)
 
     @Builder
-    public UserActivityLog(String username, EActivityCode activityCode, String activityDescription, ETargetCode targetCode, String targetName) {
+    public UserActivityLog(UUID id, UUID deviceId, String username, EActivityCode activityCode, String activityDescription, ETargetCode targetCode, String targetName) {
+        this.id = id;
+        this.deviceId = deviceId;
         this.username = username;
         this.activityCode = activityCode;
         this.activityDescription = activityDescription;
@@ -49,6 +55,7 @@ public class UserActivityLog extends BaseTimeStamp {
     public String toString() {
         return "UserActivityLog{" +
                 "id=" + id +
+                ", deviceId=" + deviceId +
                 ", username='" + username + '\'' +
                 ", activityCode=" + activityCode +
                 ", activityDescription='" + activityDescription + '\'' +

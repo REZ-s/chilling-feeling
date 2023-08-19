@@ -1,11 +1,14 @@
 package com.joolove.core.controller;
 
+import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.domain.member.User;
 import com.joolove.core.domain.product.CartGoods;
 import com.joolove.core.domain.product.FavoriteGoods;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.IGoodsView;
+import com.joolove.core.dto.query.RemoveUserActivityLogGoodsRequest;
+import com.joolove.core.dto.query.UserActivityLogElements;
 import com.joolove.core.dto.request.CartRequest;
 import com.joolove.core.dto.request.OrdersRequest;
 import com.joolove.core.dto.request.SignInRequest;
@@ -37,6 +40,7 @@ public class APIController {
     private final FavoriteService favoriteService;
     private final SocialLoginRepository socialLoginRepository;
     private final PasswordUtils passwordUtils;
+    private final UserActivityLogService userActivityLogService;
 
     @GetMapping("/api/v1/user/authentication")
     public ResponseEntity<?> checkAuthenticatedUser() {
@@ -138,6 +142,13 @@ public class APIController {
     public ResponseEntity<?> getBestSellerGoods(@Valid @PathVariable("days") Short days) {
         Map<String, Object> bestSellerWithSalesCount = ordersService.getBestSellerGoodsByDate(days);
         return ResponseEntity.ok().body(bestSellerWithSalesCount);
+    }
+
+    // 인기상품 리스트 불러오기
+    @GetMapping("/api/v1/goods/popular/{days}")
+    public ResponseEntity<?> getPopularGoodsList(@Valid @PathVariable("days") Short days) {
+        List<IGoodsView> popularGoodsList = userActivityLogService.findBestViewsUserActivityList(0, 10, days);
+        return ResponseEntity.ok().body(popularGoodsList);
     }
 
     // 장바구니에 상품 저장
@@ -303,6 +314,43 @@ public class APIController {
         }
 
         return ResponseEntity.ok().body(false);
+    }
+
+    // device id 생성
+    @GetMapping("/api/v1/device/id")
+    public ResponseEntity<?> getDeviceId() {
+        return ResponseEntity.ok().body(UUID.randomUUID());
+    }
+
+    // 사용자 행동 로그 불러오기 (상품)
+    @GetMapping("/api/v1/recommendation/log/activity/goods")
+    @ResponseBody
+    public ResponseEntity<Object> getRecommendationActivityLogGoods(@Valid @RequestParam UUID deviceId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<UserActivityLogElements> userActivityLogElements = userActivityLogService.findUserActivityListByDeviceIdAndTargetCode(deviceId, UserActivityLog.ETargetCode.GOODS);
+        List<String> targetNameList = new ArrayList<>();
+        for (UserActivityLogElements ual : userActivityLogElements) {
+            targetNameList.add(ual.getTargetName());
+        }
+
+        return ResponseEntity.ok().body(targetNameList);
+    }
+
+    // 사용자 행동 로그 제거 (상품)
+    @DeleteMapping("/api/v1/recommendation/log/activity/goods")
+    @ResponseBody
+    public ResponseEntity<Object> removeRecommendationActivityLogGoods(@Valid @RequestBody RemoveUserActivityLogGoodsRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        userActivityLogService.removeUserActivityLog(request.getDeviceId(), request.getTargetName(), UserActivityLog.ETargetCode.GOODS);
+        return ResponseEntity.ok().build();
     }
 
 }

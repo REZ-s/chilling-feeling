@@ -14,6 +14,7 @@ public class GoodsViewDetails implements IGoodsView {
     private String name;
     private String engName;
     private String type;
+    private String subType;
     private String imageUrl;
     private String label;
     private String score;
@@ -24,7 +25,6 @@ public class GoodsViewDetails implements IGoodsView {
     private String supplier;
     private String color;
     private String colorImageUrl;
-
     private String description;
     private String descriptionImageUrl;
     private String summary;
@@ -37,10 +37,11 @@ public class GoodsViewDetails implements IGoodsView {
     private String opt7Value;   // soda
 
     @Builder
-    public GoodsViewDetails(String name, String engName, String type, String imageUrl, String label, String score, Integer reviewCount, String degree, String country, String company, String supplier, String color, String colorImageUrl, String description, String descriptionImageUrl, String summary, String opt1Value, String opt2Value, String opt3Value, String opt4Value, String opt5Value, String opt6Value, String opt7Value) {
+    public GoodsViewDetails(String name, String engName, String type, String subType, String imageUrl, String label, String score, Integer reviewCount, String degree, String country, String company, String supplier, String color, String colorImageUrl, String description, String descriptionImageUrl, String summary, String opt1Value, String opt2Value, String opt3Value, String opt4Value, String opt5Value, String opt6Value, String opt7Value) {
         this.name = name;
         this.engName = engName;
         this.type = type;
+        this.subType = subType;
         this.imageUrl = imageUrl;
         this.label = label;
         this.score = score;
@@ -68,6 +69,7 @@ public class GoodsViewDetails implements IGoodsView {
                 .name("")
                 .engName("")
                 .type("")
+                .subType("")
                 .imageUrl("")
                 .label("")
                 .score("")

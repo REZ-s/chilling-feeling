@@ -177,12 +177,12 @@
 
     searchInput.addEventListener('keyup', function (e) {
         if (e.key === 'Enter') {
-            getSearchWord(searchInput.value.trim());
+            getSearchResult(searchInput.value.trim());
         }
     });
 
     searchButton.addEventListener('click', function () {
-        getSearchWord(searchInput.value.trim());
+        getSearchResult(searchInput.value.trim());
     });
 
     function changeOption(choiceOption) {

@@ -3617,9 +3617,15 @@ input.login1-form::placeholder {
 .search-label::placeholder {
     color: #afafaf;
 }
+.wrap-btn-search-history {
+    /*height: 162px;*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
 .btn-search-history {
-    width: 103px;
+    /*width: 103px;*/
     height: 30px;
     flex-grow: 0;
     display: flex;
@@ -3627,12 +3633,13 @@ input.login1-form::placeholder {
     justify-content: flex-start;
     align-items: center;
     padding: 4px 12px;
+    margin: 5px;
     border-radius: 50px;
     background-color: #f6f6f6;
 }
 
 .btn-search-history-label {
-    width: 51px;
+    /*width: 51px;*/
     height: 22px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
@@ -3805,7 +3812,7 @@ input.login1-form::placeholder {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 30px;
     padding: 0;
 }

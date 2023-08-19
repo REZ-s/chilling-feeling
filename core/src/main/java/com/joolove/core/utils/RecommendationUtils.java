@@ -20,9 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -56,10 +54,12 @@ public class RecommendationUtils {
 
         UserRecommendationDaily.EEmotion recentFeeling = userRecommendationElements.getRecentFeeling();
         UserRecommendationBase.EFigure feeling = getSweetnessByFeeling(recentFeeling);
-        List<String> goodsNameList = new ArrayList<>();
+        Set<String> goodsNameSet = new HashSet<>();
         for (UserActivityLogElements u : userActivityLogElementsList) {
-            goodsNameList.add(u.getTargetName());
+            goodsNameSet.add(u.getTargetName());
         }
+
+        List<String> goodsNameList = new ArrayList<>(goodsNameSet);
 
         userRecommendationGoodsList = goodsService.getRecommendationGoodsList(
                     abvLimit, typeOrLabelList, feeling, goodsNameList);
@@ -74,8 +74,8 @@ public class RecommendationUtils {
             case WHISKY -> "위스키";       // GoodsDetails type
             case COCKTAIL -> "칵테일";     // GoodsDetails type
             case TRADITIONAL_LIQUOR -> "전통주";    // GoodsDetails type
-            case MEAT -> "레드와인";                 // GoodsDetails type
-            case SEAFOOD -> "화이트와인";            // GoodsDetails type
+            case MEAT -> "레드와인";                 // GoodsDetails subType
+            case SEAFOOD -> "화이트와인";            // GoodsDetails subType
             case NEW -> "NEW";      // GoodsStats label
             case BEST -> "BEST";    // GoodsStats label
             case HOT -> "HOT";      // GoodsStats label
@@ -204,6 +204,7 @@ public class RecommendationUtils {
         }
 
         UserActivityLog userActivityLog = UserActivityLog.builder()
+                .deviceId(userActivityLogElements.getDeviceId())
                 .username(userActivityLogElements.getUsername())
                 .targetCode(userActivityLogElements.getTargetCode())
                 .targetName(userActivityLogElements.getTargetName())
@@ -224,7 +225,7 @@ public class RecommendationUtils {
         }
 
         // 최근 5개를 target 이 goods 인 경우에만 가져온다.
-        return userActivityLogService.findUserActivityListByUsername(username, UserActivityLog.ETargetCode.GOODS);
+        return userActivityLogService.findUserActivityListByUsernameAndTargetCode(username, UserActivityLog.ETargetCode.GOODS);
     }
 
     // 기존에 저장해두었던 사용자 추천 관련 데이터 (DTO : UserRecommendElements) 를 가져온다.

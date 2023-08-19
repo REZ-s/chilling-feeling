@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 @Service
@@ -96,12 +97,13 @@ public class GoodsService {
     }
 
     // 사용자별 추천 리스트
-    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabels, UserRecommendationBase.EFigure feeling, List<String> goodsNameList) {
+    public List<IGoodsView> getRecommendationGoodsList(String abvLimit, List<String> typeOrLabels,
+                                                       UserRecommendationBase.EFigure feeling, List<String> goodsNameList) {
         int defaultPage = 0;
         int defaultSize = 10;
         Pageable pagingInfo = PageRequest.of(defaultPage, defaultSize);
 
-        // opt5Value == sweetness. 예) feeling high -> so sweet
+        // opt5Value == sweetness
         if (feeling == UserRecommendationBase.EFigure.HIGH) {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.DESC, "opt5Value"));
         } else if (feeling == UserRecommendationBase.EFigure.LOW) {
@@ -109,32 +111,19 @@ public class GoodsService {
         }
 
         List<IGoodsView> iGoodsViewList = null;
+        String goodsNames = String.join(" ", goodsNameList);
 
         if (goodsNameList == null || goodsNameList.size() == 0) {
             if (typeOrLabels == null || typeOrLabels.size() == 0) {
                 iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, pagingInfo);
             } else {
-                for (String keyword : typeOrLabels) {
-                    if (iGoodsViewList == null) {
-                        iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, keyword, pagingInfo);
-                        continue;
-                    }
-                    iGoodsViewList.addAll(goodsRepository.findRecommendationGoodsList(abvLimit, keyword, pagingInfo));
-                }
+                iGoodsViewList = goodsRepository.findRecommendationGoodsList(abvLimit, typeOrLabels, pagingInfo);
             }
         } else {
-            String goodsName = String.join(" ", goodsNameList);     // 예) '짐빔 그라몰랑 세이비어'
-
             if (typeOrLabels == null || typeOrLabels.size() == 0) {
-                iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, goodsName, pagingInfo);
+                iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, goodsNames, pagingInfo);
             } else {
-                for (String keyword : typeOrLabels) {
-                    if (iGoodsViewList == null) {
-                        iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, keyword, goodsName, pagingInfo);
-                        continue;
-                    }
-                    iGoodsViewList.addAll(goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, keyword, goodsName, pagingInfo));
-                }
+                iGoodsViewList = goodsRepository.findRecommendationGoodsListByGoodsNameList(abvLimit, typeOrLabels, goodsNames, pagingInfo);
             }
         }
 
@@ -202,14 +191,6 @@ public class GoodsService {
             goods.increaseStock();
         }
     }
-
-    // 최고 판매량인 상품 조회 (날짜별)
-//    public Goods getBestSalesFigures(short days) {
-//        LocalDateTime nowDate = LocalDateTime.now();
-//        LocalDateTime beforeDate = LocalDateTime.now().minusDays(days);
-//
-//        orderService.
-//    }
 
     // 판매량 변경 (원하는 수치)
     @Transactional

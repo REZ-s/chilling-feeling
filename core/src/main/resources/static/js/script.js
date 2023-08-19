@@ -1216,6 +1216,21 @@ async function getBestSellerGoods(days) {
     return goodsViewDetails;
 }
 
+async function getPopularGoodsList(days) {
+    let goodsViewList;
+
+    await fetch('/api/v1/goods/popular/' + days)
+        .then(response => response.json())
+        .then(data => {
+            goodsViewList = data;
+        })
+        .catch(error => {
+            console.error('인기상품 가져오기 실패 : ', error);
+        });
+
+    return goodsViewList;
+}
+
 /***
  * Display Best Seller Item
  * arguments = { parentElement, days }
@@ -1223,6 +1238,7 @@ async function getBestSellerGoods(days) {
 async function displayBestSellerGoods(parentElement, days) {
     let goodsViewDetails = await getBestSellerGoods(days);
     if (goodsViewDetails == null || goodsViewDetails.length === 0) {
+        createEmptyItemListForCategory(parentElement);
         return;
     }
 
@@ -1230,11 +1246,137 @@ async function displayBestSellerGoods(parentElement, days) {
     activeGoodsDetailsURL();
 }
 
-function getSearchWord(searchKeyword) {
+async function getSearchResult(searchKeyword) {
     if (searchKeyword === '') {
         alert('검색어를 입력해주세요.');
         return;
     }
 
-    location.href = '/search/result?query=' + searchKeyword;
+    await applyDeviceId();
+    location.href = '/search/result?query=' + searchKeyword + '&deviceId=' + getDeviceId();
+}
+
+async function getUserActivityLogGoods(deviceId) {
+    let goodsNameList;
+
+    await fetch('/api/v1/recommendation/log/activity/goods?deviceId=' + deviceId)
+        .then(response => response.json())
+        .then(data => {
+            goodsNameList = data;
+        })
+        .catch(error => {
+            console.error('최근 검색어 가져오기 실패 : ', error);
+        });
+
+    return goodsNameList;
+}
+
+async function removeUserActivityLogGoods(deviceId, targetName) {
+    try {
+        const response = await fetch('/api/v1/recommendation/log/activity/goods', {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                deviceId,
+                targetName
+            })
+        });
+
+        if (response.ok) {
+            return true;
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('최근 검색어 삭제 실패');
+        return false;
+    }
+}
+
+async function createSearchHistoryButton(parentElement, text) {
+    const btn = document.createElement('div');
+    btn.className = 'btn-search-history';
+
+    const label = document.createElement('div');
+    label.className = 'btn-search-history-label';
+    label.textContent = text;
+    btn.appendChild(label);
+
+    const bar = document.createElement('img');
+    bar.src = '/images/bar.png';
+    bar.className = 'btn-search-history-bar';
+    btn.appendChild(bar);
+
+    const close = document.createElement('img');
+    close.src = '/images/ic_close_14px.png';
+    close.className = 'ic_close_14px';
+    btn.appendChild(close);
+
+    parentElement.appendChild(btn);
+
+    // close 버튼을 누르면, 최근 검색어를 삭제하도록 이벤트 등록
+    close.addEventListener('click', async function () {
+        let isPassed = await removeUserActivityLogGoods(getDeviceId(), text);
+        if (isPassed) {
+            close.parentElement.remove();
+            let searchWords = document.getElementsByClassName('btn-search-history');
+            if (searchWords == null || searchWords.length === 0) {
+                createEmptySearchHistory(parentElement);
+            }
+        }
+    });
+}
+
+function createEmptySearchHistory(parentElement) {
+    const divElement = document.createElement("div");
+    divElement.classList.add("recent-no-data-text");
+    divElement.textContent = '최근 검색어가 없습니다.';
+
+    parentElement.appendChild(divElement);
+}
+
+async function displaySearchHistoryBtn(parentElement) {
+    await applyDeviceId();
+
+    let goodsNameList = await getUserActivityLogGoods(getDeviceId());
+    if (goodsNameList == null || goodsNameList.length === 0) {
+        createEmptySearchHistory(parentElement);
+        return;
+    }
+
+    for (let i = 0; i < goodsNameList.length; i++) {
+        await createSearchHistoryButton(parentElement, goodsNameList[i]);
+    }
+}
+
+function getDeviceId() {
+    return localStorage.getItem('deviceId');
+}
+
+function saveDeviceId(deviceId) {
+    localStorage.setItem('deviceId', deviceId);
+}
+
+async function createDeviceId() {
+    let deviceId;
+
+    await fetch('/api/v1/device/id')
+        .then(response => response.json())
+        .then(data => {
+            deviceId = data;
+        })
+        .catch(error => {
+            console.error('Failed to get device id : ', error);
+        });
+
+    return deviceId;
+}
+
+async function applyDeviceId() {
+    if (getDeviceId() == null) {
+        let deviceId = await createDeviceId();
+        saveDeviceId(deviceId);
+    }
 }

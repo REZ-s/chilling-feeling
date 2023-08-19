@@ -21,6 +21,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,8 +35,14 @@ public class WebController {
     // 메인 페이지
     @GetMapping("/")
     public String main(Model model) {
+        String username = userService.getUsernameByAuthentication();
+        if (Objects.equals(username, "Guest")) {
+            model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
+        } else {
+            model.addAttribute("goodsViewList", recommendationUtils.getUserRecommendationGoodsList(username));
+        }
+
         model.addAttribute("username", userService.getUsernameByAuthentication());
-        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
         model.addAttribute("goodsViewDetails", goodsService.findGoodsDetailsRandom());
         return "cf_main_page";
     }
@@ -89,7 +97,7 @@ public class WebController {
     // 상품 검색 결과
     @SearchLog
     @GetMapping("/search/result")
-    public String searchResult(Model model, @RequestParam("query") String query) {
+    public String searchResult(Model model, @RequestParam("query") String query, @RequestParam("deviceId") UUID deviceId) {
         if (!StringUtils.hasText(query)) {
             return "redirect:/search";
         }

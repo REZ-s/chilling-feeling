@@ -1,5 +1,6 @@
 package com.joolove.core.controller;
 
+import com.joolove.core.domain.log.UserActivityLog;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.query.UserActivityLogElements;
 import com.joolove.core.dto.request.UserRecommendationBaseRequest;
@@ -7,13 +8,16 @@ import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.utils.RecommendationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
 @Controller
@@ -86,20 +90,23 @@ public class RecommendationController {
         return ResponseEntity.ok().body(feeling);
     }
 
-    // 사용자 행동 데이터에 따른 추천 요소 업데이트
-    @PostMapping("/api/v1/recommendation/activity")
+    // 사용자 행동 로그 적재
+    @PostMapping("/api/v1/recommendation/log/activity")
     @ResponseBody
-    public ResponseEntity<Object> setRecommendationActivity(@AuthenticationPrincipal String username,
-                                                            @Valid @RequestBody UserActivityLogElements userActivityLogElements) {
-        if (username == null || username.equals("anonymousUser")) {
-            return ResponseEntity.ok().location(URI.create("redirect:/login")).build();
+    public ResponseEntity<Object> setRecommendationActivityLog(@Valid @RequestBody UserActivityLogElements userActivityLogElements) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return ResponseEntity.badRequest().build();
         }
 
+        String username = (String) authentication.getPrincipal();
         userActivityLogElements.setUsername(username);
+
         if (recommendationUtils.setUserActivityRecommendation(userActivityLogElements)) {
             return ResponseEntity.ok().build();
         }
 
         return ResponseEntity.internalServerError().build();
     }
+
 }

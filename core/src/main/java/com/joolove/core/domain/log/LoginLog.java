@@ -1,7 +1,6 @@
 package com.joolove.core.domain.log;
 
 import com.joolove.core.domain.BaseTimeStamp;
-import com.joolove.core.domain.member.Device;
 import com.joolove.core.domain.member.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,9 +26,7 @@ public class LoginLog extends BaseTimeStamp {
     private User user;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "device_id")
-    private Device device;
+    private UUID deviceId;
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)
@@ -45,10 +42,10 @@ public class LoginLog extends BaseTimeStamp {
     private Short failReason;
 
     @Builder
-    public LoginLog(UUID id, User user, Device device, UserActivityLog.EActivityCode activityCode, String ip, Short failCount, Short failReason) {
+    public LoginLog(UUID id, User user, UUID deviceId, UserActivityLog.EActivityCode activityCode, String ip, Short failCount, Short failReason) {
         this.id = id;
         this.user = user;
-        this.device = device;
+        this.deviceId = deviceId;
         this.activityCode = activityCode;
         this.ip = ip;
         this.failCount = failCount;
@@ -60,12 +57,11 @@ public class LoginLog extends BaseTimeStamp {
         return "LoginLog{" +
                 "id=" + id +
                 ", user=" + user +
-                ", device=" + device +
+                ", deviceId=" + deviceId +
                 ", activityCode=" + activityCode +
                 ", ip='" + ip + '\'' +
                 ", failCount=" + failCount +
                 ", failReason=" + failReason +
                 '}';
     }
-
 }
