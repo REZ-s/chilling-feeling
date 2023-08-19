@@ -577,7 +577,7 @@
     const username = /*[[${username}]]*/ '';
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
     let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
-    let days = 7;
+    let days = 1;
 
     let productsFrame = document.getElementById("productCards");
     let productCard02 = document.getElementById("productCard02");
@@ -605,15 +605,17 @@
         return {button, label, index: index + 1};
     });
 
-    createFooter();
-    displayUsername(username);
-    displayLoginState();
-    displayItemList(innerSlider, goodsViewList);
-    displayBestSellerGoods(bestSellerFrame, days);
-    displayWishListGoods(innerSlider, goodsViewList);
-    createItemCard02(productCard02, goodsViewDetails);
-    setSwiperSlide(productsFrame, innerSlider);
-    activeGoodsDetailsURL();
+    window.onload = function() {
+        createFooter();
+        displayUsername(username);
+        displayLoginState();
+        displayItemList(innerSlider, goodsViewList);
+        displayBestSellerGoods(bestSellerFrame, days);
+        displayWishListGoods(innerSlider, goodsViewList);
+        createItemCard02(productCard02, goodsViewDetails);
+        setSwiperSlide(productsFrame, innerSlider);
+        activeGoodsDetailsURL();
+    }
 
     async function displayLoginState() {
         const userLoginState = await checkUserLoginState();
@@ -669,31 +671,37 @@
         });
     });
 
+    // 안주(디저트)와 함께 추천 하는 버튼
     foodDropDown.addEventListener('click', function (e) {
         e.preventDefault();
         $(snacksModal).modal('show');
     });
 
+    // 날짜별로 인기 상품을 추천하는 버튼
     dateDropDown.addEventListener('click', function (e) {
         e.preventDefault();
         $(periodModal).modal('show');
     });
 
+    // 안주(디저트) 선택
     foodButtons.forEach(({button, label, index}) => {
         button.addEventListener('click', function () {
             handleFoodButtonClick(button, label, index);
         });
     });
 
+    // 날짜 선택
     dateButtons.forEach(({button, label, index}) => {
         button.addEventListener('click', function () {
             handleDateButtonClick(button, label, index);
         });
     });
 
-    function handleFoodButtonClick(button, label, index) {
+    async function handleFoodButtonClick(button, label, index) {
         if (button.classList.contains('modal-btn-active')) {
             document.getElementById('food').innerText = label.innerText;
+            goodsViewDetails = await getRandomGoods();
+            updateItemCard02(productCard02, goodsViewDetails);
             $(snacksModal).modal('hide');
         } else {
             convertCheckFoodModalBtns(index);
@@ -704,9 +712,22 @@
         }
     }
 
+    function getDaysFromLabel(label) {
+        let days = 1;
+
+        if (label === '이번 주') {
+            days = 7;
+        } else if (label === '이번 달') {
+            days = 30;
+        }
+
+        return days;
+    }
+
     function handleDateButtonClick(button, label, index) {
         if (button.classList.contains('modal-btn-wide-active')) {
             document.getElementById('date').innerText = label.innerText;
+            displayBestSellerGoods(bestSellerFrame, getDaysFromLabel(label.innerText));
             $(periodModal).modal('hide');
         } else {
             convertCheckDateModalBtns(index);

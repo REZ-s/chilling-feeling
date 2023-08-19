@@ -151,6 +151,12 @@ public class APIController {
         return ResponseEntity.ok().body(popularGoodsList);
     }
 
+    // 랜덤으로 아무 상품이나 불러오기
+    @GetMapping("/api/v1/goods/random")
+    public ResponseEntity<?> getRandomGoods() {
+        return ResponseEntity.ok().body(goodsService.findGoodsDetailsRandom());
+    }
+
     // 장바구니에 상품 저장
     @PostMapping("/api/v1/cart")
     public ResponseEntity<?> createCart(@Valid @RequestBody CartRequest request) {

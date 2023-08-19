@@ -279,7 +279,6 @@ function createItemCard02(parentElement, product) {
     productNameDiv.classList.add('product-list02-name');
     productNameDiv.innerText = product.name;
 
-
     const starGroupDiv = document.createElement('div');
     starGroupDiv.classList.add('star-group');
     starGroupDiv.innerHTML = createScoreImage(product.score);
@@ -303,6 +302,37 @@ function createItemCard02(parentElement, product) {
     productCardDiv.appendChild(productInfoDiv);
 
     parentElement.appendChild(productCardDiv);
+}
+
+function updateItemCard02(parentElement, newProduct) {
+    if (!parentElement) {
+        return;
+    }
+
+    const productContainer = parentElement.querySelector('.product-list02-photo-container');
+    if (productContainer) {
+        productContainer.id = newProduct.name;
+    }
+
+    const image = parentElement.querySelector('.recommend-image02');
+    if (image) {
+        image.src = newProduct.imageUrl;
+    }
+
+    const productNameDiv = parentElement.querySelector('.product-list02-name');
+    if (productNameDiv) {
+        productNameDiv.innerText = newProduct.name;
+    }
+
+    const starGroupDiv = parentElement.querySelector('.star-group');
+    if (starGroupDiv) {
+        starGroupDiv.innerHTML = createScoreImage(newProduct.score);
+    }
+
+    const captionDiv = parentElement.querySelector('.product-list02-caption');
+    if (captionDiv) {
+        captionDiv.innerHTML = newProduct.summary;
+    }
 }
 
 /***
@@ -1238,12 +1268,20 @@ async function getPopularGoodsList(days) {
 async function displayBestSellerGoods(parentElement, days) {
     let goodsViewDetails = await getBestSellerGoods(days);
     if (goodsViewDetails == null || goodsViewDetails.length === 0) {
+        removeAllChildNodes(parentElement);
         createEmptyItemListForCategory(parentElement);
         return;
     }
 
+    removeAllChildNodes(parentElement);
     createItemCard02(parentElement, goodsViewDetails);
     activeGoodsDetailsURL();
+}
+
+function removeAllChildNodes(parentElement) {
+    while (parentElement.firstChild) {
+        parentElement.removeChild(parentElement.firstChild);
+    }
 }
 
 async function getSearchResult(searchKeyword) {
@@ -1379,4 +1417,19 @@ async function applyDeviceId() {
         let deviceId = await createDeviceId();
         saveDeviceId(deviceId);
     }
+}
+
+async function getRandomGoods() {
+    let goodsViewDetails;
+
+    await fetch('/api/v1/goods/random')
+        .then(response => response.json())
+        .then(data => {
+            goodsViewDetails = data;
+        })
+        .catch(error => {
+            console.error('Failed to get random goods : ', error);
+        });
+
+    return goodsViewDetails;
 }
