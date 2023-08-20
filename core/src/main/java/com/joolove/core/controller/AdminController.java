@@ -50,8 +50,11 @@ public class AdminController {
 
         Goods goods = Goods.builder()
                 .name(request.getName())
-                .salesStatus(request.getSalesStatus())
                 .categoryName(categoryName)
+                .salesStatus(request.getSalesStatus())
+                .salesFigures(0L)
+                .price(99999)
+                .stock(99999)
                 .build();
 
         GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
@@ -59,6 +62,7 @@ public class AdminController {
                 .name(request.getName())
                 .engName(request.getEngName())
                 .type(type)
+                .subType(request.getSubType())
                 .imageUrl(request.getImageUrl())
                 .color(request.getColor())
                 .colorImageUrl(request.getColorImageUrl())

@@ -71,9 +71,7 @@
     let plusBtnElements;
     let minusBtnElements;
 
-    init();
-
-    async function init() {
+    window.onload = async function () {
         wishListResponseList = await getWishList();
 
         if (wishListResponseList.length === 0) {

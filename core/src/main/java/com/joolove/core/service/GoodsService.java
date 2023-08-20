@@ -67,18 +67,21 @@ public class GoodsService {
 
     // 상품(GoodsView) n개 조회 (이름, 카테고리 별)
     public List<IGoodsView> findGoodsList(String goodsName, String type,
-                                                  Integer page, Integer size, String sort) {
+                                                  Integer page, Integer size, String sortBy) {
         int defaultPage = 0;
         int defaultSize = 10;
         int requestedPage = page != null ? page : defaultPage;
         int requestedSize = size != null ? size : defaultSize;
-        Pageable pagingInfo;
+        Pageable pagingInfo = PageRequest.of(requestedPage, requestedSize);
 
-        if (StringUtils.isBlank(sort)) {
-            pagingInfo = PageRequest.of(requestedPage, requestedSize);
-        } else {
-            // 현재 이름 기준으로 정렬 지원. (추후에 신상품, 베스트셀러, 리뷰숫자, 고득점 기준 정렬 추가 개발 예정)
+        if (sortBy == null) {
+            ;
+        } else if (sortBy.equals("name")) {     // 상품 이름 기준으로 정렬
             pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.ASC, "name"));
+        } else if (sortBy.equals("old")) {      // 업데이트 날짜를 기준으로 정렬 (오래된순)
+            pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.ASC, "updatedDate"));
+        } else if (sortBy.equals("new")) {      // 업데이트 날짜를 기준으로 정렬 (신상순)
+            pagingInfo = PageRequest.of(requestedPage, requestedSize, Sort.by(Sort.Direction.DESC, "updatedDate"));
         }
 
         if (StringUtils.isBlank(goodsName)) {
@@ -110,7 +113,7 @@ public class GoodsService {
             pagingInfo = PageRequest.of(defaultPage, defaultSize, Sort.by(Sort.Direction.ASC, "opt5Value"));
         }
 
-        List<IGoodsView> iGoodsViewList = null;
+        List<IGoodsView> iGoodsViewList;
         String goodsNames = String.join(" ", goodsNameList);
 
         if (goodsNameList == null || goodsNameList.size() == 0) {
@@ -127,7 +130,7 @@ public class GoodsService {
             }
         }
 
-        return iGoodsViewList.size() > 100 ? iGoodsViewList.subList(0, 100) : iGoodsViewList;
+        return iGoodsViewList;
     }
 
     public List<IGoodsView> findNewGoodsListDefault() {

@@ -1,5 +1,6 @@
 package com.joolove.core.controller;
 
+import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.dto.request.SignUpRequest;
 import com.joolove.core.dto.request.UserRecommendationBaseRequest;
@@ -21,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -37,9 +39,14 @@ public class WebController {
     public String main(Model model) {
         String username = userService.getUsernameByAuthentication();
         if (Objects.equals(username, "Guest")) {
-            model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
+            model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null));
         } else {
-            model.addAttribute("goodsViewList", recommendationUtils.getUserRecommendationGoodsList(username));
+            List<IGoodsView> userRecommendationGoodsList = recommendationUtils.getUserRecommendationGoodsList(username);
+            if (userRecommendationGoodsList == null || userRecommendationGoodsList.isEmpty()) {
+                userRecommendationGoodsList = goodsService.findGoodsList(null, "전체", 0, 10, null);
+            }
+
+            model.addAttribute("goodsViewList", userRecommendationGoodsList);
         }
 
         model.addAttribute("username", userService.getUsernameByAuthentication());
@@ -102,7 +109,7 @@ public class WebController {
             return "redirect:/search";
         }
 
-        model.addAttribute("goodsViewList", goodsService.findGoodsList(query, null, null, null, null));
+        model.addAttribute("goodsViewList", goodsService.findGoodsList(query, "전체", 0, 10, null));
         model.addAttribute("query", query);
         return "cf_search_result_page";
     }
@@ -110,7 +117,7 @@ public class WebController {
     // 카테고리 첫 페이지
     @GetMapping("/category")
     public String category(Model model) {
-        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", null, null, null));
+        model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null));
         return "cf_category_page";
     }
 

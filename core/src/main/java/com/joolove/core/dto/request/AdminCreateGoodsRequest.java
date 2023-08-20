@@ -10,6 +10,7 @@ public class AdminCreateGoodsRequest {
     private String name;
     private Short salesStatus;
     private String type;
+    private String subType;
     private String categoryName;
     private String goodsName;
     private String engName;

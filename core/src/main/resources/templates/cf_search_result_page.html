@@ -176,12 +176,12 @@
 
     let products;                               // 실제 보여줄 상품 리스트
 
-    window.onload = function () {
+    window.onload = async function () {
         searchInput.value = query;
         searchClear.style.display = "none";
         createFooter('/category');
         displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
-        displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
+        await displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
     }
 
     // 카테고리 목록 탭 버튼 클릭 시

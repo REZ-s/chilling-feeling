@@ -138,11 +138,14 @@
 </div>
 </body>
 <script th:inline="javascript">
+
     const username = /*[[${username}]]*/ '';
 
-    createFooter();
-    displayUsername(username);
-    displayUserCategories();
-    // displayUserFeeling();
+    window.onload = function () {
+        createFooter();
+        displayUsername(username);
+        displayUserCategories();
+    }
+
 </script>
 </html>

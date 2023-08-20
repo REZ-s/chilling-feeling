@@ -16,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
+
     <style>
     </style>
 </head>
@@ -112,12 +113,17 @@
 
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
     let products;                                       // 실제 보여줄 상품 리스트
+    let page = 1;
+    let goodsCategory = "전체";
+    let pageLoading = false;
+    let lastCallTime = 0;       // 마지막 페이징 호출 시간
+    let delayDuration = 2000;   // 페이징 딜레이 시간
 
-    window.onload = function () {
+    window.onload = async function () {
         searchClear.style.display = "none";
         createFooter('/category');
         displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
-        displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
+        await displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
 
         option1 = document.getElementById('option1');
         option2 = document.getElementById('option2');
@@ -132,6 +138,52 @@
             option2.addEventListener('click', function () {
                 changeOption(option2);
             });
+        }
+
+        window.addEventListener('scroll', async () => {
+            if (pageLoading) {
+                return;
+            }
+
+            const targetScrollOffset = (document.body.offsetHeight * 90) / 100;     // 화면 하단에서 90% 이전에 로드 시작
+            const isNearBottom = window.innerHeight + window.scrollY >= targetScrollOffset;
+
+            if (isNearBottom && (Date.now() - lastCallTime) >= delayDuration) {
+                pageLoading = true;
+
+                let isPassed = await getGoodsListForNextPage();
+                if (isPassed) {
+                    await displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
+                } else {
+                    window.scrollTo(0, 0);
+                }
+
+                pageLoading = false;
+                lastCallTime = Date.now();
+            }
+        });
+    }
+
+    async function getGoodsListForNextPage() {
+        try {
+            const response = await fetch('/api/v1/goods?type=' + goodsCategory + '&page=' + page);
+
+            if (response.ok) {
+                let nextGoodsViewList = await response.json();
+                goodsViewList = goodsViewList.concat(nextGoodsViewList);
+                updateItemListLength(goodsViewList.length);
+
+                let isCreated = createItemListForNext(document.getElementsByClassName('wrap-category-product-list')[0], nextGoodsViewList);
+                if (isCreated) {
+                    page++;
+                }
+                return true;
+            } else {
+                throw response;
+            }
+        } catch (error) {
+            alert('페이지 가져오기 실패 : ' + error);
+            return false;
         }
     }
 
@@ -169,19 +221,19 @@
             }
 
             // 새로운 상품 리스트 폼 추가
-            const productType = label.querySelector(".tab-bar-label-ac").innerText;
-            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, productType);
-            displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, productType));
+            goodsCategory = label.querySelector(".tab-bar-label-ac").innerText;
+            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsCategory);
+            displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
         });
     });
 
-    searchInput.addEventListener('keyup', function (e) {
+    searchInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
             getSearchResult(searchInput.value.trim());
         }
     });
 
-    searchButton.addEventListener('click', function () {
+    searchButton.addEventListener('click', function() {
         getSearchResult(searchInput.value.trim());
     });
 

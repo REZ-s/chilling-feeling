@@ -86,10 +86,9 @@
     let goodsViewList;
     let goodsViewListIndex;
     let recommendProductList = document.getElementById("recommendProductList");
-    let recommendProductListLength; // 화면에 출력할 상품 개수
+    let recommendProductListLength;     // 화면에 출력할 상품 개수
 
-    init();
-    async function init() {
+    window.onload = async function() {
         goodsViewListIndex = 0;
         recommendProductListLength = 3;
         await getRecommendationDaily();

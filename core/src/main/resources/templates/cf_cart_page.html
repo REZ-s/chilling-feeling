@@ -152,9 +152,7 @@
     let plusBtnElements;
     let minusBtnElements;
 
-    init();
-
-    async function init() {
+    window.onload = async function () {
         cartResponseList = await getCart();
 
         if (cartResponseList.length === 0) {

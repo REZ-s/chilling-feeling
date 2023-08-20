@@ -58,7 +58,7 @@ function createItemListForCategory(parentElement, products) {
 
     const countingProductText = document.createElement("div");
     countingProductText.setAttribute("class", "counting-product-text");
-    countingProductText.innerText = "총 " + products.length + "개";
+    countingProductText.innerText = "활성화된 검색 결과 : " + products.length + "개";
     wrapCountingRange.appendChild(countingProductText);
 
     const wrapRangeChevron = document.createElement('div');
@@ -112,6 +112,11 @@ function createItemListForCategory(parentElement, products) {
     parentElement.appendChild(wrapCountingRangeEmpty);
 }
 
+function updateItemListLength(length) {
+    let countingProductText = document.getElementsByClassName('counting-product-text')[0];
+    countingProductText.innerText = "활성화된 검색 결과 : " + length + "개";
+}
+
 function createItemList(parentElement, products) {
     const wrapCategoryProductList = document.createElement("div");
     wrapCategoryProductList.setAttribute("class", "wrap-category-product-list");
@@ -129,6 +134,26 @@ function createItemList(parentElement, products) {
     }
 
     parentElement.appendChild(wrapCategoryProductList);
+}
+
+function createItemListForNext(parentElement, products) {
+    if (products == null || products.length === 0) {
+        return false;
+    }
+
+    for (let i = 0; i < products.length; i += 2) {
+        const wrapHorizontality = document.createElement("div");
+        wrapHorizontality.setAttribute("class", "wrap-horizontality");
+
+        createItemCard01(wrapHorizontality, products[i]);
+        if (i + 1 < products.length) {
+            createItemCard01(wrapHorizontality, products[i + 1]);
+        }
+
+        parentElement.appendChild(wrapHorizontality);
+    }
+
+    return true;
 }
 
 /***
@@ -426,6 +451,10 @@ function getProducts(goodsViewList) {
 }
 
 function getProductsByType(goodsViewList, type) {
+    if (type === '전체' || type === 'all' || type === 'All' || type === 'ALL') {
+        return goodsViewList;
+    }
+
     let products = [];
 
     for (let i = 0; i < goodsViewList.length; i++) {
@@ -898,13 +927,13 @@ async function displayWishListGoods(parentElement, goodsViewList) {
 
     let wishList = await getWishList();
     let wishListSet = new Set();
-    for (let wishGoods of wishList) {
-        wishListSet.add(wishGoods.goodsView.name);
+    for (let i = 0; i < wishList.length; i++) {
+        wishListSet.add(wishList[i].goodsView.name);
     }
 
     let goodsViewSet = new Set();
-    for (let goodsView of goodsViewList) {
-        goodsViewSet.add(goodsView.name);
+    for (let i = 0; i < goodsViewList.length; i++) {
+        goodsViewSet.add(goodsViewList[i].name);
     }
 
     for (let i = 0; i < goodsViewList.length; i++) {
@@ -993,11 +1022,16 @@ async function getWishList() {
             throw response;
         }
     } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
-        location.href = "/login";
+        alert('internal server error');
+        return;
     }
 
-    let wishListResponseList;
+    let wishListResponseList = [];
+
+    // 비로그인 상태인 경우
+    if (username == null || username.length === 0) {
+        return wishListResponseList;
+    }
 
     try {
         const response = await fetch('/api/v1/wishlist?username=' + username)

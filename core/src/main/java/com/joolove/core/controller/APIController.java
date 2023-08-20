@@ -108,15 +108,20 @@ public class APIController {
         return ResponseEntity.ok().body("invalid");
     }
 
-    // 상품 검색 : 직접 검색하거나 카테고리를 선택할 때
+    // 상품 검색 (예: 같은 조건으로 page 만 다르게 하면 다음 페이지 목록 반환)
     @GetMapping("/api/v1/goods")
-    public ResponseEntity<List<IGoodsView>> getGoodsList(
+    public ResponseEntity<?> getGoodsList(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "sort", required = false) String sort) {
-        return ResponseEntity.ok().body(goodsService.findGoodsList(name, type, page, size, sort));
+            @RequestParam(value = "sortBy", required = false) String sortBy) {
+        List<IGoodsView> goodsList = goodsService.findGoodsList(name, type, page, size, sortBy);
+        if (goodsList.isEmpty()) {
+            return ResponseEntity.ok().body(new ArrayList<>());
+        }
+
+        return ResponseEntity.ok().body(goodsList);
     }
 
     // 주문하기
