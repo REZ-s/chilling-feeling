@@ -405,7 +405,7 @@ function createEmptyItemListForCategory(parentElement) {
 
 /***
  * Display Item List Container (main)
- * arguments = { parentElement, goodsViewList, type : optional }
+ * Need arguments = { parentElement, goodsViewList, type : optional }
  */
 function displayItemList() {
     if (arguments.length < 2) {
@@ -1466,4 +1466,80 @@ async function getRandomGoods() {
         });
 
     return goodsViewDetails;
+}
+
+/**
+ * (1) Need global variable (goodsViewList, goodsCategory, pageLoading, lastCallTime, delayDuration, page)
+ *     let goodsViewList;           // 전체 상품 리스트
+ *     let goodsCategory = "전체";
+ *     let pageLoading = false;
+ *     let lastCallTime = 0;       // 마지막 페이징 호출 시간
+ *     let delayDuration = 2000;   // 페이징 딜레이 시간
+ *     let page = 1;
+ *
+ * (2) Optional argument : query (goodsName)
+ */
+function addInfiniteScroll() {
+    window.addEventListener('scroll', async () => {
+        if (pageLoading) {
+            return;
+        }
+
+        const targetScrollOffset = (document.body.offsetHeight * 90) / 100;     // 화면 하단에서 90% 이전에 로드 시작
+        const isNearBottom = window.innerHeight + window.scrollY >= targetScrollOffset;
+
+        if (isNearBottom && (Date.now() - lastCallTime) >= delayDuration) {
+            pageLoading = true;
+            let isPassed = false;
+            let query = arguments[0];
+
+            if (query != null) {
+                isPassed = await displayGoodsListForNextPage(query);
+            } else {
+                isPassed = await displayGoodsListForNextPage();
+            }
+
+            if (isPassed) {
+                await displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
+            } else {
+                window.scrollTo(0, 0);
+            }
+
+            pageLoading = false;
+            lastCallTime = Date.now();
+        }
+    });
+}
+
+/**
+ * same need global variable like 'addInfiniteScroll()'
+ */
+async function displayGoodsListForNextPage() {
+    try {
+        let query = arguments[0];
+        let response;
+
+        if (query == null) {
+            response = await fetch('/api/v1/goods?type=' + goodsCategory + '&page=' + page);
+        } else {
+            response = await fetch('/api/v1/goods?name=' + query + '&type=' + goodsCategory + '&page=' + page);
+        }
+
+        if (response.ok) {
+            let nextGoodsViewList = await response.json();
+            goodsViewList = goodsViewList.concat(nextGoodsViewList);
+            updateItemListLength(goodsViewList.length);
+
+            let isCreated = createItemListForNext(document.getElementsByClassName('wrap-category-product-list')[0], nextGoodsViewList);
+            if (isCreated) {
+                page++;
+            }
+            return true;
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('페이지 가져오기 실패 : ' + error);
+        return false;
+    }
 }

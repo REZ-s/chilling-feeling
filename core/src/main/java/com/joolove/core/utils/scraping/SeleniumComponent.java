@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,6 @@ public class SeleniumComponent {
 
     private static final String filePath = "C:\\Users\\" + pcUserName + "\\Desktop\\collected_alcohol_data.txt";
 
-
     public void process() {
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
 
@@ -58,11 +58,11 @@ public class SeleniumComponent {
         options.addArguments("--no-sandbox");
         options.addArguments("--remote-allow-origins=*");
         options.setCapability("ignoreProtectedModeSettings", true);
-        options.setCapability("browserVersion", "114");
+        options.setCapability("browserVersion", "116");
         driver = new ChromeDriver(options);
 
         List<String[]> listForFile = new ArrayList<>();
-        for (int i = 500; i <= 25778; ++i) {  // 24656 x 10 = 246.560 seconds?
+        for (int i = 1; i <= 27000; ++i) {  // 30000 x 10 = 300.000 seconds?
             driver.get(detailUrl + i);    // open url
 
             try {
@@ -71,7 +71,7 @@ public class SeleniumComponent {
                 System.out.println("collecting ... " + i);
                 //writeToFile(listForFile);   // save to CSV file
             } catch (Exception e) {
-                System.out.println("exception " + i);
+                System.out.println("exception ... " + i);
                 e.printStackTrace();
             }
         }
@@ -81,7 +81,8 @@ public class SeleniumComponent {
         driver.quit();  // close browser
     }
 
-    private void collectDetailDataList(List<String[]> listForFile) throws Exception {
+    @Transactional
+    void collectDetailDataList(List<String[]> listForFile) throws Exception {
         if (driver.findElements(By.cssSelector("h1[class*='fzJCtd']")).size() == 0) {
             return; // empty page
         }
@@ -89,8 +90,9 @@ public class SeleniumComponent {
         String name = driver.findElement(By.cssSelector("h1[class*='fzJCtd']")).getText();
         String engName = driver.findElement(By.cssSelector("h2[class*='dKhEMP']")).getText();
         String type = null;
+        String subType = null;
         String imageUrl = null;
-        Short priceLevel = 1;
+
         String degree = null;
         String country = null;
         String company = null;
@@ -110,7 +112,7 @@ public class SeleniumComponent {
         String soda = null;
 
         // 상품 이미지
-        WebElement imageElement = driver.findElement(By.cssSelector("div[class*='fcdrym']:not([class*='border-radius-lg'])"));
+        WebElement imageElement = driver.findElement(By.cssSelector("div[class*='iioBHL']:not([class*='border-radius-lg'])"));
         WebElement imgTag = imageElement.findElement(By.tagName("img"));
         imageUrl = imgTag.getAttribute("src");
 
@@ -122,12 +124,35 @@ public class SeleniumComponent {
             String tdString = row.findElement(By.tagName("td")).getText();
 
             switch (thString) {
-                case "스타일" -> type = tdString;
+                case "스타일" -> {
+                    if (tdString.contains(" ")) {
+                        // '일반', '전통', '기타', '수입' 이 들어가있으면 접두사 다음 문자열까지 type 에 저장한다.
+                        String[] strings = tdString.split(" ");
+                        int stringsIndex = 1;
+
+                        if (strings[0].contains("일반") || strings[0].contains("전통") || strings[0].contains("기타") || strings[0].contains("수입")) {
+                            type = strings[0] + strings[1];
+                            stringsIndex++;
+                        } else {
+                            type = strings[0];
+                        }
+
+                        for (int i = stringsIndex; i < strings.length; i++) {
+                            if (subType == null) {
+                                subType = strings[i];
+                                continue;
+                            }
+                            subType += strings[i];
+                        }
+                    } else {
+                        type = tdString;
+                    }
+                }
                 case "도수" -> degree = tdString.substring(0, tdString.length() - 1);
                 case "국가/지역" -> country = tdString;
                 case "제조사" -> company = tdString;
                 case "공급사" -> supplier = tdString;
-                //default -> throw new RuntimeException("Unknown type: " + thString);
+                // default -> throw new RuntimeException("Unknown type: " + thString);
                 // 주요 품종 이라는 th가 가끔 있어서 주석 처리
             }
         }
@@ -213,7 +238,10 @@ public class SeleniumComponent {
         Goods goods = Goods.builder()
                 .name(name)
                 .salesStatus((short)1)
+                .salesFigures(0L)
                 .categoryName(type)
+                .price(99999)
+                .stock(99999)
                 .build();
 
         GoodsDetails goodsDetails = GoodsDetails.alcoholBuilder()
@@ -221,6 +249,7 @@ public class SeleniumComponent {
                 .name(name)
                 .engName(engName)
                 .type(type)
+                .subType(subType)
                 .imageUrl(imageUrl)
                 .degree(degree)
                 .country(country)
@@ -245,9 +274,9 @@ public class SeleniumComponent {
                 .build();
 
         // DB 저장
-        goodsStatsRepository.save(goodsStats);
-        goodsDetailsRepository.save(goodsDetails);
         goodsService.addGoods(goods);
+        goodsDetailsRepository.save(goodsDetails);
+        goodsStatsRepository.save(goodsStats);
 
         // CSV 형태로 저장
 /*        listForFile.add(new String[]{

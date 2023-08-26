@@ -173,8 +173,11 @@
 
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 사용자가 검색한 단어에 대한 상품 리스트
     let query = /*[[${query}]]*/ "";                    // 사용자가 검색한 단어
-
-    let products;                               // 실제 보여줄 상품 리스트
+    let page = 1;
+    let goodsCategory = "전체";
+    let pageLoading = false;
+    let lastCallTime = 0;       // 마지막 페이징 호출 시간
+    let delayDuration = 2000;   // 페이징 딜레이 시간
 
     window.onload = async function () {
         searchInput.value = query;
@@ -182,6 +185,7 @@
         createFooter('/category');
         displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
         await displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
+        addInfiniteScroll(query);
     }
 
     // 카테고리 목록 탭 버튼 클릭 시
@@ -218,9 +222,9 @@
             }
 
             // 새로운 상품 리스트 폼 추가
-            const productType = label.querySelector(".tab-bar-label-ac").innerText;
-            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, productType);
-            displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, productType));
+            goodsCategory = label.querySelector(".tab-bar-label-ac").innerText;
+            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsCategory);
+            displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
         });
     });
 
