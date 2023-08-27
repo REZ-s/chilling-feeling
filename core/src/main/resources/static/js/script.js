@@ -1501,6 +1501,7 @@ function addInfiniteScroll() {
 
             if (isPassed) {
                 await displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
+                activeGoodsDetailsURL();
             } else {
                 window.scrollTo(0, 0);
             }

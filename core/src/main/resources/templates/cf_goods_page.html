@@ -60,9 +60,14 @@
             <img src="/images/ic_back_black_24px.png" class="ic_back_24px">
         </button>
 
-        <button class="wrap-share-cart"  onclick="location.href='/cart'">
-            <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
-        </button>
+        <div class="btn-menu">
+            <button class="wrap-back-home" onclick="location.href='/'">
+                <img src="/images/ic_home_black_24px.png">
+            </button>
+            <button class="wrap-share-cart"  onclick="location.href='/cart'">
+                <img src="/images/ic_shopping_bag_black_24px.png" class="ic_shopping_bag_24px">
+            </button>
+        </div>
     </section>
 
     <!-- Content -->
@@ -294,6 +299,9 @@
                     </div>
                 </div>
 
+                <div class="wrap-counting-range">
+                </div>
+
 <!--                <div class="product-details-similar-product-list">-->
 <!--                    <div class="product-details-title">비슷한 취향의 추천 상품</div>-->
 <!--                    <div class="home-taste-prod-swiper-wrapper">-->
@@ -381,7 +389,7 @@
 
     function createFormPalette(paletteName, paletteValue) {
         if (createPaletteImage(paletteValue) === null) {
-            return "";
+            return null;
         }
 
         const wrapWineStyle = document.createElement("div");
@@ -452,9 +460,8 @@
         pName.innerText = fill(goodsViewDetails.name);
         pEngName.innerText = fill(goodsViewDetails.engName);
         pType.innerText = fill(goodsViewDetails.type);
-        let types = goodsViewDetails.type.split(",");
-        pType1.innerText = fill(types[0]);
-        pType2.innerText = fill(types[1]);
+        pType1.innerText = fill(goodsViewDetails.type);
+        pType2.innerText = fill(goodsViewDetails.subType);
         pLabel.innerText = fill(goodsViewDetails.label);
 
         pScoreImages.innerHTML = createScoreImage(goodsViewDetails.score);
@@ -468,7 +475,15 @@
         pDegree.innerText = fill(goodsViewDetails.degree);
 
         pColor.innerText = fill(goodsViewDetails.color);
-        pColorImageUrl.src = goodsViewDetails.colorImageUrl == null ? "" : goodsViewDetails.colorImageUrl;
+        if (goodsViewDetails.colorImageUrl != null) {
+            pColorImageUrl.src = goodsViewDetails.colorImageUrl;
+        } else {
+            pColorImageUrl.style.display = 'none';
+        }
+
+        if (pColor.innerText === '-' && pColorImageUrl.style.display === 'none') {
+            document.getElementsByClassName('product-details-product-point')[0].style.display = 'none';
+        }
 
         if (isNullOrWhiteSpace(goodsViewDetails.descriptionImageUrl)) {
             pDescription.innerText = goodsViewDetails.description;
