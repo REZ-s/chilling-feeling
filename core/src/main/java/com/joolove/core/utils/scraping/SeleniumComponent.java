@@ -62,7 +62,7 @@ public class SeleniumComponent {
         driver = new ChromeDriver(options);
 
         List<String[]> listForFile = new ArrayList<>();
-        for (int i = 1; i <= 27000; ++i) {  // 30000 x 10 = 300.000 seconds?
+        for (int i = 11697; i <= 27000; ++i) {  // 30000 x 10 = 300.000 seconds?
             driver.get(detailUrl + i);    // open url
 
             try {
@@ -126,11 +126,11 @@ public class SeleniumComponent {
             switch (thString) {
                 case "스타일" -> {
                     if (tdString.contains(" ")) {
-                        // '일반', '전통', '기타', '수입' 이 들어가있으면 접두사 다음 문자열까지 type 에 저장한다.
+                        // '일반', '전통', '기타', '수입', '국산' 이 들어가있으면 접두사 다음 문자열까지 type 에 저장한다.
                         String[] strings = tdString.split(" ");
                         int stringsIndex = 1;
 
-                        if (strings[0].contains("일반") || strings[0].contains("전통") || strings[0].contains("기타") || strings[0].contains("수입")) {
+                        if (strings[0].contains("일반") || strings[0].contains("전통") || strings[0].contains("기타") || strings[0].contains("수입") || strings[0].contains("국산")) {
                             type = strings[0] + strings[1];
                             stringsIndex++;
                         } else {
