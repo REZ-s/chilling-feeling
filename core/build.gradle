@@ -8,6 +8,7 @@ group = 'com.joolove'
 sourceCompatibility = '17'
 version = '0.0.3-SNAPSHOT'
 
+// for next version build (usage: > ./gradlew build version-up)
 tasks.register('version-up') {
 	doLast {
 		String minor = version.substring(version.lastIndexOf('.') + 1, version.indexOf('-'))
@@ -39,22 +40,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-
-	// redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.0.4'
-	implementation ('it.ozimov:embedded-redis:0.7.3') {
-		exclude group: "org.slf4j", module: "slf4j-simple"
-	}
-
-	implementation 'mysql:mysql-connector-java'	// mysql
-	implementation 'net.nurigo:sdk:4.3.0'	// sms
-	implementation 'com.bucket4j:bucket4j-core:8.2.0'	// traffic limit
-
-	// jwt
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.0.4'								// redis
+	implementation ('it.ozimov:embedded-redis:0.7.3') { exclude group: "org.slf4j", module: "slf4j-simple" }	// embedded-redis
+	implementation 'mysql:mysql-connector-java'			// mysql
+	implementation 'net.nurigo:sdk:4.3.0'				// sms
+	implementation 'com.bucket4j:bucket4j-core:8.2.0'	// spring boot rate limiter (for traffic limit of api)
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0' // for java 8 LocalDateTime
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0' // for java 8+ LocalDateTime
 
 	// data collect
 	implementation 'org.jsoup:jsoup:1.14.2'
@@ -68,15 +62,13 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'com.h2database:h2'
-	testImplementation ('it.ozimov:embedded-redis:0.7.3') {
-		exclude group: "org.slf4j", module: "slf4j-simple"
-	}
+	testImplementation ('it.ozimov:embedded-redis:0.7.3') { exclude group: "org.slf4j", module: "slf4j-simple" }	// embedded-redis
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.named('jar') {
+tasks.named('jar') {	// only one jar file (default: two files boot-jar, jar)
 	enabled = false
 }
