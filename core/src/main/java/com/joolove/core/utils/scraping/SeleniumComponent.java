@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.joolove.core.domain.product.GoodsStats.buildGoodsStatsBase;
+
 @Component
 public class SeleniumComponent {
     @Autowired
@@ -269,9 +271,7 @@ public class SeleniumComponent {
                 .opt7Value(soda)
                 .build();
 
-        GoodsStats goodsStats = GoodsStats.builder()
-                .goods(goods)
-                .build();
+        GoodsStats goodsStats = buildGoodsStatsBase(goods);
 
         // DB 저장
         goodsService.addGoods(goods);

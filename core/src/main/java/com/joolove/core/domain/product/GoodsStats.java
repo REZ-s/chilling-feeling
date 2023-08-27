@@ -45,4 +45,13 @@ public class GoodsStats extends BaseTimeStamp {
         this.heartCount = heartCount;
     }
 
+    public static GoodsStats buildGoodsStatsBase(Goods goods) {
+        return GoodsStats.builder()
+                .goods(goods)
+                .label("new")
+                .score("0.0")
+                .heartCount(0)
+                .reviewCount(0)
+                .build();
+    }
 }
