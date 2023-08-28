@@ -116,6 +116,16 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "and gd.goods.id = gs.goods.id")
     GoodsViewDetails findGoodsDetailsByName(String name);
 
+    // before slow query
+//    @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
+//            "gd.name, gd.engName, gd.type, gd.subType, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
+//            "gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
+//            "gd.summary, gd.opt1Value, gd.opt2Value, gd.opt3Value, gd.opt4Value, gd.opt5Value, gd.opt6Value, gd.opt7Value)  " +
+//            "from GoodsDetails gd " +
+//            "inner join GoodsStats gs " +
+//            "on gd.goods.id = gs.goods.id " +
+//            "order by RAND()")
+
     @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
             "gd.name, gd.engName, gd.type, gd.subType, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
             "gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
@@ -123,6 +133,6 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "from GoodsDetails gd " +
             "inner join GoodsStats gs " +
             "on gd.goods.id = gs.goods.id " +
-            "order by RAND()")
+            "where gd.goods.id in (select goods.id from GoodsStats order by function('rand'))")
     List<GoodsViewDetails> findGoodsDetailsRandom(Pageable pageable);
 }

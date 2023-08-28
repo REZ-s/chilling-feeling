@@ -6,7 +6,7 @@
     </envs>
     <module name="core.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.joolove.core.CoreApplication" />
-    <option name="VM_PARAMETERS" value="-javaagent:$PROJECT_DIR$/../../elastic-apm-agent-1.42.0.jar -Delastic.apm.service_name=core -Delastic.apm.server_url=http://localhost:8200 -Delastic.apm.application_packages=com.joolove.core" />
+    <option name="VM_PARAMETERS" value="-javaagent:$PROJECT_DIR$/../../elastic-apm-agent-1.42.0.jar -Delastic.apm.service_name=core -Delastic.apm.server_url=http://localhost:8200 -Delastic.apm.application_packages=com.joolove.core -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$PROJECT_DIR$/../../joolove" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
