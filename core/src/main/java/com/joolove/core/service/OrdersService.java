@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrdersService {
     private final OrdersRepository ordersRepository;

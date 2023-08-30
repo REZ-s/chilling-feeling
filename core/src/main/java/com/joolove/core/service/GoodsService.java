@@ -14,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,8 +47,9 @@ public class GoodsService {
     }
 
     // 상품(GoodsViewDetails) 1개 조회 (랜덤)
-    public IGoodsViewDetails findGoodsDetailsRandom() {
-        return goodsRepository.findGoodsDetailsRandom().get(0);
+    @Async("cfAsync")
+    public CompletableFuture<IGoodsViewDetails> findGoodsDetailsRandom() {
+        return CompletableFuture.completedFuture(goodsRepository.findGoodsDetailsRandom().get(0));
     }
 
     // 상품(GoodsViewDetails) 1개 조회 (이름)
@@ -65,8 +68,9 @@ public class GoodsService {
     }
 
     // 상품(GoodsView) n개 조회 (이름, 카테고리 별)
-    public List<IGoodsView> findGoodsList(String goodsName, String type,
-                                                  Integer page, Integer size, String sortBy) {
+    @Async("cfAsync")
+    public CompletableFuture<List<IGoodsView>> findGoodsList(String goodsName, String type,
+                                                             Integer page, Integer size, String sortBy) {
         int defaultPage = 0;
         int defaultSize = 10;
         int requestedPage = page != null ? page : defaultPage;
@@ -85,15 +89,15 @@ public class GoodsService {
 
         if (StringUtils.isBlank(goodsName)) {
             if (StringUtils.isBlank(type) || type.equals("전체")) {
-                return goodsRepository.findGoodsList(pagingInfo);
+                return CompletableFuture.completedFuture(goodsRepository.findGoodsList(pagingInfo));
             } else {
-                return goodsRepository.findGoodsListByType(type, pagingInfo);
+                return CompletableFuture.completedFuture(goodsRepository.findGoodsListByType(type, pagingInfo));
             }
         } else {
             if (StringUtils.isBlank(type) || type.equals("전체")) {
-                return goodsRepository.findGoodsListByName(goodsName, pagingInfo);
+                return CompletableFuture.completedFuture(goodsRepository.findGoodsListByName(goodsName, pagingInfo));
             } else {
-                return goodsRepository.findGoodsListByNameAndType(goodsName, type, pagingInfo);
+                return CompletableFuture.completedFuture(goodsRepository.findGoodsListByNameAndType(goodsName, type, pagingInfo));
             }
         }
     }

@@ -6,10 +6,12 @@ import com.joolove.core.repository.LogoutTokenRepository;
 import com.joolove.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class LogoutTokenService {
     private final LogoutTokenRepository logoutTokenRepository;
@@ -29,6 +31,7 @@ public class LogoutTokenService {
         return (LogoutToken) cachedToken;
     }
 
+    @Transactional
     public LogoutToken createLogoutToken(RefreshToken token) {
         LogoutToken logoutToken = LogoutToken.builder()
                 .username(token.getUsername())
@@ -41,6 +44,7 @@ public class LogoutTokenService {
         return savedToken;
     }
 
+    @Transactional
     public boolean deleteByToken(String token) {
         logoutTokenRepository.deleteByToken(token);
         return redisUtils.remove(token, LogoutToken.class);

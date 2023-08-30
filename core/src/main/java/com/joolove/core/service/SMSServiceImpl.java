@@ -8,10 +8,12 @@ import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SMSServiceImpl extends MessageService {
     private String authCode;

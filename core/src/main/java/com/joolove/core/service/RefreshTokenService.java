@@ -10,12 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RefreshTokenService {
     private static final Logger logger = LoggerFactory.getLogger(RefreshTokenService.class);
@@ -68,6 +70,7 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
+    @Transactional
     public RefreshToken createRefreshToken(String username) {
         RefreshToken refreshToken = RefreshToken.builder()
                 .username(username)
@@ -100,15 +103,18 @@ public class RefreshTokenService {
         return true;
     }
 
+    @Transactional
     public boolean deleteByUsernameAndToken(RefreshToken token) {
         return deleteByUsername(token.getUsername()) && deleteByToken(token.getToken());
     }
 
+    @Transactional
     public boolean deleteByUsername(String username) {
         refreshTokenRepository.deleteByUsername(username);
         return redisUtils.remove(username, RefreshToken.class);
     }
 
+    @Transactional
     public boolean deleteByToken(String token) {
         refreshTokenRepository.deleteByToken(token);
         return redisUtils.remove(token, RefreshToken.class);
