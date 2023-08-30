@@ -3,9 +3,9 @@ package com.joolove.core.service;
 import com.joolove.core.domain.product.Goods;
 import com.joolove.core.domain.product.GoodsDiscount;
 import com.joolove.core.domain.recommendation.UserRecommendationBase;
-import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
+import com.joolove.core.dto.query.IGoodsViewDetails;
 import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.GoodsDiscountRepository;
 import com.joolove.core.repository.query.GoodsRepository;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
 import java.util.UUID;
 
 @Service
@@ -46,8 +45,8 @@ public class GoodsService {
     }
 
     // 상품(GoodsViewDetails) 1개 조회 (랜덤)
-    public GoodsViewDetails findGoodsDetailsRandom() {
-        return goodsRepository.findGoodsDetailsRandom(PageRequest.of(0, 1)).get(0);
+    public IGoodsViewDetails findGoodsDetailsRandom() {
+        return goodsRepository.findGoodsDetailsRandom().get(0);
     }
 
     // 상품(GoodsViewDetails) 1개 조회 (이름)

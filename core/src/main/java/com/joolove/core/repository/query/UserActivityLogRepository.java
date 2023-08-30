@@ -18,7 +18,6 @@ import java.util.UUID;
 @Repository
 public interface UserActivityLogRepository extends JpaRepository<UserActivityLog, UUID> {
 
-    @Transactional
     @Modifying
     @Query("update UserActivityLog ual " +
             "set ual.updatedDate = ?4 " +
@@ -27,7 +26,6 @@ public interface UserActivityLogRepository extends JpaRepository<UserActivityLog
             "and ual.targetCode = ?3")
     void updateByDeviceIdAndTargetNameAndTargetCode(UUID deviceId, String targetName, UserActivityLog.ETargetCode targetCode, LocalDateTime nowDate);
 
-    @Transactional
     @Modifying
     @Query("delete from UserActivityLog ual " +
             "where ual.deviceId = ?1 " +

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -17,13 +16,11 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID
 
     RefreshToken findByUsername(String username);
 
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("delete from RefreshToken r where r.username = :username")
-    int deleteByUsername(@Param("username") String username);
+    void deleteByUsername(@Param("username") String username);
 
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("delete from RefreshToken r where r.token = :token")
-    int deleteByToken(@Param("token") String token);
+    void deleteByToken(@Param("token") String token);
 }

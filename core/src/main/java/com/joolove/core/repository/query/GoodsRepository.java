@@ -1,9 +1,9 @@
 package com.joolove.core.repository.query;
 
 import com.joolove.core.domain.product.Goods;
-import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.GoodsViewDetails;
 import com.joolove.core.dto.query.IGoodsView;
+import com.joolove.core.dto.query.IGoodsViewDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -116,23 +116,21 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
             "and gd.goods.id = gs.goods.id")
     GoodsViewDetails findGoodsDetailsByName(String name);
 
-    // before slow query
-//    @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
-//            "gd.name, gd.engName, gd.type, gd.subType, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
-//            "gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
-//            "gd.summary, gd.opt1Value, gd.opt2Value, gd.opt3Value, gd.opt4Value, gd.opt5Value, gd.opt6Value, gd.opt7Value)  " +
-//            "from GoodsDetails gd " +
-//            "inner join GoodsStats gs " +
-//            "on gd.goods.id = gs.goods.id " +
-//            "order by RAND()")
-
-    @Query("select new com.joolove.core.dto.query.GoodsViewDetails(" +
-            "gd.name, gd.engName, gd.type, gd.subType, gd.imageUrl, gs.label, gs.score, gs.reviewCount, gd.degree, " +
-            "gd.country, gd.company, gd.supplier, gd.color, gd.colorImageUrl, gd.description, gd.descriptionImageUrl, " +
-            "gd.summary, gd.opt1Value, gd.opt2Value, gd.opt3Value, gd.opt4Value, gd.opt5Value, gd.opt6Value, gd.opt7Value)  " +
-            "from GoodsDetails gd " +
-            "inner join GoodsStats gs " +
-            "on gd.goods.id = gs.goods.id " +
-            "where gd.goods.id in (select goods.id from GoodsStats order by function('rand'))")
-    List<GoodsViewDetails> findGoodsDetailsRandom(Pageable pageable);
+    @Query(value = "select gd.name as name, gd.eng_name as engName, gd.type as type, gd.sub_type as subType, gd.image_url as imageUrl, " +
+            "gs.label as label, gs.score as score, gs.review_count as reviewCount, gd.degree as degree, " +
+            "gd.country as country, gd.company as company, gd.supplier as supplier, gd.color as color, gd.color_image_url as colorImageUrl, " +
+            "gd.description as description, gd.description_image_url as descriptionImageUrl, gd.summary as summary, " +
+            "gd.opt1value as opt1Value, gd.opt2value as opt2Value, gd.opt3value as opt3Value, gd.opt4value as opt4Value, " +
+            "gd.opt5value as opt5Value, gd.opt6value as opt6Value, gd.opt7value as opt7Value " +
+            "from product.goods_details gd " +
+            "inner join product.goods_stats gs " +
+            "on gd.goods_id = gs.goods_id " +
+            "inner join ( " +
+            "    select goods_id " +
+            "    from product.goods_stats " +
+            "    order by rand() " +
+            "    limit 1 " +
+            ") as sgs " +
+            "on gd.goods_id = sgs.goods_id ", nativeQuery = true)
+    List<IGoodsViewDetails> findGoodsDetailsRandom();
 }
