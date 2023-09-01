@@ -25,7 +25,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,21 +36,21 @@ public class WebController {
 
     // 메인 페이지
     @GetMapping("/")
-    public String main(Model model) throws ExecutionException, InterruptedException {
+    public String main(Model model) {
         String username = userService.getUsernameByAuthentication();
         if (Objects.equals(username, "Guest")) {
-            model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null).get());
+            model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null));
         } else {
             List<IGoodsView> userRecommendationGoodsList = recommendationUtils.getUserRecommendationGoodsList(username);
             if (userRecommendationGoodsList == null || userRecommendationGoodsList.isEmpty()) {
-                userRecommendationGoodsList = goodsService.findGoodsList(null, "전체", 0, 10, null).get();
+                userRecommendationGoodsList = goodsService.findGoodsList(null, "전체", 0, 10, null);
             }
 
             model.addAttribute("goodsViewList", userRecommendationGoodsList);
         }
 
         model.addAttribute("username", userService.getUsernameByAuthentication());
-        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetailsRandom().get());
+        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetailsRandom());
         return "cf_main_page";
     }
 

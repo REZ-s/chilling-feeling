@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -116,8 +115,8 @@ public class APIController {
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "sortBy", required = false) String sortBy) throws ExecutionException, InterruptedException {
-        List<IGoodsView> goodsList = goodsService.findGoodsList(name, type, page, size, sortBy).get();
+            @RequestParam(value = "sortBy", required = false) String sortBy) {
+        List<IGoodsView> goodsList = goodsService.findGoodsList(name, type, page, size, sortBy);
         if (goodsList.isEmpty()) {
             return ResponseEntity.ok().body(new ArrayList<>());
         }
@@ -159,8 +158,8 @@ public class APIController {
 
     // 랜덤으로 아무 상품이나 불러오기
     @GetMapping("/api/v1/goods/random")
-    public ResponseEntity<?> getRandomGoods() throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok().body(goodsService.findGoodsDetailsRandom().get());
+    public ResponseEntity<?> getRandomGoods() {
+        return ResponseEntity.ok().body(goodsService.findGoodsDetailsRandom());
     }
 
     // 장바구니에 상품 저장
