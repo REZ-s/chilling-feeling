@@ -10,6 +10,7 @@ import com.joolove.core.dto.query.IGoodsViewDetails;
 import com.joolove.core.repository.GoodsDetailsRepository;
 import com.joolove.core.repository.GoodsDiscountRepository;
 import com.joolove.core.repository.query.GoodsRepository;
+import com.joolove.core.utils.RedisUtils;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.StringTokenizer;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,6 +29,7 @@ public class GoodsService {
     private final GoodsRepository goodsRepository;
     private final GoodsDetailsRepository goodsDetailsRepository;
     private final GoodsDiscountRepository goodsDiscountRepository;
+    private final RedisUtils redisUtils;
     
     // 상품(GoodsViewDetails) 1개 조회 (ID)
     public GoodsViewDetails findGoodsByGoodsId(UUID goodsId) {
@@ -66,9 +66,28 @@ public class GoodsService {
         return goodsRepository.findGoodsListByGoodsName(goodsNameList);
     }
 
+    private String generateKeyString(String goodsName, String type, Integer page, Integer size, String sortBy) {
+        return "GoodsName_" + goodsName + "_" + type + "_" + page + "_" + size + "_" + sortBy;
+    }
+
+    public List<IGoodsView> findGoodsList(String goodsName, String type, Integer page, Integer size, String sortBy) {
+        String cacheKey = generateKeyString(goodsName, type, page, size, sortBy);
+
+        List<IGoodsView> cachedGoodsList = (List<IGoodsView>) redisUtils.get(cacheKey, ArrayList.class);
+        if (cachedGoodsList == null) {
+            List<IGoodsView> goodsList = findGoodsListFromDB(goodsName, type, page, size, sortBy);
+            if (!goodsList.isEmpty()) {
+                redisUtils.add(cacheKey, goodsList, 14, TimeUnit.DAYS);
+            }
+
+            return goodsList;
+        }
+
+        return cachedGoodsList;
+    }
+
     // 상품(GoodsView) n개 조회 (이름, 카테고리 별)
-    public List<IGoodsView> findGoodsList(String goodsName, String type,
-                                                  Integer page, Integer size, String sortBy) {
+    public List<IGoodsView> findGoodsListFromDB(String goodsName, String type, Integer page, Integer size, String sortBy) {
         int defaultPage = 0;
         int defaultSize = 10;
         int requestedPage = page != null ? page : defaultPage;

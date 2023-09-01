@@ -70,6 +70,24 @@ public class RedisUtils {
         return null;
     }
 
+    public Object getList(String keyString, Class<?> clazz) {
+        String className = clazz.getSimpleName();
+        String key = className + ":" + keyString;
+        Long size = redisTemplate.opsForValue().size(key);
+        if (size == null || size == 0) {
+            return null;
+        }
+
+        try {
+            String value = (String) redisTemplate.opsForValue().get(key);
+            return objectMapper.readValue(value, clazz);
+        } catch (JsonProcessingException e) {
+            logger.error("[Error] Get - Json to Object failed : ", e);
+        }
+
+        return null;
+    }
+
     private String generateKey(String keyString, Object object) {
         String className = object.getClass().getSimpleName();
         return className + ":" + keyString;
