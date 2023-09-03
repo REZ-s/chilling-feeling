@@ -1,11 +1,11 @@
-< index 와 like 의 작동 방식 >
+< 인덱스의 작동 방식 with like >
 1. 기본적으로 인덱스를 사용하지 않는다면 full table scan 이 적용된다.
-2. 해당 컬럼에 인덱스는 걸려있으나 조건절에 사용되지 않는다면 index full scan 이 작동한다.
-3. = equal : index unique scan (B-tree를 수직으로 내려가면서 탐색)
-4. like 'A' : index range scan (마차나지로 between, <, >, like 와 같은 범위검색에 적용)
+2. 해당 컬럼에 인덱스는 걸려있으나 조건절에 사용되지 않는다면 full index scan 이 적용된다.
+3. = (equal) : index unique scan (B-tree 를 수직으로 내려가면서 탐색)
+4. like 'A' : index range scan (between, <, > 와 같은 범위 검색 키워드도 동일)
 5. like 'A%' : 접두사에 와일드카드가 없는 경우, 마찬가지로 index range scan
 6. like '%A' : 접두사에 와일드카드가 있는 경우, full table scan (전수조사)
-속도 : index unique scan > index range scan > index full scan > full table scan 
+속도 : index unique scan > index range scan > full index scan > full table scan
 
 우리는 결국, 와일드카드를 적극 사용해야하므로, full table scan이 자주 발생할 수 밖에 없다.
 그렇다면, 일반적인 인덱스를 걸어서는 속도 향상이 안될 것이고, fts 를 적용해서 성능 개선을 하기로 한다.

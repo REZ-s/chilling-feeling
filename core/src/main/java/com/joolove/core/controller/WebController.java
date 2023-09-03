@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class WebController {
 
     // 메인 페이지
     @GetMapping("/")
-    public String main(Model model) {
+    public String main(Model model) throws ExecutionException, InterruptedException {
         String username = userService.getUsernameByAuthentication();
         if (Objects.equals(username, "Guest")) {
             model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null));
@@ -50,7 +51,7 @@ public class WebController {
         }
 
         model.addAttribute("username", userService.getUsernameByAuthentication());
-        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetailsRandom());
+        model.addAttribute("goodsViewDetails", goodsService.findGoodsDetailsRandom().get());
         return "cf_main_page";
     }
 
@@ -104,7 +105,7 @@ public class WebController {
     // 상품 검색 결과
     @SearchLog
     @GetMapping("/search/result")
-    public String searchResult(Model model, @RequestParam("query") String query, @RequestParam("deviceId") UUID deviceId) {
+    public String searchResult(Model model, @RequestParam("query") String query, @RequestParam("deviceId") UUID deviceId) throws ExecutionException, InterruptedException {
         if (!StringUtils.hasText(query)) {
             return "redirect:/search";
         }
@@ -116,7 +117,7 @@ public class WebController {
 
     // 카테고리 첫 페이지
     @GetMapping("/category")
-    public String category(Model model) {
+    public String category(Model model) throws ExecutionException, InterruptedException {
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null));
         return "cf_category_page";
     }

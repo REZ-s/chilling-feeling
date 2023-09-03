@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -115,7 +116,7 @@ public class APIController {
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "sortBy", required = false) String sortBy) {
+            @RequestParam(value = "sortBy", required = false) String sortBy) throws ExecutionException, InterruptedException {
         List<IGoodsView> goodsList = goodsService.findGoodsList(name, type, page, size, sortBy);
         if (goodsList.isEmpty()) {
             return ResponseEntity.ok().body(new ArrayList<>());
