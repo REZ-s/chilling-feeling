@@ -5,12 +5,13 @@ import com.joolove.core.domain.billing.Payment;
 import com.joolove.core.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
