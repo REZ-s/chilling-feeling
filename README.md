@@ -55,7 +55,7 @@ https://www.notion.so/chillingfeeling/8c5f18c1071e480bbb5f9156fc8d6ff7
 <br>
 
 # 어떤 기능을 어떻게 구현했을까
-TBD
+작성중..
 
 <br>
 
