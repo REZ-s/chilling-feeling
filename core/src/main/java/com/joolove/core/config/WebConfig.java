@@ -107,7 +107,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // don't need for using jwt
 
         http.authorizeHttpRequests()
-                .mvcMatchers(HttpMethod.GET, "/environment/*").hasRole(Role.ERole.ROLE_ADMIN.name())
+                .mvcMatchers(HttpMethod.GET, "/admin/*").hasRole(Role.ERole.ROLE_ADMIN.name())
                 .anyRequest().permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
