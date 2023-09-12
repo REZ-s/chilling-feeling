@@ -40,6 +40,9 @@ https://www.notion.so/chillingfeeling/Postman-f4c4e0f7243649cfbdc38e72e6961a85
 - ERD 와 스키마에 따른 도메인 디렉터리 구조 <br>
 https://www.notion.so/chillingfeeling/ERD-e1a69b9a4b774e20bd30ec07d369da84
 
+- MySQL 마이그레이션 <br>
+https://www.notion.so/chillingfeeling/MySQL-121e6a2aaabb498a815d20a6c2ee1a15
+
 <br>
 
 # 프로젝트와 관련된 기록
@@ -55,7 +58,7 @@ https://www.notion.so/chillingfeeling/8c5f18c1071e480bbb5f9156fc8d6ff7
 <br>
 
 # 어떤 기능을 어떻게 구현했을까
-작성중..
+작성중입니다.
 
 <br>
 
