@@ -1,12 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <envs>
-      <env name="server.port" value="8080" />
-      <env name="MAIN_RESOURCE_PATH" value="$PROJECT_DIR$/src/main/resources" />
-    </envs>
     <module name="core.main" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.joolove.core.CoreApplication" />
-    <option name="VM_PARAMETERS" value="-javaagent:$PROJECT_DIR$/../../elastic-apm-agent-1.42.0.jar -Delastic.apm.service_name=core -Delastic.apm.server_url=http://localhost:8200 -Delastic.apm.application_packages=com.joolove.core -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$PROJECT_DIR$/../../joolove -server" />
+    <option name="VM_PARAMETERS" value="-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/dump -server" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
