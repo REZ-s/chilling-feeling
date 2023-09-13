@@ -63,7 +63,7 @@ https://www.notion.so/chillingfeeling/8c5f18c1071e480bbb5f9156fc8d6ff7
 <br>
 
 # 웹 서비스 이용하기
-https://www.chillingfeeling.com <br>
+https://chillingfeeling.com <br>
 
 <br>
 
