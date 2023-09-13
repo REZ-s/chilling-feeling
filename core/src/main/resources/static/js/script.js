@@ -334,27 +334,27 @@ function updateItemCard02(parentElement, newProduct) {
         return;
     }
 
-    const productContainer = parentElement.querySelector('.product-list02-photo-container');
+    let productContainer = parentElement.querySelector('.product-list02-photo-container');
     if (productContainer) {
         productContainer.id = newProduct.name;
     }
 
-    const image = parentElement.querySelector('.recommend-image02');
+    let image = parentElement.querySelector('.recommend-image02');
     if (image) {
         image.src = newProduct.imageUrl;
     }
 
-    const productNameDiv = parentElement.querySelector('.product-list02-name');
+    let productNameDiv = parentElement.querySelector('.product-list02-name');
     if (productNameDiv) {
         productNameDiv.innerText = newProduct.name;
     }
 
-    const starGroupDiv = parentElement.querySelector('.star-group');
+    let starGroupDiv = parentElement.querySelector('.star-group');
     if (starGroupDiv) {
         starGroupDiv.innerHTML = createScoreImage(newProduct.score);
     }
 
-    const captionDiv = parentElement.querySelector('.product-list02-caption');
+    let captionDiv = parentElement.querySelector('.product-list02-caption');
     if (captionDiv) {
         captionDiv.innerHTML = newProduct.summary;
     }

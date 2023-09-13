@@ -159,8 +159,8 @@ public class APIController {
 
     // 랜덤으로 아무 상품이나 불러오기
     @GetMapping("/api/v1/goods/random")
-    public ResponseEntity<?> getRandomGoods() {
-        return ResponseEntity.ok().body(goodsService.findGoodsDetailsRandom());
+    public ResponseEntity<?> getRandomGoods() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok().body(goodsService.findGoodsDetailsRandom().get());
     }
 
     // 장바구니에 상품 저장
