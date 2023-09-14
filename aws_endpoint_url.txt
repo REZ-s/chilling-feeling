@@ -1,5 +1,0 @@
-[EC2]
-ec2-3-38-94-0.ap-northeast-2.compute.amazonaws.com
-
-[RDS]
-cf-serivce-rds-mysql.cnajomgll26i.ap-northeast-2.rds.amazonaws.com
