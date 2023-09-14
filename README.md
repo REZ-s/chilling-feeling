@@ -19,6 +19,8 @@ chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의
 - <b> Team <br>
 풀스택 개발자 1명 (본인), 디자이너 1명 </b> <br>
 
+- <b> [Service link](https://chillingfeeling.com) </b> <br>
+
 <br>
 
 # 프로젝트 목표
