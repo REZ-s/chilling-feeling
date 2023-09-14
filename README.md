@@ -4,12 +4,12 @@
 
 <hr>
 
-- <b> 서비스 구조 </b>
+- <b> Service architecture </b>
 ![1차 서비스 아키텍처](https://github.com/REZ-s/chilling-feeling/assets/50026903/46fc27f7-0f57-493f-8658-ad3451bc43d4)
 
 <hr>
 
-- <b> 메인 페이지 </b> <br><br>
+- <b> Main page </b> <br>
 ![image](https://github.com/REZ-s/chilling-feeling/assets/50026903/401a2e8c-4aab-4cb7-9835-eedd4ff97732)
 
 - <b> What's the meaning [chilling feeling](https://chillingfeeling.com)? </b><br>
@@ -45,7 +45,7 @@ https://www.notion.so/chillingfeeling/883fb6981b234f74b5dd51f81a6d2b84
 - K6 로 부하 테스트 결과 한 번에 보기 <br>
 https://www.notion.so/chillingfeeling/K6-214259d9170f4a96b5af498861ace242
 
-- Postman 성능 테스트 결과 <br>
+- Postman 성능 테스트 결과와 해석 <br>
 https://www.notion.so/chillingfeeling/Postman-f4c4e0f7243649cfbdc38e72e6961a85
 
 - ERD 와 스키마에 따른 도메인 디렉터리 구조 <br>
@@ -54,10 +54,16 @@ https://www.notion.so/chillingfeeling/ERD-e1a69b9a4b774e20bd30ec07d369da84
 - MySQL 마이그레이션 <br>
 https://www.notion.so/chillingfeeling/MySQL-121e6a2aaabb498a815d20a6c2ee1a15
 
+- 디버깅 과정 기록 - 배포 <br>
+https://www.notion.so/chillingfeeling/e9d328acbfd84d6b8b1a2834b84df646
+
+- 디버깅 과정 기록 - 검색 <br>
+https://www.notion.so/chillingfeeling/c0fd1ecd92524679b89c36b20254eba7
+
 <br>
 
 # 프로젝트와 관련된 기록
-- 서비스 구조 <br>
+- 서비스 아키텍처 <br>
 https://www.notion.so/chillingfeeling/b6c7be9cf0a14ba59f3846a8c3b336bf
 
 - 프로젝트 프론트엔드 디자인 관련 링크 <br>
