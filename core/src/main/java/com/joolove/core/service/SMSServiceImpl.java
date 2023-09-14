@@ -9,6 +9,8 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.NumberUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 
@@ -51,14 +53,26 @@ public class SMSServiceImpl extends MessageService {
     }
 
     @Override
-    public Message createMessage(String to) throws Exception {
+    public Message createMessage(String to) {
         Message message = new Message();
-        message.setFrom(to);
-        message.setTo(host);
+        message.setFrom(host);
+        message.setTo(extractPureNumberFromPhoneNumberString(to));
         message.setType(MessageType.SMS);
         message.setText("[칠링필링] 인증번호 : " + authCode);
 
         return message;
+    }
+
+    public String extractPureNumberFromPhoneNumberString(String phoneNumberString) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < phoneNumberString.length(); i++) {
+            if (Character.isDigit(phoneNumberString.charAt(i))) {
+                result.append(phoneNumberString.charAt(i));
+            }
+        }
+
+        return result.toString();
     }
 
     @Override
