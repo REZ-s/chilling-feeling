@@ -1,7 +1,9 @@
 # 칠링필링 (Chilling Feeling)
-취향에 맞는 주류 추천 및 정보 제공 서비스
+Summary : 취향에 맞는 주류 추천 및 정보 제공 서비스
 
-<b> What's the meaning chilling feeling? </b><br>
+![image](https://github.com/REZ-s/chilling-feeling/assets/50026903/401a2e8c-4aab-4cb7-9835-eedd4ff97732)
+
+<b> What's the meaning [chilling feeling](https://chillingfeeling.com)? </b><br>
 chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의미로 많이 사용되는 단어로 <br>
 기분을 뜻하는 feeling 과 결합하여 '<b>한 잔하고 싶은 기분</b>' 을 표현했습니다. <br>
 
@@ -62,8 +64,4 @@ https://www.notion.so/chillingfeeling/8c5f18c1071e480bbb5f9156fc8d6ff7
 
 <br>
 
-# 웹 서비스 이용하기
-https://chillingfeeling.com <br>
-
-<br>
 
