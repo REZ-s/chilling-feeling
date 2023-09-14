@@ -16,6 +16,11 @@
 chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의미로 많이 사용되는 단어로 <br>
 기분을 뜻하는 feeling 과 결합하여 '<b>한 잔하고 싶은 기분</b>' 을 표현했습니다. <br>
 
+- <b> Team <br>
+풀스택 개발자 1명 (본인), 디자이너 1명 </b> <br>
+
+- <b> [Service link](https://chillingfeeling.com) </b> <br>
+
 <br>
 
 # 프로젝트 목표
