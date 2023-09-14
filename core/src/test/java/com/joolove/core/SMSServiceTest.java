@@ -22,7 +22,5 @@ public class SMSServiceTest {
         String phoneNumber = "010-7369-6639";
         smsService.sendAuthCode(phoneNumber);
 
-        // 2. 실제 API 호출
-
     }
 }
