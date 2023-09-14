@@ -28,49 +28,49 @@ chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의
 
 # 기술적 이슈 해결 과정 기록
 - 성능 테스트 - 개선 일지 (요약 정리) <br>
-https://www.notion.so/chillingfeeling/9263a0f4b511446b96c7634f676901c1
+https://chillingfeeling.notion.site/9263a0f4b511446b96c7634f676901c1?pvs=4
 
 - 검색 성능 높이기 - Full Text Search <br>
-https://www.notion.so/chillingfeeling/Full-Text-Search-4a0e671c8d0245a996e5cedc7debafe6?pvs=4
+https://chillingfeeling.notion.site/Full-Text-Search-4a0e671c8d0245a996e5cedc7debafe6?pvs=4
 
 - 느린 쿼리 개선하기 <br>
-https://www.notion.so/chillingfeeling/5fbc41d4d44044d2a075e8be95244cc4
+https://chillingfeeling.notion.site/5fbc41d4d44044d2a075e8be95244cc4?pvs=4
 
 - Redis Cache 적용하기 <br>
-https://www.notion.so/chillingfeeling/Redis-Cache-d098498b0e7941bda04412a19752f817
+https://chillingfeeling.notion.site/Redis-Cache-d098498b0e7941bda04412a19752f817?pvs=4
 
 - 스레드 설정 변경하기 <br>
-https://www.notion.so/chillingfeeling/883fb6981b234f74b5dd51f81a6d2b84
+https://chillingfeeling.notion.site/883fb6981b234f74b5dd51f81a6d2b84?pvs=4
 
 - K6 로 부하 테스트 결과 한 번에 보기 <br>
-https://www.notion.so/chillingfeeling/K6-214259d9170f4a96b5af498861ace242
+https://chillingfeeling.notion.site/K6-214259d9170f4a96b5af498861ace242?pvs=4
 
 - Postman 성능 테스트 결과와 해석 <br>
-https://www.notion.so/chillingfeeling/Postman-f4c4e0f7243649cfbdc38e72e6961a85
+https://chillingfeeling.notion.site/Postman-f4c4e0f7243649cfbdc38e72e6961a85?pvs=4
 
 - ERD 와 스키마에 따른 도메인 디렉터리 구조 <br>
-https://www.notion.so/chillingfeeling/ERD-e1a69b9a4b774e20bd30ec07d369da84
+https://chillingfeeling.notion.site/ERD-e1a69b9a4b774e20bd30ec07d369da84?pvs=4
 
 - MySQL 마이그레이션 <br>
-https://www.notion.so/chillingfeeling/MySQL-121e6a2aaabb498a815d20a6c2ee1a15
+https://chillingfeeling.notion.site/MySQL-121e6a2aaabb498a815d20a6c2ee1a15?pvs=4
 
 - 디버깅 과정 기록 - 배포 <br>
-https://www.notion.so/chillingfeeling/e9d328acbfd84d6b8b1a2834b84df646
+https://chillingfeeling.notion.site/e9d328acbfd84d6b8b1a2834b84df646?pvs=4
 
 - 디버깅 과정 기록 - 검색 <br>
-https://www.notion.so/chillingfeeling/c0fd1ecd92524679b89c36b20254eba7
+https://chillingfeeling.notion.site/c0fd1ecd92524679b89c36b20254eba7?pvs=4
 
 <br>
 
 # 프로젝트와 관련된 기록
 - 서비스 아키텍처 <br>
-https://www.notion.so/chillingfeeling/b6c7be9cf0a14ba59f3846a8c3b336bf
+https://chillingfeeling.notion.site/b6c7be9cf0a14ba59f3846a8c3b336bf?pvs=4
 
 - 프로젝트 프론트엔드 디자인 관련 링크 <br>
-https://www.notion.so/chillingfeeling/dcd3814b3bbb410cb1cce3b30d31aaf3
+https://chillingfeeling.notion.site/dcd3814b3bbb410cb1cce3b30d31aaf3?pvs=4
 
 - 그 외 설정 및 모니터링 결과 <br>
-https://www.notion.so/chillingfeeling/8c5f18c1071e480bbb5f9156fc8d6ff7
+https://chillingfeeling.notion.site/8c5f18c1071e480bbb5f9156fc8d6ff7?pvs=4
 
 <br>
 
