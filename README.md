@@ -5,7 +5,7 @@
 <hr>
 
 - <b> Service architecture </b>
-![1차 서비스 아키텍처](https://github.com/REZ-s/chilling-feeling/assets/50026903/46fc27f7-0f57-493f-8658-ad3451bc43d4)
+![서비스 아키텍처](https://github.com/REZ-s/chilling-feeling/assets/50026903/9eba7a14-0a42-4a5a-9743-9c3bd7f8a2d2)
 
 <hr>
 
