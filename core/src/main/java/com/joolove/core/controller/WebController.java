@@ -191,7 +191,7 @@ public class WebController {
     // 준비중 페이지
     @GetMapping("/ready")
     public String ready() {
-        return "/cf_ready_page";
+        return "cf_ready_page";
     }
 
 }
