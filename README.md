@@ -1,6 +1,12 @@
 # 칠링필링 (Chilling Feeling)
 Summary : 취향에 맞는 주류 추천 및 정보 제공 서비스
 
+<b> 서비스 구조 </b>
+![image](https://github.com/REZ-s/chilling-feeling/assets/50026903/70e0f00a-14e8-4634-80e9-98f1133121d3);
+
+<br><br>
+
+<b> 메인 페이지 </b> <br>
 ![image](https://github.com/REZ-s/chilling-feeling/assets/50026903/401a2e8c-4aab-4cb7-9835-eedd4ff97732)
 
 <b> What's the meaning [chilling feeling](https://chillingfeeling.com)? </b><br>
