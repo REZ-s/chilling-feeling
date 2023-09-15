@@ -1484,6 +1484,10 @@ async function getRandomGoods() {
  */
 function addInfiniteScroll() {
     window.addEventListener('scroll', async () => {
+        if (goodsViewList === null) {
+            return;
+        }
+
         if (pageLoading) {
             return;
         }

@@ -183,8 +183,10 @@
         searchInput.value = query;
         searchClear.style.display = "none";
         createFooter('/category');
+
         displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
         await displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
+
         addInfiniteScroll(query);
     }
 
@@ -223,7 +225,7 @@
 
             // 새로운 상품 리스트 폼 추가
             goodsCategory = label.querySelector(".tab-bar-label-ac").innerText;
-            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsCategory);
+            displayGoodsListStartPage(query);
             displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
         });
     });
