@@ -116,7 +116,7 @@
     let goodsCategory = "전체";
     let pageLoading = false;
     let lastCallTime = 0;       // 마지막 페이징 호출 시간
-    let delayDuration = 500;    // 페이징 딜레이 시간
+    let delayDuration = 500;    // 페이징 딜레이 시간 (ms)
 
     window.onload = async function () {
         searchClear.style.display = "none";
@@ -177,7 +177,7 @@
 
             // 새로운 상품 리스트 폼 추가
             goodsCategory = label.querySelector(".tab-bar-label-ac").innerText;
-            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsCategory);
+            displayGoodsListStartPage();
             displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
         });
     });

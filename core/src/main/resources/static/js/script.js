@@ -111,11 +111,11 @@ function createItemListForCategory(parentElement, products) {
 
     parentElement.appendChild(wrapCountingRangeEmpty);
 }
-
-function updateItemListLength(length) {
-    let countingProductText = document.getElementsByClassName('counting-product-text')[0];
-    countingProductText.innerText = "활성화된 검색 결과 : " + length + "개";
-}
+//
+// function updateItemListLength(length) {
+//     let countingProductText = document.getElementsByClassName('counting-product-text')[0];
+//     countingProductText.innerText = "활성화된 검색 결과 : " + length + "개";
+// }
 
 function createItemList(parentElement, products) {
     const wrapCategoryProductList = document.createElement("div");
@@ -423,6 +423,9 @@ function displayItemList() {
     activeGoodsDetailsURL();
 }
 
+/**
+* arguments = { parentElement, goodsViewList, type }
+* */
 function displayItemListForCategory() {
     if (arguments.length < 2) {
         return;
@@ -1512,6 +1515,10 @@ function addInfiniteScroll() {
     });
 }
 
+async function allItemListLength() {
+
+}
+
 /**
  * same need global variable like 'addInfiniteScroll()'
  */
@@ -1529,12 +1536,37 @@ async function displayGoodsListForNextPage() {
         if (response.ok) {
             let nextGoodsViewList = await response.json();
             goodsViewList = goodsViewList.concat(nextGoodsViewList);
-            updateItemListLength(goodsViewList.length);
 
             let isCreated = createItemListForNext(document.getElementsByClassName('wrap-category-product-list')[0], nextGoodsViewList);
             if (isCreated) {
                 page++;
             }
+            return true;
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('페이지 가져오기 실패 : ' + error);
+        return false;
+    }
+}
+
+async function displayGoodsListStartPage() {
+    try {
+        let query = arguments[0];
+        let response;
+        page = 0;
+
+        if (query == null) {
+            response = await fetch('/api/v1/goods?type=' + goodsCategory + '&page=' + 0);
+        } else {
+            response = await fetch('/api/v1/goods?name=' + query + '&type=' + goodsCategory + '&page=' + 0);
+        }
+
+        if (response.ok) {
+            goodsViewList = await response.json();
+            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsCategory);
+            page++;
             return true;
         } else {
             throw response;
