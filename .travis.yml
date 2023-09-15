@@ -18,7 +18,8 @@ before_install:
 
 before_script: "./gradlew version-up"
 
-script: "./gradlew clean build"
+script: 
+  - "./gradlew clean build"
 
 before_deploy:
   - ls -a
@@ -31,6 +32,8 @@ before_deploy:
   - mv before-deploy/before-deploy.zip deploy/core.zip
 
 deploy:
+  - travis_wait 30 mvn install
+
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
