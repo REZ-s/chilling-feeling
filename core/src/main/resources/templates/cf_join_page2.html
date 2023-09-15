@@ -94,8 +94,12 @@
         const pwInput = document.querySelector('#pwInput').value.trim();
         const pwCheck = document.querySelector('#pwCheck').value.trim();
 
+        if (!validatePassword(pwInput)) {
+            alert("비밀번호가 유효하지 않습니다.")
+        }
+
         if (pwInput !== pwCheck) {
-            alert("Password does not match");
+            alert("비밀번호가 서로 일치하는지 확인해주세요.");
             return;
         }
 

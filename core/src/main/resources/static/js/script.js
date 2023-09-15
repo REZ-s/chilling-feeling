@@ -1580,3 +1580,12 @@ async function displayGoodsListStartPage() {
         return false;
     }
 }
+
+/**
+ *  비밀번호는 8자에서 20자 사이여야 하며,
+ *  영문, 숫자, 특수 기호 중 최소 하나씩을 포함해야한다.
+ */
+function validatePassword(password) {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])[A-Za-z\d@#$%^&+=!]{8,20}$/;
+    return passwordRegex.test(password);
+}
