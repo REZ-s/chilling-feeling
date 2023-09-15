@@ -35,6 +35,23 @@
 }
 
 @media (min-width: 375px) {
+    .modal {
+        position: fixed !important;
+        top: 100% !important;
+        left: 50% !important;
+        width: 375px !important;
+        height: 100% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .modal-dialog {
+        width: 375px !important;
+        vertical-align: middle !important;
+        margin: 0 !important;
+    }
+}
+
+@media (min-width: 375px) {
     .bottom {
         width: 375px;
         align-self: stretch;
@@ -2208,7 +2225,6 @@ img.info-text {
     letter-spacing: -0.44px;
     text-align: left;
     color: #e6e6e6;
-!important;
 }
 
 img.info-text2 {
@@ -2225,7 +2241,6 @@ img.info-text2 {
     letter-spacing: -0.28px;
     text-align: center;
     color: #fff;
-!important;
 }
 
 input.login1-form {
@@ -2447,7 +2462,7 @@ input.login1-form::placeholder {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 94px;
+    /*gap: 94px;*/
     margin: 0 20px 0;
     padding: 0;
 }
@@ -2477,7 +2492,7 @@ input.login1-form::placeholder {
 }
 
 .login2-headline-text {
-    width: 44px;
+    /*width: 44px;*/
     height: 28px;
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;

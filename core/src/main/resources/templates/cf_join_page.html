@@ -108,7 +108,6 @@
     const beforeForm = document.querySelector('#beforeForm');
     const afterForm = document.querySelector('#afterForm');
 
-    const beforeEmail = document.querySelector('#beforeEmail');
     const afterEmail = document.querySelector('#afterEmail');
 
     const pwShowHide = document.querySelectorAll(".pw-eye");
@@ -156,67 +155,102 @@
         });
     });
 
-    document.querySelector('#sendCodeNumber').addEventListener("click", function (e) {
+    document.querySelector('#sendCodeNumber').addEventListener("click", async function (e) {
         e.preventDefault();
+        const emailInput = document.querySelector('#beforeEmail').value.trim();
+
+        if (await checkEmailExists(emailInput) !== "invalid") {
+            alert("이미 가입한 이메일입니다.");
+            return;
+        }
+
         myContainer.style.height = "525px";
         beforeForm.style.display = "none";
         afterForm.style.display = "flex";
-        afterEmail.value = beforeEmail.value;
-        createAuthenticationCode(beforeEmail.value.trim());
+        afterEmail.value = emailInput;
+        await createAuthenticationCode(emailInput);
     });
 
-    document.querySelector('#resendCodeNumber').addEventListener("click", function (e) {
+    document.querySelector('#resendCodeNumber').addEventListener("click", async function (e) {
         e.preventDefault();
-        createAuthenticationCode(afterEmail.value.trim());
+        const emailInput = document.querySelector('#afterEmail').value.trim();
+
+        if (await checkEmailExists(emailInput) !== "invalid") {
+            alert("이미 가입한 이메일입니다.");
+            return;
+        }
+
+        await createAuthenticationCode(emailInput);
     });
 
     // verify auth-code for next page
-    document.querySelector('#nextBtn').addEventListener("click", function (e) {
+    document.querySelector('#nextBtn').addEventListener("click", async function () {
+        const emailInput = document.querySelector('#afterEmail').value.trim();
+        const codeInput = document.querySelector('#codeNumber').value.trim();
 
-        const codeInput = document.querySelector('#codeNumber');
-        const authenticationCode = codeInput.value.trim();
-
-        if (checkAuthenticationCode(authenticationCode)) {
-            const emailInput = document.querySelector('#afterEmail');
-            const afterEmail = emailInput.value.trim();
-            sendJoinForm("/join/password", afterEmail);
-        } else {
-            console.log("Incorrect authentication code");
-            // display modal or show error message...
+        if (await checkEmailExists(emailInput) !== "invalid") {
+            alert("이미 가입한 이메일입니다.");
+            return;
         }
 
-        async function checkAuthenticationCode(code) {
-            const data = await sendAuthenticationCode(code);
-            if (data === "valid") {
-                return true;
-            }
-
-            async function sendAuthenticationCode(code) {
-                try {
-                    const response = await fetch("/api/v1/authentication-code/email/check", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: code
-                    });
-
-                    if (response.ok) {
-                        return await response.text();
-                    }
-                    throw response;
-                } catch (error) {
-                    throw error;
-                }
-            }
-
-            return false;
+        if (await checkAuthenticationCode(codeInput)) {
+            sendJoinForm("/join/password", emailInput);
+        } else {
+            alert("Incorrect authentication code");
         }
     });
 
+    async function checkEmailExists(email) {
+        try {
+            const response = await fetch("/api/v1/email/check", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: email
+            });
+
+            if (response.ok) {
+                return response.text();
+            }
+
+            throw response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async function checkAuthenticationCode(code) {
+        const data = await sendAuthenticationCode(code);
+        if (data === "valid") {
+            return true;
+        }
+
+        return false;
+
+        async function sendAuthenticationCode(code) {
+            try {
+                const response = await fetch("/api/v1/authentication-code/email/check", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: code
+                });
+
+                if (response.ok) {
+                    return await response.text();
+                }
+                throw response;
+            } catch (error) {
+                throw error;
+            }
+        }
+    }
+
     // create auth-code
-    function createAuthenticationCode(email) {
-        getAuthenticationCode(email);
+    async function createAuthenticationCode(email) {
+        await getAuthenticationCode(email);
 
         async function getAuthenticationCode(email) {
             await createCode(email);

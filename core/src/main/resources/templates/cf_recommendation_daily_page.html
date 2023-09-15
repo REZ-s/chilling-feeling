@@ -26,28 +26,19 @@
             color: white;
         }
 
-        /* For modal */
         .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        @media screen and (min-width: 768px) {
-            .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-            }
+            position: fixed !important;
+            top: 100% !important;
+            left: 50% !important;
+            width: 375px !important;
+            height: 100% !important;
+            transform: translate(-50%, -50%) !important;
         }
 
         .modal-dialog {
-            display: inline-block;
-            text-align: left;
-            vertical-align: middle;
+            width: 375px !important;
+            vertical-align: middle !important;
+            margin: 0 !important;
         }
 
         .modal-content {

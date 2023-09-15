@@ -95,12 +95,7 @@
         const pwCheck = document.querySelector('#pwCheck').value.trim();
 
         if (pwInput !== pwCheck) {
-            console.log('Password does not match');
-            /*
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = '비밀번호가 일치하지 않습니다.';
-            errorMessage.style.display = 'block';
-            */
+            alert("Password does not match");
             return;
         }
 

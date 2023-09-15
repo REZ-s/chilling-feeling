@@ -22,43 +22,23 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
         .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .modal:before {
-            display: inline-block;
-            vertical-align: middle;
-            content: " ";
-            height: 100%;
+            position: fixed !important;
+            top: 100% !important;
+            left: 50% !important;
+            width: 375px !important;
+            height: 100% !important;
+            transform: translate(-50%, -50%) !important;
         }
 
         .modal-dialog {
-            display: inline-block;
-            text-align: left;
-            vertical-align: middle;
-        }
-
-        .modal-content {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            border-radius: 10px;
-            background-color: #262626;
+            width: 375px !important;
+            vertical-align: middle !important;
+            margin: 0 !important;
         }
 
         .modal-food {
-            width: 375px;
-            height: 296px;
-            flex-grow: 0;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
             gap: 30px;
             padding: 15px 0;
