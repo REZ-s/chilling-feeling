@@ -2309,6 +2309,7 @@ input.login1-form::placeholder {
     object-fit: contain;
     border-radius: 3px;
     background-color: #4a4a4a;
+    border-color: #4a4a4a;
 }
 
 .login1-menu {
@@ -2691,7 +2692,6 @@ input.login1-form::placeholder {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 94px;
     padding: 0 20px;
 }
 
@@ -3029,7 +3029,6 @@ input.login1-form::placeholder {
     flex-direction: row;
     justify-content: space-between;
     align-items: stretch;
-    gap: 10px;
     padding: 0;
     border-bottom: solid 1px #f6f6f6 !important;
 }
@@ -3047,6 +3046,7 @@ input.login1-form::placeholder {
 }
 
 .join1-input-text {
+    width: 250px;
     height: 28px;
     align-self: stretch;
     flex-grow: 0;
