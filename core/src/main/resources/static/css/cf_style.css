@@ -6,7 +6,7 @@
 /* Base */
 @media (min-width: 375px) {
     body {
-        width: 375px;
+        width: 365px;
         min-height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
         margin: 0 auto !important;
@@ -21,7 +21,7 @@
 
 @media (min-width: 500px) {
     body {
-        width: 500px;
+        width: 490px;
         min-height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
         margin: 0 auto !important;
@@ -39,13 +39,13 @@
         position: fixed !important;
         top: 100% !important;
         left: 50% !important;
-        width: 375px !important;
+        width: 365px !important;
         height: 100% !important;
         transform: translate(-50%, -50%) !important;
     }
 
     .modal-dialog {
-        width: 375px !important;
+        width: 365px !important;
         vertical-align: middle !important;
         margin: 0 !important;
     }
@@ -53,7 +53,7 @@
 
 @media (min-width: 375px) {
     .bottom {
-        width: 375px;
+        width: 365px;
         align-self: stretch;
         position: fixed;
         bottom: 0;
@@ -65,7 +65,7 @@
 
 @media (min-width: 500px) {
     .bottom {
-        width: 500px;
+        width: 490px;
         align-self: stretch;
         position: fixed;
         bottom: 0;
@@ -338,7 +338,6 @@
 }
 
 .bottom-home {
-    /*width: 375px;*/
     height: 66px;
     flex-grow: 0;
     display: flex;
@@ -350,8 +349,6 @@
 }
 
 .home-contents {
-    /*width: 375px;*/
-    /*height: 2265px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -362,7 +359,6 @@
 }
 
 .home-taste-prod {
-    /*width: 375px;*/
     height: 550px;
     flex-grow: 0;
     display: flex;
@@ -375,8 +371,6 @@
 }
 
 .home-taste-title-box {
-    /*width: 335px;*/
-    /*height: 70px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -387,8 +381,6 @@
 }
 
 .home-taste-title {
-    /*width: 335px;*/
-    /*height: 32px;*/
     flex-grow: 0;
     font-family: 'Noto Sans KR', serif;
     font-size: 22px;
@@ -739,8 +731,6 @@
 }
 
 .home-food-prod {
-    /*width: 375px;*/
-    /*height: 500px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -752,7 +742,6 @@
 }
 
 .home-food-title-box {
-    /*width: 335px;*/
     height: 70px;
     flex-grow: 0;
     display: flex;
@@ -997,7 +986,6 @@
 }
 
 .home-best-seller {
-    /*width: 375px;*/
     height: 500px;
     flex-grow: 0;
     display: flex;
@@ -1267,7 +1255,6 @@ li {
 }
 
 .home-feed-prod {
-    /*width: 375px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -1577,7 +1564,7 @@ li {
 }
 
 .search-result-contents-frame {
-    width: 375px;
+    width: 365px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -1587,7 +1574,6 @@ li {
 }
 
 .search-result-contents-frame-inner {
-    /*width: 375px;*/
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -1598,7 +1584,6 @@ li {
 }
 
 .category-tab-bar {
-    /*width: 375px;*/
     height: 55px;
     flex-grow: 0;
     display: flex;
@@ -2031,7 +2016,6 @@ li {
 /* 카테고리 페이지 */
 
 .wrap-btn-tag-filter {
-    /*width: 375px;*/
     height: 28px;
     flex-grow: 0;
     display: flex;
@@ -2328,7 +2312,7 @@ input.login1-form::placeholder {
 }
 
 .login1-menu {
-    width: 375px;
+    width: 365px;
     height: 20px;
     display: flex;
     flex-direction: row;
@@ -2341,7 +2325,6 @@ input.login1-form::placeholder {
 }
 
 .login1-sub-content-area {
-    /*width: 375px;*/
     height: 20px;
     display: flex;
     flex-direction: row;
@@ -2425,8 +2408,6 @@ input.login1-form::placeholder {
 }
 
 .logo-btn-area {
-    /*width: 375px;*/
-    /*height: 50px;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2660,7 +2641,6 @@ input.login1-form::placeholder {
 }
 
 .login2-content-area {
-    /*width: 375px;*/
     height: 20px;
     display: flex;
     flex-direction: row;
@@ -2671,7 +2651,6 @@ input.login1-form::placeholder {
 }
 
 .login2-content-label {
-    /*width: 375px;*/
     height: 20px;
     flex-grow: 1;
     font-family: 'Noto Sans KR', serif;
@@ -4746,7 +4725,6 @@ input.login1-form::placeholder {
 }
 
 .product-details-bottom {
-    /*width: 375px;*/
     height: 66px;
     display: flex;
     flex-direction: row;
@@ -5980,8 +5958,6 @@ input.login1-form::placeholder {
 }
 
 .my-wrap-top-bar-keyword-setting {
-    /*width: 375px;*/
-    /*height: 455px;*/
     flex-grow: 0;
     display: flex;
     flex-direction: column;
@@ -6428,7 +6404,7 @@ input.login1-form::placeholder {
 }
 
 .modal-order {
-    width: 375px;
+    width: 365px;
     height: 194px;
     flex-grow: 0;
     display: flex;
