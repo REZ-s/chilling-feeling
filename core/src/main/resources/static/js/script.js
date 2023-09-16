@@ -111,11 +111,6 @@ function createItemListForCategory(parentElement, products) {
 
     parentElement.appendChild(wrapCountingRangeEmpty);
 }
-//
-// function updateItemListLength(length) {
-//     let countingProductText = document.getElementsByClassName('counting-product-text')[0];
-//     countingProductText.innerText = "활성화된 검색 결과 : " + length + "개";
-// }
 
 function createItemList(parentElement, products) {
     const wrapCategoryProductList = document.createElement("div");
@@ -1500,11 +1495,17 @@ function addInfiniteScroll() {
             let isPassed = false;
             let query = arguments[0];
 
+            showLoadingSpinner(document.querySelector('.search-result-container'));
+
             if (query != null) {
                 isPassed = await displayGoodsListForNextPage(query);
             } else {
                 isPassed = await displayGoodsListForNextPage();
             }
+
+            await sleep(500);
+
+            hideLoadingSpinner(document.querySelector('.search-result-container'));
 
             if (isPassed) {
                 await displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
@@ -1519,7 +1520,43 @@ function addInfiniteScroll() {
     });
 }
 
-async function allItemListLength() {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function createLoadingSpinner() {
+    const loadingSpinnerDiv = document.createElement('div');
+    loadingSpinnerDiv.classList.add('loadingSpinner');
+    loadingSpinnerDiv.style.display = 'none';
+
+    document.body.appendChild(loadingSpinnerDiv);
+}
+
+function showLoadingSpinner(parentElement) {
+    let lds = document.querySelector('.loadingSpinner');
+
+    if (lds == null) {
+        createLoadingSpinner();
+        lds = document.querySelector('.loadingSpinner');
+    }
+
+    lds.style.display = 'flex';
+    window.scrollTo(0, window.innerHeight + window.scrollY);
+
+    parentElement.classList.add('blur-background');
+}
+
+function hideLoadingSpinner(parentElement) {
+    let lds = document.querySelector('.loadingSpinner');
+
+    if (lds) {
+        lds.style.display = 'none';
+    }
+
+    parentElement.classList.remove('blur-background');
+}
+
+async function getGoodsListTotalCount() {
 
 }
 

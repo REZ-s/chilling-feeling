@@ -140,6 +140,7 @@
         }
 
         addInfiniteScroll();
+        createLoadingSpinner();
     }
 
     // 카테고리 목록 탭 버튼 클릭 시
@@ -177,7 +178,7 @@
 
             // 새로운 상품 리스트 폼 추가
             goodsCategory = label.querySelector(".tab-bar-label-ac").innerText;
-            displayGoodsListStartPage(query);
+            displayGoodsListStartPage();
             displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
         });
     });

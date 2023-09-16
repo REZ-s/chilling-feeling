@@ -75,6 +75,41 @@
     }
 }
 
+.loadingSpinner {
+    width: 64px;
+    height: 64px;
+    content: " ";
+    display: flex;
+    position: fixed;
+    top: calc(50% - 32px);
+    left: calc(50% - 32px);
+    z-index: 9999;
+    border-radius: 50%;
+    border: 6px solid #004051;
+    border-color: #004051 transparent #004051 transparent;
+    animation: loadingSpinner 1.2s linear infinite;
+}
+
+@keyframes loadingSpinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.blur-background {
+    display: block;
+    background: none repeat scroll 0 0;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+}
+
 .pw-eye {
     /* for js code */
 }

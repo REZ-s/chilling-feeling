@@ -90,6 +90,11 @@ public class GoodsService {
         return cachedGoodsList;
     }
 
+    // 상품 전체 개수 반환
+    public long getGoodsListTotalCount() {
+        return goodsDetailsRepository.count();
+    }
+
     // 상품(GoodsView) n개 조회 (이름, 카테고리 별)
     @Async("cfAsync")
     public CompletableFuture<List<IGoodsView>> findGoodsListFromDB(String goodsName, String type, Integer page, Integer size, String sortBy) {
