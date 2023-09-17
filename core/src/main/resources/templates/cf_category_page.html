@@ -112,6 +112,7 @@
     let option2;
 
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
+    let goodsViewListCount = /*[[${goodsViewListCount}]]*/ [];
     let page = 1;
     let goodsCategory = "전체";
     let pageLoading = false;
@@ -121,7 +122,7 @@
     window.onload = async function () {
         searchClear.style.display = "none";
         createFooter('/category');
-        displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList);
+        displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsViewListCount);
         await displayWishListGoods(document.getElementById('contentFrame'), goodsViewList);
 
         option1 = document.getElementById('option1');
@@ -145,7 +146,7 @@
 
     // 카테고리 목록 탭 버튼 클릭 시
     tabLabels.forEach(function (label) {
-        label.addEventListener("click", function () {
+        label.addEventListener("click", async function () {
             if (label.classList.contains("wrap-tab-bar-label-ac")) {
                 return;
             }
@@ -178,8 +179,8 @@
 
             // 새로운 상품 리스트 폼 추가
             goodsCategory = label.querySelector(".tab-bar-label-ac").innerText;
-            displayGoodsListStartPage();
-            displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
+            await displayGoodsListStartPage();
+            await displayWishListGoods(document.getElementById('contentFrame'), getProductsByType(goodsViewList, goodsCategory));
         });
     });
 

@@ -18,6 +18,28 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
+    @Query(value = "select count(*) " +
+            "from product.goods_details gd " +
+            "inner join product.goods_stats gs " +
+            "on gd.goods_id = gs.goods_id " +
+            "and match(gd.name) against(concat('*', ?1, '*') in boolean mode) ", nativeQuery = true)
+    long getGoodsListCountByName(String name);
+
+    @Query("select count(*) " +
+            "from GoodsDetails gd " +
+            "inner join GoodsStats gs " +
+            "on gd.goods.id = gs.goods.id " +
+            "and gd.type = ?1")
+    long getGoodsListCountByType(String type);
+
+    @Query(value = "select count(*) " +
+            "from product.goods_details gd " +
+            "inner join product.goods_stats gs " +
+            "on gd.goods_id = gs.goods_id " +
+            "and gd.type = ?2 " +
+            "and match(gd.name) against(concat('*', ?1, '*') in boolean mode) ", nativeQuery = true)
+    long getGoodsListCountByNameAndType(String name, String type);
+
     @Query("select new com.joolove.core.dto.query.GoodsView(" +
             "gd.name, gd.type, gd.subType, gd.imageUrl, gs.label, gs.score, gs.reviewCount) " +
             "from GoodsDetails gd " +

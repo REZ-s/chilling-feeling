@@ -6,7 +6,7 @@
 /* Base */
 @media (min-width: 375px) {
     body {
-        width: 365px;
+        width: 375px;
         min-height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
         margin: 0 auto !important;
@@ -39,13 +39,13 @@
         position: fixed !important;
         top: 100% !important;
         left: 50% !important;
-        width: 365px !important;
+        width: 375px !important;
         height: 100% !important;
         transform: translate(-50%, -50%) !important;
     }
 
     .modal-dialog {
-        width: 365px !important;
+        width: 375px !important;
         vertical-align: middle !important;
         margin: 0 !important;
     }
@@ -53,7 +53,7 @@
 
 @media (min-width: 375px) {
     .bottom {
-        width: 365px;
+        width: 375px;
         align-self: stretch;
         position: fixed;
         bottom: 0;
@@ -1564,7 +1564,7 @@ li {
 }
 
 .search-result-contents-frame {
-    width: 365px;
+    width: 375px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -2313,7 +2313,7 @@ input.login1-form::placeholder {
 }
 
 .login1-menu {
-    width: 365px;
+    width: 375px;
     height: 20px;
     display: flex;
     flex-direction: row;
@@ -6404,7 +6404,7 @@ input.login1-form::placeholder {
 }
 
 .modal-order {
-    width: 365px;
+    width: 375px;
     height: 194px;
     flex-grow: 0;
     display: flex;

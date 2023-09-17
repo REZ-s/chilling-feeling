@@ -90,9 +90,21 @@ public class GoodsService {
         return cachedGoodsList;
     }
 
-    // 상품 전체 개수 반환
-    public long getGoodsListTotalCount() {
-        return goodsDetailsRepository.count();
+    // 상품 개수 반환
+    public long getGoodsListCount(String goodsName, String type) {
+        if (StringUtils.isBlank(goodsName)) {
+            if (StringUtils.isBlank(type) || type.equals("전체")) {
+                return goodsRepository.count();
+            } else {
+                return goodsRepository.getGoodsListCountByType(type);
+            }
+        } else {
+            if (StringUtils.isBlank(type) || type.equals("전체")) {
+                return goodsRepository.getGoodsListCountByName(goodsName);
+            } else {
+                return goodsRepository.getGoodsListCountByNameAndType(goodsName, type);
+            }
+        }
     }
 
     // 상품(GoodsView) n개 조회 (이름, 카테고리 별)

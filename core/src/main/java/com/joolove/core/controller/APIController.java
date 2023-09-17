@@ -127,11 +127,10 @@ public class APIController {
 
     // 상품 전체 개수
     @GetMapping("/api/v1/goods/count")
-    public ResponseEntity<?> getGoodsListTotalCount() {
-        // 카테고리가 '전체' 일 경우는 아래와 같이 반환하면 된다.
-        // 카테고리와 검색어에 따라 개수를 반환하려면?
-
-        return ResponseEntity.ok().body(goodsService.getGoodsListTotalCount());
+    public ResponseEntity<?> getGoodsListCount(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "type", required = false) String type) {
+        return ResponseEntity.ok().body(goodsService.getGoodsListCount(name, type));
     }
 
     // 주문하기

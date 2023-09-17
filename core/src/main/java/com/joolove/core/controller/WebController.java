@@ -111,6 +111,7 @@ public class WebController {
         }
 
         model.addAttribute("goodsViewList", goodsService.findGoodsList(query, "전체", 0, 10, null));
+        model.addAttribute("goodsViewListCount", goodsService.getGoodsListCount(query, "전체"));
         model.addAttribute("query", query);
         return "cf_search_result_page";
     }
@@ -119,6 +120,7 @@ public class WebController {
     @GetMapping("/category")
     public String category(Model model) throws ExecutionException, InterruptedException {
         model.addAttribute("goodsViewList", goodsService.findGoodsList(null, "전체", 0, 10, null));
+        model.addAttribute("goodsViewListCount", goodsService.getGoodsListCount(null, "전체"));
         return "cf_category_page";
     }
 

@@ -44,7 +44,7 @@ function createFooter() {
  * Item List Container Using Category, Search
  * @param parentElement
  */
-function createItemListForCategory(parentElement, products) {
+function createItemListForCategory(parentElement, products, count) {
     if (parentElement == null) {
         return;
     }
@@ -58,7 +58,7 @@ function createItemListForCategory(parentElement, products) {
 
     const countingProductText = document.createElement("div");
     countingProductText.setAttribute("class", "counting-product-text");
-    countingProductText.innerText = "활성화된 검색 결과 : " + products.length + "개";
+    countingProductText.innerText = "검색 결과 전체 : " + count + "개";
     wrapCountingRange.appendChild(countingProductText);
 
     const wrapRangeChevron = document.createElement('div');
@@ -419,25 +419,26 @@ function displayItemList() {
 }
 
 /**
-* arguments = { parentElement, goodsViewList, type }
+* arguments = { parentElement, goodsViewList, goodsViewListCount, type }
 * */
 function displayItemListForCategory() {
-    if (arguments.length < 2) {
+    if (arguments.length < 3) {
         return;
     }
 
     const parentElement = arguments[0];
     const goodsViewList = arguments[1];
+    const goodsViewListCount = arguments[2];
 
-    if (arguments.length === 2) {
-        createBaseItemListForCategory(parentElement, getProducts(goodsViewList));
-    } else if (arguments.length === 3) {
-        const type = arguments[2];
+    if (arguments.length === 3) {
+        createBaseItemListForCategory(parentElement, getProducts(goodsViewList), goodsViewListCount);
+    } else if (arguments.length === 4) {
+        const type = arguments[3];
 
         if (type === "전체" || type === "All" || type === "all" || type === "ALL") {
-            createBaseItemListForCategory(parentElement, getProducts(goodsViewList));
+            createBaseItemListForCategory(parentElement, getProducts(goodsViewList), goodsViewListCount);
         } else {
-            createBaseItemListForCategory(parentElement, getProductsByType(goodsViewList, type));
+            createBaseItemListForCategory(parentElement, getProductsByType(goodsViewList, type), goodsViewListCount);
         }
     }
 
@@ -464,11 +465,11 @@ function getProductsByType(goodsViewList, type) {
     return products;
 }
 
-function createBaseItemListForCategory(parentElement, products) {
+function createBaseItemListForCategory(parentElement, products, goodsViewListCount) {
     if (products == null || products.length === 0) {
         createEmptyItemListForCategory(parentElement);
     } else {
-        createItemListForCategory(parentElement, products);
+        createItemListForCategory(parentElement, products, goodsViewListCount);
     }
 }
 
@@ -1595,22 +1596,26 @@ async function displayGoodsListForNextPage() {
 async function displayGoodsListStartPage() {
     try {
         let query = arguments[0];
-        let response;
+        let goodsListResponse;
+        let goodsListCountResponse;
         page = 0;
 
         if (query == null) {
-            response = await fetch('/api/v1/goods?type=' + goodsCategory + '&page=' + 0);
+            goodsListResponse = await fetch('/api/v1/goods?type=' + goodsCategory + '&page=' + 0);
+            goodsListCountResponse = await fetch('/api/v1/goods/count?type=' + goodsCategory + '&page=' + 0);
         } else {
-            response = await fetch('/api/v1/goods?name=' + query + '&type=' + goodsCategory + '&page=' + 0);
+            goodsListResponse = await fetch('/api/v1/goods?name=' + query + '&type=' + goodsCategory + '&page=' + 0);
+            goodsListCountResponse = await fetch('/api/v1/goods/count?name=' + query + '&type=' + goodsCategory + '&page=' + 0);
         }
 
-        if (response.ok) {
-            goodsViewList = await response.json();
-            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsCategory);
+        if (goodsListResponse.ok) {
+            goodsViewList = await goodsListResponse.json();
+            goodsViewListCount = await goodsListCountResponse.json();
+            displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsViewListCount, goodsCategory);
             page++;
             return true;
         } else {
-            throw response;
+            throw goodsListResponse;
         }
     } catch (error) {
         alert('페이지 가져오기 실패 : ' + error);
