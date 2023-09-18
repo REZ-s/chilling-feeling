@@ -1398,6 +1398,11 @@ async function createSearchHistoryButton(parentElement, text) {
             }
         }
     });
+
+    // label 을 클릭하면, 검색이 되도록 이벤트 등록
+    label.addEventListener('click', function () {
+        getSearchResult(text);
+    });
 }
 
 function createEmptySearchHistory(parentElement) {
@@ -1420,6 +1425,8 @@ async function displaySearchHistoryBtn(parentElement) {
     for (let i = 0; i < goodsNameList.length; i++) {
         await createSearchHistoryButton(parentElement, goodsNameList[i]);
     }
+
+
 }
 
 function getDeviceId() {
