@@ -48,6 +48,11 @@ public class GoodsService {
         return goodsRepository.findOneByName(goodsName).orElse(null);
     }
 
+    // 상품(Goods) n개 조회 (이름)
+    public List<Goods> findSimpleGoodsListByGoodsNames(List<String> goodsNames) {
+        return goodsRepository.findAllByNameIn(goodsNames);
+    }
+
     // 상품(GoodsViewDetails) 1개 조회 (랜덤)
     @Async("cfAsync")
     public CompletableFuture<IGoodsViewDetails> findGoodsDetailsRandom() {

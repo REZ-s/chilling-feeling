@@ -141,12 +141,15 @@ public class APIController {
             return ResponseEntity.ok().body("invalid user");
         }
 
-        Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
-        if (goods == null) {
-            return ResponseEntity.ok().body("invalid goods");
+        List<Goods> goodsList = goodsService.findSimpleGoodsListByGoodsNames(request.getGoodsNameList());
+        if (goodsList.size() != request.getGoodsNameList().size()) {
+            return ResponseEntity.ok().body("exists invalid goods");
         }
 
-        ordersService.createOrder(user, goods, request.getGoodsCount());
+        boolean completedOrders = ordersService.createOrders(user, goodsList, request.getGoodsCountList());
+        if (!completedOrders) {
+            ResponseEntity.ok().body("invalid orders");
+        }
 
         return ResponseEntity.ok().body("success");
     }

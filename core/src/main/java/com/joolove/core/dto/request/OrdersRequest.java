@@ -5,9 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,17 +18,17 @@ public class OrdersRequest {
     @Size(min = 4, max = 40)
     private String username;
 
-    @NotBlank
-    private String goodsName;
+    @NotNull
+    private List<String> goodsNameList;
 
     @NotNull
-    private Short goodsCount;
+    private List<Integer> goodsCountList;
 
     @Builder
-    public OrdersRequest(String username, String goodsName, Short goodsCount) {
+    public OrdersRequest(String username, List<String> goodsNameList, List<Integer> goodsCountList) {
         this.username = username;
-        this.goodsName = goodsName;
-        this.goodsCount = goodsCount;
+        this.goodsNameList = goodsNameList;
+        this.goodsCountList = goodsCountList;
     }
 
 }

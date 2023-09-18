@@ -1216,11 +1216,10 @@ async function removeCart(goodsName) {
     }
 }
 
-
 /**
- * 주문하기
+ * 주문하기 (for goods_page)
  */
-async function ordersGoodsList(goodsName, goodsCount) {
+async function ordersGoods(goodsName, goodsCount) {
     let username = '';
 
     try {
@@ -1235,6 +1234,9 @@ async function ordersGoodsList(goodsName, goodsCount) {
         location.href = "/login";
     }
 
+    let goodsNameList = [ goodsName ];
+    let goodsCountList = [ goodsCount ];
+
     try {
         const response = await fetch('/api/v1/order', {
             method: "POST",
@@ -1243,8 +1245,8 @@ async function ordersGoodsList(goodsName, goodsCount) {
             },
             body: JSON.stringify({
                 username,
-                goodsName,
-                goodsCount
+                goodsNameList,
+                goodsCountList
             })
         });
 
@@ -1260,6 +1262,72 @@ async function ordersGoodsList(goodsName, goodsCount) {
     } catch (error) {
         alert('주문에 실패했습니다.');
     }
+}
+
+
+/**
+ * 주문하기 (for cart_page)
+ */
+async function ordersGoodsList(goodsNameList, goodsCountList) {
+    let username = '';
+
+    try {
+        const response = await fetch('/api/v1/user/authentication');
+        if (response.ok) {
+            username = await response.text();
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+        location.href = "/login";
+        return;
+    }
+
+    let goodsOrdersArray = getOrderGoodsListForOrders();
+    goodsNameList = goodsOrdersArray[0];
+    goodsCountList = goodsOrdersArray[1];
+
+    try {
+        const response = await fetch('/api/v1/order', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                goodsNameList,
+                goodsCountList
+            })
+        });
+
+        if (response.ok) {
+            const body = await response.text();
+            if (body === 'success') {
+                alert('주문이 완료되었습니다.');
+                location.href = '/';
+            }
+        } else {
+            throw response;
+        }
+    } catch (error) {
+        alert('주문에 실패했습니다.');
+    }
+}
+
+function getOrderGoodsListForOrders() {
+    let renewGoodsNameList = [];
+    let renewGoodsCountList = [];
+
+    let cartProductCardList = document.querySelectorAll('.cart-product-card');
+    cartProductCardList.forEach(function (cartProductCard) {
+        let goodsName = cartProductCard.querySelector('[id*="goodsName"]').innerText;
+        let goodsCount = parseInt(cartProductCard.querySelector('[id*="goodsCount"]').innerText);
+        renewGoodsNameList.push(goodsName);
+        renewGoodsCountList.push(goodsCount);
+    });
+
+    return [ renewGoodsNameList, renewGoodsCountList ];
 }
 
 async function getBestSellerGoods(days) {
@@ -1425,8 +1493,6 @@ async function displaySearchHistoryBtn(parentElement) {
     for (let i = 0; i < goodsNameList.length; i++) {
         await createSearchHistoryButton(parentElement, goodsNameList[i]);
     }
-
-
 }
 
 function getDeviceId() {

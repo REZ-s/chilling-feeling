@@ -54,9 +54,9 @@ public class OrdersService {
         return result;
     }
 
-    // 주문하기
+    // 주문하기 (단 건)
     @Transactional
-    public Orders createOrder(User user, Goods goods, int inputCount) {
+    public void createOrder(User user, Goods goods, Integer goodsCounts) {
         Orders order = Orders.builder()
                 .user(user)
                 .orderStatus((short)1)
@@ -66,7 +66,7 @@ public class OrdersService {
         OrdersGoods ordersGoods = OrdersGoods.builder()
                 .goods(goods)
                 .order(order)
-                .count(inputCount)
+                .count(goodsCounts)
                 .singleSalePrice(goodsService.getSingleSalePrice(goods.getName()))
                 .build();
         ordersGoodsRepository.save(ordersGoods);
@@ -82,7 +82,16 @@ public class OrdersService {
         order.setOrdersGoodsList(ordersGoodsList);
         order.setPayment(payment);
 
-        return order;
+    }
+
+    // 주문 하기 (여러 건)
+    @Transactional
+    public boolean createOrders(User user, List<Goods> goodsList, List<Integer> goodsCounts) {
+        for (int i = 0; i < goodsList.size(); ++i) {
+            createOrder(user, goodsList.get(i), goodsCounts.get(i));
+        }
+
+        return true;
     }
 
     // 주문 완료 (결제 및 배송까지 끝난 상황. 사용자가 수령확인 버튼을 누르거나 관리자가 처리)

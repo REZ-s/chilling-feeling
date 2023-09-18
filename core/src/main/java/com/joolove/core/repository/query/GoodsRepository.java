@@ -18,6 +18,11 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
 
     Optional<Goods> findOneByName(String name);
 
+    @Query("select g " +
+            "from Goods g " +
+            "where g.name in ?1")
+    List<Goods> findAllByNameIn(List<String> goodsNameList);
+
     @Query(value = "select count(*) " +
             "from product.goods_details gd " +
             "inner join product.goods_stats gs " +
