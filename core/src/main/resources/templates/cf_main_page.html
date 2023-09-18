@@ -372,7 +372,7 @@
                     <div class="wrap-drop-down-date">
                         <!-- 클릭하면 옵션을 고를 수 있는 모달창 실행 -->
                         <div class="drop-down-date" id="dropDownDate">
-                            <div class="date" id="date">오늘</div>
+                            <div class="date" id="date">이번 주</div>
                             <img src="/images/ic_arrow_drop_down_10px.png" class="arrow-drop-down-10px">
                         </div>
                     </div>
@@ -537,13 +537,13 @@
                         <img src="/images/ic_close_24px.png" class="ic_close_24px">
                     </div>
                     <div class="modal-best-seller-period-btn">
+<!--                        <button class="modal-btn-wide-active" id="d1">-->
+<!--                            <div class="modal-btn-wide-label-active">오늘</div>-->
+<!--                        </button>-->
                         <button class="modal-btn-wide-active" id="d1">
-                            <div class="modal-btn-wide-label-active">오늘</div>
+                            <div class="modal-btn-wide-label-active">이번 주</div>
                         </button>
                         <button class="modal-btn-wide" id="d2">
-                            <div class="modal-btn-wide-label">이번 주</div>
-                        </button>
-                        <button class="modal-btn-wide" id="d3">
                             <div class="modal-btn-wide-label">이번 달</div>
                         </button>
                     </div>
@@ -579,7 +579,7 @@
         return {button, label, index: index + 1};
     });
 
-    const dateButtons = Array.from({length: 3}, (_, index) => {
+    const dateButtons = Array.from({length: 2}, (_, index) => {
         const button = document.getElementById('d' + (index + 1));
         const label = button.children[0];
         return {button, label, index: index + 1};
@@ -693,11 +693,11 @@
     }
 
     function getDaysFromLabel(label) {
-        let days = 1;
-
         if (label === '이번 주') {
             days = 7;
         } else if (label === '이번 달') {
+            days = 30;
+        } else {
             days = 30;
         }
 
@@ -719,7 +719,7 @@
     }
 
     function convertCheckFoodModalBtns(myBtnIndex) {
-        for (let i = 1; i <= 6; i++) {
+        for (let i = 1; i <= foodButtons.length; i++) {
             if (myBtnIndex === i) {
                 continue;
             }
@@ -734,7 +734,7 @@
     }
 
     function convertCheckDateModalBtns(myBtnIndex) {
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= dateButtons.length; i++) {
             if (myBtnIndex === i) {
                 continue;
             }
