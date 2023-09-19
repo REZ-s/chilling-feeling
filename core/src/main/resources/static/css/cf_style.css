@@ -427,22 +427,16 @@ html, body {
 
     /* for slide */
     overflow: hidden;
-    user-select: none;
-    position: relative;
+    /*user-select: none;*/
+    /*position: relative;*/
 }
 
 .product-cards-inner {
-    /*
-        top: 0;
-        left: 0;
-        gap: 5px;
-    */
-    position: absolute;
-    height: 100%;
-    /*    width: 200%;*/
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    pointer-events: none;
+    /*width: 160px !important;*/
+}
+
+.swiper-slide {
+    width: 160px !important;
 }
 
 .wrap-product-card01 {
@@ -1456,7 +1450,11 @@ li {
     color: #939393;
 }
 
-.swiper-pagination-progressbar {
+.swiper-container {
+    width: 160px;
+}
+
+.cf-swiper-pagination-progressbar {
     width: 335px;
     height: 2px;
     flex-grow: 0;

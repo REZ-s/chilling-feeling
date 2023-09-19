@@ -13,7 +13,9 @@
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
@@ -198,10 +200,9 @@
             </div>
 
             <div class="home-taste-prod-swiper-wrapper" id="productCards">
-                <!-- Items 기본 2개 이상 노출하고 옆으로 넘기도록 (swipe) -->
-                <div class="product-cards-inner">
+                <!-- Items 2개 이상 노출하고 옆에 살짝 보이도록 (swiper slide) -->
+                <div class="product-cards-inner swiper-wrapper">
                 </div>
-
             </div>
         </div>
     </section>
@@ -215,31 +216,27 @@
 <script th:inline="javascript">
     let popularGoodsViewList;
 
-    let recentSearchWordContainer = document.getElementById('recentSearchWordContainer');
+    let swiper = new Swiper('.home-taste-prod-swiper-wrapper', {
+        observer: true,
+        observeParents: true,
+        direction: 'horizontal',
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+    });
 
+    let innerSlider = document.querySelector(".swiper-wrapper");
+    let recentSearchWordContainer = document.getElementById('recentSearchWordContainer');
     let beforeContent = document.getElementById('simplyBestSearch');
     let afterContent = document.getElementById('extendedBestSearch');
-
     let searchInput = document.getElementById('searchInput');
     let searchButton = document.getElementById('searchButton');
     let searchClear = document.getElementById('searchInputClear');
 
-    let productsFrame = document.getElementById("productCards");
-    let innerSlider = document.querySelector(".product-cards-inner")
-    let pressed = false;
-    let startX, nowX;
-
     window.onload = async function () {
         createFooter('/category');
-
         await displaySearchHistoryBtn(recentSearchWordContainer);
-
         popularGoodsViewList = await getPopularGoodsList(30);
-
-        for (let i = 0; i < popularGoodsViewList.length; i++) {
-            createItemCard01(innerSlider, popularGoodsViewList[i]);
-        }
-        setSwiperSlide(productsFrame, innerSlider);
+        displayItemList(innerSlider, popularGoodsViewList);
         createFormBestSearchedKeywordHead(beforeContent, getBestSearchedKeyWord());
         createFormBestSearchedKeywordList(afterContent, getBestSearchedKeyWordList());
         activeGoodsDetailsURL();

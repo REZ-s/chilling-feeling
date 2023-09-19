@@ -13,7 +13,9 @@
     <link rel="shortcut icon" href="/images/favicon_16px.png">
     <link href="/css/cf_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/script.js"></script>
@@ -282,49 +284,9 @@
                     <div class="home-taste-subtitle">요즘 이런 스타일 좋아하시더라구요😊</div>
                 </div>
                 <div class="home-taste-prod-swiper-wrapper" id="productCards">
-                    <div class="product-cards-inner">
-                    <!-- Items -->
-                    <!-- 2개까지 노출하고 옆에 살짝 보이도록 (swipe 가능) -->
-<!--                    <div class="wrap-product-card01">-->
-<!--                        <div class="product-card01">-->
-<!--                            <div class="product-list01-photo-container">-->
-<!--                                <div class="photo-container-wrap-img">-->
-<!--                                    <img src="/images/item-rep01.png" class="recommend-image01">-->
-<!--                                </div>-->
-<!--                                <button class="ic_heart_24px btn-heart">-->
-<!--                                    <img src="/images/ic_heart_24px.png">-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                            <div class="product-list01-product-info">-->
-<!--                                <div class="product-list01-product-name">-->
-<!--                                    <div class="product-list01-product-name-type">위스키</div>-->
-<!--                                    <div class="product-list01-product-name-name">짐빔 화이트</div>-->
-<!--                                </div>-->
-<!--                                <div class="product-list01-price">-->
-<!--                                    <div class="product-list01-price-original-price">40,680</div>-->
-<!--                                    <div class="product-list01-price-sale">-->
-<!--                                        <div class="discount-rate">21%</div>-->
-<!--                                        <div class="discounted-price">32,000원</div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="product-list01-caption">-->
-<!--                                    <div class="star-score-review">-->
-<!--                                        <img src="/images/ic_star_10px.png" class="ic_star_10px">-->
-<!--                                        <div class="score">-->
-<!--                                            <div class="star-rating">4.9</div>-->
-<!--                                            <div class="reviews">(237)</div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="wrap-chip">-->
-<!--                                        <div class="product-chip">-->
-<!--                                            <div class="chip-label">가성비</div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                        </div>
+                    <!-- Items 2개 이상 노출하고 옆에 살짝 보이도록 (swiper slide) -->
+                    <div class="product-cards-inner swiper-wrapper">
+                    </div>
                 </div>
             </div>
             <div class="home-food-prod">
@@ -455,23 +417,13 @@
                 <div class="home-feed-prod-swiper-wrapper">
                     <div class="wrap-product-card03">
                         <img src="/images/feed-prod-img.png" class="prod-img">
-                        <!--                       <div class="prod-img">
-                            <div class="product-card03">
-                                <div class="wrap-product-card03-img">
-                                </div>
-                                <div class="wrap-product-card03-texts">
-                                    <div class="product-card03-type">와인</div>
-                                    <div class="product-card03-name">브레드 앤 버터 나파 피노누아 2019</div>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="feed-prodTit">
                             <div class="feed-prod-title">피노누아 처음 먹어봤는데 너무 맛있네요😆</div>
                             <div class="feed-prod-tag">#피노누아 #레드와인</div>
                         </div>
                     </div>
                 </div>
-                <div class="swiper-pagination-progressbar">
+                <div class="cf-swiper-pagination-progressbar">
                     <!-- index + 1 따라 오른쪽으로 한 칸 이동 -->
                     <div class="progressbar-active">
                     </div>
@@ -558,14 +510,19 @@
     const username = /*[[${username}]]*/ '';
     let goodsViewList = /*[[${goodsViewList}]]*/ [];    // 전체 상품 리스트
     let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
-    let days = 1;
+    let days = 7;
 
-    let productsFrame = document.getElementById("productCards");
+    let swiper = new Swiper('.home-taste-prod-swiper-wrapper', {
+        observer: true,
+        observeParents: true,
+        direction: 'horizontal',
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+    });
+
     let productCard02 = document.getElementById("productCard02");
     let bestSellerFrame = document.getElementById('bestSellerFrame');
-    let innerSlider = document.querySelector(".product-cards-inner")
-    let pressed = false;
-    let startX, nowX;
+    let innerSlider = document.querySelector(".swiper-wrapper");
 
     const loginSwitchCheckBox = document.getElementById("loginSwitch");
     const onOffLabel = document.querySelector(".on-off-btn");
@@ -594,7 +551,6 @@
         displayBestSellerGoods(bestSellerFrame, days);
         displayWishListGoods(innerSlider, goodsViewList);
         createItemCard02(productCard02, goodsViewDetails);
-        setSwiperSlide(productsFrame, innerSlider);
         activeGoodsDetailsURL();
     }
 
@@ -611,24 +567,6 @@
             onOffLabel.textContent = "ON";
             onOffLabel.classList.remove("login-switch-logo-frame-label-off");
             onOffLabel.classList.add("login-switch-logo-frame-label-on");
-        }
-    }
-
-    async function checkUserLoginState() {
-        try {
-            const response = await fetch("/api/v1/user/authentication", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
-
-            if (response.ok) {
-                return await response.text();
-            }
-            throw response;
-        } catch (error) {
-            throw error;
         }
     }
 
@@ -748,5 +686,6 @@
             btn.children[0].classList.add('modal-btn-wide-label');
         }
     }
+
 </script>
 </html>

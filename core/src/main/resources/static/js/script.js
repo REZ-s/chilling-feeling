@@ -162,7 +162,7 @@ function createItemCard01(parentElement, product) {
     }
 
     const wrapProductCard01 = document.createElement('div');
-    wrapProductCard01.className = 'wrap-product-card01';
+    wrapProductCard01.classList.add('swiper-slide');
 
     const productCard01 = document.createElement('div');
     productCard01.className = 'product-card01';
@@ -644,7 +644,6 @@ async function getUserCategories() {
     }
 }
 
-
 async function getUserFeeling() {
     try {
         const response = await fetch('/api/v1/recommendation/daily/feeling');
@@ -654,87 +653,6 @@ async function getUserFeeling() {
         throw response;
     } catch (error) {
         throw error;
-    }
-}
-
-/**
- * Swiper Slide (need global variable 'startX', 'nowX', 'pressed')
- * To use : 'startX', 'nowX', 'pressed' declaration in script
- * @param productsFrame
- * @param innerSlider
- */
-function setSwiperSlide(productsFrame, innerSlider) {
-    updateGridTemplateColumns(innerSlider);
-
-    /* PC Swipe (Mouse Drag) */
-    productsFrame.addEventListener("mousedown", (e) => {
-        pressed = true;
-        startX = e.offsetX - innerSlider.offsetLeft;
-        //productsFrame.style.cursor = "grabbing";
-    });
-
-    productsFrame.addEventListener("mouseenter", () => {
-        pressed = false;
-        //productsFrame.style.cursor = "grab";
-    });
-
-    productsFrame.addEventListener("mouseup", () => {
-        pressed = false;
-        //productsFrame.style.cursor = "grab";
-    });
-
-    productsFrame.addEventListener("mousemove", (e) => {
-        if (!pressed) {
-            return;
-        }
-
-        e.preventDefault();
-        nowX = e.offsetX;
-
-        innerSlider.style.left = `${nowX - startX}px`;
-        checkBoundary();
-    });
-
-    window.addEventListener("mouseup", () => {
-        pressed = false;
-    });
-
-    /* Mobile Swipe */
-    productsFrame.addEventListener("touchstart", (e) => {
-        pressed = true;
-        startX = e.touches[0].clientX - innerSlider.offsetLeft;
-    });
-
-    productsFrame.addEventListener("touchend", () => {
-        pressed = false;
-    });
-
-    productsFrame.addEventListener("touchmove", (e) => {
-        if (!pressed) {
-            return;
-        }
-
-        e.preventDefault();
-        nowX = e.touches[0].clientX;
-
-        innerSlider.style.left = `${nowX - startX}px`;
-        checkBoundary();
-    });
-
-    function checkBoundary() {
-        let outer = productsFrame.getBoundingClientRect();
-        let inner = innerSlider.getBoundingClientRect();
-
-        if (parseInt(innerSlider.style.left) > 0) {
-            innerSlider.style.left = "0px";
-        } else if (inner.right < outer.right) {
-            innerSlider.style.left = `-${inner.width - outer.width}px`;
-        }
-    }
-
-    function updateGridTemplateColumns(innerSlider) {
-        const childCount = innerSlider.childElementCount;
-        innerSlider.style.gridTemplateColumns = `repeat(${childCount}, 1fr)`;
     }
 }
 
@@ -1703,4 +1621,22 @@ async function displayGoodsListStartPage() {
 function validatePassword(password) {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])[A-Za-z\d@#$%^&+=!]{8,20}$/;
     return passwordRegex.test(password);
+}
+
+async function checkUserLoginState() {
+    try {
+        const response = await fetch("/api/v1/user/authentication", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        if (response.ok) {
+            return await response.text();
+        }
+        throw response;
+    } catch (error) {
+        throw error;
+    }
 }
