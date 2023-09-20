@@ -8,8 +8,34 @@
 
 <hr>
 
-- <b> ERD </b>
+- <b> ERD </b> 
 ![ERD](https://github.com/REZ-s/chilling-feeling/assets/50026903/f17d1954-61ab-4788-bd8a-fefc321f89ce)
+
+<b> 모든 엔티티 클래스는 기록을 위해서 아래의 엔티티 리스너를 상속합니다. (위 ERD 에는 생략되어 있습니다.) </b> <br>
+
+```
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseTimeStamp implements Serializable {
+    @CreatedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime updatedDate;
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+}
+``` 
 
 <hr>
 
@@ -32,6 +58,9 @@ chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의
 - 부분적인 기능에서 끝나지 않고 하나의 완성된 서비스를 구축
 - 설계부터 배포까지 전체 제품 사이클 개발 및 개선
 - 트래픽이 몰렸을 때를 고려한 개발 (초당 1000번의 요청까지 서비스 가용성 확보)
+- 확장성을 고려한 설계 <br>
+(ERD 상으로나 코드 베이스가 작성이 되어있으나 실제 서비스로 제공하지 않는 부분도 있습니다. <br>
+실제 웹서비스의 많은 부분을 경험해보고 싶어서 작성했습니다. 계속 관리하며 추가해나갈 계획입니다.) <br>
 
 <br>
 
@@ -88,8 +117,20 @@ https://chillingfeeling.notion.site/8c5f18c1071e480bbb5f9156fc8d6ff7?pvs=4
 
 <br>
 
-# 어떤 기능을 어떻게 구현했을까
-작성중입니다.
+# 프로젝트를 진행하며 고민하고 결정내린 부분들
+- 로그인 상태인지 비로그인 상태를 체크하기 위한 로직이 반복되고 중복되어 AOP 로 분리
+- 폼 로그인과 소셜 로그인 둘다 지원
+- @Transactional 을 활용해 빌링 관련 API 에는 트랜잭션 격리 수준을 높게 설정. 예) @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+- 인증 방식으로 JWT 를 사용하기로 결정
+- JWT 를 사용할 때 취약점을 최대한 방지하고자 refresh token 갱신 방식을 RTR (Refresh Token Rotation) 방식으로 토큰 재발급
+- 그리고 토큰을 빠르게 조회하기 위해서 Redis 에 같이 저장하기로 결정
+- 트랜잭션이 모두 성공했을 시점에 Redis 에 저장하도록 코드 순서 고려
+- MySQL Workbench 를 이용해 쿼리 실행계획과 실제 걸린 시간을 비교하여 인덱스 설정
+- join 문 사용시 한 번 더 쿼리 실행계획 확인
+- @Async 를 상품 조회 API 에 적용하여 리소스 사용률과 실제 응답속도 비교
+- AWS 프리티어로 최대한 서비스 구성하기
+- 성능 테스트 도구로 jmeter, k6, postman 를 사용해보고 비교 (nGringer 는 Java 8 까지 지원하여 채용하지 않음)
+- 어플리케이션 성능 모니터링 도구로 Elastic APM 사용
 
 <br>
 
