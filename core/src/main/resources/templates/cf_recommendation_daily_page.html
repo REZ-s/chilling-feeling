@@ -27,6 +27,10 @@
             color: white;
         }
 
+        .body-for-modal {
+            padding-right: 0 !important;
+        }
+
         .modal {
             position: fixed !important;
             top: 100% !important;
@@ -43,18 +47,11 @@
         }
 
         .modal-content {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
             border-radius: 10px;
             background-color: #262626;
         }
 
         .recommend-today-popup {
-            width: 335px;
-            height: 260px;
             flex-grow: 0;
             display: flex;
             flex-direction: column;
@@ -118,7 +115,7 @@
         }
 
         .recommend-popup-subtitle {
-            width: 215px;
+            /*width: 215px;*/
             height: 44px;
             flex-grow: 0;
             font-family: 'Noto Sans KR', sans-serif;
@@ -179,7 +176,7 @@
         }
     </style>
 </head>
-<body>
+<body class="body-for-modal">
 <div class="taste-container">
     <!-- Header -->
     <div class="taste-setting-header">

@@ -26,7 +26,7 @@ html, body {
 
 @media (min-width: 500px) {
     body {
-        width: 490px;
+        width: 500px;
         min-height: 100vh;
         padding-bottom: env(safe-area-inset-bottom);
         margin: 0 auto !important;
@@ -70,7 +70,7 @@ html, body {
 
 @media (min-width: 500px) {
     .bottom {
-        width: 490px;
+        width: 500px;
         align-self: stretch;
         position: fixed;
         bottom: 0;
