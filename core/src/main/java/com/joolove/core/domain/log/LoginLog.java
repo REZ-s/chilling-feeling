@@ -26,6 +26,7 @@ public class LoginLog extends BaseTimeStamp {
     private User user;
 
     @NotNull
+    @Column(name = "device_id", columnDefinition = "BINARY(16)")
     private UUID deviceId;
 
     @NotNull
