@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
@@ -32,8 +33,10 @@ public class Profile extends BaseTimeStamp {
     @Column(unique = true)
     private String nickname;
 
+    @Size(max = 1000)
     private String imageUrl;
 
+    @Size(max = 500)
     private String introduction;
 
     @Builder

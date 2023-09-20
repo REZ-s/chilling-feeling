@@ -15,11 +15,11 @@ import java.util.UUID;
 @Table(catalog = "recommendation")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
+public class UserRecommendationBaseInterestKeyword extends BaseTimeStamp {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "recommendation_first_interest_keyword_id", columnDefinition = "BINARY(16)")
+    @Column(name = "user_recommendation_base_interest_keyword_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotNull
@@ -33,7 +33,7 @@ public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
     private InterestKeyword interestKeyword;
 
     @Builder
-    public RecommendationFirstInterestKeyword(UUID id, UserRecommendationBase userRecommendationBase, InterestKeyword interestKeyword) {
+    public UserRecommendationBaseInterestKeyword(UUID id, UserRecommendationBase userRecommendationBase, InterestKeyword interestKeyword) {
         this.id = id;
         this.userRecommendationBase = userRecommendationBase;
         this.interestKeyword = interestKeyword;
@@ -41,7 +41,7 @@ public class RecommendationFirstInterestKeyword extends BaseTimeStamp {
 
     @Override
     public String toString() {
-        return "RecommendationFirstInterestKeyword{" +
+        return "UserRecommendationBaseInterestKeyword{" +
                 "id=" + id +
                 ", userRecommendationBase=" + userRecommendationBase +
                 ", interestKeyword=" + interestKeyword +
