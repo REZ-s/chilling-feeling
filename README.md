@@ -4,11 +4,13 @@
 <hr>
 
 - <b> Service architecture </b>
+
 ![서비스 아키텍처](https://github.com/REZ-s/chilling-feeling/assets/50026903/9eba7a14-0a42-4a5a-9743-9c3bd7f8a2d2)
 
 <hr>
 
-- <b> ERD </b> 
+- <b> ERD </b>
+
 ![ERD](https://github.com/REZ-s/chilling-feeling/assets/50026903/f17d1954-61ab-4788-bd8a-fefc321f89ce)
 
 <b> 모든 엔티티 클래스는 기록을 위해서 아래의 엔티티 리스너를 상속합니다. (위 ERD 에는 생략되어 있습니다.) </b> <br>
@@ -39,8 +41,17 @@ public abstract class BaseTimeStamp implements Serializable {
 
 <hr>
 
-- <b> Main page </b> <br>
+- <b> 서비스 살펴보기 </b>
+  
+<b> Main page </b> <br>
 ![image](https://github.com/REZ-s/chilling-feeling/assets/50026903/401a2e8c-4aab-4cb7-9835-eedd4ff97732)
+
+<hr> 
+
+<b> Cart page </b> <br>
+![장바구니](https://github.com/REZ-s/chilling-feeling/assets/50026903/ecfe5d8a-a61d-41a3-a17e-8bf05e15227d)
+
+<hr> 
 
 - <b> What's the meaning [chilling feeling](https://chillingfeeling.com)? </b><br>
 chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의미로 많이 사용되는 단어로 <br>
