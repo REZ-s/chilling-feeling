@@ -139,6 +139,7 @@ https://chillingfeeling.notion.site/8c5f18c1071e480bbb5f9156fc8d6ff7?pvs=4
 - MySQL Workbench 를 이용해 쿼리 실행계획과 실제 걸린 시간을 비교하여 인덱스 설정
 - join 문 사용시 한 번 더 쿼리 실행계획 확인
 - @Async 를 상품 조회 API 에 적용하여 리소스 사용률과 실제 응답속도 비교
+- 중복 요청 방지를 위한 필터 추가
 - AWS 프리티어로 최대한 서비스 구성하기
 - 성능 테스트 도구로 jmeter, k6, postman 를 사용해보고 비교 (nGringer 는 Java 8 까지 지원하여 사용 불가)
 - 어플리케이션 성능 모니터링 도구로 Elastic APM 사용
