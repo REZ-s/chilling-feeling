@@ -56,15 +56,13 @@ public class APIController {
     }
 
     @PostMapping("/api/v1/authentication-code/email")
-    public ResponseEntity<?> getAuthenticationCodeEmail(@Valid @RequestBody String email)
-            throws Exception {
+    public ResponseEntity<?> getAuthenticationCodeEmail(@Valid @RequestBody String email) throws Exception {
         String code = emailService.sendAuthCode(email);
         return ResponseEntity.ok().body(code);
     }
 
     @PostMapping("/api/v1/authentication-code/sms")
-    public ResponseEntity<?> getAuthenticationCodeSMS(@Valid @RequestBody String phoneNumber)
-            throws Exception {
+    public ResponseEntity<?> getAuthenticationCodeSMS(@Valid @RequestBody String phoneNumber) throws Exception {
         String code = smsService.sendAuthCode(phoneNumber);
         return ResponseEntity.ok().body(code);
     }
@@ -113,12 +111,7 @@ public class APIController {
 
     // 상품 검색 (예: 같은 조건으로 page 만 다르게 하면 다음 페이지 목록 반환)
     @GetMapping("/api/v1/goods")
-    public ResponseEntity<?> getGoodsList(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "sortBy", required = false) String sortBy) throws ExecutionException, InterruptedException {
+    public ResponseEntity<?> getGoodsList(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortBy", required = false) String sortBy) throws ExecutionException, InterruptedException {
         List<IGoodsView> goodsList = goodsService.findGoodsList(name, type, page, size, sortBy);
         if (goodsList.isEmpty()) {
             return ResponseEntity.ok().body(new ArrayList<>());
@@ -129,9 +122,7 @@ public class APIController {
 
     // 상품 전체 개수
     @GetMapping("/api/v1/goods/count")
-    public ResponseEntity<?> getGoodsListCount(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "type", required = false) String type) {
+    public ResponseEntity<?> getGoodsListCount(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "type", required = false) String type) {
         return ResponseEntity.ok().body(goodsService.getGoodsListCount(name, type));
     }
 
@@ -178,6 +169,7 @@ public class APIController {
     }
 
     // 장바구니에 상품 저장
+    @APILoginState
     @PostMapping("/api/v1/cart")
     public ResponseEntity<?> createCart(@Valid @RequestBody CartRequest request) {
         User user = userService.findByUsername(request.getUsername());
@@ -196,6 +188,7 @@ public class APIController {
     }
 
     // 장바구니 불러오기
+    @APILoginState
     @GetMapping("/api/v1/cart")
     public ResponseEntity<?> getCart(@Valid @RequestParam String username) {
         User user = userService.findByUsername(username);
@@ -216,10 +209,7 @@ public class APIController {
         List<CartResponse> cartResponseList = new ArrayList<>();
 
         for (IGoodsView gv : goodsViewList) {
-            CartResponse cartResponse = CartResponse.builder()
-                    .goodsView((GoodsView) gv)
-                    .goodsCount(goodsNameWithCount.get(gv.getName()))
-                    .build();
+            CartResponse cartResponse = CartResponse.builder().goodsView((GoodsView) gv).goodsCount(goodsNameWithCount.get(gv.getName())).build();
 
             cartResponseList.add(cartResponse);
         }
@@ -232,6 +222,7 @@ public class APIController {
     }
 
     // 장바구니에서 상품 제거
+    @APILoginState
     @DeleteMapping("/api/v1/cart")
     public ResponseEntity<?> removeCart(@Valid @RequestBody CartRequest request) {
         User user = userService.findByUsername(request.getUsername());
@@ -250,6 +241,7 @@ public class APIController {
     }
 
     // 위시리스트에 상품 저장
+    @APILoginState
     @PostMapping("/api/v1/wishlist")
     public ResponseEntity<?> createWishList(@Valid @RequestBody FavoriteRequest request) {
         User user = userService.findByUsername(request.getUsername());
@@ -268,6 +260,7 @@ public class APIController {
     }
 
     // 위시리스트 불러오기
+    @APILoginState
     @GetMapping("/api/v1/wishlist")
     public ResponseEntity<?> getWishList(@Valid @RequestParam String username) {
         User user = userService.findByUsername(username);
@@ -286,9 +279,7 @@ public class APIController {
         List<FavoriteResponse> favoriteResponseList = new ArrayList<>();
 
         for (IGoodsView gv : goodsViewList) {
-            FavoriteResponse favoriteResponse = FavoriteResponse.builder()
-                    .goodsView((GoodsView) gv)
-                    .build();
+            FavoriteResponse favoriteResponse = FavoriteResponse.builder().goodsView((GoodsView) gv).build();
 
             favoriteResponseList.add(favoriteResponse);
         }
@@ -301,6 +292,7 @@ public class APIController {
     }
 
     // 위시리스트에서 상품 제거
+    @APILoginState
     @DeleteMapping("/api/v1/wishlist")
     public ResponseEntity<?> removeWishList(@Valid @RequestBody FavoriteRequest request) {
         User user = userService.findByUsername(request.getUsername());
@@ -319,6 +311,7 @@ public class APIController {
     }
 
     // 이미 위시리스트에 있는 상품인지 확인
+    @APILoginState
     @PostMapping("/api/v1/wishlist/checked")
     public ResponseEntity<?> checkWishListGoods(@Valid @RequestBody FavoriteRequest request) {
         User user = userService.findByUsername(request.getUsername());
