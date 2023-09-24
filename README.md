@@ -109,7 +109,7 @@ https://chillingfeeling.notion.site/CI-8b310994027e46449c6766d7cbb10bd3?pvs=4
 - 이슈 해결 기록 - CD 배포 <br>
 https://chillingfeeling.notion.site/e9d328acbfd84d6b8b1a2834b84df646?pvs=4
 
-- 이슈 해결 기록 - 검색 <br>
+- 이슈 해결 기록 - 검색 기능 <br>
 https://chillingfeeling.notion.site/c0fd1ecd92524679b89c36b20254eba7?pvs=4
 
 
@@ -125,6 +125,9 @@ https://chillingfeeling.notion.site/dcd3814b3bbb410cb1cce3b30d31aaf3?pvs=4
 
 - 그 외 설정 및 모니터링 결과 <br>
 https://chillingfeeling.notion.site/8c5f18c1071e480bbb5f9156fc8d6ff7?pvs=4
+
+- 인텔리제이 다루기 <br>
+https://chillingfeeling.notion.site/000588e3acee48ffbcb9ba413f34ca29?pvs=4
 
 <br>
 
