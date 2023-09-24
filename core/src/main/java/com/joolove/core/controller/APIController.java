@@ -18,6 +18,8 @@ import com.joolove.core.dto.response.FavoriteResponse;
 import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.service.*;
 import com.joolove.core.utils.PasswordUtils;
+import com.joolove.core.utils.aop.APILoginState;
+import com.joolove.core.utils.aop.LoginState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -134,6 +136,7 @@ public class APIController {
     }
 
     // 주문하기
+    @APILoginState
     @PostMapping("/api/v1/order")
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrdersRequest request) {
         User user = userService.findByUsername(request.getUsername());
