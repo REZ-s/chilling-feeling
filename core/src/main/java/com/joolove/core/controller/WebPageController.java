@@ -3,7 +3,6 @@ package com.joolove.core.controller;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.dto.request.SignUpRequest;
-import com.joolove.core.dto.request.UserRecommendationBaseRequest;
 import com.joolove.core.dto.request.UserRecommendationDailyRequest;
 import com.joolove.core.service.GoodsService;
 import com.joolove.core.service.UserService;
@@ -11,11 +10,7 @@ import com.joolove.core.utils.RecommendationUtils;
 import com.joolove.core.utils.aop.LoginState;
 import com.joolove.core.utils.aop.LogoutState;
 import com.joolove.core.utils.aop.SearchLog;
-import com.joolove.core.utils.oauth2.UserPrincipal;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -30,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 @Controller
 @RequiredArgsConstructor
 @CrossOrigin(originPatterns = "*", allowCredentials = "true", maxAge = 3600)
-public class WebController {
+public class WebPageController {
     private final UserService userService;
     private final GoodsService goodsService;
     private final RecommendationUtils recommendationUtils;

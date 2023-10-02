@@ -15,18 +15,21 @@ import com.joolove.core.dto.request.SignInRequest;
 import com.joolove.core.dto.request.FavoriteRequest;
 import com.joolove.core.dto.response.CartResponse;
 import com.joolove.core.dto.response.FavoriteResponse;
+import com.joolove.core.model.RestAPIResponse;
 import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.service.*;
 import com.joolove.core.utils.PasswordUtils;
 import com.joolove.core.utils.aop.APILoginState;
-import com.joolove.core.utils.aop.LoginState;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -46,154 +49,160 @@ public class APIController {
     private final UserActivityLogService userActivityLogService;
 
     @GetMapping("/api/v1/user/authentication")
-    public ResponseEntity<?> checkAuthenticatedUser() {
+    public ResponseEntity<?> checkAuthenticatedUser() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            return ResponseEntity.ok().body(authentication.getPrincipal());
+            return ResponseEntity.ok().body(RestAPIResponse.success(authentication.getPrincipal()));
         }
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(RestAPIResponse.success(null));
     }
 
     @PostMapping("/api/v1/authentication-code/email")
     public ResponseEntity<?> getAuthenticationCodeEmail(@Valid @RequestBody String email) throws Exception {
         String code = emailService.sendAuthCode(email);
-        return ResponseEntity.ok().body(code);
+        return ResponseEntity.ok().body(RestAPIResponse.success(code));
     }
 
     @PostMapping("/api/v1/authentication-code/sms")
     public ResponseEntity<?> getAuthenticationCodeSMS(@Valid @RequestBody String phoneNumber) throws Exception {
         String code = smsService.sendAuthCode(phoneNumber);
-        return ResponseEntity.ok().body(code);
+        return ResponseEntity.ok().body(RestAPIResponse.success(code));
     }
 
     @PostMapping("/api/v1/authentication-code/email/check")
-    public ResponseEntity<?> checkAuthenticationCodeEmail(@Valid @RequestBody String code) {
+    public ResponseEntity<?> checkAuthenticationCodeEmail(@Valid @RequestBody String code) throws Exception {
         if (Objects.equals(emailService.getAuthCode(), code)) {
-            return ResponseEntity.ok().body("valid");
+            return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
         }
-        return ResponseEntity.ok().body("invalid");
+
+        return ResponseEntity.ok().body(RestAPIResponse.success("invalid"));
     }
 
     @PostMapping("/api/v1/authentication-code/sms/check")
-    public ResponseEntity<?> checkAuthenticationCodeSMS(@Valid @RequestBody String code) {
+    public ResponseEntity<?> checkAuthenticationCodeSMS(@Valid @RequestBody String code) throws Exception {
         if (Objects.equals(smsService.getAuthCode(), code)) {
-            return ResponseEntity.ok().body("valid");
+            return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
         }
-        return ResponseEntity.ok().body("invalid");
+        return ResponseEntity.ok().body(RestAPIResponse.success("invalid"));
     }
 
     @PostMapping("/api/v1/email/check")
-    public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) {
+    public ResponseEntity<?> checkEmail(@Valid @RequestBody String email) throws Exception {
         User user = userService.findByUsername(email);
         if (user == null) {
-            return ResponseEntity.ok().body("invalid");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid"));
         }
 
         if (socialLoginRepository.existsByUser(user)) {
-            return ResponseEntity.ok().body("valid-incorrect");
+            return ResponseEntity.ok().body(RestAPIResponse.success("valid-incorrect"));
         }
 
-        return ResponseEntity.ok().body("valid-correct");
+        return ResponseEntity.ok().body(RestAPIResponse.success("valid-correct"));
     }
 
     @PostMapping("/api/v1/password/check")
-    public ResponseEntity<?> checkPassword(@Valid @RequestBody SignInRequest request) {
+    public ResponseEntity<?> checkPassword(@Valid @RequestBody SignInRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         String encodedPassword = user.getPassword().getPw();
 
         if (passwordUtils.matches(request.getPassword(), encodedPassword)) {
-            return ResponseEntity.ok().body("valid");
+            return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
         }
 
-        return ResponseEntity.ok().body("invalid");
+        return ResponseEntity.ok().body(RestAPIResponse.success("invalid"));
     }
 
     // 상품 검색 (예: 같은 조건으로 page 만 다르게 하면 다음 페이지 목록 반환)
     @GetMapping("/api/v1/goods")
-    public ResponseEntity<?> getGoodsList(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortBy", required = false) String sortBy) throws ExecutionException, InterruptedException {
+    public ResponseEntity<?> getGoodsList(@RequestParam(value = "name", required = false) String name,
+                                          @RequestParam(value = "type", required = false) String type,
+                                          @RequestParam(value = "page", required = false) Integer page,
+                                          @RequestParam(value = "size", required = false) Integer size,
+                                          @RequestParam(value = "sortBy", required = false) String sortBy) throws Exception {
         List<IGoodsView> goodsList = goodsService.findGoodsList(name, type, page, size, sortBy);
         if (goodsList.isEmpty()) {
-            return ResponseEntity.ok().body(new ArrayList<>());
+            return ResponseEntity.ok().body(RestAPIResponse.success(new ArrayList<>()));
         }
 
-        return ResponseEntity.ok().body(goodsList);
+        return ResponseEntity.ok().body(RestAPIResponse.success(goodsList));
     }
 
     // 상품 전체 개수
     @GetMapping("/api/v1/goods/count")
-    public ResponseEntity<?> getGoodsListCount(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "type", required = false) String type) {
-        return ResponseEntity.ok().body(goodsService.getGoodsListCount(name, type));
+    public ResponseEntity<?> getGoodsListCount(@RequestParam(value = "name", required = false) String name,
+                                               @RequestParam(value = "type", required = false) String type) throws Exception {
+        return ResponseEntity.ok().body(RestAPIResponse.success(goodsService.getGoodsListCount(name, type)));
     }
 
     // 주문하기
     @APILoginState
     @PostMapping("/api/v1/order")
-    public ResponseEntity<?> createOrder(@Valid @RequestBody OrdersRequest request) {
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrdersRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         List<Goods> goodsList = goodsService.findSimpleGoodsListByGoodsNames(request.getGoodsNameList());
         if (goodsList.size() != request.getGoodsNameList().size()) {
-            return ResponseEntity.ok().body("exists invalid goods");
+            return ResponseEntity.ok().body(RestAPIResponse.success("exists invalid goods"));
         }
 
         boolean completedOrders = ordersService.createOrders(user, goodsList, request.getGoodsCountList());
         if (!completedOrders) {
-            ResponseEntity.ok().body("invalid orders");
+            ResponseEntity.ok().body(RestAPIResponse.success("invalid orders"));
         }
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
     }
 
     // 베스트셀러 가져오기
     @GetMapping("/api/v1/goods/best-seller/{days}")
-    public ResponseEntity<?> getBestSellerGoods(@Valid @PathVariable("days") Short days) {
+    public ResponseEntity<?> getBestSellerGoods(@Valid @PathVariable("days") Short days) throws Exception {
         Map<String, Object> bestSellerWithSalesCount = ordersService.getBestSellerGoodsByDate(days);
-        return ResponseEntity.ok().body(bestSellerWithSalesCount);
+        return ResponseEntity.ok().body(RestAPIResponse.success(bestSellerWithSalesCount));
     }
 
     // 인기상품 리스트 불러오기
     @GetMapping("/api/v1/goods/popular/{days}")
-    public ResponseEntity<?> getPopularGoodsList(@Valid @PathVariable("days") Short days) {
+    public ResponseEntity<?> getPopularGoodsList(@Valid @PathVariable("days") Short days) throws Exception {
         List<IGoodsView> popularGoodsList = userActivityLogService.findBestViewsUserActivityList(0, 10, days);
-        return ResponseEntity.ok().body(popularGoodsList);
+        return ResponseEntity.ok().body(RestAPIResponse.success(popularGoodsList));
     }
 
     // 랜덤으로 아무 상품이나 불러오기
     @GetMapping("/api/v1/goods/random")
-    public ResponseEntity<?> getRandomGoods() throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok().body(goodsService.findGoodsDetailsRandom().get());
+    public ResponseEntity<?> getRandomGoods() throws Exception {
+        return ResponseEntity.ok().body(RestAPIResponse.success(goodsService.findGoodsDetailsRandom().get()));
     }
 
     // 장바구니에 상품 저장
     @APILoginState
     @PostMapping("/api/v1/cart")
-    public ResponseEntity<?> createCart(@Valid @RequestBody CartRequest request) {
+    public ResponseEntity<?> createCart(@Valid @RequestBody CartRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
-            return ResponseEntity.ok().body("invalid goods");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
         }
 
         cartService.addCart(user, goods, request.getGoodsCount());
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
     }
 
     // 장바구니 불러오기
     @APILoginState
     @GetMapping("/api/v1/cart")
-    public ResponseEntity<?> getCart(@Valid @RequestParam String username) {
+    public ResponseEntity<?> getCart(@Valid @RequestParam String username) throws Exception {
         User user = userService.findByUsername(username);
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         List<CartGoods> cartGoodsList = cartService.getCart(user);
@@ -215,57 +224,57 @@ public class APIController {
         }
 
         if (cartResponseList.isEmpty()) {
-            return ResponseEntity.ok().body(new ArrayList<>());
+            return ResponseEntity.ok().body(RestAPIResponse.success(new ArrayList<>()));
         }
 
-        return ResponseEntity.ok().body(cartResponseList);
+        return ResponseEntity.ok().body(RestAPIResponse.success(cartResponseList));
     }
 
     // 장바구니에서 상품 제거
     @APILoginState
     @DeleteMapping("/api/v1/cart")
-    public ResponseEntity<?> removeCart(@Valid @RequestBody CartRequest request) {
+    public ResponseEntity<?> removeCart(@Valid @RequestBody CartRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
-            return ResponseEntity.ok().body("invalid goods");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
         }
 
         cartService.removeCart(user, goods);
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
     }
 
     // 위시리스트에 상품 저장
     @APILoginState
     @PostMapping("/api/v1/wishlist")
-    public ResponseEntity<?> createWishList(@Valid @RequestBody FavoriteRequest request) {
+    public ResponseEntity<?> createWishList(@Valid @RequestBody FavoriteRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
-            return ResponseEntity.ok().body("invalid goods");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
         }
 
         favoriteService.addWishList(user, goods);
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
     }
 
     // 위시리스트 불러오기
     @APILoginState
     @GetMapping("/api/v1/wishlist")
-    public ResponseEntity<?> getWishList(@Valid @RequestParam String username) {
+    public ResponseEntity<?> getWishList(@Valid @RequestParam String username) throws Exception {
         User user = userService.findByUsername(username);
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         List<FavoriteGoods> favoriteGoodsList = favoriteService.getWishList(user);
@@ -285,69 +294,69 @@ public class APIController {
         }
 
         if (favoriteResponseList.isEmpty()) {
-            return ResponseEntity.ok().body(new ArrayList<>());
+            return ResponseEntity.ok().body(RestAPIResponse.success(new ArrayList<>()));
         }
 
-        return ResponseEntity.ok().body(favoriteResponseList);
+        return ResponseEntity.ok().body(RestAPIResponse.success(favoriteResponseList));
     }
 
     // 위시리스트에서 상품 제거
     @APILoginState
     @DeleteMapping("/api/v1/wishlist")
-    public ResponseEntity<?> removeWishList(@Valid @RequestBody FavoriteRequest request) {
+    public ResponseEntity<?> removeWishList(@Valid @RequestBody FavoriteRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
-            return ResponseEntity.ok().body("invalid goods");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
         }
 
         favoriteService.removeWishList(user, goods);
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
     }
 
     // 이미 위시리스트에 있는 상품인지 확인
     @APILoginState
     @PostMapping("/api/v1/wishlist/checked")
-    public ResponseEntity<?> checkWishListGoods(@Valid @RequestBody FavoriteRequest request) {
+    public ResponseEntity<?> checkWishListGoods(@Valid @RequestBody FavoriteRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.ok().body(false);
+            return ResponseEntity.ok().body(RestAPIResponse.success(false));
         }
 
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
-            return ResponseEntity.ok().body(false);
+            return ResponseEntity.ok().body(RestAPIResponse.success(false));
         }
 
         List<FavoriteGoods> favoriteGoodsList = favoriteService.getWishList(user);
 
         for (FavoriteGoods fg : favoriteGoodsList) {
             if (fg.getGoods().getName().equals(request.getGoodsName())) {
-                return ResponseEntity.ok().body(true);
+                return ResponseEntity.ok().body(RestAPIResponse.success(true));
             }
         }
 
-        return ResponseEntity.ok().body(false);
+        return ResponseEntity.ok().body(RestAPIResponse.success(false));
     }
 
     // device id 생성
     @GetMapping("/api/v1/device/id")
-    public ResponseEntity<?> getDeviceId() {
-        return ResponseEntity.ok().body(UUID.randomUUID());
+    public ResponseEntity<?> getDeviceId() throws Exception {
+        return ResponseEntity.ok().body(RestAPIResponse.success(UUID.randomUUID()));
     }
 
     // 사용자 행동 로그 불러오기 (상품)
     @GetMapping("/api/v1/recommendation/log/activity/goods")
     @ResponseBody
-    public ResponseEntity<Object> getRecommendationActivityLogGoods(@Valid @RequestParam UUID deviceId) {
+    public ResponseEntity<Object> getRecommendationActivityLogGoods(@Valid @RequestParam UUID deviceId) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getPrincipal() == null) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         List<UserActivityLogElements> userActivityLogElements = userActivityLogService.findUserActivityListByDeviceIdAndTargetCode(deviceId, UserActivityLog.ETargetCode.GOODS);
@@ -356,20 +365,20 @@ public class APIController {
             targetNameList.add(ual.getTargetName());
         }
 
-        return ResponseEntity.ok().body(targetNameList);
+        return ResponseEntity.ok().body(RestAPIResponse.success(targetNameList));
     }
 
     // 사용자 행동 로그 제거 (상품)
     @DeleteMapping("/api/v1/recommendation/log/activity/goods")
     @ResponseBody
-    public ResponseEntity<Object> removeRecommendationActivityLogGoods(@Valid @RequestBody RemoveUserActivityLogGoodsRequest request) {
+    public ResponseEntity<Object> removeRecommendationActivityLogGoods(@Valid @RequestBody RemoveUserActivityLogGoodsRequest request) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getPrincipal() == null) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         userActivityLogService.removeUserActivityLog(request.getDeviceId(), request.getTargetName(), UserActivityLog.ETargetCode.GOODS);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(RestAPIResponse.success(null));
     }
 
 }

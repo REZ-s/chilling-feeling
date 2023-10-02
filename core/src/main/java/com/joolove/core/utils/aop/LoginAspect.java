@@ -1,5 +1,6 @@
 package com.joolove.core.utils.aop;
 
+import com.joolove.core.model.RestAPIResponse;
 import org.aopalliance.aop.AspectException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -44,7 +45,7 @@ public class LoginAspect {
     public Object redirectToAPILoginState(ProceedingJoinPoint joinPoint) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
-            return ResponseEntity.ok().body("invalid user");
+            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
         }
 
         try {

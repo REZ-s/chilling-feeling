@@ -813,7 +813,7 @@ async function addWishList(goodsName) {
 
         if (response.ok) {
             const body = await response.text();
-            if (body === 'success') {
+            if (body === 'valid') {
                 alert('위시리스트에 저장되었습니다.');
             }
         } else {
@@ -997,7 +997,7 @@ async function removeWishList(goodsName) {
 
         if (response.ok) {
             const body = await response.text();
-            if (body === 'success') {
+            if (body === 'valid') {
                 alert('위시리스트에서 제외했습니다.');
             }
         } else {
@@ -1041,7 +1041,7 @@ async function addCart(goodsName, goodsCount) {
 
         if (response.ok) {
             const body = await response.text();
-            if (body === 'success') {
+            if (body === 'valid') {
                 alert('장바구니에 저장되었습니다.');
                 location.href = '/';
             }
@@ -1123,7 +1123,7 @@ async function removeCart(goodsName) {
 
         if (response.ok) {
             const body = await response.text();
-            if (body === 'success') {
+            if (body === 'valid') {
                 // 상품 제거 성공
             }
         } else {
@@ -1170,7 +1170,7 @@ async function ordersGoods(goodsName, goodsCount) {
 
         if (response.ok) {
             const body = await response.text();
-            if (body === 'success') {
+            if (body === 'valid') {
                 alert('주문이 완료되었습니다.');
                 location.href = '/';
             }
@@ -1221,7 +1221,7 @@ async function ordersGoodsList(goodsNameList, goodsCountList) {
 
         if (response.ok) {
             const body = await response.text();
-            if (body === 'success') {
+            if (body === 'valid') {
                 alert('주문이 완료되었습니다.');
                 location.href = '/';
             }
