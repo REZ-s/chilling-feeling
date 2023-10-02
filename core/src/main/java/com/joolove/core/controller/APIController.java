@@ -140,10 +140,6 @@ public class APIController {
     @PostMapping("/api/v1/order")
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrdersRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         List<Goods> goodsList = goodsService.findSimpleGoodsListByGoodsNames(request.getGoodsNameList());
         if (goodsList.size() != request.getGoodsNameList().size()) {
             return ResponseEntity.ok().body(RestAPIResponse.success("exists invalid goods"));
@@ -182,10 +178,6 @@ public class APIController {
     @PostMapping("/api/v1/cart")
     public ResponseEntity<?> createCart(@Valid @RequestBody CartRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
@@ -201,10 +193,6 @@ public class APIController {
     @GetMapping("/api/v1/cart")
     public ResponseEntity<?> getCart(@Valid @RequestParam String username) throws Exception {
         User user = userService.findByUsername(username);
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         List<CartGoods> cartGoodsList = cartService.getCart(user);
         List<String> goodsNameList = new ArrayList<>();
         Map<String, Integer> goodsNameWithCount = new HashMap<>();
@@ -235,10 +223,6 @@ public class APIController {
     @DeleteMapping("/api/v1/cart")
     public ResponseEntity<?> removeCart(@Valid @RequestBody CartRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
@@ -254,10 +238,6 @@ public class APIController {
     @PostMapping("/api/v1/wishlist")
     public ResponseEntity<?> createWishList(@Valid @RequestBody FavoriteRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
@@ -273,10 +253,6 @@ public class APIController {
     @GetMapping("/api/v1/wishlist")
     public ResponseEntity<?> getWishList(@Valid @RequestParam String username) throws Exception {
         User user = userService.findByUsername(username);
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         List<FavoriteGoods> favoriteGoodsList = favoriteService.getWishList(user);
         List<String> goodsNameList = new ArrayList<>();
 
@@ -305,10 +281,6 @@ public class APIController {
     @DeleteMapping("/api/v1/wishlist")
     public ResponseEntity<?> removeWishList(@Valid @RequestBody FavoriteRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
-        }
-
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success("invalid goods"));
@@ -324,10 +296,6 @@ public class APIController {
     @PostMapping("/api/v1/wishlist/checked")
     public ResponseEntity<?> checkWishListGoods(@Valid @RequestBody FavoriteRequest request) throws Exception {
         User user = userService.findByUsername(request.getUsername());
-        if (user == null) {
-            return ResponseEntity.ok().body(RestAPIResponse.success(false));
-        }
-
         Goods goods = goodsService.findSimpleGoodsByGoodsName(request.getGoodsName());
         if (goods == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success(false));
