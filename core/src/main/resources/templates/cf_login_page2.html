@@ -135,7 +135,10 @@
             });
 
             if (response.ok) {
-                return response.text();
+                let body = await response.json();
+                if (body.success === true) {
+                    return body.response;
+                }
             }
 
             return false;

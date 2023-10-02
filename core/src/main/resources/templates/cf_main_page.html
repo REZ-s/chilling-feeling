@@ -556,9 +556,9 @@
     }
 
     async function displayLoginState() {
-        const userLoginState = await checkUserLoginState();
+        const username = await checkUserLoginState();
 
-        if (userLoginState === null || userLoginState.length === 0) {
+        if (username === null) {
             loginSwitchCheckBox.checked = false;
             onOffLabel.textContent = "OFF";
             onOffLabel.classList.remove("login-switch-logo-frame-label-on");

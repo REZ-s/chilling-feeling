@@ -459,7 +459,10 @@
                     });
 
                     if (response.ok) {
-                        return await response.text();
+                        let body = await response.json();
+                        if (body.success === true) {
+                            return body.response;
+                        }
                     }
                     throw response;
                 } catch (error) {
@@ -550,7 +553,10 @@
                     });
 
                     if (response.ok) {
-                        return await response.text();
+                        let body = await response.json();
+                        if (body.success === true) {
+                            return body.response;
+                        }
                     }
                     throw response;
                 } catch (error) {

@@ -5313,7 +5313,7 @@ input.login1-form::placeholder {
     padding: 0;
 }
 
-.photo_container_120px {
+.photo-container-120px {
     align-self: stretch;
     flex-grow: 1;
     display: flex;
@@ -5324,7 +5324,7 @@ input.login1-form::placeholder {
     background-color: #262626;
 }
 
-.photo_container_120px_img {
+.photo-container-120px-img {
     align-self: stretch;
     flex-grow: 1;
     display: flex;

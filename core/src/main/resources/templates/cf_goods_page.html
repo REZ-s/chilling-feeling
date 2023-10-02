@@ -374,9 +374,9 @@
     let goodsViewDetails = /*[[${goodsViewDetails}]]*/ [];    // 상품 상세 정보
     let goodsCount = document.getElementById('goodsCount');
 
-    window.onload = function () {
+    window.onload = async function () {
         initForm();
-        displayWishGoodsForGoodsPage(document.getElementById('heartImage'), goodsViewDetails.name);
+        await displayWishGoodsForGoodsPage(document.getElementById('heartImage'), goodsViewDetails.name);
         applyWishListBtn(goodsViewDetails.name);
         applyPlusBtnElements();
         applyMinusBtnElements();

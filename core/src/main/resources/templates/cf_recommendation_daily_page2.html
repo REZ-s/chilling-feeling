@@ -94,6 +94,7 @@
         recommendProductListLength = 3;
         await getRecommendationDaily();
         displayRecommendationGoodsList();
+        activeGoodsDetailsURL();
     }
 
     document.getElementById("nextBtn").addEventListener("click", function() {
@@ -113,12 +114,22 @@
             const response = await fetch('/api/v1/recommendation/daily');
 
             if (response.ok) {
-                return goodsViewList = await response.json();
+                let body = await response.json();
+                if (body.success === true) {
+                    if (body.response === 'redirect') {
+                        location.href = "/login";
+                        return;
+                    }
+
+                    goodsViewList = body.response;
+                    return;
+                }
             }
             throw response;
         } catch (error) {
-            console.log("ERROR: " + error.message);
         }
+
+        alert("추천 상품을 불러오는데 실패했습니다.");
     }
 
     function createFormRecommendProductCard(goodsView) {
@@ -126,10 +137,11 @@
         recommendTodayProductCard.setAttribute("class", "recommend-today-product-card");
 
         const photoContainer120px = document.createElement("div");
-        photoContainer120px.setAttribute("class", "photo_container_120px");
+        photoContainer120px.setAttribute("class", "photo-container-120px");
+        photoContainer120px.id = goodsView.name;
 
         const photoContainer120pxImg = document.createElement("div");
-        photoContainer120pxImg.setAttribute("class", "photo_container_120px_img");
+        photoContainer120pxImg.setAttribute("class", "photo-container-120px-img");
 
         const image81 = document.createElement("img");
         image81.setAttribute("class", "image-81");

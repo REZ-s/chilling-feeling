@@ -414,8 +414,6 @@ function displayItemList() {
     for (let i = 0; i < goodsViewList.length; i++) {
         createItemCard01(parentElement, products[i]);
     }
-
-    activeGoodsDetailsURL();
 }
 
 /**
@@ -477,6 +475,7 @@ function activeGoodsDetailsURL() {
     let goodsContainers01 = document.getElementsByClassName('product-list01-photo-container');
     let goodsContainers02 = document.getElementsByClassName('product-list02-photo-container');
     let goodsContainers03 = document.getElementsByClassName('photo-container-85px');
+    let goodsContainers04 = document.getElementsByClassName('photo-container-120px');
 
     for (let goodsContainer of goodsContainers01) {
         goodsContainer.addEventListener('click', function () {
@@ -491,6 +490,12 @@ function activeGoodsDetailsURL() {
     }
 
     for (let goodsContainer of goodsContainers03) {
+        goodsContainer.addEventListener('click', function () {
+            location.href = '/goods/' + goodsContainer.id.toString();
+        });
+    }
+
+    for (let goodsContainer of goodsContainers04) {
         goodsContainer.addEventListener('click', function () {
             location.href = '/goods/' + goodsContainer.id.toString();
         });
@@ -636,24 +641,42 @@ async function getUserCategories() {
     try {
         const response = await fetch('/api/v1/recommendation/base/keyword');
         if (response.ok) {
-            return await response.text();
+            let body = await response.json();
+            if (body.success === true) {
+                if (body.response === 'redirect') {
+                    location.href = "/login";
+                    return;
+                }
+
+                return body.response;
+            }
         }
         throw response;
     } catch (error) {
-        throw error;
     }
+
+    alert("추천 키워드를 불러오는데 실패했습니다.");
 }
 
 async function getUserFeeling() {
     try {
         const response = await fetch('/api/v1/recommendation/daily/feeling');
         if (response.ok) {
-            return await response.text();
+            let body = await response.json();
+            if (body.success === true) {
+                if (body.response === 'redirect') {
+                    location.href = "/login";
+                    return;
+                }
+
+                return body.response;
+            }
         }
         throw response;
     } catch (error) {
-        throw error;
     }
+
+    alert("오늘의 기분을 불러오는데 실패했습니다.");
 }
 
 function isNullOrWhiteSpace(value) {
@@ -785,17 +808,9 @@ function createPaletteLabelBack(paletteName) {
  * 위시리스트(좋아요)에 상품 저장
  */
 async function addWishList(goodsName) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
     }
 
@@ -812,16 +827,18 @@ async function addWishList(goodsName) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'valid') {
+            let body = await response.json();
+            if (body.success === true && body.response === 'valid') {
                 alert('위시리스트에 저장되었습니다.');
+                return;
             }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('위시리스트 저장에 실패했습니다.');
     }
+
+    alert('위시리스트 저장에 실패했습니다.');
 }
 
 function applyWishListBtn(goodsName) {
@@ -884,17 +901,8 @@ async function displayWishGoodsForGoodsPage(element, goodsName) {
  * 위시리스트에 있는 상품인지 확인
  */
 async function checkWishListGoods(goodsName) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        // 유저 정보를 읽을 수 없으니 위시리스트 요청 무시
+    let username = await checkUserLoginState();
+    if (username === null) {
         return false;
     }
 
@@ -911,8 +919,8 @@ async function checkWishListGoods(goodsName) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'true') {
+            let body = await response.json();
+            if (body.success === true && body.response === true) {
                 return true;
             }
         } else {
@@ -929,17 +937,9 @@ async function checkWishListGoods(goodsName) {
  * 위시리스트 불러오기
  */
 async function getWishList() {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('internal server error');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 불러오는데 실패했습니다.');
         return;
     }
 
@@ -954,14 +954,17 @@ async function getWishList() {
         const response = await fetch('/api/v1/wishlist?username=' + username)
 
         if (response.ok) {
-            wishListResponseList = response.json();
+            let body = await response.json();
+            if (body.success === true) {
+                return wishListResponseList = body.response;
+            }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('위시리스트를 불러오는데 실패했습니다.');
     }
 
+    alert('위시리스트를 불러오는데 실패했습니다.');
     return wishListResponseList;
 }
 
@@ -969,18 +972,11 @@ async function getWishList() {
  * 위시리스트에서 상품 제거
  */
 async function removeWishList(goodsName) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
+        return;
     }
 
     try {
@@ -996,34 +992,29 @@ async function removeWishList(goodsName) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'valid') {
+            let body = await response.json();
+            if (body.success === true && body.response === 'valid') {
                 alert('위시리스트에서 제외했습니다.');
+                return;
             }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('위시리스트에서 상품을 제외하는데 실패했습니다.');
     }
+
+    alert('위시리스트에서 상품을 제외하는데 실패했습니다.');
 }
 
 /***
  * 장바구니에 상품 저장
  */
 async function addCart(goodsName, goodsCount) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
+        return;
     }
 
     try {
@@ -1040,35 +1031,30 @@ async function addCart(goodsName, goodsCount) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'valid') {
+            const body = await response.json();
+            if (body.success === true && body.response === 'valid') {
                 alert('장바구니에 저장되었습니다.');
                 location.href = '/';
+                return;
             }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('장바구니 저장에 실패했습니다.');
     }
+
+    alert('장바구니 저장에 실패했습니다.');
 }
 
 /**
  * 장바구니 불러오기
  */
 async function getCart() {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
+        return;
     }
 
     let cartResponseList;
@@ -1077,14 +1063,17 @@ async function getCart() {
         const response = await fetch('/api/v1/cart?username=' + username)
 
         if (response.ok) {
-            cartResponseList = response.json();
+            const body = await response.json();
+            if (body.success === true) {
+                return cartResponseList = body.response;
+            }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('장바구니를 불러오는데 실패했습니다.');
     }
 
+    alert('장바구니를 불러오는데 실패했습니다.');
     return cartResponseList;
 }
 
@@ -1092,18 +1081,11 @@ async function getCart() {
  * 장바구니에서 상품 제거
  */
 async function removeCart(goodsName) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
+        return;
     }
 
     let goodsCount = 1;
@@ -1122,34 +1104,29 @@ async function removeCart(goodsName) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'valid') {
+            const body = await response.json();
+            if (body.success === true && body.response === 'valid') {
                 // 상품 제거 성공
+                return;
             }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('장바구니에서 상품을 제거하는데 실패했습니다.');
     }
+
+    alert('장바구니에서 상품을 제거하는데 실패했습니다.');
 }
 
 /**
  * 주문하기 (for goods_page)
  */
 async function ordersGoods(goodsName, goodsCount) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
+        return;
     }
 
     let goodsNameList = [ goodsName ];
@@ -1169,17 +1146,19 @@ async function ordersGoods(goodsName, goodsCount) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'valid') {
+            const body = await response.json();
+            if (body.success === true && body.response === 'valid') {
                 alert('주문이 완료되었습니다.');
                 location.href = '/';
+                return;
             }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('주문에 실패했습니다.');
     }
+
+    alert('주문에 실패했습니다.');
 }
 
 
@@ -1187,17 +1166,9 @@ async function ordersGoods(goodsName, goodsCount) {
  * 주문하기 (for cart_page)
  */
 async function ordersGoodsList(goodsNameList, goodsCountList) {
-    let username = '';
-
-    try {
-        const response = await fetch('/api/v1/user/authentication');
-        if (response.ok) {
-            username = await response.text();
-        } else {
-            throw response;
-        }
-    } catch (error) {
-        alert('유저 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
+    let username = await checkUserLoginState();
+    if (username === null) {
+        alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
         return;
     }
@@ -1220,17 +1191,19 @@ async function ordersGoodsList(goodsNameList, goodsCountList) {
         });
 
         if (response.ok) {
-            const body = await response.text();
-            if (body === 'valid') {
+            const body = await response.json();
+            if (body.success === true && body.response === 'valid') {
                 alert('주문이 완료되었습니다.');
                 location.href = '/';
+                return;
             }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('주문에 실패했습니다.');
     }
+
+    alert('주문에 실패했습니다.');
 }
 
 function getOrderGoodsListForOrders() {
@@ -1254,9 +1227,11 @@ async function getBestSellerGoods(days) {
 
     await fetch('/api/v1/goods/best-seller/' + days)
         .then(response => response.json())
-        .then(data => {
-            goodsViewDetails = data.goodsViewDetails;
-            salesCount = data.salesCount;
+        .then(body => {
+            if (body.success === true) {
+                goodsViewDetails = body.response.goodsViewDetails;
+                salesCount = body.response.salesCount;
+            }
         })
         .catch(error => {
             console.error('베스트셀러 상품 가져오기 실패 : ', error);
@@ -1270,8 +1245,10 @@ async function getPopularGoodsList(days) {
 
     await fetch('/api/v1/goods/popular/' + days)
         .then(response => response.json())
-        .then(data => {
-            goodsViewList = data;
+        .then(body => {
+            if (body.success === true) {
+                goodsViewList = body.response;
+            }
         })
         .catch(error => {
             console.error('인기상품 가져오기 실패 : ', error);
@@ -1318,8 +1295,10 @@ async function getUserActivityLogGoods(deviceId) {
 
     await fetch('/api/v1/recommendation/log/activity/goods?deviceId=' + deviceId)
         .then(response => response.json())
-        .then(data => {
-            goodsNameList = data;
+        .then(body => {
+            if (body.success === true) {
+                goodsNameList = body.response;
+            }
         })
         .catch(error => {
             console.error('최근 검색어 가져오기 실패 : ', error);
@@ -1342,14 +1321,18 @@ async function removeUserActivityLogGoods(deviceId, targetName) {
         });
 
         if (response.ok) {
-            return true;
+            let body = await response.json();
+            if (body.success === true) {
+                return true;
+            }
         } else {
             throw response;
         }
     } catch (error) {
-        alert('최근 검색어 삭제 실패');
-        return false;
     }
+
+    alert('최근 검색어 삭제 실패');
+    return false;
 }
 
 async function createSearchHistoryButton(parentElement, text) {
@@ -1426,8 +1409,10 @@ async function createDeviceId() {
 
     await fetch('/api/v1/device/id')
         .then(response => response.json())
-        .then(data => {
-            deviceId = data;
+        .then(body => {
+            if (body.success === true) {
+                deviceId = body.response;
+            }
         })
         .catch(error => {
             console.error('Failed to get device id : ', error);
@@ -1448,8 +1433,10 @@ async function getRandomGoods() {
 
     await fetch('/api/v1/goods/random')
         .then(response => response.json())
-        .then(data => {
-            goodsViewDetails = data;
+        .then(body => {
+            if (body.success === true) {
+                goodsViewDetails = body.response;
+            }
         })
         .catch(error => {
             console.error('Failed to get random goods : ', error);
@@ -1567,7 +1554,12 @@ async function displayGoodsListForNextPage() {
         }
 
         if (response.ok) {
-            let nextGoodsViewList = await response.json();
+            let nextGoodsViewList = '';
+            let body = await response.json();
+            if (body.success === true) {
+                nextGoodsViewList = body.response;
+            }
+
             goodsViewList = goodsViewList.concat(nextGoodsViewList);
 
             let isCreated = createItemListForNext(document.getElementsByClassName('wrap-category-product-list')[0], nextGoodsViewList);
@@ -1600,8 +1592,16 @@ async function displayGoodsListStartPage() {
         }
 
         if (goodsListResponse.ok) {
-            goodsViewList = await goodsListResponse.json();
-            goodsViewListCount = await goodsListCountResponse.json();
+            let body1 = await goodsListResponse.json();
+            if (body1.success === true) {
+                goodsViewList = body1.response;
+            }
+
+            let body2 = await goodsListCountResponse.json();
+            if (body2.success === true) {
+                goodsViewListCount = body2.response;
+            }
+
             displayItemListForCategory(document.getElementById('contentFrame'), goodsViewList, goodsViewListCount, goodsCategory);
             page++;
             return true;
@@ -1623,20 +1623,24 @@ function validatePassword(password) {
     return passwordRegex.test(password);
 }
 
+/**
+ *  현재 로그인 중인 사용자 계정 확인
+ */
 async function checkUserLoginState() {
-    try {
-        const response = await fetch("/api/v1/user/authentication", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+    let username = null;
 
+    try {
+        const response = await fetch('/api/v1/user/authentication');
         if (response.ok) {
-            return await response.text();
+            let body = await response.json();
+            if (body.success === true) {
+                username = body.response;
+                return username;
+            }
         }
-        throw response;
     } catch (error) {
-        throw error;
+        alert('계정 정보가 유효하지 않습니다.');
     }
+
+    return username;
 }

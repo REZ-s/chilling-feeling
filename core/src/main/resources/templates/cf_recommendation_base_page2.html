@@ -149,16 +149,26 @@
                     });
 
                     if (response.ok) {
-                        if (response.redirected) {
-                            return "/login";
-                        } else {
-                            return "/";
+                        let body = await response.json();
+
+                        if (body.success === true) {
+                            if (body.response === 'redirect') {
+                                return "/login";
+                            }
+
+                            if (body.response === 'valid') {
+                                return "/";
+                            }
                         }
+                    } else {
+                        throw response;
                     }
-                    throw response;
                 } catch (error) {
-                    alert("HTTP error: " + error);
+                    alert("내부 서버 오류 : " + error);
                 }
+
+                alert("제대로 처리되지 않았습니다. 나중에 다시 시도해주세요.")
+                return "/";
             }
         }
     });

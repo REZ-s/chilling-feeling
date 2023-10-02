@@ -9,27 +9,27 @@ import com.joolove.core.dto.query.GoodsView;
 import com.joolove.core.dto.query.IGoodsView;
 import com.joolove.core.dto.query.RemoveUserActivityLogGoodsRequest;
 import com.joolove.core.dto.query.UserActivityLogElements;
-import com.joolove.core.dto.request.CartRequest;
-import com.joolove.core.dto.request.OrdersRequest;
-import com.joolove.core.dto.request.SignInRequest;
-import com.joolove.core.dto.request.FavoriteRequest;
+import com.joolove.core.dto.request.*;
 import com.joolove.core.dto.response.CartResponse;
 import com.joolove.core.dto.response.FavoriteResponse;
 import com.joolove.core.model.RestAPIResponse;
 import com.joolove.core.repository.SocialLoginRepository;
 import com.joolove.core.service.*;
 import com.joolove.core.utils.PasswordUtils;
+import com.joolove.core.utils.RecommendationUtils;
 import com.joolove.core.utils.aop.APILoginState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -44,9 +44,10 @@ public class APIController {
     private final OrdersService ordersService;
     private final CartService cartService;
     private final FavoriteService favoriteService;
+    private final UserActivityLogService userActivityLogService;
     private final SocialLoginRepository socialLoginRepository;
     private final PasswordUtils passwordUtils;
-    private final UserActivityLogService userActivityLogService;
+    private final RecommendationUtils recommendationUtils;
 
     @GetMapping("/api/v1/user/authentication")
     public ResponseEntity<?> checkAuthenticatedUser() throws Exception {
@@ -287,7 +288,6 @@ public class APIController {
         }
 
         favoriteService.removeWishList(user, goods);
-
         return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
     }
 
@@ -321,7 +321,7 @@ public class APIController {
     // 사용자 행동 로그 불러오기 (상품)
     @GetMapping("/api/v1/recommendation/log/activity/goods")
     @ResponseBody
-    public ResponseEntity<Object> getRecommendationActivityLogGoods(@Valid @RequestParam UUID deviceId) throws Exception {
+    public ResponseEntity<?> getRecommendationActivityLogGoods(@Valid @RequestParam UUID deviceId) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getPrincipal() == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
@@ -339,7 +339,7 @@ public class APIController {
     // 사용자 행동 로그 제거 (상품)
     @DeleteMapping("/api/v1/recommendation/log/activity/goods")
     @ResponseBody
-    public ResponseEntity<Object> removeRecommendationActivityLogGoods(@Valid @RequestBody RemoveUserActivityLogGoodsRequest request) throws Exception {
+    public ResponseEntity<?> removeRecommendationActivityLogGoods(@Valid @RequestBody RemoveUserActivityLogGoodsRequest request) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getPrincipal() == null) {
             return ResponseEntity.ok().body(RestAPIResponse.success("invalid user"));
@@ -349,4 +349,63 @@ public class APIController {
         return ResponseEntity.ok().body(RestAPIResponse.success(null));
     }
 
+    @PostMapping("/api/v1/recommendation/base")
+    public ResponseEntity<?> setRecommendationBase(@Valid @RequestBody UserRecommendationBaseRequest userRecommendationBaseRequest) {
+        String username = userRecommendationBaseRequest.getUsername();
+
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("redirect"));
+        }
+
+        if (recommendationUtils.setUserRecommendationBase(userRecommendationBaseRequest)) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
+        }
+
+        return ResponseEntity.ok().body(RestAPIResponse.success("invalid"));
+    }
+
+    @PostMapping("/api/v1/recommendation/daily")
+    public ResponseEntity<?> setRecommendationDaily(@Valid @RequestBody UserRecommendationDailyRequest userRecommendationDailyRequest) {
+        String username = userRecommendationDailyRequest.getUsername();
+
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("redirect"));
+        }
+
+        if (recommendationUtils.setUserRecommendationDaily(userRecommendationDailyRequest)) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("valid"));
+        }
+
+        return ResponseEntity.ok().body(RestAPIResponse.success("invalid"));
+    }
+
+    @GetMapping("/api/v1/recommendation/daily")
+    public ResponseEntity<?> getRecommendationDaily(@AuthenticationPrincipal String username) {
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("redirect"));
+        }
+
+        List<IGoodsView> goodsViews = recommendationUtils.getUserRecommendationGoodsList(username);
+        return ResponseEntity.ok().body(RestAPIResponse.success(goodsViews));
+    }
+
+    @GetMapping("/api/v1/recommendation/base/keyword")
+    public ResponseEntity<?> getRecommendationBaseKeyword(@AuthenticationPrincipal String username) {
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("redirect"));
+        }
+
+        String categories = recommendationUtils.getPreferredCategories(username);
+        return ResponseEntity.ok().body(RestAPIResponse.success(categories));
+    }
+
+    @GetMapping("/api/v1/recommendation/daily/feeling")
+    public ResponseEntity<?> getRecommendationDailyFeeling(@AuthenticationPrincipal String username) {
+        if (username == null || username.equals("anonymousUser")) {
+            return ResponseEntity.ok().body(RestAPIResponse.success("redirect"));
+        }
+
+        String feeling = recommendationUtils.getDailyFeeling(username);
+        return ResponseEntity.ok().body(RestAPIResponse.success(feeling));
+    }
 }
