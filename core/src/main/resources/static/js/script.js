@@ -812,6 +812,7 @@ async function addWishList(goodsName) {
     if (username === null) {
         alert('계정 정보를 읽을 수 없습니다. \n로그인 페이지로 이동합니다.');
         location.href = "/login";
+        return;
     }
 
     try {
@@ -939,7 +940,7 @@ async function checkWishListGoods(goodsName) {
 async function getWishList() {
     let username = await checkUserLoginState();
     if (username === null) {
-        alert('계정 정보를 불러오는데 실패했습니다.');
+        // alert('계정 정보를 불러오는데 실패했습니다.');
         return;
     }
 
