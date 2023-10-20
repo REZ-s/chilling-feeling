@@ -1,5 +1,5 @@
 # 칠링필링 (Chilling Feeling)
-취향에 맞는 주류 추천 및 정보 제공 웹 서비스 <br>
+취향에 맞는 주류 추천 및 정보 제공을 위한 이커머스 형태의 웹 서비스 <br>
 
 <hr>
 
@@ -112,7 +112,8 @@ https://chillingfeeling.notion.site/e9d328acbfd84d6b8b1a2834b84df646?pvs=4
 - 이슈 해결 기록 - 검색 기능 <br>
 https://chillingfeeling.notion.site/c0fd1ecd92524679b89c36b20254eba7?pvs=4
 
-
+- API 요청 응답에 대한 명세 작성 및 표준화 <br>
+https://chillingfeeling.notion.site/API-cd63a1a60e0846efaba3966abfbf6c2c?pvs=4
 
 <br>
 
@@ -131,7 +132,7 @@ https://chillingfeeling.notion.site/000588e3acee48ffbcb9ba413f34ca29?pvs=4
 
 <br>
 
-# 프로젝트를 진행하며 고민하고 결정내린 부분들
+# 프로젝트를 진행하며 기술적인 측면에서 고려한 것들
 - 로그인 상태인지 비로그인 상태를 체크하기 위한 로직이 반복되고 중복되어 AOP 로 분리
 - 폼 로그인과 소셜 로그인 둘다 지원
 - @Transactional 을 활용해 빌링 관련 API 에는 트랜잭션 격리 수준을 높게 설정 <br> 예) @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
@@ -146,7 +147,8 @@ https://chillingfeeling.notion.site/000588e3acee48ffbcb9ba413f34ca29?pvs=4
 - AWS 프리티어로 최대한 서비스 구성하기
 - 성능 테스트 도구로 jmeter, k6, postman 를 사용해보고 비교 (nGringer 는 Java 8 까지 지원하여 사용 불가)
 - 어플리케이션 성능 모니터링 도구로 Elastic APM 사용
-
+- API 요청과 응답에 대한 명세 작성 및 표준화
+  
 <br>
 
 
