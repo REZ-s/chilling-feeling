@@ -58,6 +58,17 @@ public abstract class BaseTimeStamp implements Serializable {
 
 <hr> 
 
+<b> Tody's recommandation page </b> <br>
+![오늘의추천](https://github.com/REZ-s/chilling-feeling/assets/50026903/a724d217-4f4f-455d-b797-910666cb7de2)
+
+<hr>
+
+<b> Taste page </b> <br>
+![취향설정](https://github.com/REZ-s/chilling-feeling/assets/50026903/f825b658-aa09-4c7a-8b92-34cc20bf4553)
+![취향설정2](https://github.com/REZ-s/chilling-feeling/assets/50026903/3846448b-10bd-4b55-b2ff-6bdc530ce857)
+
+<hr>
+
 - <b> What's the meaning [chilling feeling](https://chillingfeeling.com)? </b><br>
 chilling 의 의미 중에 놀고 휴식을 취하며 시간을 보낸다는 의미로 많이 사용되는 단어로 <br>
 기분을 뜻하는 feeling 과 결합하여 '<b>한 잔하고 싶은 기분</b>' 을 표현했습니다. <br>
