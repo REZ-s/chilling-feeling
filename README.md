@@ -44,7 +44,12 @@ public abstract class BaseTimeStamp implements Serializable {
 - <b> 서비스 살펴보기 </b>
   
 <b> Main page </b> <br>
-![image](https://github.com/REZ-s/chilling-feeling/assets/50026903/401a2e8c-4aab-4cb7-9835-eedd4ff97732)
+![메인](https://github.com/REZ-s/chilling-feeling/assets/50026903/401a2e8c-4aab-4cb7-9835-eedd4ff97732)
+
+<hr> 
+
+<b> Category page </b> <br>
+![카테고리](https://github.com/REZ-s/chilling-feeling/assets/50026903/6491a846-7e3e-47e6-80de-11a2d01c924c)
 
 <hr> 
 
